@@ -10,13 +10,10 @@ export class ReviewPage {
   title: any;
   description: any;
   rating: any;
-
-  roomType: any;
-  guests: any;
-  beds: any;
-  priceRange: any;
-  from: any;
-  to: any;
+  ratingRange: any;
+  attendance: any;
+  price: any;
+  dateCreated: any;
 
   constructor(
   	private navCtrl: NavController,
@@ -26,19 +23,19 @@ export class ReviewPage {
     this.product = navParams.get("item");
 
     let today = new Date();
-    let tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
 
-    this.priceRange = {
+    this.title = '';
+    this.description = '';
+    this.rating = 0;
+
+    this.ratingRange = {
         lower: 0,
-        upper: 500
+        upper: 100
     };
 
-    this.roomType = 'standard';
-    this.guests = 1;
-    this.beds = 1;
-    this.from = today.toISOString();
-    this.to = tomorrow.toISOString();
+    this.attendance = 'standard';
+    this.price = 1;
+    this.dateCreated = today.toISOString();
   }
 
   book(){
