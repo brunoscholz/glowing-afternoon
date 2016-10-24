@@ -1,0 +1,68 @@
+.profile {
+  ion-card {
+    overflow: visible;
+    margin: 0;
+    width: 100%;
+
+    ion-card-content {
+      background-color: map-get($colors, primary);
+      color: #FFFFFF;
+      text-align: center;
+      padding-bottom: 28px;
+
+      img {
+        height: 160px;
+        width: 160px;
+        border-radius: 50%;
+        margin-top: -100px;
+        border: solid 4px #FFFFFF;
+        display: inline;
+      }
+
+      h2 {
+        font-size: 2.5rem;
+        margin-top: .5rem;
+        color: white;
+      }
+
+      h3 {
+        font-size: 1.8rem;
+        color: white;
+      }
+    }
+  }
+}
+
+.reviews {
+  ion-card {
+    position: relative;
+    text-align: center;
+  }
+
+  .card-title {
+    position: absolute;
+    top: 36%;
+    font-size: 2.0em;
+    width: 100%;
+    font-weight: bold;
+    color: #fff;
+  }
+
+  .card-subtitle {
+    font-size: 1.0em;
+    position: absolute;
+    top: 52%;
+    width: 100%;
+    color: #fff;
+  }
+}
+
+[elastic-header] .background-image {
+  height: 50vw;
+  transition: all .01s linear;
+}
+ 
+[elastic-header] .profile-info {
+  background-color: unset;
+  position: relative;
+}

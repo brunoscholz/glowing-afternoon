@@ -1,0 +1,112 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="company">
+
+  <loading-modal></loading-modal>
+
+  <div *ngIf="company" class="selection">
+    <ion-card style="margin: 0; width: 100%;">
+      <img src="assets/{{company.photoSrc}}"/>
+
+      <ion-card-content>
+        <h2 class="card-title">
+          {{company.title}}
+        </h2>
+        <p>
+          {{company.description}}
+        </p>
+      </ion-card-content>
+
+      <ion-row no-padding>
+        <ion-col>
+          <button ion-button clear small icon-left>
+            <ion-icon name="people"></ion-icon>
+            10 Avaliações
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button clear small icon-left>
+            <ion-icon name="star"></ion-icon>
+            4.6
+          </button>
+        </ion-col>
+        <ion-col text-center>
+          <button ion-button clear small icon-left>
+            <ion-icon name="pricetag"></ion-icon>
+            {{company.price}}
+          </button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row no-padding>
+        <ion-col>
+          <button ion-button clear small color="danger" icon-left (click)="addReview()">
+            <ion-icon name='star'></ion-icon>
+            Avaliar
+          </button>
+        </ion-col>
+        <ion-col text-center>
+          <button ion-button clear small color="danger" icon-left (click)="like($event)">
+            <ion-icon name='navigate'></ion-icon>
+            Mapa
+          </button>
+        </ion-col>
+        <ion-col text-right>
+          <button ion-button clear small color="danger" icon-left (click)="share($event)">
+            <ion-icon name='share-alt'></ion-icon>
+            Compartilhar
+          </button>
+        </ion-col>
+      </ion-row>
+
+    </ion-card>
+
+    <h4 class="content padding" style="text-align: center;">Catálogo</h4>
+
+    <ion-list class="reviews" *ngIf="status === viewStatus.Full">
+      <ion-item-sliding *ngFor="let item of company.reviews">
+        <ion-item>
+          <ion-avatar item-left>
+            <img src="assets/img/jon-snow.jpg">
+          </ion-avatar>
+          <h2>{{item.title}}</h2>
+          <p>{{item.description}}</p>
+
+          <ion-icon *ngIf="item.rating < 50" danger name="sad"></ion-icon>
+          <ion-icon *ngIf="item.rating >= 50" secondary name="happy"></ion-icon> 
+          {{item.rating}}
+        </ion-item>
+        <ion-item-options side="right">
+          <button primary (click)="reviewTapped($event, item)">
+            <ion-icon name="text"></ion-icon>
+            View
+          </button>
+          <button secondary>
+            <ion-icon name="call"></ion-icon>
+            Like
+          </button>
+          <button danger (click)="deleteReview(item)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+
+    <ion-list class="reviews" *ngIf="status === viewStatus.Empty">
+      <ion-item style="text-align: center;">
+        <ion-icon name="thumbs-down"></ion-icon>
+        <p>Nenhuma avaliação encontrada... </p>
+        <p>Seja o primeiro!</p>
+      </ion-item>
+    </ion-list>
+
+  </div>
+</ion-content>

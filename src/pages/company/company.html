@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="card-background-page">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <loading-modal></loading-modal>
+
+  <div class="empty" *ngIf="status === viewStatus.Empty">
+    <ion-icon name="thumbs-down"></ion-icon>
+    <p>Não conseguims achar nenhuma empresa aqui.</p>
+  </div>
+
+  <div>
+    <ion-card>
+      <img src="assets/img/card-saopaolo.png"/>
+      <div class="card-title">Company #1</div>
+      <div class="card-subtitle">41 Ofertas</div>
+    </ion-card>
+    <ion-card *ngFor="let item of companies" (click)="itemTapped($event, item)">
+      <img src="assets/{{item.photoSrc}}"/>
+      <div class="card-title">{{item.name}}</div>
+      <div class="card-subtitle">41 Ofertas</div>
+    </ion-card>
+  </div>
+
+</ion-content>

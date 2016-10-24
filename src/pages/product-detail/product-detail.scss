@@ -1,0 +1,19 @@
+.product {
+	ion-card {
+		background-color: unset;
+	}
+	ion-card-content {
+		h2,p {
+			color: map-get($colors, light);
+		}
+	}
+}
+
+div.company-item {
+    padding: 4px 4px 0 4px;
+    height: 74px;
+
+    ion-list {
+    	margin-bottom: 0;
+    }
+}

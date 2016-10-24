@@ -1,0 +1,169 @@
+page-home {
+
+}
+
+#map_canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.home {
+
+}
+
+.show-more-state {
+  display: none;
+}
+
+.show-more-target {
+  opacity: 0;
+  max-height: 0;
+  font-size: 0;
+  transition: .25s ease;
+}
+
+.show-more-state:checked ~ .show-more-wrap .show-more-target {
+  opacity: 1;
+  font-size: inherit;
+  max-height: 999em;
+}
+
+.show-more-state ~ .show-more-trigger-container .show-more-trigger:before {
+  content: "Mais categorias";
+}
+
+.show-more-state:checked ~ .show-more-trigger-container .show-more-trigger:before {
+  content: "mostrar menos";
+}
+
+.show-more-trigger-container {
+  padding:8px;
+  height: 58px;
+}
+
+.show-more-trigger {
+  //font-family: "Ionicons";
+  cursor: pointer;
+  display: inline-block;
+  height: 42px;
+  color: #444;
+  width: 100%;
+  text-align: center;
+  background-color: map-get($colors, primary);
+  font-size: 2em;
+  line-height: 42px;
+  border-radius: 2px;
+}
+
+ion-content.card-background-page {
+	ion-grid.main-functions, ion-grid.main-categories {
+    margin-top: 2%;
+    ion-col {
+      //box-shadow: 1px 0 0 #ddd;
+
+      ion-icon {
+        padding: 0;
+        display: block;
+        -webkit-transition: -webkit-transform 0.2s;
+        transition: -moz-transform 0.2s;
+        transition: transform 0.2s;
+				text-align: center;
+      }
+
+      ion-icon:before {
+				font-size: 4em;
+				font-style: normal;
+				font-weight: normal;
+				font-variant: normal;
+				text-transform: none;
+				line-height: 1;
+				-webkit-font-smoothing: antialiased;
+			}
+      
+      div.cat-slot {
+        display: block;
+        height: 100%;
+        color: map-get($colors, primary);
+        -webkit-transition: background 0.2s;
+        -moz-transition: background 0.2s;
+        transition: background 0.2s;
+        text-decoration: none;
+      }
+
+      h3.cat-title {
+        margin: 2px 0 10px 0;
+        padding: 2px 0 0 0;
+        font-size: 1em;
+        text-align: center;
+        position: relative;
+        -webkit-transition: -webkit-transform 0.2s;
+        -moz-transition: -moz-transform 0.2s;
+        transition: transform 0.2s;
+      }
+    }
+
+  }
+  ion-grid.main-functions {
+    //margin-top: 20%;
+    ion-col {
+      div.cat-slot {
+        color: map-get($colors, danger);
+      }
+    }
+  }
+
+  ion-card {
+    position: relative;
+    text-align: center;
+  }
+
+  .card-title {
+    position: absolute;
+    top: 36%;
+    font-size: 2.0em;
+    width: 100%;
+    font-weight: bold;
+    color: #fff;
+  }
+
+  .card-subtitle {
+    font-size: 1.0em;
+    position: absolute;
+    top: 52%;
+    width: 100%;
+    color: #fff;
+  }
+
+  #home-wrapper {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+
+    #search {
+      position: relative;
+      height: 33%;
+      background-color: #f6716c;
+      color: #cf82a4;
+    }
+
+    #scan {
+      position: relative;
+      width:100%;
+      height: 33%;
+      background-color: #b79c42;
+      color: #535c59;
+    }
+
+    #browse {
+      position: relative;
+      width:100%;
+      height: 33%;
+      background-color: #46879b;
+      color: #2c5f8a;
+    }
+  }
+}

@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="search">
+  <loading-modal></loading-modal>
+
+  <ion-searchbar
+    [(ngModel)]="searchTerm"
+    [debounce]="10"
+    (ionInput)="getItems($event)"
+    (change)="onInput()"
+    name="search">
+  </ion-searchbar>
+
+  <ion-list>
+    <ion-item-group *ngFor="let group of groupedOffers">
+      <ion-list-header>
+        {{ group.title }}
+      </ion-list-header>
+      <ion-item *ngFor="let item of group.items" (click)="itemTapped($event, item)">
+        <ion-thumbnail item-left>
+          <img src="assets/{{item.photoSrc}}"/>
+        </ion-thumbnail>
+        <h2>{{item.title}}</h2>
+        <p>{{item.description}}</p>
+        <!-- <button clear item-right>View</button> -->
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+
+
+</ion-content>

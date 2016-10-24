@@ -1,0 +1,58 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content class="reviews">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <loading-modal></loading-modal>
+
+  <div *ngIf="review" class="selection">
+  	<ion-card>
+      <!-- <img src="{{review.author}}"/> -->
+      <ion-card-content>
+        <h2 class="card-title">
+          {{review.data.title}}
+        </h2>
+        <p>
+          {{review.data.body}}
+        </p>
+      </ion-card-content>
+
+      <ion-list>
+        <ion-item>
+          <ion-icon item-left name="moon"></ion-icon>
+          <h3>Rating</h3>
+          <!-- <ion-note item-right>{{product.category.name}}</ion-note> -->
+        </ion-item>
+      </ion-list>
+    </ion-card>
+
+    <h4 class="content padding" style="text-align: center;">Comments</h4>
+    <!-- form for new ones -->
+
+    <ion-list class="comments">
+      <ion-item *ngFor="let item of review.comments">
+      	<ion-avatar item-left>
+        <img src="img/jon-snow.jpg">
+      </ion-avatar>
+      <p>
+        {{item.data.body}}
+      </p>
+     </ion-item>
+
+     <ion-item *ngIf="status === viewStatus.Empty" style="text-align: center;">
+        <ion-icon name="thumbs-down"></ion-icon>
+        <p>No comments yet... </p>
+        <p>Write one!</p>
+      </ion-item>
+
+    </ion-list>
+  </div>
+</ion-content>
