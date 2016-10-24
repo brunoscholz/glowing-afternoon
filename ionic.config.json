@@ -1,6 +1,12 @@
 {
   "name": "app_v2",
-  "app_id": "",
+  "app_id": "2b2d5a61",
   "v2": true,
-  "typescript": true
+  "typescript": true,
+  "proxies": [
+    {
+      "path": "/randomuserapi",
+      "proxyUrl": "https://api.randomuser.me/"
+    }
+  ]
 }

@@ -44,7 +44,6 @@ export class MyApp {
 
       // set our app's pages
       this.pages = [
-        { title: '', component: '', root: false },
         { title: 'Home', component: HomePage, root: true },
         { title: 'Profile', component: ProfilePage, root: false },
         { title: 'Search', component: SearchPage, root: false },
