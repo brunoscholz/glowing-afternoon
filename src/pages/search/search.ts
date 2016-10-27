@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams, reorderArray } from 'ionic-angular';
 
 import { ProductDetailPage } from '../product-detail/product-detail';
+import { ProductPage } from '../product/product';
 // ProductPage for categories or companies
 // CompanyPage
 // CategoryPage
@@ -39,7 +40,6 @@ export class SearchPage extends ModelPage implements OnInit {
 	    .subscribe(
 	      (data) => {
 	      	self.products = data;
-          
           if(this.searchTerm != null && this.searchTerm != '') {
             this.filterItems(this.searchTerm);
             this.initializeItems();
@@ -52,21 +52,21 @@ export class SearchPage extends ModelPage implements OnInit {
 	      (err) => { console.log(err); },
 	      () => {}
 	    );
-  	
+
     this.doReset('Busca');
     this.load();
   }
 
   ionViewDidLoad() {
     /*this.searchControl.valueChanges.debounceTime(700)
-    	.subscribe(search => {
-      	this.load();
-    	});*/
+      .subscribe(search => {
+        this.load();
+      });*/
     this.initializeItems();
   }
 
   changeViewState() {
-    if (_.size(this.products) > 0) {
+    if (_.size(this.groupedOffers) > 0) {
       this.doChangeView(ViewStatusEnum.Full);
     }
     else {
@@ -92,7 +92,7 @@ export class SearchPage extends ModelPage implements OnInit {
 
   load() {
   	//this.dataService.getProducts({ collectionName: 'factProduct', query: { } })
-    this.dataService.findAllItems()
+    this.dataService.findAllItems();
   	//this.items = this.dataService.filterItems(this.searchTerm);
   }
 
@@ -109,12 +109,15 @@ export class SearchPage extends ModelPage implements OnInit {
 
   initializeItems() {
     let test = _.groupBy(this.items, 'category');
-
+    
+    this.doChangeView(ViewStatusEnum.Empty);
     this.groupedOffers = [];
     for (var key in test) {
-      let entry = { title: key, items: test[key] };
+      let cat = this.dataService.getCategory({ id: Number(key) });
+      let entry = { category: cat, items: test[key] };
       this.groupedOffers.push(entry);
     }
+    this.changeViewState();
   }
 
   getItems(ev: any) {
@@ -127,6 +130,12 @@ export class SearchPage extends ModelPage implements OnInit {
   reorderItems(indexes) {
     // reorder="true" (ionItemReorder)="reorderItems($event)"
     this.items = reorderArray(this.items, indexes);
+  }
+
+  catTapped(event, item) {
+    this.navCtrl.push(ProductPage, {
+      item: item
+    });
   }
 
 	itemTapped(event, item) {

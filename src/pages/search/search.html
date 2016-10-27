@@ -15,10 +15,10 @@
     name="search">
   </ion-searchbar>
 
-  <ion-list>
+  <ion-list *ngIf="status === viewStatus.Full">
     <ion-item-group *ngFor="let group of groupedOffers">
-      <ion-list-header>
-        {{ group.title }}
+      <ion-list-header (click)="catTapped($event, group.category)">
+        {{ group.category.title }}
       </ion-list-header>
       <ion-item *ngFor="let item of group.items" (click)="itemTapped($event, item)">
         <ion-thumbnail item-left>

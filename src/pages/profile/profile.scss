@@ -57,6 +57,34 @@
   }
 }
 
+.balance-pos .value:before, .balance-neg .value:before {
+  font-family: "Ionicons";
+  margin-right: .5em;
+}
+
+.balance-pos .value:before {
+  content: "\f28c";
+  color: #0f0;
+}
+.balance-neg .value:before {
+  content: "\f27e";
+  color: #f00;
+}
+
+.balance-pos .value, .balance-neg .value {
+}
+
+ion-list-header {
+  padding-left: 16px;
+  font-weight: 500;
+  font-size: 1.3em !important;
+  padding-top: 12px;
+  letter-spacing: .1rem !important;
+  text-transform: uppercase !important;
+  color: map-get($colors, primary) !important;
+  background-color: #000 !important;
+}
+
 [elastic-header] .background-image {
   height: 50vw;
   transition: all .01s linear;

@@ -26,6 +26,7 @@ export class MockDataService {
 	get comments$() { return this._subjects$.comments.asObservable(); }
 	get categories$() { return this._subjects$.categories.asObservable(); }
 	get companies$() { return this._subjects$.companies.asObservable(); }
+	get users$() { return this._subjects$.users.asObservable(); }
 
 	constructor() {
 		this._subjects$ = {
@@ -50,12 +51,22 @@ export class MockDataService {
 		};
 	}
 
+	creditUser(coins) {
+		console.log(coins);
+		USERS[0].coins.balance = USERS[0].coins.balance + coins;
+		this._subjects$["users"].next(USERS[0]);
+	}
+
 	setVisitingCompany(cp: any) {
 		return this.visitingCompany = cp;
 	}
 
 	getVisitingCompany() {
 		return this.visitingCompany;
+	}
+
+	getDemoUser() {
+		this._subjects$["users"].next(USERS[0]);
 	}
 
 	findAll(options: any) {

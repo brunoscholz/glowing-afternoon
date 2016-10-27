@@ -17,3 +17,15 @@ div.company-item {
     	margin-bottom: 0;
     }
 }
+
+.coin-toast {
+	.toast-wrapper {
+		background: #333 url(../assets/img/coins.png);
+		background-repeat: no-repeat;
+    	background-size: contain;
+	}
+
+	.toast-message {
+    	padding: 19px 16px 17px 65px;
+	}
+}

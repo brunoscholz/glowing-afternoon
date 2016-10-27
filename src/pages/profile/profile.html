@@ -8,38 +8,60 @@
 </ion-header>
 
 <ion-content class="profile">
-  <div id="elastic-header" class="background-image">
-    <img src="assets/img/card-saopaolo.png">
-  </div>
-  <div class="profile-info">
-    <ion-card>
-        <ion-card-content>
-          <img src="assets/img/avatar3.png"/>
-            <h2>Capitão América</h2>
-            <h3>Avenger</h3>
-        </ion-card-content>
+  <loading-modal></loading-modal>
 
-        <ion-row no-padding>
-          <ion-col>
-            <button ion-button clear small color="danger" icon-left (click)="addReview()">
-              <ion-icon name='star'></ion-icon>
-              Seguir
-            </button>
-          </ion-col>
-          <ion-col text-center>
-            <button ion-button clear small color="danger" icon-left (click)="like($event)">
-              <ion-icon name='navigate'></ion-icon>
-              Mensagem
-            </button>
-          </ion-col>
-          <ion-col text-right>
-            <button ion-button clear small color="danger" icon-left (click)="share($event)">
-              <ion-icon name='share-alt'></ion-icon>
-              Sobre
-            </button>
-          </ion-col>
-        </ion-row>
-    </ion-card>
+  <div *ngIf="user">
+    <div id="elastic-header" class="background-image">
+      <img src="{{user.picture.cover}}">
+    </div>
+    <div class="profile-info">
+      <ion-card>
+          <ion-card-content>
+            <img src="{{user.picture.large}}"/>
+              <h2>{{user.name.first}} {{user.name.last}}</h2>
+              <h3>{{user.login.username}}</h3>
+          </ion-card-content>
+
+          <ion-row no-padding>
+            <ion-col>
+              <button ion-button clear small color="danger" icon-left (click)="addReview()">
+                <ion-icon name='star'></ion-icon>
+                Seguir
+              </button>
+            </ion-col>
+            <ion-col text-center>
+              <button ion-button clear small color="danger" icon-left (click)="like($event)">
+                <ion-icon name='navigate'></ion-icon>
+                Mensagem
+              </button>
+            </ion-col>
+            <ion-col text-right>
+              <button ion-button clear small color="danger" icon-left (click)="share($event)">
+                <ion-icon name='share-alt'></ion-icon>
+                Sobre
+              </button>
+            </ion-col>
+          </ion-row>
+      </ion-card>
+    </div>
+  </div>
+
+  <div class="content" *ngIf="user">
+    <h4 class="content padding double-padding-x" style="text-align: center;">Moedas</h4>
+    <ion-list>
+      <ion-list-header>
+        Saldo
+      </ion-list-header>
+      <ion-item>{{user.coins.balance}}</ion-item>
+      <ion-list-header>
+        Últimas Transações
+      </ion-list-header>
+      <ion-item class="balance-pos"><span class="value">20</span></ion-item>
+      <ion-item class="balance-pos"><span class="value">5</span></ion-item>
+      <ion-item class="balance-pos"><span class="value">10</span></ion-item>
+      <ion-item class="balance-pos"><span class="value">10</span></ion-item>
+      <ion-item class="balance-neg"><span class="value">1200</span></ion-item>
+    </ion-list>
   </div>
 
   <div class="content">

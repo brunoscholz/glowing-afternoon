@@ -100,22 +100,21 @@ export interface ITransaction {
 //export interface ILocation
 
 export interface IUser {
-  _id: IOid;
-  login: string;
-  avatarUrl: string;
-  followers: string;
-  following: string;
-  starred: string;
-  subscriptions: string;
-  type: string;
-  name: string;
-  blog: string;
-  location: string;
-  email: string;
-  bio: string;
-  created_at: string;
-  updated_at: string;
+  id: number,
+  gender: string,
+  name: { title: string, first: string, last: string },
+  location: { street: string, city: string, state: string, postcode: string },
+  email: string,
+  login: { username: string, password: string, salt: string, md5: string, sha1: string, sha256: string },
+  dob: string,
+  registered: string,
+  phone: string,
+  cell: string,
+  picture: { cover: string, large: string, medium: string, thumbnail: string },
+  nat: string,
+  coins: { balance: number }
 }
+
 
 export interface IDate {
   date: string;

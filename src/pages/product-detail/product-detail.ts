@@ -11,7 +11,7 @@
 */
 
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, AlertController, ActionSheetController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ActionSheetController, ModalController, ToastController } from 'ionic-angular';
 import { ModelPage } from '../model-page';
 import { ReviewPage } from '../review/review';
 import { CompanyDetailPage } from '../company-detail/company-detail';
@@ -31,7 +31,15 @@ export class ProductDetailPage extends ModelPage implements OnInit {
   product: any;
   visitingCompany: string = '';
 
-  constructor(public navCtrl: NavController, navParams: NavParams, public alertCtrl: AlertController, public acCtrl: ActionSheetController, public modCtrl: ModalController, public dataService: MockDataService, public loading: LoadingService) {
+  constructor(
+    public navCtrl: NavController,
+    navParams: NavParams,
+    public alertCtrl: AlertController,
+    private toastCtrl: ToastController,
+    public acCtrl: ActionSheetController,
+    public modCtrl: ModalController,
+    public dataService: MockDataService,
+    public loading: LoadingService) {
     super("Product Details", dataService, loading);
     this.product = navParams.get('item');
     _.extend(this.product, { reviews: [] });
@@ -141,16 +149,33 @@ export class ProductDetailPage extends ModelPage implements OnInit {
     actionSheet.present();
   }
 
-  addReview(){
+  addReview() {
     let modal = this.modCtrl.create(ReviewPage, { item: this.product });
     modal.onDidDismiss(review => {
       if(review){
         this.product.reviews.push(review);
         this.dataService.addReview(review);
+        this.presentToast();
       }
     });
 
     modal.present();
+  }
+
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: 'Você ganhou 10 moedas pela avaliação. Obrigado!',
+      position: 'middle',
+      showCloseButton: true,
+      closeButtonText: "Ok",
+      cssClass: 'coin-toast'
+    });
+
+    toast.onDidDismiss(() => {
+      this.dataService.creditUser(10);
+    });
+
+    toast.present();
   }
 
   goToCompany() {

@@ -1,25 +1,72 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
-import { NavController } from 'ionic-angular';
+
+import { MockDataService } from '../../providers/services/mockdata.service';
+import { LoadingService } from '../../providers/services/loading.service';
+import { LoadingModal } from '../../components/loading-modal/loading-modal';
+import { ViewStatusEnum } from '../../providers/enums';
 import { ElasticHeader } from '../../directives/elastic-header';
 
-/*
-  Generated class for the ProfilePage page.
+import { IUser } from '../../providers/interfaces';
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+import { ModelPage } from '../model-page';
+import _ from 'underscore';
+
 @Component({
   templateUrl: 'profile.html',
 })
-export class ProfilePage {
+export class ProfilePage extends ModelPage implements OnInit {
+  user: IUser = null;
 	reviews: any = [];
 	backimg: any;
 	rows: any;
 
-  constructor(private navCtrl: NavController, private sanitizer: DomSanitizer) {
-  	this.backimg = sanitizer.bypassSecurityTrustUrl('assets/img/card-saopaolo.png');
-  	this.rows = Array.from(Array(Math.ceil(this.reviews.length / 2)).keys());
+  constructor(public navCtrl: NavController, navParams: NavParams, public sanitizer: DomSanitizer, public dataService: MockDataService, public loading: LoadingService) {
+  	super('Profile', dataService, loading);
+  }
+
+  ngOnInit() {
+    var self = this;
+    self.dataService.users$.subscribe((users: IUser) => {
+      self.user = users;
+      self.prepareUser();
+      self.changeViewState();
+      if(self.refresher)
+        self.refresher.complete();
+    });
+  }
+
+  ionViewWillEnter() {
+    this.doReset('Profile');
+    this.load();
+  }
+
+  changeViewState() {
+    if (_.size(this.user) > 0) {
+      this.doChangeView(ViewStatusEnum.Full);
+    }
+    else {
+      this.doChangeView(ViewStatusEnum.Empty);
+    }
+    this.doToggleLoading(false);
+  }
+
+  doRefresh(refresher) {
+    //this.refresher = refresher;
+    this.load();
+  }
+
+  load() {
+    this.doToggleLoading(true);
+    this.dataService.getDemoUser();
+  }
+
+  prepareUser() {
+    //this.backimg = sanitizer.bypassSecurityTrustUrl('assets/img/card-saopaolo.png');
+    console.log(this.user);
+    this.backimg = this.sanitizer.bypassSecurityTrustUrl(this.user.picture.large);
+    this.rows = Array.from(Array(Math.ceil(this.reviews.length / 2)).keys());
   }
 
 }
