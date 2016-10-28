@@ -8,8 +8,8 @@ export let CUSTOMERS = [
     hours: "8h00 as 18h00",
     visits: 132,
     coords: "-82.8269 165.2805",
-    photoSrc: "img/generic-company.png",
-    thumbScr: "img/generic-company-logo.png"
+    photoSrc: "assets/img/generic-company.png",
+    thumbSrc: "assets/img/generic-company-logo.png"
   },
   {
     id: 2,
@@ -20,8 +20,8 @@ export let CUSTOMERS = [
     hours: "10h00 as 16h00",
     visits: 132,
     coords: "-82.8269 165.2805",
-    photoSrc: "img/generic-company.png",
-    thumbScr: "img/generic-company-logo.png"
+    photoSrc: "assets/img/generic-company.png",
+    thumbSrc: "assets/img/generic-company-logo.png"
   },
   {
     id: 3,
@@ -32,8 +32,8 @@ export let CUSTOMERS = [
     hours: "8h00 as 18h00",
     visits: 132,
     coords: "-82.8269 165.2805",
-    photoSrc: "img/generic-company.png",
-    thumbScr: "img/generic-company-logo.png"
+    photoSrc: "assets/img/generic-company.png",
+    thumbSrc: "assets/img/generic-company-logo.png"
   },
   {
     id: 4,
@@ -44,8 +44,8 @@ export let CUSTOMERS = [
     hours: "10h00 as 22h00",
     visits: 132,
     coords: "-82.8269 165.2805",
-    photoSrc: "img/generic-company.png",
-    thumbScr: "img/generic-company-logo.png"
+    photoSrc: "assets/img/generic-company.png",
+    thumbSrc: "assets/img/generic-company-logo.png"
   },
   {
     id: 5,
@@ -56,8 +56,8 @@ export let CUSTOMERS = [
     hours: "14h00 as 0h00",
     visits: 132,
     coords: "-82.8269 165.2805",
-    photoSrc: "img/generic-company.png",
-    thumbScr: "img/generic-company-logo.png"
+    photoSrc: "assets/img/generic-company.png",
+    thumbSrc: "assets/img/generic-company-logo.png"
   },
   {
     id: 6,
@@ -68,7 +68,7 @@ export let CUSTOMERS = [
     hours: "6h00 as 20h00",
     visits: 132,
     coords: "-82.8269 165.2805",
-    photoSrc: "img/generic-company.png",
-    thumbScr: "img/generic-company-logo.png"
+    photoSrc: "assets/img/generic-company.png",
+    thumbSrc: "assets/img/generic-company-logo.png"
   }
 ]

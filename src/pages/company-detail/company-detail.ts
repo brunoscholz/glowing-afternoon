@@ -57,7 +57,7 @@ export class CompanyDetailPage extends ModelPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.doReset(this.company.title);
+    this.doReset(this.company.name);
     this.load();
   }
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ToastController } from 'ionic-angular';
 import { MockDataService } from '../../providers/services/mockdata.service';
 
 import {Camera} from 'ionic-native';
@@ -24,7 +24,7 @@ export class SettingsPage {
 	public base64CoverImage: string;
 	public base64ThumbImage: string;
 
-  constructor(private navCtrl: NavController, public dataService: MockDataService) {
+  constructor(private navCtrl: NavController, public dataService: MockDataService, private toastCtrl: ToastController) {
   	this.company = dataService.getVisitingCompany();
   	this.title = 'Configurações';
   }
@@ -59,6 +59,19 @@ export class SettingsPage {
   	this.company.photoSrc = this.base64CoverImage;
   	this.company.thumbScr = this.base64ThumbImage;
     this.dataService.setVisitingCompany(this.company);
+    let toast = this.toastCtrl.create({
+      message: 'Informações Salvas',
+      position: 'middle',
+      showCloseButton: true,
+      closeButtonText: "Ok",
+      cssClass: 'coin-toast'
+    });
+
+    toast.onDidDismiss(() => {
+      
+    });
+
+    toast.present();
   }
 
 }

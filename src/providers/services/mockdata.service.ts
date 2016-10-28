@@ -46,8 +46,8 @@ export class MockDataService {
 	    address: "Rua da casa da Joana",
 	    location: "",
 	    hours: "8h00 as 18h00",
-	    photoSrc: "img/generic-company.png",
-	    thumbScr: "img/generic-company-logo.png"
+	    photoSrc: "assets/img/generic-company.png",
+	    thumbSrc: "assets/img/generic-company-logo.png"
 		};
 	}
 
