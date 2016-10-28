@@ -6,7 +6,7 @@ import { MyApp } from './app.component';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { HomePage } from '../pages/home/home';
 import { SearchPage } from '../pages/search/search';
-import { ContactPage } from '../pages/contact/contact';
+// import { ContactPage } from '../pages/contact/contact';
 // import { SignTabsPage } from '../pages/sign-tabs/sign-tabs';
 // import { SignupPage } from '../pages/sign-tabs/signup';
 // import { SigninPage } from '../pages/sign-tabs/signin';
@@ -47,7 +47,6 @@ import { ErrorNotifierService } from '../providers/services/error.notifier';
     WelcomePage,
     HomePage,
     SearchPage,
-    ContactPage,
     SettingsPage,
     CompanyPage,
     CompanyDetailPage,
@@ -73,7 +72,6 @@ import { ErrorNotifierService } from '../providers/services/error.notifier';
     WelcomePage,
     HomePage,
     SearchPage,
-    ContactPage,
     SettingsPage,
     CompanyPage,
     CompanyDetailPage,

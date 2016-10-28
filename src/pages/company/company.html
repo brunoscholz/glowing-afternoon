@@ -26,7 +26,7 @@
       <div class="card-title">Company #1</div>
       <div class="card-subtitle">41 Ofertas</div>
     </ion-card>
-    <ion-card *ngFor="let item of companies" (click)="itemTapped($event, item)">
+    <ion-card class="company-card" *ngFor="let item of companies" (click)="itemTapped($event, item)">
       <img src="{{item.photoSrc}}"/>
       <div class="card-title">{{item.name}}</div>
       <div class="card-subtitle">41 Ofertas</div>

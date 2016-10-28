@@ -57,7 +57,7 @@ export class SettingsPage {
 
   save() {
   	this.company.photoSrc = this.base64CoverImage;
-  	this.company.thumbScr = this.base64ThumbImage;
+  	this.company.thumbSrc = this.base64ThumbImage;
     this.dataService.setVisitingCompany(this.company);
     let toast = this.toastCtrl.create({
       message: 'Informações Salvas',

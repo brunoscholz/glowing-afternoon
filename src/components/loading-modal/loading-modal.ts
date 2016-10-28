@@ -7,7 +7,7 @@ import { LoadingService } from "../../providers/services/loading.service";
 
 })
 export class LoadingModal implements OnInit, OnDestroy { 
-	private isBusy = false;
+	isBusy = false;
 	private subscription: any;
 
   constructor (public el: ElementRef, public loadingService: LoadingService) {}

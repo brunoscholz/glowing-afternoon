@@ -29,7 +29,7 @@ import _ from 'underscore';
 })
 export class ProductDetailPage extends ModelPage implements OnInit {
   product: any;
-  visitingCompany: string = '';
+  visitingCompany: any = '';
 
   constructor(
     public navCtrl: NavController,
@@ -110,7 +110,7 @@ export class ProductDetailPage extends ModelPage implements OnInit {
     );*/
   }
 
-  share(event, product) {
+  share(event) {
     let actionSheet = this.acCtrl.create({
       buttons: [
         {
@@ -178,13 +178,13 @@ export class ProductDetailPage extends ModelPage implements OnInit {
     toast.present();
   }
 
-  goToCompany() {
+  goToCompany(id) {
     this.navCtrl.push(CompanyDetailPage, {
       item: this.visitingCompany
     });
   }
 
-  deleteReview(review){
+  deleteReview(review) {
     //Remove locally
     let index = this.product.reviews.indexOf(review);
     if(index > -1){

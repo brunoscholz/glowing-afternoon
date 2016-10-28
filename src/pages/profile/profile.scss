@@ -85,12 +85,29 @@ ion-list-header {
   background-color: #000 !important;
 }
 
-[elastic-header] .background-image {
-  height: 50vw;
-  transition: all .01s linear;
+#elastic-header.background-image, .company-card {
+  height: 80vw;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  img {
+    position: relative;
+    //left: 50%;
+    width: 100%;
+    //transform: translateX(-50%);
+    transform: translateY(-18%);
+    z-index: -1;
+  }
 }
- 
-[elastic-header] .profile-info {
-  background-color: unset;
-  position: relative;
+
+.company-card {
+  height: 64vw;
+  border-left: 10px solid #333;
+  border-right: 10px solid #333;
+  border-bottom: 10px solid #333;
+  img {
+    position: unset;
+    display: unset;
+  }
 }
+
