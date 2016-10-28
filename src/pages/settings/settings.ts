@@ -63,8 +63,7 @@ export class SettingsPage {
       message: 'Informações Salvas',
       position: 'middle',
       showCloseButton: true,
-      closeButtonText: "Ok",
-      cssClass: 'coin-toast'
+      closeButtonText: "Ok"
     });
 
     toast.onDidDismiss(() => {
