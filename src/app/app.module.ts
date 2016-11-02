@@ -38,7 +38,7 @@ import { ElasticHeader } from '../directives/elastic-header';
 import { LoadingModal } from '../components/loading-modal/loading-modal';
 
 // Services and Providers
-import { MockDataService } from '../providers/services/mockdata.service';
+import { DataService } from '../providers/services/data.service';
 import { ErrorNotifierService } from '../providers/services/error.notifier';
 
 @NgModule({
@@ -87,7 +87,7 @@ import { ErrorNotifierService } from '../providers/services/error.notifier';
   ],
   providers: [
     ErrorNotifierService,
-    MockDataService
+    DataService
   ]
 })
 export class AppModule {}
