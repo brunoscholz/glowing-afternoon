@@ -1,12 +1,7 @@
 {
   "name": "OndeTem",
-  "app_id": "2b2d5a61",
+  "app_id": "",
   "v2": true,
   "typescript": true,
-  "proxies": [
-    {
-      "path": "/randomuserapi",
-      "proxyUrl": "https://api.randomuser.me/"
-    }
-  ]
+  "proxies": []
 }
