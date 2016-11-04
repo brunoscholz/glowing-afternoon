@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 
-import { Observable, Observer, Subject } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
 import { APIService } from './api.service';
@@ -75,6 +75,7 @@ export class DataService {
     	this.api.findAll(options)
 			.map((res: Response) => res.json())
 			.subscribe(data => {
+				console.log(data);
 				this._subjects$[options.controller].next(data["data"]);
 			}, 
 			error => console.log('something went wrong'),
@@ -87,10 +88,6 @@ export class DataService {
 
 	findAllItems() {
 		//this._subjects$["items"].next(ITEMS);
-	}
-
-	findAllOffers(options: any) {
-		//this._subjects$["offers"].next(this.filterResults(OFFERS, options.query));
 	}
 
 	findAllReviews(options: any) {

@@ -39,6 +39,8 @@ import { LoadingModal } from '../components/loading-modal/loading-modal';
 
 // Services and Providers
 import { DataService } from '../providers/services/data.service';
+import { APIService } from '../providers/services/api.service';
+import { APISettings } from '../providers/api-settings';
 import { ErrorNotifierService } from '../providers/services/error.notifier';
 
 @NgModule({
@@ -87,7 +89,9 @@ import { ErrorNotifierService } from '../providers/services/error.notifier';
   ],
   providers: [
     ErrorNotifierService,
-    DataService
+    DataService,
+    APIService,
+    APISettings
   ]
 })
 export class AppModule {}

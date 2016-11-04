@@ -12,7 +12,7 @@
 
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
-import { MockDataService } from '../../providers/services/mockdata.service';
+import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 import { LoadingModal } from '../../components/loading-modal/loading-modal';
 
@@ -34,7 +34,7 @@ export class ReviewDetailPage extends ModelPage {
   	public navCtrl: NavController, 
   	navParams: NavParams,
   	public viewCtrl: ViewController,
-    public dataService: MockDataService, 
+    public dataService: DataService, 
     public loading: LoadingService
   ) {
   	super('Review', dataService, loading)

@@ -11,12 +11,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ProductDetailPage } from '../product-detail/product-detail';
-import { MockDataService } from '../../providers/services/mockdata.service';
+import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 import { LoadingModal } from '../../components/loading-modal/loading-modal';
 
 import { ViewStatusEnum } from '../../providers/enums';
-//import { IProductFact } from '../../providers/interfaces';
+import { ICategory, IOffer } from '../../providers/interfaces';
 import { ModelPage } from '../model-page';
 
 import _ from 'underscore';
@@ -25,23 +25,25 @@ import _ from 'underscore';
   templateUrl: 'product.html',
 })
 export class ProductPage extends ModelPage implements OnInit {
-	products: any = [];
+  category: ICategory;
+	products: Array<IOffer> = [];
   groupedOffers: any = [];
   toOrder: string;
 
-  constructor(private navCtrl: NavController, navParams: NavParams, public dataService: MockDataService, public loading: LoadingService) {
+  constructor(private navCtrl: NavController, navParams: NavParams, public dataService: DataService, public loading: LoadingService) {
   	super('Ofertas', dataService, loading)
-  	this.selectedItem = navParams.get('item');
+  	this.category = this.selectedItem = navParams.get('item');
     this.toOrder = 'name';
   }
 
   ngOnInit() {
   	var self = this;
     // get offers by category
-  	this.dataService.items$
+  	this.dataService.offers$
 	    .subscribe(
 	      (data) => {
           self.products = data;
+          console.log(data);
           this.initializeItems();
 	      	self.changeViewState();
 	        if(self.refresher)
@@ -53,7 +55,7 @@ export class ProductPage extends ModelPage implements OnInit {
   }
 
   ngAfterContentInit() {
-    this.doReset(this.selectedItem.title);
+    this.doReset(this.category.name);
     this.load();
   }
 
@@ -61,11 +63,11 @@ export class ProductPage extends ModelPage implements OnInit {
     let test = _.groupBy(this.products, 'category');
 
     this.groupedOffers = [];
-    for (var key in test) {
+    /*for (var key in test) {
       let cat = this.dataService.getCategory({ id: Number(key) });
       let entry = { group: {id: cat.id, title: cat.title}, items: test[key] };
       this.groupedOffers.push(entry);
-    }
+    }*/
   }
 
   changeViewState() {
@@ -84,8 +86,11 @@ export class ProductPage extends ModelPage implements OnInit {
   }
 
   load() {
-    this.dataService.findItems({ query: { category: this.selectedItem.id } });
-  	//this.dataService.getProducts({ collectionName: 'factProduct', query: { categoryId: this.selectedItem._id } })
+    this.dataService.findAll({
+      controller: 'offers',
+      query: { categoryId: this.selectedItem.id },
+      expand: 'item,seller'
+    });
   }
 
   favThis(event, item) {}

@@ -7,7 +7,7 @@ import { ProductPage } from '../product/product';
 // CompanyPage
 // CategoryPage
 
-import { MockDataService } from '../../providers/services/mockdata.service';
+import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 import { LoadingModal } from '../../components/loading-modal/loading-modal';
 
@@ -29,7 +29,7 @@ export class SearchPage extends ModelPage implements OnInit {
   groupedOffers: any = [];
   query: string = "";
 
-  constructor(public navCtrl: NavController, navParams: NavParams, public dataService: MockDataService, public loading: LoadingService) {
+  constructor(public navCtrl: NavController, navParams: NavParams, public dataService: DataService, public loading: LoadingService) {
     super('Busca', dataService, loading)
   	this.searchTerm = navParams.get('term') || '';
   }

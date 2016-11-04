@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
-import { MockDataService } from '../../providers/services/mockdata.service';
+import { DataService } from '../../providers/services/data.service';
 
 import {Camera} from 'ionic-native';
 
@@ -24,7 +24,7 @@ export class SettingsPage {
 	public base64CoverImage: string;
 	public base64ThumbImage: string;
 
-  constructor(private navCtrl: NavController, public dataService: MockDataService, private toastCtrl: ToastController) {
+  constructor(private navCtrl: NavController, public dataService: DataService, private toastCtrl: ToastController) {
   	this.company = dataService.getVisitingCompany();
   	this.title = 'Configurações';
   }

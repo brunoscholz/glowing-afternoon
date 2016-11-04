@@ -12,7 +12,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ProductDetailPage } from '../product-detail/product-detail';
-import { MockDataService } from '../../providers/services/mockdata.service';
+import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 import { LoadingModal } from '../../components/loading-modal/loading-modal';
 
@@ -30,7 +30,7 @@ export class CatalogPage extends ModelPage implements OnInit {
   groupedOffers: any = [];
   toOrder: string;
 
-  constructor(private navCtrl: NavController, navParams: NavParams, public dataService: MockDataService, public loading: LoadingService) {
+  constructor(private navCtrl: NavController, navParams: NavParams, public dataService: DataService, public loading: LoadingService) {
   	super('Ofertas', dataService, loading)
   	this.selectedItem = navParams.get('item');
     this.toOrder = 'name';
@@ -62,11 +62,11 @@ export class CatalogPage extends ModelPage implements OnInit {
     let test = _.groupBy(this.products, 'category');
 
     this.groupedOffers = [];
-    for (var key in test) {
+    /*for (var key in test) {
       let cat = this.dataService.getCategory({ id: Number(key) });
       let entry = { group: {id: cat.id, title: cat.title}, items: test[key] };
       this.groupedOffers.push(entry);
-    }
+    }*/
   }
 
   changeViewState() {

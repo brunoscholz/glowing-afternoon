@@ -1,5 +1,5 @@
 //import { Injectable, ReflectiveInjector } from '@angular/core';
-import { MockDataService } from '../providers/services/mockdata.service';
+import { DataService } from '../providers/services/data.service';
 import { LoadingService } from '../providers/services/loading.service';
 
 import { ViewStatusEnum, DisplayModeEnum } from '../providers/enums';
@@ -17,7 +17,7 @@ export class ModelPage {
   displayMode = DisplayModeEnum;
   display: any;
 
-  constructor(private ttl: string, public dataService: MockDataService, public loadingService: LoadingService) {
+  constructor(private ttl: string, public dataService: DataService, public loadingService: LoadingService) {
     //let injector = ReflectiveInjector.resolveAndCreate([LoadingService]);
     this.loadingService = loadingService;//injector.get(LoadingService);
 

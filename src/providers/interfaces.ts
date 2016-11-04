@@ -1,9 +1,28 @@
-export interface IOid {
-  $oid: string;
+export interface ICategory {
+  categoryId: string;
+  parentId: string;
+  name: string;
+  description: string;
+  icon: string;
+}
+
+export interface IOffer {
+  offerId: string;
+  itemId: number;
+  sellerId: string;
+  policyId: string;
+  shippingId: string;
+  pricePerUnit: number;
+  discountPerUnit: number;
+  description: string;
+  imageHashes: string;
+  keywords: string;
+  condition: string;
+  status: string;
 }
 
 export interface IAction {
-  _id: IOid;
+  _id: string;
   id: number;
   type: string;
   name: string;
@@ -11,22 +30,13 @@ export interface IAction {
 }
 
 export interface IGrade {
-  _id: IOid;
+  _id: string;
   id: number;
   fields: void[];
 }
 
-export interface ICategory {
-  _id: IOid;
-  code: number;
-  parent: string;
-  name: string;
-  description: string;
-  photoSrc: string;
-}
-
 export interface IProduct {
-  _id: IOid;
+  _id: string;
   code: number;
   name: string;
   description: string;
@@ -36,14 +46,14 @@ export interface IProduct {
 }
 
 export interface IReview {
-  _id: IOid;
+  _id: string;
   code: number;
   title: string;
   body: string;
 }
 
 export interface IComment {
-  _id: IOid;
+  _id: string;
   code: number;
   body: string;
 }
@@ -60,9 +70,9 @@ export interface IRelationship {
 }
 
 export interface IProductFact {
-  _id: IOid;
-  categoryId: IOid;
-  productId: IOid;
+  _id: string;
+  categoryId: string;
+  productId: string;
   avgPrice: number;
   avgRating: number;
   quality: number;
@@ -71,29 +81,29 @@ export interface IProductFact {
 }
 
 export interface IReviewFact {
-  _id: IOid;
-  productId: IOid;
-  reviewId: IOid;
+  _id: string;
+  productId: string;
+  reviewId: string;
   grades: void[];
   rating: number;
   data: IReview;
 }
 
 export interface ISocialFact {
-  _id: IOid;
-  reviewId: IOid;
-  commentId: IOid;
+  _id: string;
+  reviewId: string;
+  commentId: string;
   /*
   like, upvote, fav
   */
 }
 
 export interface ITransaction {
-  _id: IOid;
-  actionId: IOid;
-  userId: IOid;
-  dateId: IOid;
-  factId: IOid;
+  _id: string;
+  actionId: string;
+  userId: string;
+  dateId: string;
+  factId: string;
 }
 
 //export interface IDate

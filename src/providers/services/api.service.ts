@@ -49,7 +49,8 @@ export class APIService {
       fo: options.findOne || null,
       s: options.sortOrder || null,
       sk: options.skipResults || null,
-      l: options.limit || null
+      l: options.limit || null,
+      expand: options.expand || null
     };
 
     if (database === null) {

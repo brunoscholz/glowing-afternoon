@@ -15,7 +15,7 @@ import { NavController, NavParams, AlertController, ActionSheetController, Modal
 import { ModelPage } from '../model-page';
 import { ReviewPage } from '../review/review';
 //import { ReviewDetailPage } from '../review-detail/review-detail';
-import { MockDataService } from '../../providers/services/mockdata.service';
+import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 import { LoadingModal } from '../../components/loading-modal/loading-modal';
 
@@ -30,7 +30,7 @@ export class CompanyDetailPage extends ModelPage implements OnInit {
   company: any;
   visitingCompany: string = '';
 
-  constructor(public navCtrl: NavController, navParams: NavParams, public alertCtrl: AlertController, public acCtrl: ActionSheetController, public modCtrl: ModalController, public dataService: MockDataService, public loading: LoadingService) {
+  constructor(public navCtrl: NavController, navParams: NavParams, public alertCtrl: AlertController, public acCtrl: ActionSheetController, public modCtrl: ModalController, public dataService: DataService, public loading: LoadingService) {
     super("Company Details", dataService, loading);
     this.company = navParams.get('item');
     _.extend(this.company, { reviews: [] });

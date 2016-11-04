@@ -9,7 +9,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { CompanyDetailPage } from '../company-detail/company-detail';
-import { MockDataService } from '../../providers/services/mockdata.service';
+import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 import { LoadingModal } from '../../components/loading-modal/loading-modal';
 
@@ -25,7 +25,7 @@ import _ from 'underscore';
 export class CompanyPage extends ModelPage implements OnInit {
   companies: any = [];
 
-  constructor(public navCtrl: NavController, navParams: NavParams, public dataService: MockDataService, public loading: LoadingService) {
+  constructor(public navCtrl: NavController, navParams: NavParams, public dataService: DataService, public loading: LoadingService) {
     super('Empresas', dataService, loading);
     this.selectedItem = navParams.get('item');
   }

@@ -16,7 +16,7 @@ import { ModelPage } from '../model-page';
 import { ReviewPage } from '../review/review';
 import { CompanyDetailPage } from '../company-detail/company-detail';
 //import { ReviewDetailPage } from '../review-detail/review-detail';
-import { MockDataService } from '../../providers/services/mockdata.service';
+import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 import { LoadingModal } from '../../components/loading-modal/loading-modal';
 
@@ -38,7 +38,7 @@ export class ProductDetailPage extends ModelPage implements OnInit {
     private toastCtrl: ToastController,
     public acCtrl: ActionSheetController,
     public modCtrl: ModalController,
-    public dataService: MockDataService,
+    public dataService: DataService,
     public loading: LoadingService) {
     super("Product Details", dataService, loading);
     this.product = navParams.get('item');

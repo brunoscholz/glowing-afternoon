@@ -5,7 +5,7 @@ import { Nav, NavParams, AlertController } from 'ionic-angular';
 //import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 
-import { MockDataService } from '../../providers/services/mockdata.service';
+import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 import { LoadingModal } from '../../components/loading-modal/loading-modal';
 
@@ -32,7 +32,7 @@ export class WelcomePage implements OnInit {
   private actions$: any;
   private user$: any;*/
 
-  constructor(public navCtrl: Nav, navParams: NavParams, public alertCtrl: AlertController, public dataService: MockDataService, public loading: LoadingService) {
+  constructor(public navCtrl: Nav, navParams: NavParams, public alertCtrl: AlertController, public dataService: DataService, public loading: LoadingService) {
     
   }
 
