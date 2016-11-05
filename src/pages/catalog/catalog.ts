@@ -39,7 +39,7 @@ export class CatalogPage extends ModelPage implements OnInit {
   ngOnInit() {
   	var self = this;
     // get offers by category
-  	this.dataService.items$
+  	this.dataService.offers$
 	    .subscribe(
 	      (data) => {
           self.products = data;

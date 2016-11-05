@@ -33,25 +33,21 @@ export class APIService {
     this.config.controllerUrl = this.config.baseUrl + controller;
   }
 
-  /*
-   * ACTIONS
-   *
-   *
-  */
 
   // get by query
   findAll (options) {
     var database = options.controller || 'offers';
     var OPTIONAL_PARAMS = <any> {
       q: options.query || null,
-      c: options.resultCount || null,
       f: options.setOfFields || null,
       fo: options.findOne || null,
       s: options.sortOrder || null,
-      sk: options.skipResults || null,
+      pg: options.page || null,
       l: options.limit || null,
-      expand: options.expand || null
+      ft: options.fromto || null
     };
+
+    console.log(OPTIONAL_PARAMS);
 
     if (database === null) {
       throw new Error('invalid options');

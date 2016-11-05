@@ -8,10 +8,10 @@ export interface ICategory {
 
 export interface IOffer {
   offerId: string;
-  itemId: number;
-  sellerId: string;
-  policyId: string;
-  shippingId: string;
+  item: IItem;
+  seller: ISeller;
+  policy: IPolicy;
+  shipping: IShipping;
   pricePerUnit: number;
   discountPerUnit: number;
   description: string;
@@ -19,6 +19,51 @@ export interface IOffer {
   keywords: string;
   condition: string;
   status: string;
+}
+
+export interface IItem {
+  itemId: string;
+  sku: string;
+  category: ICategory;
+  description: string;
+  title: string;
+  keywords: string;
+  photoSrc: string;
+  status: string;
+}
+
+export interface ISeller {
+  sellerId: string;
+  userId: string;
+  about: string;
+  name: string;
+  email: string;
+  website: string;
+  facebookSocialId: string;
+  twitterSocialId: string;
+  instagramSocialId: string;
+  snapchatSocialId: string;
+  linkedinSocialId: string;
+  githubSocialId: string;
+  url_youtube: string;
+  hours: string;
+  categories: string;
+  paymentOptions: string;
+}
+
+export interface IPolicy {
+  policyId: string;
+  terms: string;
+  returns: string;
+}
+
+export interface IShipping {
+  shippingId: string;
+  regions: string;
+  estimateDelivery: string;
+  origins: string;
+  fee: number;
+  free: boolean;
 }
 
 export interface IAction {

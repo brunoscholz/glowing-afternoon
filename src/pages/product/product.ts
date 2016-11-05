@@ -88,8 +88,7 @@ export class ProductPage extends ModelPage implements OnInit {
   load() {
     this.dataService.findAll({
       controller: 'offers',
-      query: { categoryId: this.selectedItem.id },
-      expand: 'item,seller'
+      query: { 'categoryId': this.category.categoryId }
     });
   }
 

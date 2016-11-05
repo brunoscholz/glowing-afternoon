@@ -36,7 +36,7 @@ export class SearchPage extends ModelPage implements OnInit {
 
   ngOnInit() {
     var self = this;
-  	this.dataService.items$
+  	this.dataService.searchItems$
 	    .subscribe(
 	      (data) => {
 	      	self.products = data;

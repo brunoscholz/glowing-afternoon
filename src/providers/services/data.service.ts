@@ -8,9 +8,44 @@ import { APIService } from './api.service';
 
 import _ from 'underscore';
 
-import { IProduct, IProductFact, IUser } from '../interfaces'; //ICategory, IReview, IReviewFact, IComment, ISocialFact, IUser, IRelationship, ITransaction, IAction, IDate
+import { IUser, IOffer } from '../interfaces'; //ICategory, IReview, IReviewFact, IComment, ISocialFact, IUser, IRelationship, ITransaction, IAction, IDate
 
 //let favorites = [];
+
+/*
+API
+results always come with status and result count
+
+controller: the controller or collection wanted
+	its included in the url (v1/controller)
+
+q: query
+	general filtering with table's fields
+
+f: setOfFields
+	set of fields to look for (select)
+	setOfFields: [ field1, field2, field3, fieldN ]
+
+fo: findOne
+	return just one row
+	findOne: true
+
+s: sort
+o: order
+	orderBy order (ASC or DESC)
+	orderBy fields
+	sort: { field: fieldName, order: ascOrDesc }
+
+pg: page
+	used for pagination or infinite loading in sequence
+	page: 2
+
+l: limit
+	limit: 10
+
+ft: from-to filters
+	fromto: [ { field: fieldName, low: lowValue, high: highValue } ]
+*/
 
 @Injectable()
 export class DataService {
@@ -18,7 +53,7 @@ export class DataService {
 	private _subjects$: any;
 	private visitingCompany: any = {};
 
-	get items$() { return this._subjects$.items.asObservable(); }
+	get searchItems$() { return this._subjects$.searchitems.asObservable(); }
 	get offers$() { return this._subjects$.offers.asObservable(); }
 	get reviews$() { return this._subjects$.reviews.asObservable(); }
 	get comments$() { return this._subjects$.comments.asObservable(); }
@@ -30,13 +65,13 @@ export class DataService {
     	this.api.Init("offers");
 
 		this._subjects$ = {
-			users: new Subject(),
-			items: new Subject(),
-			offers: new Subject(),
+			users: <Subject<IUser[]>>new Subject(),
+			offers: <Subject<IOffer[]>>new Subject(),
 			reviews: new Subject(),
 			comments: new Subject(),
 			categories: new Subject(),
-			companies: new Subject()
+			companies: new Subject(),
+			searchitems: new Subject()
 		};
 
 		this.visitingCompany = {
@@ -75,10 +110,10 @@ export class DataService {
     	this.api.findAll(options)
 			.map((res: Response) => res.json())
 			.subscribe(data => {
-				console.log(data);
+				// check data["status"]...
 				this._subjects$[options.controller].next(data["data"]);
 			}, 
-			error => console.log('something went wrong'),
+			error => console.log('Something went wrong'),
 			() => console.log('findAll Completed for ' + options.controller));
 	}
 
