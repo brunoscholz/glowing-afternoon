@@ -7,13 +7,20 @@
 <ion-content class="search">
   <loading-modal></loading-modal>
 
-  <ion-searchbar
-    [(ngModel)]="searchTerm"
-    [debounce]="10"
-    (ionInput)="getItems($event)"
-    (change)="onInput()"
-    name="search">
-  </ion-searchbar>
+  <ul class="search-header">
+    <li><img src="assets/img/logo.png"></li>
+    <li>Onde tem um(a)</li>
+    <li>
+      <ion-searchbar
+        [(ngModel)]="searchTerm"
+        [debounce]="10"
+        (ionInput)="getItems($event)"
+        (change)="onInput()"
+        name="search">
+      </ion-searchbar>
+    </li>
+    <li><button ion-button round>Round Button</button></li>
+  </ul>
 
   <ion-list *ngIf="status === viewStatus.Full">
     <ion-item-group *ngFor="let group of groupedOffers">

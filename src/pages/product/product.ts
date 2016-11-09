@@ -43,7 +43,6 @@ export class ProductPage extends ModelPage implements OnInit {
 	    .subscribe(
 	      (data) => {
           self.products = data;
-          console.log(data);
           this.initializeItems();
 	      	self.changeViewState();
 	        if(self.refresher)
@@ -60,14 +59,7 @@ export class ProductPage extends ModelPage implements OnInit {
   }
 
   initializeItems() {
-    let test = _.groupBy(this.products, 'category');
-
-    this.groupedOffers = [];
-    /*for (var key in test) {
-      let cat = this.dataService.getCategory({ id: Number(key) });
-      let entry = { group: {id: cat.id, title: cat.title}, items: test[key] };
-      this.groupedOffers.push(entry);
-    }*/
+    
   }
 
   changeViewState() {

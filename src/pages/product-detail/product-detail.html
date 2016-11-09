@@ -10,22 +10,22 @@
 
   <div class="company-item">
     <ion-list>
-      <ion-item (click)="goToCompany(visitingCompany.id)">
+      <ion-item (click)="goToCompany(product.seller)">
         <ion-avatar item-left>
           <img src="assets/img/avatar4.png">
         </ion-avatar>
-        <h2>{{ visitingCompany.name }}</h2>
+        <h2>{{ product.seller.name }}</h2>
       </ion-item>
     </ion-list>
   </div>
 
   <div *ngIf="product" class="selection">
     <ion-card>
-      <img src="assets/{{product.photoSrc}}"/>
+      <img src="assets/{{product.item.photoSrc}}"/>
 
       <ion-card-content>
         <h2 class="card-title">
-          {{product.title}}
+          {{product.item.title}}
         </h2>
         <p>
           {{product.description}}
@@ -48,7 +48,7 @@
         <ion-col text-center>
           <button ion-button clear small icon-left>
             <ion-icon name="pricetag"></ion-icon>
-            {{product.price}}
+            {{product.pricePerUnit}}
           </button>
         </ion-col>
       </ion-row>

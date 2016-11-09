@@ -7,6 +7,7 @@ import { ErrorNotifierService } from '../providers/services/error.notifier';
 //import { SignTabsPage } from './pages/sign-tabs/sign-tabs';
 import { WelcomePage } from '../pages/welcome/welcome';
 
+import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
 import { HomePage } from '../pages/home/home';
 import { ProfilePage } from '../pages/profile/profile';
 import { UserProfile } from '../pages/user-profile/user-profile';
@@ -30,7 +31,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   // make HelloIonicPage the root (or first) page
-  rootPage: any = HomePage;
+  rootPage: any = HomeTabsPage;
   pages: Array<{ title: string, component: any, root: boolean }>;
   error: any;
 
@@ -44,7 +45,7 @@ export class MyApp {
 
       // set our app's pages
       this.pages = [
-        { title: 'Home', component: HomePage, root: true },
+        { title: 'Home', component: HomeTabsPage, root: true },
         { title: 'Profile', component: ProfilePage, root: false },
         { title: 'Search', component: SearchPage, root: false },
         { title: 'Categorias', component: CategoryPage, root: false },

@@ -43,6 +43,7 @@ page-home {
 
 .show-more-trigger {
   //font-family: "Ionicons";
+  font-family: 'Lato', sans-serif;
   cursor: pointer;
   display: inline-block;
   height: 42px;
@@ -53,6 +54,42 @@ page-home {
   font-size: 2em;
   line-height: 42px;
   border-radius: 2px;
+}
+
+ul.search-header {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 125px;
+
+  li {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 2.4em;
+
+    text-align: center;
+
+    img {
+      height: 85px;
+    }
+
+    button {
+      height: 50px;
+    }
+
+    &.search-bar {
+      text-align: left;
+      border-bottom: 2px solid map-get($colors, primary);
+      margin: 0 13px;
+
+      .text-input {
+        padding: 0 13px;
+        color: map-get($colors, primary);
+        font-weight: 500;
+        font-size: 1em;
+        text-align: center;
+      }
+    }
+  }
 }
 
 ion-content.card-background-page {

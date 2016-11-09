@@ -4,6 +4,7 @@ import { MyApp } from './app.component';
 
 // Main generic Pages
 import { WelcomePage } from '../pages/welcome/welcome';
+import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
 import { HomePage } from '../pages/home/home';
 import { SearchPage } from '../pages/search/search';
 // import { ContactPage } from '../pages/contact/contact';
@@ -47,6 +48,7 @@ import { ErrorNotifierService } from '../providers/services/error.notifier';
   declarations: [
     MyApp,
     WelcomePage,
+    HomeTabsPage,
     HomePage,
     SearchPage,
     SettingsPage,
@@ -72,6 +74,7 @@ import { ErrorNotifierService } from '../providers/services/error.notifier';
   entryComponents: [
     MyApp,
     WelcomePage,
+    HomeTabsPage,
     HomePage,
     SearchPage,
     SettingsPage,

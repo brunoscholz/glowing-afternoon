@@ -27,28 +27,18 @@ export class CategoryPage extends ModelPage implements OnInit {
   ngOnInit() {
     var self = this;
     self.dataService.categories$.subscribe((categories: Array<ICategory>) => {
-        self.categories = categories;
-        self.rows = Array.from(Array(Math.ceil(self.categories.length / 3)).keys());
-        self.changeViewState();
-        if(self.refresher)
-          self.refresher.complete();
-      });
+      self.categories = categories;
+      self.rows = Array.from(Array(Math.ceil(self.categories.length / 3)).keys());
+      self.changeViewState();
+      if(self.refresher)
+        self.refresher.complete();
+    });
   }
 
   ionViewWillEnter() {
     this.doReset('Categories');
     this.load();
   }
-
-  /*reset() {
-    this.title = 'Categories';
-    this.categories = [];
-    this.loading.toggleLoadingIndicator(true);
-  }*/
-
-  /*changeView(st: ViewStatusEnum) {
-    this.status = st;
-  }*/
 
   changeViewState() {
     if (_.size(this.categories) > 0) {
@@ -67,8 +57,18 @@ export class CategoryPage extends ModelPage implements OnInit {
 
   load() {
     this.doToggleLoading(true);
-    //this.doQuery({ collectionName: 'dimCategory', query: { parent: 0 }, sortOrder: { 'code': 1 } });
-    this.dataService.findAllCategories({ query: { parent: 0 } });
+    this.dataService.findAll({ controller: 'categories', query: { parentId: 0 } });
+  }
+
+  morethantworows(i) {
+    return (i > 1) ? 'show-more-target' : '';
+  }
+
+  showButton() {
+    if (_.size(this.rows) > 2)
+      return true;
+
+    return false;
   }
 
   // changeDisplayMode(mode: DisplayModeEnum) {

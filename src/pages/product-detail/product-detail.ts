@@ -29,7 +29,6 @@ import _ from 'underscore';
 })
 export class ProductDetailPage extends ModelPage implements OnInit {
   product: any;
-  visitingCompany: any = '';
 
   constructor(
     public navCtrl: NavController,
@@ -39,34 +38,20 @@ export class ProductDetailPage extends ModelPage implements OnInit {
     public acCtrl: ActionSheetController,
     public modCtrl: ModalController,
     public dataService: DataService,
-    public loading: LoadingService) {
+    public loading: LoadingService
+  ) {
     super("Product Details", dataService, loading);
     this.product = navParams.get('item');
-    _.extend(this.product, { reviews: [] });
-
-    this.visitingCompany = dataService.getVisitingCompany();
   }
 
   ngOnInit() {
-    var self = this;
-    this.dataService.reviews$
-      .subscribe(
-        (data) => {
-          self.product.reviews = data;
-          self.changeViewState();
-          if(self.refresher)
-            self.refresher.complete();
-        },
-        (err) => { console.log(err); },
-        () => {
-        }
-      );    
-
+    this.doToggleLoading(false);
+    this.changeViewState();
   }
 
   ionViewWillEnter() {
-    this.doReset(this.product.title);
-    this.load();
+    this.doReset(this.product.item.title);
+    //this.load();
   }
 
   changeViewState() {
@@ -85,8 +70,11 @@ export class ProductDetailPage extends ModelPage implements OnInit {
   }
 
   load() {
-    //this.dataService.getReviews({ collectionName: 'factReview', query: { productId: this.product.data._id } })
-    this.dataService.findAllReviews({ query: { item: this.product.sku } });
+    // redo the offer api call by this.product.offerId
+    this.dataService.findAll({
+      controller: 'offers',
+      query: { 'offerId': this.product.offerId }
+    });
   }
 
   favorite(event) {
@@ -178,9 +166,9 @@ export class ProductDetailPage extends ModelPage implements OnInit {
     toast.present();
   }
 
-  goToCompany(id) {
+  goToCompany() {
     this.navCtrl.push(CompanyDetailPage, {
-      item: this.visitingCompany
+      item: this.product.seller
     });
   }
 

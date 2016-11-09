@@ -2,7 +2,6 @@
 // http://ionicframework.com/docs/v2/theming/
 @import "ionic.globals";
 
-
 // Shared Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
@@ -10,9 +9,8 @@
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
-$text-color:        #dae5f9;
-$background-color:  #373632;
-
+$text-color:        #2a2a2a;
+$background-color:  #fafafa;
 
 // Named Color Variables
 // --------------------------------------------------
@@ -23,12 +21,12 @@ $background-color:  #373632;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #FECF43,
-  secondary:  #CCDEEE,
-  danger:     #928678,
-  light:      #D7E0E7,
-  dark:       #373632,
-  favorite:   #A0A2A1
+  primary:    #34b483,
+  secondary:  #408b99,
+  danger:     #cb0061,
+  light:      #c0d7d9,
+  dark:       #25afcb,
+  favorite:   #fd3c40
 );
 
 
@@ -69,4 +67,17 @@ $colors: (
 // http://ionicframework.com/docs/v2/ionicons/
 
 $ionicons-font-path: "../assets/fonts";
+@font-face {
+  font-family: 'Lato', sans-serif;
+  src: url('../assets/fonts/Lato-Regular.woff') format('woff'),
+       url('../assets/fonts/Lato-Regular.ttf') format('truetype');
+}
+
 @import "ionicons";
+
+
+//<link href="https://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet"> 
+//@import url('https://fonts.googleapis.com/css?family=Lato:400,900');
+//font-family: 'Lato', sans-serif;
+
+
