@@ -46,14 +46,9 @@ export class MyApp {
       // set our app's pages
       this.pages = [
         { title: 'Home', component: HomeTabsPage, root: true },
-        { title: 'Profile', component: ProfilePage, root: false },
-        { title: 'Search', component: SearchPage, root: false },
-        { title: 'Categorias', component: CategoryPage, root: false },
         { title: 'Empresas', component: CompanyPage, root: false },
         
         //{ title: 'Visita', component: VisitPage }
-
-        { title: 'User Test', component: UserProfile, root: false },
         { title: 'Settings', component: SettingsPage, root: false }
         //{ title: 'Logout', component: SignTabsPage }
       ];

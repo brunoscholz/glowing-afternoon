@@ -30,10 +30,10 @@ export class ReviewPage {
 
     this.ratingRange = {
         lower: 0,
-        upper: 100
+        upper: 10
     };
 
-    this.attendance = 'standard';
+    this.attendance = 1;
     this.price = 1;
     this.dateCreated = today.toISOString();
   }

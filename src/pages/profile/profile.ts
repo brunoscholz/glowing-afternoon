@@ -8,7 +8,7 @@ import { LoadingModal } from '../../components/loading-modal/loading-modal';
 import { ViewStatusEnum } from '../../providers/enums';
 import { ElasticHeader } from '../../directives/elastic-header';
 
-import { IUser } from '../../providers/interfaces';
+import { IBuyer } from '../../providers/interfaces';
 
 import { ModelPage } from '../model-page';
 import _ from 'underscore';
@@ -17,19 +17,22 @@ import _ from 'underscore';
   templateUrl: 'profile.html',
 })
 export class ProfilePage extends ModelPage implements OnInit {
-  user: IUser = null;
+  user: IBuyer = null;
+  loginInfo: any;
 	reviews: any = [];
 	backimg: any;
 	rows: any;
 
   constructor(public navCtrl: NavController, navParams: NavParams, public sanitizer: DomSanitizer, public dataService: DataService, public loading: LoadingService) {
-  	super('Profile', dataService, loading);
+  	super('Perfil', dataService, loading);
   }
 
   ngOnInit() {
     var self = this;
-    self.dataService.users$.subscribe((users: IUser) => {
-      self.user = users;
+    self.dataService.buyers$.subscribe((users: IBuyer) => {
+      self.user = users[0];
+      console.log(users);
+      self.user['coins'] = self.loginInfo.coins;
       self.prepareUser();
       self.changeViewState();
       if(self.refresher)
@@ -38,7 +41,7 @@ export class ProfilePage extends ModelPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.doReset('Profile');
+    this.doReset("Perfil"); //this.user.name
     this.load();
   }
 
@@ -58,12 +61,11 @@ export class ProfilePage extends ModelPage implements OnInit {
   }
 
   load() {
-    this.doToggleLoading(true);
-    this.dataService.getDemoUser();
+    this.loginInfo = this.dataService.getLoggedUser();
+    this.dataService.findAll({ controller: 'buyers', query: { 'userId': this.loginInfo.userId } } );
   }
 
   prepareUser() {
-    //this.backimg = sanitizer.bypassSecurityTrustUrl('assets/img/card-saopaolo.png');
     console.log(this.user);
     this.backimg = this.sanitizer.bypassSecurityTrustUrl(this.user.picture.large);
     this.rows = Array.from(Array(Math.ceil(this.reviews.length / 2)).keys());

@@ -40,10 +40,9 @@ export class SearchPage extends ModelPage implements OnInit {
 	    .subscribe(
 	      (data) => {
 	      	self.products = data;
-          if(this.searchTerm != null && this.searchTerm != '') {
-            this.filterItems(this.searchTerm);
+          /*if(this.searchTerm != null && this.searchTerm != '') {
             this.initializeItems();
-          }
+          }*/
 
 	      	self.changeViewState();
 	        if(self.refresher)
@@ -62,7 +61,7 @@ export class SearchPage extends ModelPage implements OnInit {
       .subscribe(search => {
         this.load();
       });*/
-    this.initializeItems();
+    //this.initializeItems();
   }
 
   changeViewState() {
@@ -91,8 +90,9 @@ export class SearchPage extends ModelPage implements OnInit {
   }
 
   load() {
-  	//this.dataService.getProducts({ collectionName: 'factProduct', query: { } })
-    this.dataService.findAllItems();
+    // searchFor : {offers} -> offers only
+    // searchFor : {offers, users} -> offers and users
+    this.dataService.search({ term: this.searchTerm });
   	//this.items = this.dataService.filterItems(this.searchTerm);
   }
 

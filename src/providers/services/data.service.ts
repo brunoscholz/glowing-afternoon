@@ -8,7 +8,7 @@ import { APIService } from './api.service';
 
 import _ from 'underscore';
 
-import { IUser, IOffer } from '../interfaces'; //ICategory, IReview, IReviewFact, IComment, ISocialFact, IUser, IRelationship, ITransaction, IAction, IDate
+import { IBuyer, ISeller, IUser, IOffer } from '../interfaces'; //ICategory, IReview, IReviewFact, IComment, ISocialFact, IUser, IRelationship, ITransaction, IAction, IDate
 
 //let favorites = [];
 
@@ -59,18 +59,18 @@ export class DataService {
 	get comments$() { return this._subjects$.comments.asObservable(); }
 	get categories$() { return this._subjects$.categories.asObservable(); }
 	get companies$() { return this._subjects$.companies.asObservable(); }
-	get users$() { return this._subjects$.users.asObservable(); }
+	get buyers$() { return this._subjects$.buyers.asObservable(); }
 
 	constructor(public api: APIService) {
     	this.api.Init("offers");
 
 		this._subjects$ = {
-			users: <Subject<IUser[]>>new Subject(),
+			buyers: <Subject<IBuyer[]>>new Subject(),
 			offers: <Subject<IOffer[]>>new Subject(),
 			reviews: new Subject(),
 			comments: new Subject(),
 			categories: new Subject(),
-			companies: new Subject(),
+			companies: <Subject<ISeller[]>>new Subject(),
 			searchitems: new Subject()
 		};
 
@@ -100,8 +100,16 @@ export class DataService {
 		return this.visitingCompany;
 	}
 
-	getDemoUser() {
-		//this._subjects$["users"].next(USERS[0]);
+	getLoggedUser() {
+		let user = {
+			userId: "zZN6prD6rzxEhg8sDQz1j",
+			username: "admin",
+			email: "admin@example.com",
+			picture: { cover: "assets/img/card-saopaolo.png", large:"https://randomuser.me/api/portraits/men/3.jpg", medium:"https://randomuser.me/api/portraits/med/men/3.jpg", thumbnail:"https://randomuser.me/api/portraits/thumb/men/3.jpg" },
+		    coins: { balance: 45 }
+		}
+		// this._subjects$["users"].next(user);
+		return user;
 	}
 
 	findAll(options: any) {
@@ -115,6 +123,17 @@ export class DataService {
 			}, 
 			error => console.log('Something went wrong'),
 			() => console.log('findAll Completed for ' + options.controller));
+	}
+
+	search(options: any) {
+		this.api.search(options)
+			.map((res: Response) => res.json())
+			.subscribe(data => {
+				// check data["status"]...
+				this._subjects$['searchitems'].next(data["data"]);
+			}, 
+			error => console.log('Something went wrong'),
+			() => console.log('search Completed for ' + options.term));
 	}
 
 	findItems(options: any) {

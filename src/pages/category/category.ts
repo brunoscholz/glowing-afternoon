@@ -20,7 +20,7 @@ export class CategoryPage extends ModelPage implements OnInit {
   rows: any;
 
   constructor(public navCtrl: NavController, navParams: NavParams, public dataService: DataService, public loading: LoadingService) {
-    super('Categories', dataService, loading);
+    super('Categorias', dataService, loading);
     this.selectedItem = navParams.get('item');
   }
 
@@ -36,7 +36,7 @@ export class CategoryPage extends ModelPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.doReset('Categories');
+    this.doReset('Categorias');
     this.load();
   }
 

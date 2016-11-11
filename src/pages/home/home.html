@@ -4,6 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>{{title}}</ion-title>
+
   </ion-navbar>
 </ion-header>
 
@@ -11,18 +12,12 @@
 
 
   <ul class="search-header">
-    <li><img src="assets/img/logo.png"></li>
+    <li class="animated tada"><img src="assets/img/logo.png"></li>
     <li>Onde tem um(a)</li>
     <li class="search-bar">
-      <!-- <ion-searchbar
-        [(ngModel)]="formData.q"
-        [debounce]="10"
-        (change)="onInput()"
-        placeholder="ex.: encanador.."
-        name="search">
-      </ion-searchbar> -->
       <ion-input [(ngModel)]="formData.q" name="search" type="search" placeholder="ex.: encanador.."></ion-input>
     </li>
-    <li><button ion-button round>Buscar</button></li>
+    <li><button ion-button round (click)="onInput()">Buscar</button></li>
   </ul>
+
 </ion-content>

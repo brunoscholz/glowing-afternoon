@@ -45,12 +45,12 @@ export class ProductDetailPage extends ModelPage implements OnInit {
   }
 
   ngOnInit() {
-    this.doToggleLoading(false);
-    this.changeViewState();
+    //this.changeViewState();
   }
 
   ionViewWillEnter() {
     this.doReset(this.product.item.title);
+    this.doToggleLoading(false);
     //this.load();
   }
 

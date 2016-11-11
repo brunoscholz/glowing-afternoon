@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Add Review</ion-title>
+    <ion-title>Nova Avaliação</ion-title>
     <ion-buttons end>
       <button ion-button color="royal" (click)="dismiss()">
         <ion-icon name="close"></ion-icon>
@@ -13,6 +13,9 @@
 
   <ion-list no-lines>
 
+    <ion-list-header>
+      Descreva sua experiência
+    </ion-list-header>
     <ion-item>
       <ion-label floating>Título</ion-label>
       <ion-input [(ngModel)]="title" type="text"></ion-input>
@@ -33,30 +36,30 @@
       </ion-range>
     </ion-item>
 
-  </ion-list>
-
-  <ion-list no-lines>
-
+    <ion-list-header>
+      Atendimento <ion-badge item-right>{{attendance}}</ion-badge>
+    </ion-list-header>
     <ion-item>
-        <ion-label><ion-icon name="key"></ion-icon> Atendimento</ion-label>
-        <ion-select [(ngModel)]="attendance">
-            <ion-option value="standard">Standard</ion-option>
-            <ion-option value="studio">Studio</ion-option>
-            <ion-option value="villa">Villa</ion-option>
-            <ion-option value="penthouse">Penthouse</ion-option>
-        </ion-select>
+      <ion-range min="1" max="5" pin="true" [(ngModel)]="attendance">
+        <ion-icon range-left name="sad"></ion-icon>
+        <ion-icon range-right name="happy"></ion-icon>
+      </ion-range>
     </ion-item>
 
+    <ion-list-header>
+      Preço <ion-badge item-right>{{price}}</ion-badge>
+    </ion-list-header>
     <ion-item>
-        <ion-label><ion-icon name="people"></ion-icon> Preço</ion-label>
-        <ion-select [(ngModel)]="price">
-            <ion-option value="1">1</ion-option>
-            <ion-option value="2">2</ion-option>
-            <ion-option value="3">3</ion-option>
-            <ion-option value="4">4</ion-option>
-            <ion-option value="5">5</ion-option>
-        </ion-select>
+      <ion-range min="1" max="5" pin="true" [(ngModel)]="price">
+        <ion-icon range-left name="sad"></ion-icon>
+        <ion-icon range-right name="happy"></ion-icon>
+      </ion-range>
     </ion-item>
+
   </ion-list>
-  <button ion-button (click)="save()" style="width: 100%;">Save</button>
+
+  <div style="text-align: center">
+    <button ion-button round (click)="save()">Salvar</button>
+  </div>
+
 </ion-content>

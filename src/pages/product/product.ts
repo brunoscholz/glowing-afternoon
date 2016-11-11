@@ -59,7 +59,13 @@ export class ProductPage extends ModelPage implements OnInit {
   }
 
   initializeItems() {
-    
+    let test = _.groupBy(this.products, 'category');
+
+    /*this.groupedOffers = [];
+    for (var key in test) {
+      let entry = { group: {id: cat.id, title: cat.title}, items: test[key] };
+      this.groupedOffers.push(entry);
+    }*/
   }
 
   changeViewState() {

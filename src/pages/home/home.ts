@@ -52,11 +52,7 @@ export class HomePage extends ModelPage implements OnInit {
     //this.load();
   }
 
-  load() {
-    this.doToggleLoading(true);
-    //this.doQuery({ collectionName: 'dimCategory', query: { parent: 0 }, sortOrder: { 'code': 1 } });
-    this.dataService.findAll({ controller: 'categories', query: { parentId: 0 } });
-  }
+  load() {}
 
   morethantworows(i) {
     return (i > 1) ? 'show-more-target' : '';

@@ -39,6 +39,7 @@ export interface ISeller {
   name: string;
   email: string;
   website: string;
+  picture: { cover: string, large: string, medium: string, thumbnail: string };
   facebookSocialId: string;
   twitterSocialId: string;
   instagramSocialId: string;
@@ -49,6 +50,37 @@ export interface ISeller {
   hours: string;
   categories: string;
   paymentOptions: string;
+}
+
+export interface IBuyer {
+  buyerId: string;
+  userId: string;
+  about: string;
+  dob: string;
+  name: string;
+  gender: string;
+  email: string;
+  title: string;
+  website: string;
+  picture: { cover: string, large: string, medium: string, thumbnail: string };
+  coinsBalance: number;
+  facebookSocialId: string;
+  twitterSocialId: string;
+  instagramSocialId: string;
+  snapchatSocialId: string;
+  linkedinSocialId: string;
+  githubSocialId: string;
+  url_youtube: string;
+}
+
+export interface IUser {
+  userId: string;
+  username: string;
+  email: string;
+  seller: Array<ISeller>;
+  buyer: IBuyer;
+  picture: { cover: string, large: string, medium: string, thumbnail: string };
+  coins: { balance: number };
 }
 
 export interface IPolicy {
@@ -153,22 +185,6 @@ export interface ITransaction {
 
 //export interface IDate
 //export interface ILocation
-
-export interface IUser {
-  id: number,
-  gender: string,
-  name: { title: string, first: string, last: string },
-  location: { street: string, city: string, state: string, postcode: string },
-  email: string,
-  login: { username: string, password: string, salt: string, md5: string, sha1: string, sha256: string },
-  dob: string,
-  registered: string,
-  phone: string,
-  cell: string,
-  picture: { cover: string, large: string, medium: string, thumbnail: string },
-  nat: string,
-  coins: { balance: number }
-}
 
 
 export interface IDate {

@@ -20,7 +20,7 @@
     <ion-list>
         <ion-item *ngFor="let product of products | orderBy:toOrder" (click)="itemTapped($event, product)">
           <ion-thumbnail item-left>
-            <img src="assets/{{product.item.photoSrc}}"/>
+            <img src="http://ondetem.tk/{{product.picture.thumbnail}}"/>
           </ion-thumbnail>
           <h2>{{product.title}}</h2>
           <p>{{product.description}}</p>

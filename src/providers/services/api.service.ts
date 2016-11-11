@@ -57,6 +57,24 @@ export class APIService {
     }
   }
 
+  search(options) {
+    // f: searchFor categories, users, companies and offers
+    var OPTIONAL_PARAMS = <any> {
+      q: options.term || null,
+      f: options.searchFor || null,
+      s: options.sortOrder || null,
+      pg: options.page || null,
+      l: options.limit || null,
+    };
+
+    if (options.term === null) {
+      throw new Error('invalid options');
+    } else {
+      this.Change('searches');
+      return this.get(this.config.controllerUrl, OPTIONAL_PARAMS);
+    }
+  }
+
   get(url, options = <any>{}) {
     let params: URLSearchParams = new URLSearchParams();
     //params.set('apiKey', this.config.apiKey);

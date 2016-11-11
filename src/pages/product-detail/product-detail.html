@@ -12,7 +12,7 @@
     <ion-list>
       <ion-item (click)="goToCompany(product.seller)">
         <ion-avatar item-left>
-          <img src="assets/img/avatar4.png">
+          <img src="http://ondetem.tk/{{product.seller.picture.thumbnail}}">
         </ion-avatar>
         <h2>{{ product.seller.name }}</h2>
       </ion-item>
@@ -21,7 +21,7 @@
 
   <div *ngIf="product" class="selection">
     <ion-card>
-      <img src="assets/{{product.item.photoSrc}}"/>
+      <img src="http://ondetem.tk/{{product.picture.cover}}"/>
 
       <ion-card-content>
         <h2 class="card-title">
@@ -117,4 +117,5 @@
     </ion-list>
 
   </div>
+
 </ion-content>
