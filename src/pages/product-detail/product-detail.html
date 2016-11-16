@@ -1,35 +1,31 @@
-<ion-header class="hasListTollbar">
+<ion-header>
   <ion-navbar>
     <ion-title>{{title}}</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content class="product incolor">
+<ion-content class="product-detail-page">
 
   <loading-modal></loading-modal>
 
-  <div class="company-item">
-    <ion-list>
-      <ion-item (click)="goToCompany(product.seller)">
-        <ion-avatar item-left>
+  <!-- <div id="elastic-header" class="background-image">
+    <img src="http://ondetem.tk/{{product.picture.cover}}">
+  </div> -->
+  <div *ngIf="product">
+    <ion-card>
+      <img src="http://ondetem.tk/{{product.picture.cover}}">
+
+      <ion-item>
+        <ion-avatar item-right>
           <img src="http://ondetem.tk/{{product.seller.picture.thumbnail}}">
         </ion-avatar>
-        <h2>{{ product.seller.name }}</h2>
+        <h2>{{product.item.title}}</h2>
+        <p>{{product.seller.name}}</p>
       </ion-item>
-    </ion-list>
-  </div>
 
-  <div *ngIf="product" class="selection">
-    <ion-card>
-      <img src="http://ondetem.tk/{{product.picture.cover}}"/>
 
       <ion-card-content>
-        <h2 class="card-title">
-          {{product.item.title}}
-        </h2>
-        <p>
-          {{product.description}}
-        </p>
+        <p>{{product.description}}</p>
       </ion-card-content>
 
       <ion-row no-padding>
@@ -75,6 +71,28 @@
       </ion-row>
 
     </ion-card>
+
+    <ion-list>
+      <ion-item>
+        <ion-avatar item-left>
+          <img src="assets/img/jon-snow.jpg">
+        </ion-avatar>
+        <h2>{{product.seller.name}}</h2>
+      </ion-item>
+      <ion-item>
+        <ion-avatar item-left>
+          <img src="assets/img/jon-snow.jpg">
+        </ion-avatar>
+        <h2>{{product.seller.email}}</h2>
+      </ion-item>
+      <ion-item>
+        <ion-avatar item-left>
+          <img src="assets/img/jon-snow.jpg">
+        </ion-avatar>
+        <h2>{{product.seller.hours}}</h2>
+        <p>Ugh. As if.</p>
+      </ion-item>
+    </ion-list>
 
     <h4 class="content padding double-padding-x" style="text-align: center;">Avaliações</h4>
 

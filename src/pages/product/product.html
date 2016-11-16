@@ -17,18 +17,25 @@
   </div>
 
   <div *ngIf="status === viewStatus.Full">
-    <ion-list>
-        <ion-item *ngFor="let product of products | orderBy:toOrder" (click)="itemTapped($event, product)">
-          <ion-thumbnail item-left>
-            <img src="http://ondetem.tk/{{product.picture.thumbnail}}"/>
-          </ion-thumbnail>
-          <h2>{{product.title}}</h2>
-          <p>{{product.description}}</p>
-          <!-- <button clear item-right>View</button> -->
-        </ion-item>
-    </ion-list>
+    <ion-card *ngFor="let offer of products | orderBy:toOrder" (click)="itemTapped($event, offer)">
+      <ion-item>
+        <ion-avatar item-right class="item-rating">
+          <ion-icon name='star-outline'></ion-icon>
+          <span> 4.5</span>
+        </ion-avatar>
+        <ion-avatar item-right>
+          <img src="http://ondetem.tk/{{offer.seller.picture.thumbnail}}">
+        </ion-avatar>
+        <h2>{{offer.item.title}}</h2>
+        <p>{{offer.seller.name}}</p>
+      </ion-item>
 
-    
+      <img src="http://ondetem.tk/{{offer.picture.cover}}">
+
+      <ion-card-content>
+        <p>{{offer.description}}</p>
+      </ion-card-content>
+    </ion-card>
   </div>
 
 </ion-content>

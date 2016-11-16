@@ -76,7 +76,6 @@ export class CategoryPage extends ModelPage implements OnInit {
   // }
 
   itemTapped(event, item) {
-    //this.navCtrl.push(SubCategoryPage, {
     this.navCtrl.push(ProductPage, {
       item: item
     });

@@ -17,6 +17,8 @@ import { ViewStatusEnum } from '../../providers/enums';
 import { ICategory } from '../../providers/interfaces';
 import { ModelPage } from '../model-page';
 
+import { ISeller } from '../../providers/interfaces';
+
 import _ from 'underscore';
 
 @Component({
@@ -32,7 +34,7 @@ export class CompanyPage extends ModelPage implements OnInit {
 
   ngOnInit() {
     var self = this;
-    self.dataService.companies$.subscribe((companies) => {
+    self.dataService.sellers$.subscribe((companies: ISeller) => {
         self.companies = companies;
         self.changeViewState();
         if(self.refresher)
@@ -62,7 +64,7 @@ export class CompanyPage extends ModelPage implements OnInit {
 
   load() {
     this.doToggleLoading(true);
-    this.dataService.findAllCompanies({ query: null });
+    this.dataService.findAll({ controller: 'sellers', query: { } } );
   }
 
   // changeDisplayMode(mode: DisplayModeEnum) {
@@ -70,9 +72,9 @@ export class CompanyPage extends ModelPage implements OnInit {
   // }
 
   itemTapped(event, item) {
-    this.navCtrl.push(CompanyDetailPage, {
+    /*this.navCtrl.push(CompanyDetailPage, {
       item: item
-    });
+    });*/
   }
 
 }

@@ -58,7 +58,7 @@ export class DataService {
 	get reviews$() { return this._subjects$.reviews.asObservable(); }
 	get comments$() { return this._subjects$.comments.asObservable(); }
 	get categories$() { return this._subjects$.categories.asObservable(); }
-	get companies$() { return this._subjects$.companies.asObservable(); }
+	get sellers$() { return this._subjects$.sellers.asObservable(); }
 	get buyers$() { return this._subjects$.buyers.asObservable(); }
 
 	constructor(public api: APIService) {
@@ -70,7 +70,7 @@ export class DataService {
 			reviews: new Subject(),
 			comments: new Subject(),
 			categories: new Subject(),
-			companies: <Subject<ISeller[]>>new Subject(),
+			sellers: <Subject<ISeller[]>>new Subject(),
 			searchitems: new Subject()
 		};
 
@@ -165,10 +165,16 @@ export class DataService {
 	}
 
 	addReview(review) {
-		// let newId = _.max(REVIEWS, function(rev){ return rev.id; });
-		// review.id = Number(newId) + 1;
-		// REVIEWS.push(review);
-		// this.findAllReviews({ query: { item: review.item } });
+		console.log(review);
+		this.api.add({ controller: 'review-facts', body: review, query: {} })
+			.map((res: Response) => res.json())
+			.subscribe(data => {
+				// check data["status"]...
+				//this._subjects$[options.controller].next(data["data"]);
+				console.log(data);
+			}, 
+			error => console.log('Something went wrong'),
+			() => console.log('findAll Completed for ' + 'review-facts'));
 	}
 
 	addComments(comment) {

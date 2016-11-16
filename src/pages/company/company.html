@@ -8,7 +8,7 @@
 </ion-header>
 
 
-<ion-content class="card-background-page">
+<ion-content padding class="card-background-page">
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -26,9 +26,9 @@
       <div class="card-title">Company #1</div>
       <div class="card-subtitle">41 Ofertas</div>
     </ion-card>
-    <ion-card class="company-card" *ngFor="let item of companies" (click)="itemTapped($event, item)">
-      <img src="{{item.photoSrc}}"/>
-      <div class="card-title">{{item.name}}</div>
+    <ion-card *ngFor="let seller of companies" (click)="itemTapped($event, seller)">
+      <img src="http://ondetem.tk/{{seller.picture.cover}}"/>
+      <div class="card-title">{{seller.name}}</div>
       <div class="card-subtitle">41 Ofertas</div>
     </ion-card>
   </div>

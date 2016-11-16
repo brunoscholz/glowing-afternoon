@@ -13,7 +13,6 @@ export class ReviewPage {
   ratingRange: any;
   attendance: any;
   price: any;
-  dateCreated: any;
 
   constructor(
   	private navCtrl: NavController,
@@ -24,18 +23,17 @@ export class ReviewPage {
 
     let today = new Date();
 
+    this.rating = 0;
+    this.attendance = 1;
+    this.price = 1;
+
     this.title = '';
     this.description = '';
-    this.rating = 0;
 
     this.ratingRange = {
         lower: 0,
         upper: 10
     };
-
-    this.attendance = 1;
-    this.price = 1;
-    this.dateCreated = today.toISOString();
   }
 
   book(){
@@ -61,27 +59,19 @@ export class ReviewPage {
     });*/
   }
 
-  findRooms() {
-    /*let loading = this.loadingCtrl.create({
-        content: "Finding rooms..."
-    });
-
-    loading.present();*/
-
-    //loading.dismiss();
-  }
-
   save(): void {
+    let rate = this.rating + this.attendance * 1000 + this.price * 100;
+
     let review = {
-        id: 0,
-        item: this.product.sku,
-        authorId: 1,
-        title: this.title,
-        rating: this.rating,
-        upvotes: 3,
-        commentCount: 5,
-        avg: 8,
-        text: "Review text... maybe 400 characters max!<br>orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+        action: 'addReview',
+        offerId: this.product.offerId,
+        buyerId: 'logged',
+        sellerId: this.product.seller.sellerId,
+        review: {
+          title: this.title,
+          body: this.description  
+        },
+        rating: rate
     };
 
     this.viewCtrl.dismiss(review);

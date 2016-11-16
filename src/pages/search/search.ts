@@ -39,11 +39,7 @@ export class SearchPage extends ModelPage implements OnInit {
   	this.dataService.searchItems$
 	    .subscribe(
 	      (data) => {
-	      	self.products = data;
-          /*if(this.searchTerm != null && this.searchTerm != '') {
-            this.initializeItems();
-          }*/
-
+	      	self.items = data;
 	      	self.changeViewState();
 	        if(self.refresher)
 	          self.refresher.complete();
@@ -93,43 +89,29 @@ export class SearchPage extends ModelPage implements OnInit {
     // searchFor : {offers} -> offers only
     // searchFor : {offers, users} -> offers and users
     this.dataService.search({ term: this.searchTerm });
-  	//this.items = this.dataService.filterItems(this.searchTerm);
   }
 
   filterItems(term) {
     // if the value is an empty string don't filter the items
-    if (term && term.trim() != '' && term.length > 3) {
+    /*if (term && term.trim() != '' && term.length > 3) {
       this.items = this.products.filter((item) => {
         return (item.title.toLowerCase().indexOf(term.toLowerCase()) > -1);
       })
     } else {
       this.items = [];
     }
+      */
 	}
-
-  initializeItems() {
-    let test = _.groupBy(this.items, 'category');
-    
-    this.doChangeView(ViewStatusEnum.Empty);
-    this.groupedOffers = [];
-    for (var key in test) {
-      let cat = this.dataService.getCategory({ id: Number(key) });
-      let entry = { category: cat, items: test[key] };
-      this.groupedOffers.push(entry);
-    }
-    this.changeViewState();
-  }
 
   getItems(ev: any) {
     // set val to the value of the searchbar
     let val = ev.target.value;
     this.filterItems(val);
-    this.initializeItems();
   }
 
   reorderItems(indexes) {
     // reorder="true" (ionItemReorder)="reorderItems($event)"
-    this.items = reorderArray(this.items, indexes);
+    //this.items = reorderArray(this.items, indexes);
   }
 
   catTapped(event, item) {

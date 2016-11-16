@@ -9,22 +9,26 @@
     font-weight: normal;
     font-style: normal;
 }
-[class*='icon-']:before{
-	display: inline-block;
-   font-family: 'ondetem';
-   font-style: normal;
-   font-weight: normal;
-   line-height: 1;
-   -webkit-font-smoothing: antialiased;
-   -moz-osx-font-smoothing: grayscale
+[class*='icon-'] {
+	font-family: 'ondetem' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .icon-logo:before{content:'\0041';}
-.icon-construction:before{content:'\0043';}
-.icon-food:before{content:'\0044';}
-.icon-pet:before{content:'\0045';}
-.icon-clothing:before{content:'\0046';}
-.icon-reforms:before{content:'\0047';}
-.icon-office-stores:before{content:'\0048';}
-.icon-party:before{content:'\0049';}
-.icon-restaurant:before{content:'\004a';}
-.icon-security e Higiene:before{content:'\004b';}
+.icon-clothing:before { content: "\e900"; }
+.icon-construction:before { content: "\e901"; }
+.icon-food:before { content: "\e902"; }
+.icon-office-store:before { content: "\e903"; }
+.icon-party:before { content: "\e904"; }
+.icon-pet:before { content: "\e905"; }
+.icon-reform:before { content: "\e906"; }
+.icon-restaurant:before { content: "\e907"; }
+.icon-security:before { content: "\e908"; }

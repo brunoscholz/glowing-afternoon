@@ -49,7 +49,7 @@ export class MyApp {
         { title: 'Empresas', component: CompanyPage, root: false },
         
         //{ title: 'Visita', component: VisitPage }
-        { title: 'Settings', component: SettingsPage, root: false }
+        { title: 'Configuração', component: SettingsPage, root: false }
         //{ title: 'Logout', component: SignTabsPage }
       ];
   }

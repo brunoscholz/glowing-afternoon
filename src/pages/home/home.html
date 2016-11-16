@@ -12,12 +12,25 @@
 
 
   <ul class="search-header">
-    <li class="animated tada"><img src="assets/img/logo.png"></li>
-    <li>Onde tem um(a)</li>
+    <li class="animated tada">
+      <img src="assets/img/logo.png">
+    </li>
     <li class="search-bar">
       <ion-input [(ngModel)]="formData.q" name="search" type="search" placeholder="ex.: encanador.."></ion-input>
     </li>
-    <li><button ion-button round (click)="onInput()">Buscar</button></li>
+    <!-- <li>
+      <ion-list>
+        <ion-item>
+          <ion-label>em: </ion-label>
+          <ion-select [(ngModel)]="city">
+            <ion-option value="cwb" selected>Curitiba</ion-option>
+            <ion-option value="poa">Porto Alegre</ion-option>
+            <ion-option value="spo">São Paulo</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </li> -->
+    <li class="search-btn"><button ion-button round (click)="onInput()">Buscar</button></li>
   </ul>
 
 </ion-content>

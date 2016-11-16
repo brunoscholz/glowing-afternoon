@@ -43,6 +43,7 @@ export class ProductPage extends ModelPage implements OnInit {
 	    .subscribe(
 	      (data) => {
           self.products = data;
+          console.log(data);
           this.initializeItems();
 	      	self.changeViewState();
 	        if(self.refresher)
@@ -86,7 +87,7 @@ export class ProductPage extends ModelPage implements OnInit {
   load() {
     this.dataService.findAll({
       controller: 'offers',
-      query: { 'categoryId': this.category.categoryId }
+      query: { 'item.categoryId': { test: "like binary", value: this.category.categoryId } }
     });
   }
 

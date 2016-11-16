@@ -47,8 +47,6 @@ export class APIService {
       ft: options.fromto || null
     };
 
-    console.log(OPTIONAL_PARAMS);
-
     if (database === null) {
       throw new Error('invalid options');
     } else {
@@ -75,6 +73,27 @@ export class APIService {
     }
   }
 
+  add (options) {
+    var database = options.controller || 'review-facts';
+    var body = options.body || null;
+    var OPTIONAL_PARAMS = <any> {
+      q: options.query || null,
+      f: options.setOfFields || null,
+      fo: options.findOne || null,
+      s: options.sortOrder || null,
+      pg: options.page || null,
+      l: options.limit || null,
+      ft: options.fromto || null,
+    };
+
+    if (database === null || body === null) {
+      throw new Error('invalid options');
+    } else {
+      this.Change(database);
+      return this.post(this.config.controllerUrl, body, OPTIONAL_PARAMS);
+    }
+  }
+
   get(url, options = <any>{}) {
     let params: URLSearchParams = new URLSearchParams();
     //params.set('apiKey', this.config.apiKey);
@@ -89,7 +108,7 @@ export class APIService {
     });
   }
 
-  post(url, body, options = <any>{}, headerType = 'application/json') {
+  post(url, body, options = <any>{}, headerType = 'application/x-www-form-urlencoded') {
     let headers = new Headers();
     headers.append('Content-Type', headerType);
 
@@ -101,8 +120,10 @@ export class APIService {
       }
     });
 
-    return this.http.post(url, JSON.stringify( body ), {
-      search: params,
+    let realBody = JSON.stringify( body );
+    console.log(realBody);
+
+    return this.http.post(url, realBody, {
       headers: headers
     });
   }

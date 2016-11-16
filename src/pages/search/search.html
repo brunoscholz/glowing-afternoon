@@ -4,10 +4,10 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content class="search">
+<ion-content class="search-page card-background-page">
   <loading-modal></loading-modal>
 
-  <ul class="search-header">
+  <!-- <ul class="search-header">
     <li><img src="assets/img/logo.png"></li>
     <li>Onde tem um(a)</li>
     <li>
@@ -20,23 +20,88 @@
       </ion-searchbar>
     </li>
     <li><button ion-button round>Round Button</button></li>
-  </ul>
+  </ul> -->
 
-  <ion-list *ngIf="status === viewStatus.Full">
-    <ion-item-group *ngFor="let group of groupedOffers">
+  <ion-list>
+    <ion-item-group *ngIf="items.offers">
       <ion-list-header (click)="catTapped($event, group.category)">
-        {{ group.category.title }}
+        Ofertas ({{items.offers.length}})
       </ion-list-header>
-      <ion-item *ngFor="let item of group.items" (click)="itemTapped($event, item)">
-        <ion-thumbnail item-left>
-          <img src="assets/{{item.photoSrc}}"/>
-        </ion-thumbnail>
-        <h2>{{item.title}}</h2>
-        <p>{{item.description}}</p>
-        <!-- <button clear item-right>View</button> -->
+      <ion-item *ngFor="let offer of items.offers" (click)="itemTapped($event, offer)">
+        <ion-card>
+          <ion-item>
+            <ion-avatar item-right class="item-rating">
+              <ion-icon name='star-outline'></ion-icon>
+              <span> 4.5</span>
+            </ion-avatar>
+            <ion-avatar item-right>
+              <img src="http://ondetem.tk/{{offer.seller.picture.thumbnail}}">
+            </ion-avatar>
+            <h2>{{offer.item.title}}</h2>
+            <p>{{offer.seller.name}}</p>
+          </ion-item>
+
+          <img src="http://ondetem.tk/{{offer.picture.cover}}">
+
+          <ion-card-content>
+            <p>{{offer.description}}</p>
+          </ion-card-content>
+        </ion-card>
       </ion-item>
     </ion-item-group>
-  </ion-list>
 
+    <ion-item-group *ngIf="items.sellers">
+      <ion-list-header (click)="catTapped($event, group.category)">
+        Empresas ({{items.sellers.length}})
+      </ion-list-header>
+      <ion-item *ngFor="let seller of items.sellers" (click)="itemTapped($event, seller)">
+        <ion-card>
+          <ion-item>
+            <ion-avatar item-right>
+              <img src="http://ondetem.tk/{{seller.picture.thumbnail}}">
+            </ion-avatar>
+            <h2>{{seller.name}}</h2>
+            <p>{{seller.email}}</p>
+            <div class="rating">
+              <ion-icon name='star-outline'>4.5</ion-icon>
+            </div>
+          </ion-item>
+
+          <img src="http://ondetem.tk/{{seller.picture.cover}}">
+
+          <ion-card-content>
+            <p>{{seller.about}}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="items.buyers">
+      <ion-list-header (click)="catTapped($event, group.category)">
+        Usuários ({{items.buyers.length}})
+      </ion-list-header>
+      <ion-item *ngFor="let buyer of items.buyers" (click)="itemTapped($event, buyer)">
+        <ion-card>
+          <ion-item>
+            <ion-avatar item-right>
+              <img src="http://ondetem.tk/{{buyer.picture.thumbnail}}">
+            </ion-avatar>
+            <h2>{{buyer.name}}</h2>
+            <p>{{buyer.user.username}}</p>
+            <div class="rating">
+              <ion-icon name='star-outline'>4.5</ion-icon>
+            </div>
+          </ion-item>
+
+          <img src="http://ondetem.tk/{{buyer.picture.cover}}">
+
+          <ion-card-content>
+            <p>{{buyer.about}}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-item-group>
+
+  </ion-list>
 
 </ion-content>

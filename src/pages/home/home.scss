@@ -74,6 +74,7 @@ ul.search-header {
 
     button {
       height: 50px;
+      width: 50%;
     }
 
     &.search-bar {
@@ -88,6 +89,10 @@ ul.search-header {
         font-size: 1em;
         text-align: center;
       }
+    }
+
+    &.search-btn {
+      margin-top: 30px;
     }
   }
 }

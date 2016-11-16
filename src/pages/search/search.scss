@@ -1,14 +1,11 @@
-ion-item-group {
-	ion-item {
-		background-color: map-get($colors, light) !important;
-		color: map-get($colors, dark) !important;
-		-webkit-box-shadow: inset 0px -2px 0px 0px rgba(0,0,0,0.75) !important;
-		-moz-box-shadow: inset 0px -2px 0px 0px rgba(0,0,0,0.75) !important;
-		box-shadow: inset 0px -2px 0px 0px rgba(0,0,0,0.75) !important;
-		transition: all .25s ease !important;
+.search-page {
+	
+}
 
-		.item-inner {
-			border-bottom: unset !important;
-		}
+ion-item {
+	.item-rating {
+	    font-size: 1.5em;
+	    font-family: "LatoBlack";
+	    color: #34b483;
 	}
 }

@@ -27,7 +27,8 @@ $colors: (
   danger:     #cb0061,
   light:      #c0d7d9,
   dark:       #25afcb,
-  favorite:   #fd3c40
+  favorite:   #fd3c40,
+  midtone:    #A4B8BA
 );
 
 
@@ -68,17 +69,43 @@ $colors: (
 // http://ionicframework.com/docs/v2/ionicons/
 
 $ionicons-font-path: "../assets/fonts";
-@font-face {
-  font-family: 'Lato', sans-serif;
-  src: url('../assets/fonts/Lato-Regular.woff') format('woff'),
-       url('../assets/fonts/Lato-Regular.ttf') format('truetype');
-}
-
 @import "ionicons";
 
+/* Webfont: Lato-Black */@font-face {
+    font-family: 'LatoBlack';
+    src: url('../assets/fonts/Lato-Black.eot'); /* IE9 Compat Modes */
+    src: url('../assets/fonts/Lato-Black.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../assets/fonts/Lato-Black.woff2') format('woff2'), /* Modern Browsers */
+         url('../assets/fonts/Lato-Black.woff') format('woff'), /* Modern Browsers */
+         url('../assets/fonts/Lato-Black.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
 
-//<link href="https://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet"> 
-//@import url('https://fonts.googleapis.com/css?family=Lato:400,900');
-//font-family: 'Lato', sans-serif;
+/* Webfont: Lato-Regular */@font-face {
+    font-family: 'Lato';
+    src: url('../assets/fonts/Lato-Regular.eot'); /* IE9 Compat Modes */
+    src: url('../assets/fonts/Lato-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../assets/fonts/Lato-Regular.woff2') format('woff2'), /* Modern Browsers */
+         url('../assets/fonts/Lato-Regular.woff') format('woff'), /* Modern Browsers */
+         url('../assets/fonts/Lato-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+//<link href="https://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet">
 
+
+ion-app.ios {
+  font-family: "Lato", sans-serif !important;
+}
+
+ion-app.md {
+  font-family: "Lato", sans-serif !important;
+}
+
+ion-app.wp {
+  font-family: "Lato", sans-serif !important;
+}
 
