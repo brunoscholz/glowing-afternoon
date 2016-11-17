@@ -20,6 +20,8 @@ import { SettingsPage } from '../pages/settings/settings';
 import { LoadingService } from '../providers/services/loading.service';
 import { LoadingModal } from '../components/loading-modal/loading-modal';
 
+declare var SpeechRecognition: any;
+
 @Component({
   templateUrl: 'app.html',
   providers: [
@@ -34,6 +36,7 @@ export class MyApp {
   rootPage: any = HomeTabsPage;
   pages: Array<{ title: string, component: any, root: boolean }>;
   error: any;
+  recognition: any;
 
   constructor(public platform: Platform, public menu: MenuController, private errorNotifier:ErrorNotifierService) {
     this.initializeApp();
@@ -59,6 +62,25 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
+    });
+  }
+
+  SpeechToText() {
+    this.platform.ready().then(() => {
+      this.recognition = new SpeechRecognition(); 
+      this.recognition.lang = 'pt-BR'; //en-US
+      this.recognition.onnomatch = (event => {
+        console.log('No match found.');
+      });
+      this.recognition.onerror = (event => {
+        console.log('Error happens.');
+      });
+      this.recognition.onresult = (event => {
+        if (event.results.length > 0) {
+          console.log('Output STT: ', event.results[0][0].transcript);            
+        }
+      });     
+      this.recognition.start();
     });
   }
 
