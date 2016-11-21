@@ -40,21 +40,22 @@ export class MyApp {
 
   constructor(public platform: Platform, public menu: MenuController, private errorNotifier:ErrorNotifierService) {
     this.initializeApp();
+    this.SpeechToText();
 
-      this.errorNotifier.onError(err => {
-        this.error = err;
-        console.log(err);
-      });
+    this.errorNotifier.onError(err => {
+      this.error = err;
+      console.log(err);
+    });
 
-      // set our app's pages
-      this.pages = [
-        { title: 'Home', component: HomeTabsPage, root: true },
-        { title: 'Empresas', component: CompanyPage, root: false },
-        
-        //{ title: 'Visita', component: VisitPage }
-        { title: 'Configuração', component: SettingsPage, root: false }
-        //{ title: 'Logout', component: SignTabsPage }
-      ];
+    // set our app's pages
+    this.pages = [
+      { title: 'Home', component: HomeTabsPage, root: true },
+      { title: 'Empresas', component: CompanyPage, root: false },
+      
+      //{ title: 'Visita', component: VisitPage }
+      { title: 'Configuração', component: SettingsPage, root: false }
+      //{ title: 'Logout', component: SignTabsPage }
+    ];
   }
 
   initializeApp() {
