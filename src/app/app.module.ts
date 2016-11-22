@@ -94,7 +94,7 @@ import { ErrorNotifierService } from '../providers/services/error.notifier';
     ErrorNotifierService,
     DataService,
     APIService,
-    APISettings
+    APISettings,
   ]
 })
 export class AppModule {}

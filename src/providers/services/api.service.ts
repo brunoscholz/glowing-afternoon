@@ -68,7 +68,7 @@ export class APIService {
     if (options.term === null) {
       throw new Error('invalid options');
     } else {
-      this.Change('searches');
+      this.Change('search');
       return this.get(this.config.controllerUrl, OPTIONAL_PARAMS);
     }
   }

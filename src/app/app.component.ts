@@ -4,23 +4,15 @@ import { StatusBar } from 'ionic-native';
 
 import { ErrorNotifierService } from '../providers/services/error.notifier';
 
-//import { SignTabsPage } from './pages/sign-tabs/sign-tabs';
+// import { SignTabsPage } from './pages/sign-tabs/sign-tabs';
 import { WelcomePage } from '../pages/welcome/welcome';
 
 import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
-import { HomePage } from '../pages/home/home';
-import { ProfilePage } from '../pages/profile/profile';
-import { UserProfile } from '../pages/user-profile/user-profile';
-import { SearchPage } from '../pages/search/search';
-import { CategoryPage } from '../pages/category/category';
 import { CompanyPage } from '../pages/company/company';
 import { SettingsPage } from '../pages/settings/settings';
 
-
 import { LoadingService } from '../providers/services/loading.service';
 import { LoadingModal } from '../components/loading-modal/loading-modal';
-
-declare var SpeechRecognition: any;
 
 @Component({
   templateUrl: 'app.html',
@@ -36,11 +28,9 @@ export class MyApp {
   rootPage: any = HomeTabsPage;
   pages: Array<{ title: string, component: any, root: boolean }>;
   error: any;
-  recognition: any;
 
   constructor(public platform: Platform, public menu: MenuController, private errorNotifier:ErrorNotifierService) {
     this.initializeApp();
-    this.SpeechToText();
 
     this.errorNotifier.onError(err => {
       this.error = err;
@@ -63,25 +53,6 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
-    });
-  }
-
-  SpeechToText() {
-    this.platform.ready().then(() => {
-      this.recognition = new SpeechRecognition(); 
-      this.recognition.lang = 'pt-BR'; //en-US
-      this.recognition.onnomatch = (event => {
-        console.log('No match found.');
-      });
-      this.recognition.onerror = (event => {
-        console.log('Error happens.');
-      });
-      this.recognition.onresult = (event => {
-        if (event.results.length > 0) {
-          console.log('Output STT: ', event.results[0][0].transcript);            
-        }
-      });     
-      this.recognition.start();
     });
   }
 

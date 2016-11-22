@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Platform, NavController, NavParams } from 'ionic-angular';
 
 import { CategoryPage } from '../category/category';
 import { ProductPage } from '../product/product';
@@ -13,7 +13,12 @@ import { ViewStatusEnum } from '../../providers/enums';
 import { ICategory } from '../../providers/interfaces';
 import { ModelPage } from '../model-page';
 
+// import { SpeechRecognition } from 'SpeechRecognition';
+
 import _ from 'underscore';
+
+declare var SpeechRecognition: any;
+declare var platform: any;
 
 @Component({
   templateUrl: './home.html'
@@ -22,9 +27,16 @@ import _ from 'underscore';
 })
 export class HomePage extends ModelPage implements OnInit {
   formData: any = {q:''};
+  recognition: any;
+  ready: boolean = false;
 
-  constructor(public navCtrl: NavController, navParams: NavParams, public dataService: DataService, public loading: LoadingService) {
+  constructor(public navCtrl: NavController, navParams: NavParams, public dataService: DataService, public loading: LoadingService, platform: Platform) {
     super('OndeTem?!', dataService, loading);
+    platform = platform;
+    platform.ready().then(() => {
+      console.log('platform ready...');
+      this.ready = true;
+    });
     this.doToggleLoading(false);
   }
 
@@ -53,6 +65,28 @@ export class HomePage extends ModelPage implements OnInit {
   }
 
   load() {}
+
+  SpeechToText() {
+    if (this.ready) {
+      this.recognition = new SpeechRecognition(); 
+      this.recognition.lang = 'pt-BR'; //en-US
+      
+      this.recognition.onnomatch = (event => {
+        console.log('No match found.');
+      });
+      
+      this.recognition.onerror = (event => {
+        console.log('Error happens.');
+      });
+      
+      this.recognition.onresult = (event => {
+        if (event.results.length > 0) {
+          console.log('Output STT: ', event.results[0][0].transcript);            
+        }
+      });     
+      this.recognition.start();
+    }
+  }
 
   morethantworows(i) {
     return (i > 1) ? 'show-more-target' : '';
