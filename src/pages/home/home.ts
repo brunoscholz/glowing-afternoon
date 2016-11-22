@@ -41,7 +41,6 @@ export class HomePage extends ModelPage implements OnInit {
   }
 
   ngOnInit() {
-    var self = this;
     /*const searchSource = this.searchTermStream
       .debounceTime(1000)
       .distinctUntilChanged()
@@ -53,6 +52,7 @@ export class HomePage extends ModelPage implements OnInit {
 
   ionViewWillEnter() {
     this.doReset('OndeTem?!');
+    this.formData.q = "";
   }
 
   changeViewState() {

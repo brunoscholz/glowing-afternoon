@@ -19,7 +19,6 @@ import _ from 'underscore';
 export class ProfilePage extends ModelPage implements OnInit {
   user: IBuyer = null;
   loginInfo: any;
-	reviews: any = [];
 	backimg: any;
 	rows: any;
 
@@ -68,7 +67,13 @@ export class ProfilePage extends ModelPage implements OnInit {
   prepareUser() {
     console.log(this.user);
     this.backimg = this.sanitizer.bypassSecurityTrustUrl(this.user.picture.large);
-    this.rows = Array.from(Array(Math.ceil(this.reviews.length / 2)).keys());
+    this.rows = Array.from(Array(Math.ceil(this.user.reviews.length / 2)).keys());
   }
 
+  hasField(field: any) {
+    if (_.size(field) > 0)
+      return true;
+
+    return false;
+  }
 }

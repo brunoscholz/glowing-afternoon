@@ -72,6 +72,8 @@ export interface IBuyer {
   title: string;
   website: string;
   coinsBalance: number;
+  loyalties: ILoyalty[];
+  reviews: IReviewFact[];
   createdAt: string;
   updatedAt: string;
   status: string;

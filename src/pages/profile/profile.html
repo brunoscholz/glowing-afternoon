@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content class="profile">
+<ion-content class="profile-page">
   <loading-modal></loading-modal>
 
   <div *ngIf="user">
@@ -16,43 +16,41 @@
     </div>
     <div class="profile-info">
       <ion-card>
-          <ion-card-content>
-            <img class="animated wobble" src="http://ondetem.tk/{{user.picture.thumbnail}}">
-            <h2>{{user.name}}</h2>
-            <h3>{{user.user.username}}</h3>
-          </ion-card-content>
+        <ion-card-content>
+          <img class="animated wobble" src="http://ondetem.tk/{{user.picture.thumbnail}}">
+          <h2>{{user.name}}</h2>
+          <h3>{{user.user.username}}</h3>
+        </ion-card-content>
 
-          <ion-row no-padding>
-            <ion-col>
-              <button ion-button clear small color="danger" icon-left (click)="addReview()">
-                <ion-icon name='star'></ion-icon>
-                Seguir
-              </button>
-            </ion-col>
-            <ion-col text-center>
-              <button ion-button clear small color="danger" icon-left (click)="like($event)">
-                <ion-icon name='navigate'></ion-icon>
-                Mensagem
-              </button>
-            </ion-col>
-            <ion-col text-right>
-              <button ion-button clear small color="danger" icon-left (click)="share($event)">
-                <ion-icon name='share-alt'></ion-icon>
-                Sobre
-              </button>
-            </ion-col>
-          </ion-row>
+        <ion-row no-padding>
+          <ion-col>
+            <button ion-button clear small color="secondary" icon-left (click)="addReview()">
+              <ion-icon name='star'></ion-icon>
+              Seguir
+            </button>
+          </ion-col>
+          <ion-col text-center>
+            <button ion-button clear small color="secondary" icon-left (click)="like($event)">
+              <ion-icon name='navigate'></ion-icon>
+              Mensagem
+            </button>
+          </ion-col>
+          <ion-col text-right>
+            <button ion-button clear small color="secondary" icon-left (click)="share($event)">
+              <ion-icon name='share-alt'></ion-icon>
+              Sobre
+            </button>
+          </ion-col>
+        </ion-row>
       </ion-card>
     </div>
-  </div>
 
-  <div class="content" *ngIf="user">
     <h4 class="content padding double-padding-x" style="text-align: center;">Moedas</h4>
     <ion-list>
       <ion-list-header>
         Saldo
       </ion-list-header>
-      <ion-item>{{user.coins.balance}}</ion-item>
+      <ion-item class="value">{{user.coins.balance}}</ion-item>
       <ion-list-header>
         Últimas Transações
       </ion-list-header>
@@ -62,32 +60,11 @@
       <ion-item class="balance-pos animated bounceInRight"><span class="value">10</span></ion-item>
       <ion-item class="balance-neg animated bounceInLeft"><span class="value">1200</span></ion-item>
     </ion-list>
-  </div>
 
-  <div class="content">
     <h4 class="content padding double-padding-x" style="text-align: center;">Avaliações</h4>
-
-    <ion-grid class="reviews">
-
-      <ion-row>
-        <ion-col width-50>
-          <ion-card>
-            <img src="assets/img/generic-product.png"/>
-            <div class="card-title">Exceleeeent!</div>
-            <div class="card-subtitle">5</div>
-          </ion-card>
-        </ion-col>
-        <ion-col width-50>
-          <ion-card>
-            <img src="assets/img/generic-product.png"/>
-            <div class="card-title">Bom atendimento</div>
-            <div class="card-subtitle">4.3</div>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-
+    <ion-grid class="reviews" *ngIf="hasField(user.reviews)">
       <ion-row *ngFor="let i of rows" (click)="itemTapped($event, item)">
-        <ion-col width-50 *ngFor="let item of reviews | slice:(i*3):(i+1)*3;">
+        <ion-col width-50 *ngFor="let item of user.reviews | slice:(i*2):(i+1)*2;">
           <ion-card>
             <img src="assets/img/generic-product.png"/>
             <div class="card-title">{{item.title}}</div>
@@ -95,8 +72,11 @@
           </ion-card>
         </ion-col>
       </ion-row>
-
     </ion-grid>
+    <div class="missing-item" *ngIf="!hasField(user.reviews)">
+      Nenhuma revisão encontrada!
+    </div>
+
   </div>
 
 </ion-content>
