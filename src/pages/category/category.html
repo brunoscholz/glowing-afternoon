@@ -24,7 +24,7 @@
       <ion-row *ngFor="let i of rows" [ngClass]='morethantworows(i)'>
         <ion-col width-50 *ngFor="let item of categories | slice:(i*2):(i+1)*2;">
           <div class="cat-slot animated flipInX" (click)="itemTapped($event, item)">
-            <i class="icon-{{item.icon}}"></i>
+            <i class="otIcon-{{item.icon}}"></i>
             <h3 class="cat-title">{{item.name}}</h3>
           </div>
         </ion-col>

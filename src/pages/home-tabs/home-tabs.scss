@@ -6,19 +6,39 @@
 	&.ion-md-person {
 		&:before {
     		font-family: 'ondetem' !important;
-    		content: "\e925";
+    		content:'\004e';
 		}
 	}
 	&.ion-md-grid {
 		&:before {
     		font-family: 'ondetem' !important;
-    		content: "\e91a";
+    		content:'\0049';
 		}
 	}
 	&.ion-md-home {
 		&:before {
     		font-family: 'ondetem' !important;
-    		content: "\e921";
+    		content:'\0042';
+		}
+	}
+}
+
+.bar-button-menutoggle-md {
+	& .ion-md-menu {
+		&:before {
+    		font-family: 'ondetem' !important;
+    		content:'\004b';
+    		font-size: 2rem;
+		}
+	}
+}
+
+.back-button-icon-md {
+	&.ion-md-arrow-back {
+		&:before {
+    		font-family: 'ondetem' !important;
+    		content:'\0048';
+    		font-size: 2rem;
 		}
 	}
 }

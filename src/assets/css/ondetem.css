@@ -9,182 +9,38 @@
     font-weight: normal;
     font-style: normal;
 }
-[class*='icon-'] {
-	font-family: 'ondetem' !important;
-  speak: none;
+[class*='otIcon-']:before {
+  display: inline-block;
+  font-family: 'ondetem' !important;
   font-style: normal;
   font-weight: normal;
-  font-variant: normal;
   text-transform: none;
   line-height: 1;
-
-  /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale
 }
-/*.icon-logo:before{content:'\0041';}
-.icon-clothing:before { content: "\e900"; }
-.icon-construction:before { content: "\e901"; }
-.icon-food:before { content: "\e902"; }
-.icon-office-store:before { content: "\e903"; }
-.icon-party:before { content: "\e904"; }
-.icon-pet:before { content: "\e905"; }
-.icon-reform:before { content: "\e906"; }
-.icon-restaurant:before { content: "\e907"; }
-.icon-security:before { content: "\e908"; }*/
 
-.icon-construction:before {
-  content: "\e900";
-}
-.icon-food .path1:before {
-  content: "\e901";
-  color: rgb(0, 0, 0);
-}
-.icon-food .path2:before {
-  content: "\e902";
-  margin-left: -1.05078125em;
-  color: rgb(0, 0, 0);
-}
-.icon-food .path3:before {
-  content: "\e903";
-  margin-left: -1.05078125em;
-  color: rgb(0, 0, 0);
-}
-.icon-food .path4:before {
-  content: "\e904";
-  margin-left: -1.05078125em;
-  color: rgb(255, 255, 255);
-}
-.icon-food .path5:before {
-  content: "\e905";
-  margin-left: -1.05078125em;
-  color: rgb(255, 255, 255);
-}
-.icon-food .path6:before {
-  content: "\e906";
-  margin-left: -1.05078125em;
-  color: rgb(255, 255, 255);
-}
-.icon-food .path7:before {
-  content: "\e907";
-  margin-left: -1.05078125em;
-  color: rgb(0, 0, 0);
-}
-.icon-food .path8:before {
-  content: "\e908";
-  margin-left: -1.05078125em;
-  color: rgb(0, 0, 0);
-}
-.icon-food .path9:before {
-  content: "\e909";
-  margin-left: -1.05078125em;
-  color: rgb(0, 0, 0);
-}
-.icon-food .path10:before {
-  content: "\e90a";
-  margin-left: -1.05078125em;
-  color: rgb(0, 0, 0);
-}
-.icon-food .path11:before {
-  content: "\e90b";
-  margin-left: -1.05078125em;
-  color: rgb(0, 0, 0);
-}
-.icon-food .path12:before {
-  content: "\e90c";
-  margin-left: -1.05078125em;
-  color: rgb(0, 0, 0);
-}
-.icon-office:before {
-  content: "\e90d";
-}
-.icon-party:before {
-  content: "\e90e";
-}
-.icon-pet:before {
-  content: "\e90f";
-}
-.icon-clothing:before {
-  content: "\e910";
-}
-.icon-reform .path1:before {
-  content: "\e911";
-  color: rgb(0, 0, 0);
-}
-.icon-reform .path2:before {
-  content: "\e912";
-  margin-left: -0.951171875em;
-  color: rgb(0, 0, 0);
-}
-.icon-reform .path3:before {
-  content: "\e913";
-  margin-left: -0.951171875em;
-  color: rgb(0, 0, 0);
-}
-.icon-reform .path4:before {
-  content: "\e914";
-  margin-left: -0.951171875em;
-  color: rgb(255, 255, 255);
-}
-.icon-reform .path5:before {
-  content: "\e915";
-  margin-left: -0.951171875em;
-  color: rgb(255, 255, 255);
-}
-.icon-restaurant:before {
-  content: "\e916";
-}
-.icon-security:before {
-  content: "\e917";
-}
-.icon-back:before {
-  content: "\e918";
-}
-.icon-burguer:before {
-  content: "\e919";
-}
-.icon-categories:before {
-  content: "\e91a";
-}
-.icon-close:before {
-  content: "\e91b";
-}
-.icon-colapse:before {
-  content: "\e91c";
-}
-.icon-Ellipse-9 .path1:before {
-  content: "\e91d";
-  color: rgb(35, 31, 32);
-}
-.icon-Ellipse-9 .path2:before {
-  content: "\e91e";
-  margin-left: -0.82421875em;
-  color: rgb(0, 0, 0);
-}
-.icon-email:before {
-  content: "\e91f";
-}
-.icon-expand:before {
-  content: "\e920";
-}
-.icon-home:before {
-  content: "\e921";
-}
-.icon-logo:before {
-  content: "\e922";
-}
-.icon-mic:before {
-  content: "\e923";
-}
-.icon-phone:before {
-  content: "\e924";
-}
-.icon-profile:before {
-  content: "\e925";
-}
-.icon-star:before {
-  content: "\e926";
-}
-.icon-star-outline:before {
-  content: "\e927";
-}
+.otIcon-logo:before{content:'\0041';}
+.otIcon-home:before{content:'\0042';}
+.otIcon-map:before{content:'\0043';}
+.otIcon-star:before{content:'\0044';}
+.otIcon-star-outline:before{content:'\0045';}
+.otIcon-colapse:before{content:'\0046';}
+.otIcon-expand:before{content:'\0047';}
+.otIcon-back:before{content:'\0048';}
+.otIcon-categories:before{content:'\0049';}
+.otIcon-close:before{content:'\004a';}
+.otIcon-burguer:before{content:'\004b';}
+.otIcon-email:before{content:'\004c';}
+.otIcon-mic:before{content:'\004d';}
+.otIcon-profile:before{content:'\004e';}
+.otIcon-phone:before{content:'\004f';}
+.otIcon-construction:before{content:'\0050';}
+.otIcon-hanger:before{content:'\0051';}
+.otIcon-basket:before{content:'\0052';}
+.otIcon-party:before{content:'\0053';}
+.otIcon-pet:before{content:'\0054';}
+.otIcon-clothing:before{content:'\0055';}
+.otIcon-reform:before{content:'\0056';}
+.otIcon-restaurant:before{content:'\0057';}
+.otIcon-security:before{content:'\0058';}
