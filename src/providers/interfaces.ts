@@ -110,9 +110,12 @@ export interface IShipping {
 
 export interface IReviewFact {
   reviewFactId: string;
-  data: IReview;
+  action: IAction;
   offer: IOffer;
-  grades: void[];
+  buyer: IBuyer;
+  seller: ISeller;
+  review: IReview;
+  grades: string;
   rating: number;
 }
 

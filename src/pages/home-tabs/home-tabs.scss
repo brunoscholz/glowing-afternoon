@@ -1,3 +1,24 @@
 .hometabs-page {
 
 }
+
+.tabs-md .tab-button-icon {
+	&.ion-md-person {
+		&:before {
+    		font-family: 'ondetem' !important;
+    		content: "\e925";
+		}
+	}
+	&.ion-md-grid {
+		&:before {
+    		font-family: 'ondetem' !important;
+    		content: "\e91a";
+		}
+	}
+	&.ion-md-home {
+		&:before {
+    		font-family: 'ondetem' !important;
+    		content: "\e921";
+		}
+	}
+}

@@ -188,4 +188,17 @@ export class ProductDetailPage extends ModelPage implements OnInit {
       product: this.product
     });*/
   }
+
+  getRating(rate) {
+    // let rate = this.rating + this.attendance * 1000 + this.price * 100;
+    let decimal = rate - (Math.floor(rate / 100) * 100);
+    return decimal;
+  }
+
+  hasField(field: any) {
+    if (_.size(field) > 0)
+      return true;
+
+    return false;
+  }
 }
