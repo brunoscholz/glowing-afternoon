@@ -32,7 +32,9 @@ export class WelcomePage implements OnInit {
   private user$: any;*/
 
   constructor(public navCtrl: Nav, navParams: NavParams, public alertCtrl: AlertController, public dataService: DataService, public loading: LoadingService) {
-    
+    console.log('WelcomePage');
+    // check connection...
+    // check if logged in
   }
 
   ngOnInit() {

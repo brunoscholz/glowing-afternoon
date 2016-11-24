@@ -7,6 +7,11 @@ import { ErrorNotifierService } from '../providers/services/error.notifier';
 // import { SignTabsPage } from './pages/sign-tabs/sign-tabs';
 import { WelcomePage } from '../pages/welcome/welcome';
 
+import { SignTabsPage } from '../pages/sign-tabs/sign-tabs';
+import { SignInPage } from '../pages/sign-tabs/signin';
+import { SignUpPage } from '../pages/sign-tabs/signup';
+import { ForgotPage } from '../pages/sign-tabs/forgot';
+
 import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
 import { CompanyPage } from '../pages/company/company';
 import { SettingsPage } from '../pages/settings/settings';
