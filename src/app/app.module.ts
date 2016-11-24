@@ -39,6 +39,8 @@ import { ElasticHeader } from '../directives/elastic-header';
 import { LoadingModal } from '../components/loading-modal/loading-modal';
 
 // Services and Providers
+//import { LoadingService } from '../providers/services/loading.service';
+import { ConnectivityService } from '../providers/services/connectivity.service';
 import { DataService } from '../providers/services/data.service';
 import { APIService } from '../providers/services/api.service';
 import { APISettings } from '../providers/api-settings';
@@ -95,6 +97,7 @@ import { ErrorNotifierService } from '../providers/services/error.notifier';
     DataService,
     APIService,
     APISettings,
+    ConnectivityService
   ]
 })
 export class AppModule {}

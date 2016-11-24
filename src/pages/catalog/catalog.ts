@@ -14,7 +14,6 @@ import { NavController, NavParams } from 'ionic-angular';
 import { ProductDetailPage } from '../product-detail/product-detail';
 import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
-import { LoadingModal } from '../../components/loading-modal/loading-modal';
 
 import { ViewStatusEnum } from '../../providers/enums';
 //import { IProductFact } from '../../providers/interfaces';
@@ -59,7 +58,7 @@ export class CatalogPage extends ModelPage implements OnInit {
   }
 
   initializeItems() {
-    let test = _.groupBy(this.products, 'category');
+    //let test = _.groupBy(this.products, 'category');
 
     this.groupedOffers = [];
     /*for (var key in test) {

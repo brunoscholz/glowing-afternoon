@@ -11,12 +11,16 @@ import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
 import { CompanyPage } from '../pages/company/company';
 import { SettingsPage } from '../pages/settings/settings';
 
+import { DataService } from '../providers/services/data.service';
 import { LoadingService } from '../providers/services/loading.service';
 import { LoadingModal } from '../components/loading-modal/loading-modal';
+import { ConnectivityService } from '../providers/services/connectivity.service';
 
 @Component({
   templateUrl: 'app.html',
   providers: [
+      DataService,
+      ConnectivityService,
       LoadingService,
       LoadingModal
     ]

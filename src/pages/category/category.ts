@@ -4,7 +4,6 @@ import { NavController, NavParams } from 'ionic-angular';
 import { ProductPage } from '../product/product';
 import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
-import { LoadingModal } from '../../components/loading-modal/loading-modal';
 
 import { ViewStatusEnum } from '../../providers/enums';
 import { ICategory } from '../../providers/interfaces';

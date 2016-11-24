@@ -4,9 +4,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
-import { LoadingModal } from '../../components/loading-modal/loading-modal';
 import { ViewStatusEnum } from '../../providers/enums';
-import { ElasticHeader } from '../../directives/elastic-header';
+//import { ElasticHeader } from '../../directives/elastic-header';
 
 import { IBuyer } from '../../providers/interfaces';
 

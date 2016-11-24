@@ -14,7 +14,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
-import { LoadingModal } from '../../components/loading-modal/loading-modal';
 
 import { ViewStatusEnum } from '../../providers/enums';
 import { ModelPage } from '../model-page';

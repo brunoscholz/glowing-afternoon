@@ -7,7 +7,6 @@ import 'rxjs/add/observable/fromEvent';
 
 import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
-import { LoadingModal } from '../../components/loading-modal/loading-modal';
 
 // import { SignTabsPage } from '../../pages/sign-tabs/sign-tabs';
 // import { HomeTabsPage } from '../../pages/home-tabs/home-tabs';
@@ -15,7 +14,7 @@ import { HomePage } from '../home/home';
 
 import { ViewStatusEnum } from '../../providers/enums';
 //import { ICategory } from '../../providers/interfaces';
-import _ from 'underscore';
+//import _ from 'underscore';
 
 @Component({
   templateUrl: 'welcome.html',

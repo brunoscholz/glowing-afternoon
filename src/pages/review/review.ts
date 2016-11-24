@@ -21,7 +21,7 @@ export class ReviewPage {
   ) {
     this.product = navParams.get("item");
 
-    let today = new Date();
+    //let today = new Date();
 
     this.rating = 0;
     this.attendance = 1;

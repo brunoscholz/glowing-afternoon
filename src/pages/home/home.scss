@@ -64,12 +64,12 @@ page-home {
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1), background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-ul.search-header {
+.search-header {
   list-style: none;
   padding-left: 0;
   margin-top: 125px;
 
-  li {
+  ion-item {
     font-family: 'Lato', sans-serif;
     font-weight: 900;
     font-size: 2.4em;
@@ -80,15 +80,11 @@ ul.search-header {
       height: 85px;
     }
 
-    button {
-      height: 5rem;
-      width: 50%;
-    }
-
     &.search-bar {
       text-align: left;
       border-bottom: 2px solid map-get($colors, primary);
       margin: 0 13px;
+      border-width: 2px !important;
 
       .text-input {
         padding: 0 13px;
@@ -97,10 +93,26 @@ ul.search-header {
         font-size: 1em;
         text-align: center;
       }
+
+      .search-mic {
+        border-radius: 50px;
+        background-color: map-get($colors, primary);
+        width: 5rem;
+        height: 5rem;
+
+        i {
+          font-size: 3rem;
+          color: white;
+        }
+      }
     }
 
     &.search-btn {
       margin-top: 30px;
+      button {
+        height: 5rem !important;
+        width: 50%;
+      }
     }
   }
 }

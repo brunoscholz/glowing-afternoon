@@ -18,7 +18,6 @@ import { CompanyDetailPage } from '../company-detail/company-detail';
 //import { ReviewDetailPage } from '../review-detail/review-detail';
 import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
-import { LoadingModal } from '../../components/loading-modal/loading-modal';
 
 import { ViewStatusEnum } from '../../providers/enums';
 //import { IProductFact, IProduct, IReviewFact, IReview } from '../../providers/interfaces';

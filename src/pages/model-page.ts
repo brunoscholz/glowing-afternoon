@@ -16,6 +16,7 @@ export class ModelPage {
   
   displayMode = DisplayModeEnum;
   display: any;
+  online: boolean = false;
 
   constructor(private ttl: string, public dataService: DataService, public loadingService: LoadingService) {
     //let injector = ReflectiveInjector.resolveAndCreate([LoadingService]);
@@ -52,4 +53,34 @@ export class ModelPage {
   doChangeDisplayMode(mode: DisplayModeEnum) {
     this.display = mode;
   }
+
+  /*addConnectivityListeners(){
+ 
+    let onOnline = () => {
+ 
+      setTimeout(() => {
+        if(typeof google == "undefined" || typeof google.maps == "undefined"){
+ 
+          this.loadGoogleMaps();
+ 
+        } else {
+ 
+          if(!this.mapInitialised){
+            this.initMap();
+          }
+ 
+          this.enableMap();
+        }
+      }, 2000);
+ 
+    };
+ 
+    let onOffline = () => {
+      this.disableMap();
+    };
+ 
+    document.addEventListener('online', onOnline, false);
+    document.addEventListener('offline', onOffline, false);
+ 
+  }*/
 }
