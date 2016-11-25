@@ -1,22 +1,30 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title>sign ip</ion-title>
+    <ion-title>Cadastrar</ion-title>
   </ion-navbar>
-
 </ion-header>
 
+<ion-content padding class="signup-page" align="center">
+  <form #loginForm="ngForm" (submit)="signin($event,username,password)">
+    <ion-list no-lines padding class="search-header">
+      <ion-item class="animated tada">
+        <img src="assets/img/logo.png">
+      </ion-item>
+      <ion-item class="search-bar">
+        <ion-input [(ngModel)]="login.username" name="username" type="text" placeholder="Email" spellcheck="false" autocapitaliza="off" required></ion-input>
+      </ion-item>
 
-<ion-content padding>
-	<ion-list>
-		<ion-item>
-			username
-		</ion-item>
-		<ion-item>
-			password
-		</ion-item>
-		<ion-item>
-			<button (click)="SignUp()">Sign Up</button>
-		</ion-item>
-	</ion-list>
+      <ion-item class="search-bar">
+        <ion-input [(ngModel)]="login.password" name="password" type="password" placeholder="Senha" required></ion-input>
+      </ion-item>
+
+      <ion-item class="search-btn">
+        <button ion-button round type="submit">Salvar</button>
+        <!-- <button (click)="onLogin(loginForm2)" type="submit" primary block>Login</button>
+          <button (click)="onSignup()" light block>Signup</button> -->
+      </ion-item>
+    </ion-list>
+  </form>
+  <!-- [disabled]="!loginForm.valid" -->
+
 </ion-content>

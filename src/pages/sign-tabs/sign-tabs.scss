@@ -1,3 +1,13 @@
 .sign-tabs {
 
 }
+
+.signin-page .search-header, .signup-page .search-header {
+  ion-item {
+    &.search-bar {
+      .text-input {
+        text-align: left;
+      }
+    }
+  }
+}

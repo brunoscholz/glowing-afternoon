@@ -9,7 +9,7 @@ import { ConnectivityService } from '../../providers/services/connectivity.servi
 import { SearchPage } from '../search/search';
 
 import { ViewStatusEnum } from '../../providers/enums';
-//import { ICategory } from '../../providers/interfaces';
+import { IBuyer } from '../../providers/interfaces';
 import { ModelPage } from '../model-page';
 
 // import { SpeechRecognition } from 'SpeechRecognition';
@@ -50,13 +50,13 @@ export class HomePage extends ModelPage implements OnInit {
   }
 
   ngOnInit() {
-    /*const searchSource = this.searchTermStream
-      .debounceTime(1000)
-      .distinctUntilChanged()
-      .map(searchTerm => {
-        this.terms = searchTerm
-        return {search: searchTerm, page: 1}
-      })*/
+    /*this.dataService.loggedUser$
+    .subscribe((user) => {
+      this.loggedUser = user;
+      //this.setUser();
+    });
+
+    this.dataService.getLoggedUser();*/
   }
 
   ionViewWillEnter() {

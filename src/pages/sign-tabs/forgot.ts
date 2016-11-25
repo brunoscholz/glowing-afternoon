@@ -5,6 +5,8 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'forgot.html',
 })
 export class ForgotPage {
+  login: { username?: string, password?: string } = {};
+  submitted = false;
 
   constructor(private navCtrl: NavController) {
 

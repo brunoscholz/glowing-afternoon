@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="support-page" padding>
+
+	<ion-list>
+
+		<ion-item>
+	      <ion-label floating>Email</ion-label>
+	      <ion-input [(ngModel)]="company.email" type="text"></ion-input>
+	    </ion-item>
+
+	    <ion-item>
+	      <ion-label floating>Nome da empresa</ion-label>
+	      <ion-input [(ngModel)]="company.name" type="text"></ion-input>
+	    </ion-item>
+
+	    <ion-item>
+	      <ion-label floating>Breve descrição</ion-label>
+	      <ion-textarea [(ngModel)]="company.description"></ion-textarea>
+	    </ion-item>
+
+	    <ion-item>
+	      <ion-label floating>Endereço</ion-label>
+	      <ion-input [(ngModel)]="company.address"></ion-input>
+	    </ion-item>
+
+	    <ion-item>
+	      <ion-label floating>Cidade</ion-label>
+	      <ion-input [(ngModel)]="company.city"></ion-input>
+	    </ion-item>
+
+		<div class="save">
+		  <button ion-button (click)="save()">Salvar</button>
+		</div>
+	</ion-list>
+</ion-content>

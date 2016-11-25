@@ -1,4 +1,5 @@
-.welcome {
+.welcome-page {
+  background: map-get($colors, primary);
   #brand-logo {
     height: 100%;
     text-align: center;
@@ -9,10 +10,26 @@
       vertical-align: middle;
     }
 
-    img {
+    svg {
       width: 90%;
       vertical-align: middle;
+      fill: $background-color;
+      /*animation-name: logoFill;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;*/
     }
+  }
+}
+
+@keyframes logoFill {
+  0% {
+    fill: $background-color;
+  }
+  50% {
+    fill: map-get($colors, primary);
+  }
+  100% {
+    fill: $background-color;
   }
 }
 

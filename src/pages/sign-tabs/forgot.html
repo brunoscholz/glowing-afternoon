@@ -1,19 +1,25 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title>forgot pass</ion-title>
+    <ion-title>Recuperar Senha</ion-title>
   </ion-navbar>
-
 </ion-header>
 
+<ion-content padding class="signup-page" align="center">
+  <form #loginForm="ngForm" (submit)="signin($event,username,password)">
+    <ion-list no-lines padding class="search-header">
+      <ion-item class="animated tada">
+        <img src="assets/img/logo.png">
+      </ion-item>
+      <ion-item class="search-bar">
+        <ion-input [(ngModel)]="login.username" name="username" type="text" placeholder="Email" spellcheck="false" autocapitaliza="off" required></ion-input>
+      </ion-item>
 
-<ion-content padding>
-	<ion-list>
-		<ion-item>
-			email
-		</ion-item>
-		<ion-item>
-			<button (click)="SendEmail()">Send Email</button>
-		</ion-item>
-	</ion-list>
+      <ion-item class="search-btn">
+        <button ion-button round type="submit">Enviar</button>
+        <!-- <button (click)="onLogin(loginForm)" type="submit" primary block>Login</button> -->
+      </ion-item>
+    </ion-list>
+  </form>
+  <!-- [disabled]="!loginForm.valid" -->
+
 </ion-content>

@@ -1,49 +1,68 @@
 import { Component, OnInit } from '@angular/core';
-import { Nav, NavParams, AlertController } from 'ionic-angular';
-//import { Network } from 'ionic-native';
-
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 //import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/fromEvent';
+//import 'rxjs/add/observable/fromEvent';
 
+import { ConnectivityService } from '../../providers/services/connectivity.service';
+import { AuthService } from '../../providers/services/auth.service';
 import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 
-// import { SignTabsPage } from '../../pages/sign-tabs/sign-tabs';
-// import { HomeTabsPage } from '../../pages/home-tabs/home-tabs';
-import { HomePage } from '../home/home';
+import { SignTabsPage } from '../sign-tabs/sign-tabs';
+import { HomeTabsPage } from '../home-tabs/home-tabs';
+import { ModelPage } from '../model-page';
 
 import { ViewStatusEnum } from '../../providers/enums';
 //import { ICategory } from '../../providers/interfaces';
 //import _ from 'underscore';
 
 @Component({
-  templateUrl: 'welcome.html',
+  templateUrl: 'welcome.html'
 })
-export class WelcomePage implements OnInit {
-  title: string;
-  viewStatusEnum = ViewStatusEnum;
-  status = ViewStatusEnum.Loading;
-  connected: Boolean = false;
-  loaded: Boolean = false;
-
+export class WelcomePage extends ModelPage implements OnInit {
   /*private categories$: any;
   private dates$: any;
   private actions$: any;
   private user$: any;*/
 
-  constructor(public navCtrl: Nav, navParams: NavParams, public alertCtrl: AlertController, public dataService: DataService, public loading: LoadingService) {
+  constructor(
+    navParams: NavParams,
+    public navCtrl: NavController,
+    public alertCtrl: AlertController,
+    public dataService: DataService,
+    public loading: LoadingService,
+    public connService: ConnectivityService,
+    public auth: AuthService
+  ) {
+    super('OndeTem?!', dataService, loading);
     console.log('WelcomePage');
-    // check connection...
-    // check if logged in
+    this.doToggleLoading(false);
   }
 
   ngOnInit() {
-    this.reset();
-    //this.checkConnection();
     this.load();
   }
 
+  ionViewWillEnter() {
+    this.doReset('OndeTem?!');
+  }
+
+  changeViewState() {
+    this.doToggleLoading(false);
+  }
+
+  doRefresh(refresher) {
+    //this.refresher = refresher;
+    //this.load();
+  }
+
   load() {
+    if(!this.connService.isOnline()) {
+      this.retryConnection();
+      return;
+    }
+
+    this.doToggleLoading(true);
     /*var source = Observable.combineLatest(
       this.dataService.categories$,
       this.dataService.actions$,
@@ -63,10 +82,15 @@ export class WelcomePage implements OnInit {
       },
       err => console.log(err)
     );*/
+    this.loaded();
+  }
 
-    setTimeout(() => {
-      this.navCtrl.setRoot(HomePage);
-    }, 5000);
+  loaded() {
+    this.doToggleLoading(false);
+  }
+
+  retryConnection() {
+    console.log('Offline');
   }
 
   checkConnection() {
@@ -100,30 +124,12 @@ export class WelcomePage implements OnInit {
     });*/
   }
 
-  reset() {
-    this.title = 'OndeTem?!';
-    this.status = ViewStatusEnum.Loading;
-    this.loading.toggleLoadingIndicator(true);
-  }
-
-  changeView(st: ViewStatusEnum) {
-    this.status = st;
-  }
-
-  changeViewState() {
-    /*this.loading.toggleLoadingIndicator(!this.loaded);
-    if (this.loaded) {
-      this.changeView(ViewStatusEnum.Empty);
-      this.openPage(SignTabsPage);
-    }*/
-  }
-
   openPage(page) {
     // navigate to the new page if it is not the current page
     this.navCtrl.setRoot(page);
   }
 
-  doRefresh() {
+  doRefreshOld() {
     /*this.dataService.clearCache("category");
     this.dataService.getCategories({parent: 0}, {sort: {id: 1}})
       .subscribe((categories: ICategory[]) => {

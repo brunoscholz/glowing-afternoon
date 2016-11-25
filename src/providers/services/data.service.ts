@@ -49,8 +49,9 @@ ft: from-to filters
 
 @Injectable()
 export class DataService {
-
 	private _subjects$: any;
+	private _loggedUser: any;
+	private _cachedUser: IBuyer;
 	private visitingCompany: any = {};
 
 	get searchItems$() { return this._subjects$.searchitems.asObservable(); }
@@ -60,9 +61,11 @@ export class DataService {
 	get categories$() { return this._subjects$.categories.asObservable(); }
 	get sellers$() { return this._subjects$.sellers.asObservable(); }
 	get buyers$() { return this._subjects$.buyers.asObservable(); }
+	get loggedUser$() { return this._loggedUser.asObservable(); }
 
 	constructor(public api: APIService) {
     	this.api.Init("offers");
+    	this._loggedUser = <Subject<IBuyer>>new Subject();
 
 		this._subjects$ = {
 			buyers: <Subject<IBuyer[]>>new Subject(),
@@ -100,16 +103,30 @@ export class DataService {
 		return this.visitingCompany;
 	}
 
+	fetchUser(data) {
+		this.api.findAll({
+			controller: 'buyers',
+			query: { 'userId': { test: "like binary", value: data.userId } }
+		})
+			.map((res: Response) => res.json())
+			.subscribe(data => {
+				this._cachedUser = data["data"][0];
+				this._loggedUser.next(this._cachedUser);
+			}, 
+			error => console.log('Something went wrong'),
+			() => console.log('user retrieved'));
+	}
+
+	/*let user = {
+		userId: "zZN6prD6rzxEhg8sDQz1j",
+		username: "admin",
+		email: "admin@example.com",
+		picture: { cover: "assets/img/card-saopaolo.png", large:"https://randomuser.me/api/portraits/men/3.jpg", medium:"https://randomuser.me/api/portraits/med/men/3.jpg", thumbnail:"https://randomuser.me/api/portraits/thumb/men/3.jpg" },
+	    coins: { balance: 45 }
+	}
+	*/
 	getLoggedUser() {
-		let user = {
-			userId: "zZN6prD6rzxEhg8sDQz1j",
-			username: "admin",
-			email: "admin@example.com",
-			picture: { cover: "assets/img/card-saopaolo.png", large:"https://randomuser.me/api/portraits/men/3.jpg", medium:"https://randomuser.me/api/portraits/med/men/3.jpg", thumbnail:"https://randomuser.me/api/portraits/thumb/men/3.jpg" },
-		    coins: { balance: 45 }
-		}
-		// this._subjects$["users"].next(user);
-		return user;
+		this._loggedUser.next(this._cachedUser);
 	}
 
 	findAll(options: any) {
@@ -166,7 +183,11 @@ export class DataService {
 
 	addReview(review) {
 		console.log(review);
-		this.api.add({ controller: 'review-facts', body: review, query: {} })
+		this.api.add({
+			controller: 'review-facts',
+			body: review,
+			query: {}
+		})
 			.map((res: Response) => res.json())
 			.subscribe(data => {
 				// check data["status"]...

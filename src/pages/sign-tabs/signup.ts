@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Nav } from 'ionic-angular';
-import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
+import { AuthService } from '../../providers/services/auth.service';
+//import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 
 import { TourPage } from '../tour/tour';
 
@@ -8,14 +9,16 @@ import { TourPage } from '../tour/tour';
   templateUrl: 'signup.html',
 })
 export class SignUpPage {
+	login: { username?: string, password?: string } = {};
+	submitted = false;
 
-  constructor(private navCtrl: Nav, public auth: Auth, public user: User) {
-
+  constructor(private navCtrl: Nav) {
+  	//public auth: Auth, public user: User
   }
 
-  SignUp() {
+  signup() {
     //this.navCtrl.setRoot(TourPage);
-    let details: UserDetails = {'email': 'hi@ionic.io', 'password': 'puppies123'};
+    /*let details: UserDetails = {'email': 'hi@ionic.io', 'password': 'puppies123'};
 
 		this.auth.signup(details).then(() => {
 		  // `this.user` is now registered
@@ -27,7 +30,7 @@ export class SignUpPage {
 		      // handle other errors
 		    }
 		  }
-		});
+		});*/
   }
 
 }

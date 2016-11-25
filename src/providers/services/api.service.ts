@@ -31,6 +31,7 @@ export class APIService {
 
   Change(controller: string) {
     this.config.controllerUrl = this.config.baseUrl + controller;
+    //console.log(this.config.controllerUrl);
   }
 
 
@@ -120,8 +121,11 @@ export class APIService {
       }
     });
 
-    let realBody = JSON.stringify( body );
-    console.log(realBody);
+    let p = [];//JSON.stringify( body );
+    _.each(body, function(value, key) {
+      p.push(key + '=' + value);
+    });
+    let realBody = p.join('&');
 
     return this.http.post(url, realBody, {
       headers: headers

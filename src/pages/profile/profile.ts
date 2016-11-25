@@ -27,10 +27,8 @@ export class ProfilePage extends ModelPage implements OnInit {
 
   ngOnInit() {
     var self = this;
-    self.dataService.buyers$.subscribe((users: IBuyer) => {
-      self.user = users[0];
-      console.log(users);
-      self.user['coins'] = self.loginInfo.coins;
+    self.dataService.loggedUser$.subscribe((users: IBuyer) => {
+      self.user = users;
       self.prepareUser();
       self.changeViewState();
       if(self.refresher)
@@ -59,8 +57,8 @@ export class ProfilePage extends ModelPage implements OnInit {
   }
 
   load() {
-    this.loginInfo = this.dataService.getLoggedUser();
-    this.dataService.findAll({ controller: 'buyers', query: { 'userId': this.loginInfo.userId } } );
+    this.dataService.getLoggedUser();
+    //this.dataService.findAll({ controller: 'buyers', query: { 'userId': this.loginInfo.userId } } );
   }
 
   prepareUser() {

@@ -64,7 +64,7 @@ export class CategoryPage extends ModelPage implements OnInit {
   }
 
   showButton() {
-    if (_.size(this.rows) > 2)
+    if (_.size(this.rows) > 3)
       return true;
 
     return false;

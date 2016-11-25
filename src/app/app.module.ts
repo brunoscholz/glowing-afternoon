@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core'; //ElementRef
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
+//import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
 // Main generic Pages
 import { WelcomePage } from '../pages/welcome/welcome';
@@ -15,6 +16,11 @@ import { ForgotPage } from '../pages/sign-tabs/forgot';
 
 import { SettingsPage } from '../pages/settings/settings';
 import { TourPage } from '../pages/tour/tour';
+
+// support tabs
+import { SellPage } from '../pages/sell/sell';
+import { RegisterPage } from '../pages/sell/register';
+import { SupportPage } from '../pages/sell/support';
 
 // Company related Pages
 import { CompanyPage } from '../pages/company/company';
@@ -41,10 +47,18 @@ import { LoadingModal } from '../components/loading-modal/loading-modal';
 // Services and Providers
 //import { LoadingService } from '../providers/services/loading.service';
 import { ConnectivityService } from '../providers/services/connectivity.service';
+import { AuthService } from '../providers/services/auth.service';
 import { DataService } from '../providers/services/data.service';
 import { APIService } from '../providers/services/api.service';
 import { APISettings } from '../providers/api-settings';
 import { ErrorNotifierService } from '../providers/services/error.notifier';
+
+/*const cloudSettings: CloudSettings = {
+  'core': {
+    'app_id': 'a00a135f'
+  }
+};
+CloudModule.forRoot(cloudSettings)*/
 
 @NgModule({
   declarations: [
@@ -59,6 +73,9 @@ import { ErrorNotifierService } from '../providers/services/error.notifier';
     ForgotPage,
     SearchPage,
     SettingsPage,
+    SellPage,
+    RegisterPage,
+    SupportPage,
     CompanyPage,
     CompanyDetailPage,
     CatalogPage,
@@ -90,6 +107,9 @@ import { ErrorNotifierService } from '../providers/services/error.notifier';
     ForgotPage,
     SearchPage,
     SettingsPage,
+    SellPage,
+    RegisterPage,
+    SupportPage,
     CompanyPage,
     CompanyDetailPage,
     CatalogPage,
@@ -107,7 +127,8 @@ import { ErrorNotifierService } from '../providers/services/error.notifier';
     DataService,
     APIService,
     APISettings,
-    ConnectivityService
+    ConnectivityService,
+    AuthService
   ]
 })
 export class AppModule {}
