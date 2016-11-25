@@ -77,6 +77,22 @@ export class AuthService {
     }
 
     register(user) {
+        console.log(user);
+        return new Promise(resolve => {
+            this.api.add({
+                controller: 'auth/signup',
+                body: user,
+            })
+                .map((res: Response) => res.json())
+                .subscribe(data => {
+                    if(data.status == 200) {
+                        this.storeUserCredentials(data.token, data.data);
+                        resolve(true);
+                    }
+                    else
+                        resolve(false);
+                });
+            });
         /*var creds = "name=" + user.name + "&password=" + user.password;
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');

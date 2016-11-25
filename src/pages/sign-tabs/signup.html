@@ -5,11 +5,15 @@
 </ion-header>
 
 <ion-content padding class="signup-page" align="center">
-  <form #loginForm="ngForm" (submit)="signin($event,username,password)">
+  <form #loginForm="ngForm" (submit)="signup()" novalidate>
     <ion-list no-lines padding class="search-header">
       <ion-item class="animated tada">
         <img src="assets/img/logo.png">
       </ion-item>
+      <ion-item class="search-bar">
+        <ion-input [(ngModel)]="login.name" name="name" type="text" placeholder="Nome Completo" spellcheck="false" autocapitaliza="off" required></ion-input>
+      </ion-item>
+
       <ion-item class="search-bar">
         <ion-input [(ngModel)]="login.username" name="username" type="text" placeholder="Email" spellcheck="false" autocapitaliza="off" required></ion-input>
       </ion-item>
@@ -19,12 +23,18 @@
       </ion-item>
 
       <ion-item class="search-btn">
-        <button ion-button round type="submit">Salvar</button>
+        <button ion-button round type="submit">Enviar</button>
         <!-- <button (click)="onLogin(loginForm2)" type="submit" primary block>Login</button>
           <button (click)="onSignup()" light block>Signup</button> -->
       </ion-item>
     </ion-list>
   </form>
+
+  <ul class="altLogin">
+    <li><button round icon-only><ion-icon name="logo-facebook"></ion-icon></button></li>
+    <li><button round icon-only><ion-icon name="logo-twitter"></ion-icon></button></li>
+    <li><button round icon-only><ion-icon name="logo-googleplus"></ion-icon></button></li>
+  </ul>
   <!-- [disabled]="!loginForm.valid" -->
 
 </ion-content>

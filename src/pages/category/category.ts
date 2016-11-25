@@ -60,7 +60,7 @@ export class CategoryPage extends ModelPage implements OnInit {
   }
 
   morethantworows(i) {
-    return (i > 1) ? 'show-more-target' : '';
+    return (i > 2) ? 'show-more-target' : '';
   }
 
   showButton() {

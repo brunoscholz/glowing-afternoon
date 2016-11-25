@@ -9,14 +9,20 @@ import { TourPage } from '../tour/tour';
   templateUrl: 'signup.html',
 })
 export class SignUpPage {
-	login: { username?: string, password?: string } = {};
+	login: { name?: string, username?: string, password?: string } = {};
 	submitted = false;
 
-  constructor(private navCtrl: Nav) {
+  constructor(private navCtrl: Nav, public auth: AuthService) {
   	//public auth: Auth, public user: User
   }
 
   signup() {
+    this.auth.register(this.login).then(data => {
+      if(data) {
+        console.log(data);
+        this.navCtrl.setRoot(TourPage);
+      }
+    });
     //this.navCtrl.setRoot(TourPage);
     /*let details: UserDetails = {'email': 'hi@ionic.io', 'password': 'puppies123'};
 

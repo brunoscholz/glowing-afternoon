@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content padding class="signin-page" align="center">
-  <form #loginForm="ngForm" (submit)="signin()">
+  <form #loginForm="ngForm" (submit)="signin()" novalidate>
     <ion-list no-lines padding class="search-header">
       <ion-item class="animated tada">
         <img src="assets/img/logo.png">
@@ -25,7 +25,12 @@
       </ion-item>
     </ion-list>
   </form>
-  <!-- [disabled]="!loginForm.valid" -->
+
+  <ul class="altLogin">
+    <li><button round icon-only><ion-icon name="logo-facebook"></ion-icon></button></li>
+    <li><button round icon-only><ion-icon name="logo-twitter"></ion-icon></button></li>
+    <li><button round icon-only><ion-icon name="logo-googleplus"></ion-icon></button></li>
+  </ul>
 
 </ion-content>
       
