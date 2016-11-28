@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Nav } from 'ionic-angular';
 import { AuthService } from '../../providers/services/auth.service';
+import { Facebook, NativeStorage } from 'ionic-native';
+
 //import { Auth, User } from '@ionic/cloud-angular';
 
 import { HomeTabsPage } from '../home-tabs/home-tabs';
@@ -33,11 +35,9 @@ export class SignInPage {
     });
   }
 
-  onLogin(form) {
-  	this.submitted = true;
-  	if(form.valid) {
-  		//this.userData.login(this.login.username);
-  		//this.navCtrl.setRoot(HomeTabsPage);
-  	}
+  dummy() {}
+
+  facebookConnect() {
+    this.auth.connectWithFacebook();
   }
 }

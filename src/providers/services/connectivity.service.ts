@@ -16,12 +16,12 @@ export class ConnectivityService {
     this.onDevice = this.platform.is('cordova');
 		this.conn$ = new Subject();
 
-		let disconnection = Network.onDisconnect().subscribe(() => {
+		Network.onDisconnect().subscribe(() => {
       console.log('Network was disconnected :-( ');
       this.conn$.next(false);
     });
 
-    let connectSubscription = Network.onConnect().subscribe(() => {
+    Network.onConnect().subscribe(() => {
       console.log('Network is connected ;-) ');
       if (Network.connection === 'wifi') {
         console.log('we got a wifi connection, woohoo!');

@@ -84,7 +84,7 @@ export class CatalogPage extends ModelPage implements OnInit {
   }
 
   load() {
-    this.dataService.findItems({ query: { category: this.selectedItem.id } });
+    //this.dataService.findItems({ query: { category: this.selectedItem.id } });
   	//this.dataService.getProducts({ collectionName: 'factProduct', query: { categoryId: this.selectedItem._id } })
   }
 

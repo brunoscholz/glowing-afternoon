@@ -57,7 +57,8 @@ export class ProfilePage extends ModelPage implements OnInit {
   }
 
   load() {
-    this.dataService.getLoggedUser();
+    //this.dataService.getLoggedUser();
+    this.dataService.fetchUser({});
     //this.dataService.findAll({ controller: 'buyers', query: { 'userId': this.loginInfo.userId } } );
   }
 

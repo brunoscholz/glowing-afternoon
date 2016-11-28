@@ -5,14 +5,14 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'forgot.html',
 })
 export class ForgotPage {
-  login: { username?: string, password?: string } = {};
+  login: { username?: string } = {};
   submitted = false;
 
   constructor(private navCtrl: NavController) {
 
   }
 
-  SendEmail() {
+  sendEmail(event) {
     console.log("Not really sending email now! Fix it");
   }
 

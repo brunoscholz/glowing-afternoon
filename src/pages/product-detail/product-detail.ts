@@ -28,6 +28,7 @@ import _ from 'underscore';
 })
 export class ProductDetailPage extends ModelPage implements OnInit {
   product: any;
+  bgImage: string;
 
   constructor(
     public navCtrl: NavController,
@@ -41,6 +42,7 @@ export class ProductDetailPage extends ModelPage implements OnInit {
   ) {
     super("Product Details", dataService, loading);
     this.product = navParams.get('item');
+    this.bgImage = 'http://ondetem.tk/' + this.product.picture.cover;
   }
 
   ngOnInit() {

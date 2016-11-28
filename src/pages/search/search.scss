@@ -4,8 +4,12 @@
 
 ion-item {
 	.item-rating {
+		padding-top: 5px;
+		i {
+			vertical-align: middle;
+		}
 	    font-size: 1.5em;
-	    font-family: "LatoBlack";
+	    font-family: "Lato";
 	    color: #34b483;
 	}
 }

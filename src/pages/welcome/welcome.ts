@@ -57,22 +57,30 @@ export class WelcomePage extends ModelPage implements OnInit {
   }
 
   load() {
-    if(!this.connService.isOnline()) {
-      this.retryConnection();
+    var self = this;
+    this.doToggleLoading(true);
+    
+    if(!self.connService.isOnline()) {
+      self.retryConnection();
       return;
     }
 
-    this.doToggleLoading(true);
     /*var source = Observable.combineLatest(
       this.dataService.categories$,
-      this.dataService.actions$,
-      this.dataService.dates$,
-      function (s1, s2, s3) { return (_.size(s1) > 0) && (_.size(s2) > 0) && (_.size(s3) > 0) }
+      this.dataService.user$,
+      function (s1, s2) { return (_.size(s1) > 0) && (_.size(s2) > 0) }
     )
     .distinctUntilChanged()
     .startWith(false);*/
-    //this.dataService.loadMinimum();
+    
+    self.dataService.categories$
+      .subscribe((cats) => {
+        self.loaded();
+      });
 
+    this.dataService.loadMinimum();
+
+    /*
     //this.categories$ = this.dataService.categories$;
     /*var self = this;
     source.subscribe(

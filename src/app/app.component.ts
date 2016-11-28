@@ -9,7 +9,7 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { SignTabsPage } from '../pages/sign-tabs/sign-tabs';
 
 import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
-import { CompanyPage } from '../pages/company/company';
+//import { CompanyPage } from '../pages/company/company';
 import { SettingsPage } from '../pages/settings/settings';
 import { SellPage } from '../pages/sell/sell';
 
@@ -77,6 +77,7 @@ export class MyApp {
     this.auth.loadUserCredentials().then((res) => {
       // this.auth.isLoggedin
       if(res) {
+        this.dataService.fetchUser({});
         setTimeout(() => {
           this.nav.setRoot(HomeTabsPage);
         }, 2000);

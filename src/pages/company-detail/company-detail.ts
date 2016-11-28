@@ -77,7 +77,7 @@ export class CompanyDetailPage extends ModelPage implements OnInit {
 
   load() {
     //this.dataService.getReviews({ collectionName: 'factReview', query: { productId: this.company.data._id } })
-    this.dataService.findAllReviews({ query: { company: this.company.id } });
+    // /this.dataService.findAllReviews({ query: { company: this.company.id } });
   }
 
   like(event) {

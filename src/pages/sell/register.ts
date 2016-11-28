@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
 import { DataService } from '../../providers/services/data.service';
 
-import {Camera} from 'ionic-native';
-
 /*
 	O objetivo desta página é, temporariamente, servir de apoio 
 	de venda.
@@ -27,6 +25,8 @@ export class RegisterPage {
   }
 
   save() {
+    this.dataService.setVisitingCompany(this.company);
+    this.dataService.addPreRegisterSeller();
   	/*this.company.photoSrc = this.base64CoverImage;
   	this.company.thumbSrc = this.base64ThumbImage;
     this.dataService.setVisitingCompany(this.company);

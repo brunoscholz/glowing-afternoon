@@ -8,14 +8,16 @@
 
   <loading-modal></loading-modal>
 
-  <!-- <div id="elastic-header" class="background-image">
-    <img src="http://ondetem.tk/{{product.picture.cover}}">
-  </div> -->
+    
   <div *ngIf="product">
     <ion-card>
-      <img src="http://ondetem.tk/{{product.picture.cover}}">
-
-      <ion-item>
+      <div id="elastic-header" [style.backgroundImage]="'url(' + bgImage + ')'">
+      </div>
+      <ion-item class="item-title">
+        <ion-avatar item-right class="item-rating">
+          <i class='otIcon-star-outline'></i>
+          <span> 4.5</span>
+        </ion-avatar>
         <ion-avatar item-right>
           <img src="http://ondetem.tk/{{product.seller.picture.thumbnail}}">
         </ion-avatar>
@@ -28,67 +30,19 @@
         <p>{{product.description}}</p>
       </ion-card-content>
 
-      <ion-row no-padding>
-        <ion-col>
-          <button ion-button clear small icon-left>
-            <ion-icon name="people"></ion-icon>
-            10 Avaliações
-          </button>
-        </ion-col>
-        <ion-col>
-          <button ion-button clear small icon-left>
-            <ion-icon name="star"></ion-icon>
-            4.6
-          </button>
-        </ion-col>
-        <ion-col text-center>
-          <button ion-button clear small icon-left>
-            <ion-icon name="pricetag"></ion-icon>
-            {{product.pricePerUnit}}
-          </button>
-        </ion-col>
-      </ion-row>
-
-      <ion-row no-padding>
-        <ion-col>
-          <button ion-button clear small color="danger" icon-left (click)="addReview()">
-            <ion-icon name='star'></ion-icon>
-            Avaliar
-          </button>
-        </ion-col>
-        <ion-col text-center>
-          <button ion-button clear small color="danger" icon-left (click)="like($event)">
-            <ion-icon name='navigate'></ion-icon>
-            Mapa
-          </button>
-        </ion-col>
-        <ion-col text-right>
-          <button ion-button clear small color="danger" icon-left (click)="share($event)">
-            <ion-icon name='share-alt'></ion-icon>
-            Compartilhar
-          </button>
-        </ion-col>
-      </ion-row>
-
     </ion-card>
 
-    <ion-list>
-      <ion-item>
-        <ion-avatar item-left>
-          <img src="assets/img/jon-snow.jpg">
-        </ion-avatar>
+    <ion-list no-lines class="info-list">
+      <ion-item (click)="gotoCompany(product.seller)">
+        <i class="otIcon-map" item-left></i>
         <h2>{{product.seller.name}}</h2>
       </ion-item>
       <ion-item>
-        <ion-avatar item-left>
-          <img src="assets/img/jon-snow.jpg">
-        </ion-avatar>
+        <i class="otIcon-email" item-left></i>
         <h2>{{product.seller.email}}</h2>
       </ion-item>
       <ion-item>
-        <ion-avatar item-left>
-          <img src="assets/img/jon-snow.jpg">
-        </ion-avatar>
+        <i class="otIcon-phone" item-left></i>
         <h2>{{product.seller.hours}}</h2>
         <p>Ugh. As if.</p>
       </ion-item>

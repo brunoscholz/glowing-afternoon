@@ -81,7 +81,7 @@ export class ReviewDetailPage extends ModelPage {
 
   load() {
   	//this.dataService.getComments({ collectionName: 'factSocial', query: { reviewId: this.review.data._id } })
-    this.dataService.findAllComments({ query: { reviewId: this.review.id } });
+    //this.dataService.findAllComments({ query: { reviewId: this.review.id } });
   }
 
   dismiss() {

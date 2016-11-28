@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, Headers } from '@angular/http'; //Response
 
-// import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 // import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/operator/map'; 
 import 'rxjs/add/operator/catch'
@@ -34,9 +34,8 @@ export class APIService {
     //console.log(this.config.controllerUrl);
   }
 
-
   // get by query
-  findAll (options) {
+  findAll (options): Observable<any> {
     var database = options.controller || 'offers';
     var OPTIONAL_PARAMS = <any> {
       q: options.query || null,
@@ -56,7 +55,7 @@ export class APIService {
     }
   }
 
-  search(options) {
+  search(options): Observable<any> {
     // f: searchFor categories, users, companies and offers
     var OPTIONAL_PARAMS = <any> {
       q: options.term || null,
@@ -74,7 +73,7 @@ export class APIService {
     }
   }
 
-  add (options) {
+  add (options): Observable<any> {
     var database = options.controller || 'review-facts';
     var body = options.body || null;
     var OPTIONAL_PARAMS = <any> {
@@ -95,7 +94,7 @@ export class APIService {
     }
   }
 
-  get(url, options = <any>{}) {
+  private get(url, options = <any>{}) {
     let params: URLSearchParams = new URLSearchParams();
     //params.set('apiKey', this.config.apiKey);
     _.each(options, function(value, key) {
@@ -109,7 +108,7 @@ export class APIService {
     });
   }
 
-  post(url, body, options = <any>{}, headerType = 'application/x-www-form-urlencoded') {
+  private post(url, body, options = <any>{}, headerType = 'application/x-www-form-urlencoded') {
     let headers = new Headers();
     headers.append('Content-Type', headerType);
 
@@ -121,32 +120,30 @@ export class APIService {
       }
     });
 
-    let p = [];//JSON.stringify( body );
-    _.each(body, function(value, key) {
-      p.push(key + '=' + value);
-    });
-    let realBody = p.join('&');
+    let realBody = this.assembleBody(body).join('&');
+    console.log(realBody);
 
     return this.http.post(url, realBody, {
       headers: headers
     });
   }
 
-  put(url, body, options = <any>{}, headerType = 'application/json;charset=UTF-8') {
-    let headers = new Headers();
-    headers.append('Content-Type', headerType);
-
-    let params: URLSearchParams = new URLSearchParams();
-    //params.set('apiKey', this.config.apiKey);
-    _.each(options, function(value, key) {
-      if(value) {
-        params.set(key+'', (_.isObject(value) ? JSON.stringify(value) : value+''));
+  private assembleBody(body) {
+    //joana@casadamaejoana.com
+    let p = [];
+    let self = this;
+    _.each(body, function(value, key) {
+      if(_.isObject(value)) {
+        let out = self.assembleBody(value);
+        p = p.concat(out);
+        /*_.each(value, function(v, k) {
+          p.push(k + '=' + v);
+        });*/
       }
+      else
+        p.push(key + '=' + value);
     });
 
-    return this.http.put(url, JSON.stringify( body ), {
-      search: params,
-      headers: headers
-    });
+    return p; //.join('&');
   }
 }

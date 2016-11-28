@@ -27,7 +27,7 @@
   <preference name="FadeSplashScreen" value="false"/>
   <preference name="FadeSplashScreenDuration" value="0"/>
   <preference name="SplashScreenBackgroundColor" value="0xFFFFFFFF"/>
-  <preference name="ispeechApiKey" value="8302cacc2bf56a4eeaa57defa68413c1" />
+  <preference name="ispeechApiKey" value="8302cacc2bf56a4eeaa57defa68413c1"/>
   <feature name="StatusBar">
     <param name="ios-package" onload="true" value="CDVStatusBar"/>
   </feature>
@@ -37,4 +37,5 @@
   <plugin name="cordova-plugin-splashscreen" spec="~4.0.0"/>
   <plugin name="cordova-plugin-statusbar" spec="~2.2.0"/>
   <plugin name="ionic-plugin-keyboard" spec="~2.2.1"/>
+  <allow-navigation href="http://192.168.25.5:8100"/>
 </widget>

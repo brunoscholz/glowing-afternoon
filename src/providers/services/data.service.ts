@@ -8,7 +8,7 @@ import { APIService } from './api.service';
 
 import _ from 'underscore';
 
-import { IBuyer, ISeller, IUser, IOffer } from '../interfaces'; //ICategory, IReview, IReviewFact, IComment, ISocialFact, IUser, IRelationship, ITransaction, IAction, IDate
+import { ICategory, IBuyer, ISeller, IOffer } from '../interfaces'; //, IReview, IReviewFact, IComment, ISocialFact, IUser, IRelationship, ITransaction, IAction, IDate
 
 //let favorites = [];
 
@@ -17,203 +17,203 @@ API
 results always come with status and result count
 
 controller: the controller or collection wanted
-	its included in the url (v1/controller)
+  its included in the url (v1/controller)
 
 q: query
-	general filtering with table's fields
+  general filtering with table's fields
 
 f: setOfFields
-	set of fields to look for (select)
-	setOfFields: [ field1, field2, field3, fieldN ]
+  set of fields to look for (select)
+  setOfFields: [ field1, field2, field3, fieldN ]
 
 fo: findOne
-	return just one row
-	findOne: true
+  return just one row
+  findOne: true
 
 s: sort
 o: order
-	orderBy order (ASC or DESC)
-	orderBy fields
-	sort: { field: fieldName, order: ascOrDesc }
+  orderBy order (ASC or DESC)
+  orderBy fields
+  sort: { field: fieldName, order: ascOrDesc }
 
 pg: page
-	used for pagination or infinite loading in sequence
-	page: 2
+  used for pagination or infinite loading in sequence
+  page: 2
 
 l: limit
-	limit: 10
+  limit: 10
 
 ft: from-to filters
-	fromto: [ { field: fieldName, low: lowValue, high: highValue } ]
+  fromto: [ { field: fieldName, low: lowValue, high: highValue } ]
 */
 
 @Injectable()
 export class DataService {
-	private _subjects$: any;
-	private _loggedUser: any;
-	private _cachedUser: IBuyer;
-	private visitingCompany: any = {};
+  private _subjects$: any;
+  private _cached$: any;
+  private _toStorage: any = ['loggedUser', 'categories', 'visitingCompany'];
 
-	get searchItems$() { return this._subjects$.searchitems.asObservable(); }
-	get offers$() { return this._subjects$.offers.asObservable(); }
-	get reviews$() { return this._subjects$.reviews.asObservable(); }
-	get comments$() { return this._subjects$.comments.asObservable(); }
-	get categories$() { return this._subjects$.categories.asObservable(); }
-	get sellers$() { return this._subjects$.sellers.asObservable(); }
-	get buyers$() { return this._subjects$.buyers.asObservable(); }
-	get loggedUser$() { return this._loggedUser.asObservable(); }
+  get searchItems$() { return this._subjects$.searchitems.asObservable(); }
+  get offers$() { return this._subjects$.offers.asObservable(); }
+  get reviews$() { return this._subjects$.reviews.asObservable(); }
+  get comments$() { return this._subjects$.comments.asObservable(); }
+  get categories$() { return this._subjects$.categories.asObservable(); }
+  get sellers$() { return this._subjects$.sellers.asObservable(); }
+  get buyers$() { return this._subjects$.buyers.asObservable(); }
+  get loggedUser$() { return this._subjects$.user.asObservable(); }
 
-	constructor(public api: APIService) {
-    	this.api.Init("offers");
-    	this._loggedUser = <Subject<IBuyer>>new Subject();
+  constructor(public api: APIService) {
+    this.api.Init("offers");
 
-		this._subjects$ = {
-			buyers: <Subject<IBuyer[]>>new Subject(),
-			offers: <Subject<IOffer[]>>new Subject(),
-			reviews: new Subject(),
-			comments: new Subject(),
-			categories: new Subject(),
-			sellers: <Subject<ISeller[]>>new Subject(),
-			searchitems: new Subject()
-		};
+    this._subjects$ = {
+      buyers: <Subject<IBuyer[]>>new Subject(),
+      offers: <Subject<IOffer[]>>new Subject(),
+      reviews: new Subject(),
+      comments: new Subject(),
+      categories: <Subject<ICategory[]>>new Subject(),
+      sellers: <Subject<ISeller[]>>new Subject(),
+      searchitems: new Subject(),
+      user: <Subject<IBuyer>>new Subject(),
+    };
 
-		this.visitingCompany = {
-			id: 1,
-		    name: "Casa da Mãe Joana",
-		    description: "Artigos Genéricos",
-		    address: "Rua da casa da Joana",
-		    location: "",
-		    hours: "8h00 as 18h00",
-		    photoSrc: "assets/img/generic-company.png",
-		    thumbSrc: "assets/img/generic-company-logo.png"
-		};
-	}
+    this._cached$ = {
+      loggedUser: null,
+      categories: null,
+      visitingCompany: null
+    };
 
-	creditUser(coins) {
-		console.log(coins);
-		//USERS[0].coins.balance = USERS[0].coins.balance + coins;
-		//this._subjects$["users"].next(USERS[0]);
-	}
+    this.setVisitingCompany({
+      id: 1,
+      name: "Casa da Mãe Joana",
+      description: "Artigos Genéricos",
+      address: "Rua da casa da Joana",
+      location: "",
+      hours: "8h00 as 18h00",
+      photoSrc: "assets/img/generic-company.png",
+      thumbSrc: "assets/img/generic-company-logo.png"
+    });
+  }
 
-	setVisitingCompany(cp: any) {
-		return this.visitingCompany = cp;
-	}
+  loadMinimum() {
+    // this.findAll({ collectionName: 'dimCategory', sortOrder: { code: 1 } }),
+    // this.findAll({ collectionName: 'action' }),
+    // this.findAll({ collectionName: 'dimDate' })
+    /*this.api.findAll({ controller: 'categories', query: { parentId: 0 } })
+      .map((res: Response) => res.json())
+      .subscribe((cats) => {
+        this._categories = cats;
+      });*/
+  }
 
-	getVisitingCompany() {
-		return this.visitingCompany;
-	}
+  creditUser(coins) {
+    console.log(coins);
+    //USERS[0].coins.balance = USERS[0].coins.balance + coins;
+    //this._subjects$["users"].next(USERS[0]);
+  }
 
-	fetchUser(data) {
-		this.api.findAll({
-			controller: 'buyers',
-			query: { 'userId': { test: "like binary", value: data.userId } }
-		})
-			.map((res: Response) => res.json())
-			.subscribe(data => {
-				this._cachedUser = data["data"][0];
-				this._loggedUser.next(this._cachedUser);
-			}, 
-			error => console.log('Something went wrong'),
-			() => console.log('user retrieved'));
-	}
+  setVisitingCompany(cp: any) {
+    return this._cached$['visitingCompany'] = cp;
+  }
 
-	/*let user = {
-		userId: "zZN6prD6rzxEhg8sDQz1j",
-		username: "admin",
-		email: "admin@example.com",
-		picture: { cover: "assets/img/card-saopaolo.png", large:"https://randomuser.me/api/portraits/men/3.jpg", medium:"https://randomuser.me/api/portraits/med/men/3.jpg", thumbnail:"https://randomuser.me/api/portraits/thumb/men/3.jpg" },
-	    coins: { balance: 45 }
-	}
-	*/
-	getLoggedUser() {
-		this._loggedUser.next(this._cachedUser);
-	}
+  getVisitingCompany() {
+    return this._cached$['visitingCompany'];
+  }
 
-	findAll(options: any) {
-		if(!options) throw new Error('invalid options');
+  fetchUser(data) {
+    if(this._cached$['loggedUser']) {
+      this._subjects$['user'].next(this._cached$['loggedUser']);
+    }
+    else {
+      this.api.findAll({
+        controller: 'buyers',
+        query: { 'userId': { test: "like binary", value: data.userId } }
+      })
+        .map((res: Response) => res.json())
+        .subscribe(data => {
+          this._cached$['loggedUser'] = data["data"][0];
+          this._subjects$['user'].next(this._cached$['loggedUser']);
+        }, 
+        error => console.log('Something went wrong'),
+        () => console.log('user retrieved'));
+    }
+  }
 
-    	this.api.findAll(options)
-			.map((res: Response) => res.json())
-			.subscribe(data => {
-				// check data["status"]...
-				this._subjects$[options.controller].next(data["data"]);
-			}, 
-			error => console.log('Something went wrong'),
-			() => console.log('findAll Completed for ' + options.controller));
-	}
+  findAll(options: any) {
+    if(!options) throw new Error('invalid options');
 
-	search(options: any) {
-		this.api.search(options)
-			.map((res: Response) => res.json())
-			.subscribe(data => {
-				// check data["status"]...
-				this._subjects$['searchitems'].next(data["data"]);
-			}, 
-			error => console.log('Something went wrong'),
-			() => console.log('search Completed for ' + options.term));
-	}
+      if(this._cached$[options.controller]) {
+        this._subjects$[options.controller].next(this._cached$[options.controller]);
+      }
+      else {
+        this.api.findAll(options)
+        .map((res: Response) => res.json())
+        .subscribe(data => {
+          // check data["status"]...
+          let ret = data["data"];
+          if(_.contains(this._toStorage, options.controller))
+            this._cached$[options.controller] = ret;
+          this._subjects$[options.controller].next(ret);
+        }, 
+        error => console.log('Something went wrong'),
+        () => console.log('findAll Completed for ' + options.controller));
+      }
 
-	findItems(options: any) {
-		//this._subjects$["items"].next(this.filterResults(ITEMS, options.query));
-	}
+  }
 
-	findAllItems() {
-		//this._subjects$["items"].next(ITEMS);
-	}
+  search(options: any) {
+    this.api.search(options)
+      .map((res: Response) => res.json())
+      .subscribe(data => {
+        // check data["status"]...
+        this._subjects$['searchitems'].next(data["data"]);
+      }, 
+      error => console.log('Something went wrong'),
+      () => console.log('search Completed for ' + options.term));
+  }
 
-	findAllReviews(options: any) {
-		//this._subjects$["reviews"].next(this.filterResults(REVIEWS, options.query));
-	}
+  addReview(review) {
+    this.api.add({
+      controller: 'review-facts',
+      body: review,
+      query: {}
+    })
+      .map((res: Response) => res.json())
+      .subscribe(data => {
+        // check data["status"]...
+        //this._subjects$[options.controller].next(data["data"]);
+        console.log(data);
+      }, 
+      error => console.log('Something went wrong'),
+      () => console.log('findAll Completed for ' + 'review-facts'));
+  }
 
-	findAllComments(options: any) {
-		//this._subjects$["comments"].next(this.filterResults(COMMENTS, options.query));
-	}
+  addComments(comment) {
+    // COMMENTS.push(comment);
+    // this.findAllComments({ query: {} });
+  }
 
-	findAllCategories(options: any) {
-		//this._subjects$["categories"].next(this.filterResults(CATEGORIES, options.query));
-	}
+  addPreRegisterSeller() {
+    this.api.add({
+      controller: 'auth/seller-register',
+      body: { 
+        salesman: this._cached$['loggedUser'].buyerId,
+        company: this._cached$['visitingCompany']
+      },
+      query: {}
+    })
+      .map((res: Response) => res.json())
+      .subscribe(data => {
+        if(data.status == 200) {
+          
+        }
+        
+      });
+  }
 
-	getCategory(query) {
-		//return this.filterResults(CATEGORIES, query)[0];
-	}
-
-	findAllCompanies(options: any) {
-		//this._subjects$["companies"].next(this.filterResults(CUSTOMERS, options.query));
-	}
-
-	addReview(review) {
-		console.log(review);
-		this.api.add({
-			controller: 'review-facts',
-			body: review,
-			query: {}
-		})
-			.map((res: Response) => res.json())
-			.subscribe(data => {
-				// check data["status"]...
-				//this._subjects$[options.controller].next(data["data"]);
-				console.log(data);
-			}, 
-			error => console.log('Something went wrong'),
-			() => console.log('findAll Completed for ' + 'review-facts'));
-	}
-
-	addComments(comment) {
-		// COMMENTS.push(comment);
-		// this.findAllComments({ query: {} });
-	}
-
-	/*return Observable.create(observer => {
-		observer.next(CUSTOMERS);
-		observer.complete();
-	});*/
-	findAllCustomers() {
-		//this._subjects$["customers"].next(CUSTOMERS);
-	}
-
-	findAllUsers() {
-		//this._subjects$["users"].next(USERS);
-	}
+  /*return Observable.create(observer => {
+    observer.next(CUSTOMERS);
+    observer.complete();
+  });*/
 
   filterResults(list, query: any) {
     if(query == {} || query == null) {
