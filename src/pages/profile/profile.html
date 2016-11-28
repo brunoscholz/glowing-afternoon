@@ -11,9 +11,7 @@
   <loading-modal></loading-modal>
 
   <div *ngIf="user">
-    <div id="elastic-header" class="background-image">
-      <img src="http://ondetem.tk/{{user.picture.cover}}">
-    </div>
+    <div id="elastic-header" [style.backgroundImage]="'url(' + bgImage + ')'"></div>
     <div class="profile-info">
       <ion-card>
         <ion-card-content>

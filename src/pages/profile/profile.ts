@@ -18,7 +18,7 @@ import _ from 'underscore';
 export class ProfilePage extends ModelPage implements OnInit {
   user: IBuyer = null;
   loginInfo: any;
-	backimg: any;
+	bgImage: string;
 	rows: any;
 
   constructor(public navCtrl: NavController, navParams: NavParams, public sanitizer: DomSanitizer, public dataService: DataService, public loading: LoadingService) {
@@ -64,7 +64,8 @@ export class ProfilePage extends ModelPage implements OnInit {
 
   prepareUser() {
     console.log(this.user);
-    this.backimg = this.sanitizer.bypassSecurityTrustUrl(this.user.picture.large);
+    //this.bgImage = this.sanitizer.bypassSecurityTrustUrl(this.user.picture.large);
+    this.bgImage = 'http://ondetem.tk/' + this.user.picture.cover;
     this.rows = Array.from(Array(Math.ceil(this.user.reviews.length / 2)).keys());
   }
 

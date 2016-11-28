@@ -31,6 +31,7 @@ export interface IOffer {
   createdAt: string;
   updatedAt: string;
   status: string;
+  reviews: IReviewFact[];
 }
 
 export interface IItem {
@@ -58,6 +59,7 @@ export interface ISeller {
   createdAt: string;
   updatedAt: string;
   status: string;
+  reviews: IReviewFact[];
 }
 
 export interface IBuyer {

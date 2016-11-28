@@ -55,6 +55,7 @@ export class DataService {
 
   get searchItems$() { return this._subjects$.searchitems.asObservable(); }
   get offers$() { return this._subjects$.offers.asObservable(); }
+  get catalog$() { return this._subjects$.catalog.asObservable(); }
   get reviews$() { return this._subjects$.reviews.asObservable(); }
   get comments$() { return this._subjects$.comments.asObservable(); }
   get categories$() { return this._subjects$.categories.asObservable(); }
@@ -66,14 +67,15 @@ export class DataService {
     this.api.Init("offers");
 
     this._subjects$ = {
-      buyers: <Subject<IBuyer[]>>new Subject(),
-      offers: <Subject<IOffer[]>>new Subject(),
+      buyers: new Subject(),
+      offers: new Subject(),
+      catalog: new Subject(),
       reviews: new Subject(),
       comments: new Subject(),
-      categories: <Subject<ICategory[]>>new Subject(),
-      sellers: <Subject<ISeller[]>>new Subject(),
+      categories: new Subject(),
+      sellers: new Subject(),
       searchitems: new Subject(),
-      user: <Subject<IBuyer>>new Subject(),
+      user: new Subject(),
     };
 
     this._cached$ = {
@@ -141,7 +143,7 @@ export class DataService {
   findAll(options: any) {
     if(!options) throw new Error('invalid options');
 
-      if(this._cached$[options.controller]) {
+      if(this._cached$[options.controller] && this._cached$[options.controller] !== null && this._cached$[options.controller] !== []) {
         this._subjects$[options.controller].next(this._cached$[options.controller]);
       }
       else {
@@ -157,7 +159,20 @@ export class DataService {
         error => console.log('Something went wrong'),
         () => console.log('findAll Completed for ' + options.controller));
       }
+  }
 
+  getPretty(options: any) {
+    if(!options) throw new Error('invalid options');
+
+    this.api.getPretty(options)
+        .map((res: Response) => res.json())
+        .subscribe(data => {
+          // check data["status"]...
+          let ret = data["data"];
+          this._subjects$[options.controller].next(ret);
+        }, 
+        error => console.log('Something went wrong'),
+        () => console.log('getPretty Completed for ' + options.controller));
   }
 
   search(options: any) {

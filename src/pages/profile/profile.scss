@@ -1,4 +1,4 @@
-.company-profile, .profile-page {
+.company-detail-page, .profile-page {
   ion-card {
     overflow: visible;
     margin: 0;
@@ -17,6 +17,7 @@
         margin-top: -100px;
         border: solid 4px #FFFFFF;
         display: inline;
+        background-color: black;
       }
 
       h2 {

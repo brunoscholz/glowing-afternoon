@@ -8,7 +8,6 @@
 
   <loading-modal></loading-modal>
 
-    
   <div *ngIf="product">
     <ion-card>
       <div id="elastic-header" [style.backgroundImage]="'url(' + bgImage + ')'">
@@ -24,8 +23,6 @@
         <h2>{{product.item.title}}</h2>
         <p>{{product.seller.name}}</p>
       </ion-item>
-
-
       <ion-card-content>
         <p>{{product.description}}</p>
       </ion-card-content>
@@ -33,7 +30,7 @@
     </ion-card>
 
     <ion-list no-lines class="info-list">
-      <ion-item (click)="gotoCompany(product.seller)">
+      <ion-item (click)="gotoCompany()">
         <i class="otIcon-map" item-left></i>
         <h2>{{product.seller.name}}</h2>
       </ion-item>

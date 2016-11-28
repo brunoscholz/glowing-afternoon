@@ -20,14 +20,14 @@ import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 
 import { ViewStatusEnum } from '../../providers/enums';
-//import { IProductFact, IProduct, IReviewFact, IReview } from '../../providers/interfaces';
+import { IOffer } from '../../providers/interfaces';
 import _ from 'underscore';
 
 @Component({
   templateUrl: 'product-detail.html',
 })
 export class ProductDetailPage extends ModelPage implements OnInit {
-  product: any;
+  product: IOffer;
   bgImage: string;
 
   constructor(
@@ -41,12 +41,24 @@ export class ProductDetailPage extends ModelPage implements OnInit {
     public loading: LoadingService
   ) {
     super("Product Details", dataService, loading);
-    this.product = navParams.get('item');
+    this.product = navParams.get('offer');
     this.bgImage = 'http://ondetem.tk/' + this.product.picture.cover;
   }
 
   ngOnInit() {
-    //this.changeViewState();
+    var self = this;
+    /*this.dataService.offers$
+      .subscribe(
+        (data) => {
+          self.product = data[0];
+          self.changeViewState();
+          if(self.refresher)
+            self.refresher.complete();
+        },
+        (err) => { console.log(err); },
+        () => {
+        }
+      );*/
   }
 
   ionViewWillEnter() {
@@ -167,9 +179,9 @@ export class ProductDetailPage extends ModelPage implements OnInit {
     toast.present();
   }
 
-  goToCompany() {
+  gotoCompany() {
     this.navCtrl.push(CompanyDetailPage, {
-      item: this.product.seller
+      company: this.product.seller
     });
   }
 

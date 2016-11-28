@@ -31,7 +31,7 @@ export class ProductPage extends ModelPage implements OnInit {
 
   constructor(private navCtrl: NavController, navParams: NavParams, public dataService: DataService, public loading: LoadingService) {
   	super('Ofertas', dataService, loading)
-  	this.category = this.selectedItem = navParams.get('item');
+  	this.category = this.selectedItem = navParams.get('category');
     this.toOrder = 'name';
   }
 
@@ -94,7 +94,7 @@ export class ProductPage extends ModelPage implements OnInit {
 
   itemTapped(event, item) {
     this.navCtrl.push(ProductDetailPage, {
-      item: item
+      offer: item
     });
   }
 

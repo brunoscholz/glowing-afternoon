@@ -19,49 +19,47 @@ import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 
 import { ViewStatusEnum } from '../../providers/enums';
-//import { IProductFact, IProduct, IReviewFact, IReview } from '../../providers/interfaces';
+import { ISeller, IOffer } from '../../providers/interfaces'; //IProductFact, IProduct, IReviewFact, IReview
 import _ from 'underscore';
 
 @Component({
   templateUrl: 'company-detail.html',
 })
 export class CompanyDetailPage extends ModelPage implements OnInit {
-  company: any;
-  visitingCompany: string = '';
+  company: ISeller;
+  bgImage: string;
+  offers: IOffer[];
 
   constructor(public navCtrl: NavController, navParams: NavParams, public alertCtrl: AlertController, public acCtrl: ActionSheetController, public modCtrl: ModalController, public dataService: DataService, public loading: LoadingService) {
     super("Company Details", dataService, loading);
-    this.company = navParams.get('item');
-    _.extend(this.company, { reviews: [] });
-    _.extend(this.company, { offers: [] });
-
-    this.visitingCompany = dataService.getVisitingCompany();
+    this.company = navParams.get('company');
+    console.log(this.company);
+    this.bgImage = 'http://ondetem.tk/' + this.company.picture.cover;
   }
 
   ngOnInit() {
     var self = this;
-    this.dataService.reviews$
+    this.dataService.catalog$
       .subscribe(
         (data) => {
-          self.company.reviews = data;
+          self.offers = data;
           self.changeViewState();
           if(self.refresher)
             self.refresher.complete();
         },
         (err) => { console.log(err); },
-        () => {
-        }
-      );    
-
+        () => {}
+      );
   }
 
   ionViewWillEnter() {
     this.doReset(this.company.name);
     this.load();
+    //this.doToggleLoading(false);
   }
 
   changeViewState() {
-    if (_.size(this.company.reviews) > 0) {
+    if (this.company) {
       this.doChangeView(ViewStatusEnum.Full);
     }
     else {
@@ -76,8 +74,14 @@ export class CompanyDetailPage extends ModelPage implements OnInit {
   }
 
   load() {
-    //this.dataService.getReviews({ collectionName: 'factReview', query: { productId: this.company.data._id } })
-    // /this.dataService.findAllReviews({ query: { company: this.company.id } });
+    /*this.dataService.findAll({
+      controller: 'sellers',
+      query: { 'sellerId': this.company.sellerId }
+    });*/
+    this.dataService.getPretty({
+      controller: 'catalog',
+      url: 'sellers/catalog/' + this.company.sellerId
+    });
   }
 
   like(event) {
@@ -128,7 +132,7 @@ export class CompanyDetailPage extends ModelPage implements OnInit {
   }
 
   addReview(){
-    let modal = this.modCtrl.create(ReviewPage, { item: this.company });
+    /*let modal = this.modCtrl.create(ReviewPage, { item: this.company });
     modal.onDidDismiss(review => {
       if(review){
         this.company.reviews.push(review);
@@ -136,15 +140,15 @@ export class CompanyDetailPage extends ModelPage implements OnInit {
       }
     });
 
-    modal.present();
+    modal.present();*/
   }
 
   deleteReview(review){
     //Remove locally
-    let index = this.company.reviews.indexOf(review);
+    /*let index = this.company.reviews.indexOf(review);
     if(index > -1){
       this.company.reviews.splice(index, 1);
-    }
+    }*/
     //Remove from database
     //this.reviewService.deleteReview(review._id);
   }

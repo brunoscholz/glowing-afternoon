@@ -20,7 +20,7 @@ export class CategoryPage extends ModelPage implements OnInit {
 
   constructor(public navCtrl: NavController, navParams: NavParams, public dataService: DataService, public loading: LoadingService) {
     super('Categorias', dataService, loading);
-    this.selectedItem = navParams.get('item');
+    //this.selectedItem = navParams.get('item');
   }
 
   ngOnInit() {
@@ -76,7 +76,7 @@ export class CategoryPage extends ModelPage implements OnInit {
 
   itemTapped(event, item) {
     this.navCtrl.push(ProductPage, {
-      item: item
+      category: item
     });
   }
 

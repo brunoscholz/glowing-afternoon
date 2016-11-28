@@ -55,6 +55,26 @@ export class APIService {
     }
   }
 
+  getPretty (options: any) : Observable<any> {
+    var database = options.controller || 'offers';
+    var url = options.url;
+    var OPTIONAL_PARAMS = <any> {
+      q: options.query || null,
+      f: options.setOfFields || null,
+      fo: options.findOne || null,
+      s: options.sortOrder || null,
+      pg: options.page || null,
+      l: options.limit || null,
+      ft: options.fromto || null
+    };
+
+    if (database === null) {
+      throw new Error('invalid options');
+    } else {
+      return this.get(this.config.baseUrl + url, OPTIONAL_PARAMS);
+    }
+  }
+
   search(options): Observable<any> {
     // f: searchFor categories, users, companies and offers
     var OPTIONAL_PARAMS = <any> {
@@ -121,7 +141,6 @@ export class APIService {
     });
 
     let realBody = this.assembleBody(body).join('&');
-    console.log(realBody);
 
     return this.http.post(url, realBody, {
       headers: headers
