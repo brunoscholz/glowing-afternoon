@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
+
 import { HomePage } from '../home/home';
 import { CategoryPage } from '../category/category';
 import { ProfilePage } from '../profile/profile';
@@ -9,19 +10,12 @@ import { ProfilePage } from '../profile/profile';
 })
 export class HomeTabsPage {
 	
-  tab1Root: any;
-  tab2Root: any;
-  tab3Root: any;
+  tab1Root: any = HomePage;
+  tab2Root: any = CategoryPage;
+  tab3Root: any = ProfilePage;
+  mySelectedIndex: number;
 
-  constructor(public nav: NavController) {
-  	this.tab1Root = HomePage;
-    this.tab2Root = CategoryPage;
-    this.tab3Root = ProfilePage;
-  }
-
-  openScan() {
-    // navigate to the new page if it is not the current page
-    //this.nav.setRoot(ScanPage);
-    //this.nav.push(ScanPage);
+  constructor(navParams: NavParams) {
+    this.mySelectedIndex = navParams.data.tabIndex || 0;
   }
 }

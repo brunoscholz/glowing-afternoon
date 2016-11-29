@@ -1,25 +1,23 @@
 import { Component, ViewChild } from '@angular/core'; //, provide
 import { Platform, MenuController, Nav, AlertController } from 'ionic-angular';
-import { StatusBar } from 'ionic-native';
+import { Splashscreen, StatusBar } from 'ionic-native';
 
 import { ErrorNotifierService } from '../providers/services/error.notifier';
 
-// import { SignTabsPage } from './pages/sign-tabs/sign-tabs';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { SignTabsPage } from '../pages/sign-tabs/sign-tabs';
 
 import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
-//import { CompanyPage } from '../pages/company/company';
 import { SettingsPage } from '../pages/settings/settings';
 import { SellPage } from '../pages/sell/sell';
+
+import { IPage } from '../providers/interfaces';
 
 import { DataService } from '../providers/services/data.service';
 import { AuthService } from '../providers/services/auth.service';
 import { LoadingService } from '../providers/services/loading.service';
 import { LoadingModal } from '../components/loading-modal/loading-modal';
 import { ConnectivityService } from '../providers/services/connectivity.service';
-
-//import _ from 'underscore';
 
 @Component({
   templateUrl: 'app.html',
@@ -34,50 +32,64 @@ import { ConnectivityService } from '../providers/services/connectivity.service'
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  // make HelloIonicPage the root (or first) page
-  //rootPage: any = HomeTabsPage;
   rootPage: any = WelcomePage;
-  pages: Array<{ title: string, component: any, root: boolean }>;
   error: any;
-  loggedUser: any;
+  isSalesPerson: boolean = false;
+
+  appPages: IPage[] = [
+    { title: 'Início', component: HomeTabsPage, icon: 'home' },
+    { title: 'Categorias', component: HomeTabsPage, index: 1, icon: 'grid' },
+  ];
+
+  loggedInPages: IPage[] = [
+    { title: 'Perfil', component: HomeTabsPage, index: 2, icon: 'profile' },
+    { title: 'Configurações', component: SettingsPage, icon: 'cog', passRoot: true },
+    { title: 'Sair', component: SignTabsPage, icon: 'log-out', logsOut: true }
+  ];
+
+  loggedOutPages: IPage[] = [
+    { title: 'Entrar', component: SignTabsPage, icon: 'log-in' },
+    { title: 'Cadastrar', component: SignTabsPage, index:1, icon: 'person-add' }
+  ];
 
   constructor(public platform: Platform, public menu: MenuController, public alertCtrl: AlertController, private errorNotifier:ErrorNotifierService, public dataService: DataService, public auth: AuthService, public connService: ConnectivityService) {
     this.initializeApp();
 
-    // set our app's pages
-    this.pages = [
-      { title: 'Home', component: HomeTabsPage, root: true },
-      //{ title: 'Empresas', component: CompanyPage, root: false },
-      { title: 'Configurações', component: SettingsPage, root: false }
-    ];
-
     this.dataService.loggedUser$
     .distinctUntilChanged()
-    .subscribe((user) => {
-      this.loggedUser = user;
-      this.setUser();
+    .subscribe((buyer) => {
+      this.isSalesPerson = (buyer.user.role === 'salesman' || buyer.user.role === 'administrator');
+      this.enableMenu(this.auth.isLoggedin === true);
+      this.gotoMainPage(this.auth.isLoggedin === true);
     });
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
+      Splashscreen.hide();
       this.checkConnection();
       this.errorNotifier.onError(err => {
         this.error = err;
         console.log(err);
       });
-      this.authenticate();
     });
+    
+    this.authenticate();
   }
 
   authenticate() {
     this.auth.loadUserCredentials().then((res) => {
-      // this.auth.isLoggedin
-      if(res !== null) {
+      if(res) {
         this.dataService.fetchUser(res);
+      } else {
+        this.gotoMainPage(false);
+      }
+    });
+  }
+
+  gotoMainPage(logged) {
+    if(logged) {
         setTimeout(() => {
           this.nav.setRoot(HomeTabsPage);
         }, 2000);
@@ -87,16 +99,18 @@ export class MyApp {
           this.nav.setRoot(SignTabsPage);
         }, 2000);
       }
-    });
   }
 
-  setUser() {
-    if(this.loggedUser.user.role === 'salesman' || this.loggedUser.user.role === 'administrator')
+  /*setUser(user) {
+    if(!user)
+
+    if(user.role === 'salesman' || this.loggedUser.user.role === 'administrator')
     {
-      this.pages.push({ title: 'Vendas', component: SellPage, root: false });
+      //this.pages.push({ title: 'Vendas', component: SellPage, root: false });
+      this.isSalesPerson = true;
     }
     this.pages.push({ title: 'Logout', component: 'logout', root: false });
-  }
+  }*/
 
   checkConnection() {
     this.connService.connection$
@@ -116,24 +130,42 @@ export class MyApp {
     if(!this.connService.isOnline()) {}
   }
 
-  openPage(page) {
+  openPage(page: IPage) {
     // close the menu when clicking a link from the menu
     this.menu.close();
 
-    if(page.component === 'logout') {
-      this.logout();
-      return;
+    if(page.index) {
+      this.nav.setRoot(page.component, { tabIndex: page.index });
+    } else {
+      if(page.passRoot)
+        this.nav.push(page.component);
+      else
+        this.nav.setRoot(page.component);
     }
 
-    // navigate to the new page if it is not the current page
-    if(page.root)
-      this.nav.setRoot(page.component);
-    else
-      this.nav.push(page.component);
+    if(page.logsOut === true) {
+      setTimeout(() => {
+        this.logout();
+      }, 1000);
+    }
+  }
+
+  enableMenu(loggedIn) {
+    this.menu.enable(loggedIn, 'loggedInMenu');
+    this.menu.enable(!loggedIn, 'loggedOutMenu');
+  }
+
+  openTutorial() {
+    //this.nav.setRoot(TourPage);
+  }
+
+  openSales() {
+    this.nav.setRoot(SellPage);
   }
 
   logout() {
     this.auth.logout();
+    this.enableMenu(false);
     this.nav.setRoot(SignTabsPage);
   }
 }

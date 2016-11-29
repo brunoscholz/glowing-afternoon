@@ -1,11 +1,13 @@
-import {Injectable} from '@angular/core';
-import {Alert, Loading, Toast} from 'ionic-angular';
+import { Injectable } from '@angular/core';
+import { AlertController, LoadingController, ToastController} from 'ionic-angular';
+
 @Injectable()
 export class UtilProvider {
-  constructor() {
+  constructor(public alertCtrl: AlertController, public loadCtrl: LoadingController, public toastCtrl: ToastController) {
   }
+
   doAlert(title, message, buttonText) {
-      let alert = Alert.create({
+      let alert = this.alertCtrl.create({
           title: title,
           subTitle: message,
           buttons: [buttonText]
@@ -14,7 +16,7 @@ export class UtilProvider {
   }
   
   presentLoading(content) {
-    let loading = Loading.create({
+    let loading = this.loadCtrl.create({
       dismissOnPageChange: true,
       content: content
     });
@@ -22,7 +24,7 @@ export class UtilProvider {
   }
 
   getToast(message) {
-    let toast = Toast.create({
+    let toast = this.toastCtrl.create({
       message: message,
       duration:2000
     });

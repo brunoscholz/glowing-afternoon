@@ -1,3 +1,13 @@
+export interface IPage {
+  title: string;
+  component: any;
+  icon: string;
+  index?: number;
+  logsOut?: boolean;
+  role?: string;
+  passRoot?: boolean;
+}
+
 export interface ICategory {
   categoryId: string;
   parentId: string;
