@@ -11,6 +11,12 @@
       <button ion-item *ngFor="let p of pages" (click)="openPage(p)">
         {{p.title}}
       </button>
+      <button ion-item *ngIf="isSalesPerson" (click)="saleSupport()">
+        Vendas
+      </button>
+      <button ion-item *ngIf="isLoggedIn" (click)="logout()">
+        Logout
+      </button>
     </ion-list>
   </ion-content>
 

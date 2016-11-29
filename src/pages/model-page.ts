@@ -27,6 +27,10 @@ export class ModelPage {
     this.display = DisplayModeEnum.Card;
   }
 
+  doChangeTitle(ttl: string) {
+    this.title = ttl;
+  }
+
   doReset(ttl: string) {
     this.title = ttl;
     this.data = [];

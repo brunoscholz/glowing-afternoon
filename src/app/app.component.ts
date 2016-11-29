@@ -76,8 +76,8 @@ export class MyApp {
   authenticate() {
     this.auth.loadUserCredentials().then((res) => {
       // this.auth.isLoggedin
-      if(res) {
-        this.dataService.fetchUser({});
+      if(res !== null) {
+        this.dataService.fetchUser(res);
         setTimeout(() => {
           this.nav.setRoot(HomeTabsPage);
         }, 2000);

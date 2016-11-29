@@ -8,7 +8,7 @@ import { APIService } from './api.service';
 
 import _ from 'underscore';
 
-import { ICategory, IBuyer, ISeller, IOffer } from '../interfaces'; //, IReview, IReviewFact, IComment, ISocialFact, IUser, IRelationship, ITransaction, IAction, IDate
+//import { ICategory, IBuyer, ISeller, IOffer } from '../interfaces'; //, IReview, IReviewFact, IComment, ISocialFact, IUser, IRelationship, ITransaction, IAction, IDate
 
 //let favorites = [];
 
@@ -61,6 +61,7 @@ export class DataService {
   get categories$() { return this._subjects$.categories.asObservable(); }
   get sellers$() { return this._subjects$.sellers.asObservable(); }
   get buyers$() { return this._subjects$.buyers.asObservable(); }
+  get balance$() { return this._subjects$.loyalty.asObservable(); }
   get loggedUser$() { return this._subjects$.user.asObservable(); }
 
   constructor(public api: APIService) {
@@ -76,6 +77,7 @@ export class DataService {
       sellers: new Subject(),
       searchitems: new Subject(),
       user: new Subject(),
+      loyalty: new Subject(),
     };
 
     this._cached$ = {
@@ -126,6 +128,9 @@ export class DataService {
       this._subjects$['user'].next(this._cached$['loggedUser']);
     }
     else {
+      if(data === {} || data === null)
+        data = this._cached$['loggedUser'];
+
       this.api.findAll({
         controller: 'buyers',
         query: { 'userId': { test: "like binary", value: data.userId } }
@@ -208,7 +213,7 @@ export class DataService {
   }
 
   addPreRegisterSeller() {
-    this.api.add({
+    return this.api.add({
       controller: 'auth/seller-register',
       body: { 
         salesman: this._cached$['loggedUser'].buyerId,
@@ -216,13 +221,7 @@ export class DataService {
       },
       query: {}
     })
-      .map((res: Response) => res.json())
-      .subscribe(data => {
-        if(data.status == 200) {
-          
-        }
-        
-      });
+    .map((res: Response) => res.json());
   }
 
   /*return Observable.create(observer => {

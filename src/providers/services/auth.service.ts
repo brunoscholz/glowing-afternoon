@@ -113,11 +113,11 @@ export class AuthService {
           .subscribe(data => {
             if(data.status == 200) {
               this.storeUserCredentials(token);
-              this.storeUser(data.data);
-              resolve(true);
+              this.storeUser(data.data[0]);
+              resolve(data.data[0]);
             }
             else
-              resolve(false);
+              resolve(null);
           });
 
       /*}, function (error) {

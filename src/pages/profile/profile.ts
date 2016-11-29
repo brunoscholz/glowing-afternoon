@@ -17,6 +17,7 @@ import _ from 'underscore';
 })
 export class ProfilePage extends ModelPage implements OnInit {
   user: IBuyer = null;
+  balance: any = null;
   loginInfo: any;
 	bgImage: string;
 	rows: any;
@@ -30,6 +31,13 @@ export class ProfilePage extends ModelPage implements OnInit {
     self.dataService.loggedUser$.subscribe((users: IBuyer) => {
       self.user = users;
       self.prepareUser();
+      this.loadBalance();
+      this.doChangeTitle(this.user.name);
+    });
+
+    self.dataService.balance$.subscribe((loyal) => {
+      self.balance = loyal;
+      console.log(loyal);
       self.changeViewState();
       if(self.refresher)
         self.refresher.complete();
@@ -37,7 +45,7 @@ export class ProfilePage extends ModelPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.doReset("Perfil"); //this.user.name
+    this.doReset("Perfil");
     this.load();
   }
 
@@ -52,18 +60,22 @@ export class ProfilePage extends ModelPage implements OnInit {
   }
 
   doRefresh(refresher) {
-    //this.refresher = refresher;
     this.load();
   }
 
   load() {
-    //this.dataService.getLoggedUser();
     this.dataService.fetchUser({});
-    //this.dataService.findAll({ controller: 'buyers', query: { 'userId': this.loginInfo.userId } } );
+  }
+
+  loadBalance () {
+    this.dataService.findAll({
+      controller: 'loyalty',
+      query: { 'buyer.buyerId': { test: "like binary", value: this.user.buyerId } }
+    });
   }
 
   prepareUser() {
-    console.log(this.user);
+    //console.log(this.user);
     //this.bgImage = this.sanitizer.bypassSecurityTrustUrl(this.user.picture.large);
     this.bgImage = 'http://ondetem.tk/' + this.user.picture.cover;
     this.rows = Array.from(Array(Math.ceil(this.user.reviews.length / 2)).keys());

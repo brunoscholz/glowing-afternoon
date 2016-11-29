@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
 import { DataService } from '../../providers/services/data.service';
+import { LoadingService } from '../../providers/services/loading.service';
+
+import { ModelPage } from '../model-page';
+import { ViewStatusEnum } from '../../providers/enums';
 
 /*
 	O objetivo desta página é, temporariamente, servir de apoio 
@@ -15,33 +19,103 @@ import { DataService } from '../../providers/services/data.service';
 @Component({
   templateUrl: 'register.html',
 })
-export class RegisterPage {
+export class RegisterPage extends ModelPage implements OnInit {
 	company: any = [];
-	title: string;
+  sended: boolean = false;
 
-  constructor(private navCtrl: NavController, public dataService: DataService, private toastCtrl: ToastController) {
-  	this.company = dataService.getVisitingCompany();
-  	this.title = 'Pré Cadastro';
+  constructor(
+    private navCtrl: NavController,
+    public dataService: DataService,
+    private toastCtrl: ToastController,
+    public loading: LoadingService
+  ) {
+    //private alertCtrl: AlertController,
+    super('Pré Cadastro', dataService, loading);
+    this.company = dataService.getVisitingCompany();
+
+    this.doToggleLoading(false);
   }
 
-  save() {
-    this.dataService.setVisitingCompany(this.company);
-    this.dataService.addPreRegisterSeller();
-  	/*this.company.photoSrc = this.base64CoverImage;
-  	this.company.thumbSrc = this.base64ThumbImage;
-    this.dataService.setVisitingCompany(this.company);
+  ngOnInit() {
+    /*this.dataService.loggedUser$
+    .subscribe((user) => {
+      this.loggedUser = user;
+      //this.setUser();
+    });
+
+    this.dataService.getLoggedUser();*/
+  }
+
+  ionViewWillEnter() {
+    //this.doReset('OndeTem?!');
+    //this.load();
+  }
+
+  changeViewState() {
+    this.doToggleLoading(false);
+  }
+
+  doRefresh(refresher) {
+    //this.refresher = refresher;
+    //this.load();
+  }
+
+  load() {}
+
+  /*presentAlert(input: string) {
+    let alert = this.alertCtrl.create({
+      title: input,
+      buttons: ['ok']
+    });
+
+    alert.onDidDismiss(() => {
+      //this.recognition.stop();
+    });
+
+    alert.present();
+  }*/
+
+  presentToast(msg) {
     let toast = this.toastCtrl.create({
-      message: 'Informações Salvas',
+      message: msg,
       position: 'middle',
       showCloseButton: true,
       closeButtonText: "Ok"
     });
 
     toast.onDidDismiss(() => {
-      
+      this.doToggleLoading(false);
+      this.sended = false;
     });
 
-    toast.present();*/
+    toast.present();
+  }
+
+  save() {
+    if(this.sended)
+      return;
+
+    this.doToggleLoading(true);
+    this.dataService.setVisitingCompany(this.company);
+    this.dataService.addPreRegisterSeller()
+      .subscribe(data => {
+        console.log(data);
+        if(data.status == 200) {
+          this.sended = true;
+          this.company = [];
+          this.presentToast('Pré cadastro efetuado');
+        }
+        else if(data.status == 401) {
+          this.presentToast('Vendedor não autorizado!');
+        }
+        else if(data.status == 404) {
+          this.presentToast('Email já cadastrado!');
+        }
+        else if(data.status == 500) {
+          // send email to admin from server with the problems
+          this.presentToast('Erro do servidor, tente mais tarde!');
+        }
+      });
   }
 
 }

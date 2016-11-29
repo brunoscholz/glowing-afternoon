@@ -115,13 +115,25 @@ export class SearchPage extends ModelPage implements OnInit {
 
   catTapped(event, item) {
     this.navCtrl.push(ProductPage, {
-      item: item
+      category: item
     });
   }
 
 	itemTapped(event, item) {
     this.navCtrl.push(ProductDetailPage, {
-      item: item
+      offer: item
+    });
+  }
+
+  userTapped(event, item) {
+    this.navCtrl.push(ProductDetailPage, {
+      user: item
+    });
+  }
+
+  companyTapped(event, item) {
+    this.navCtrl.push(ProductDetailPage, {
+      company: item
     });
   }
 }
