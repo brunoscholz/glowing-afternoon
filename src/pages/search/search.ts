@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, reorderArray } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular'; //reorderArray
 
 import { ProductDetailPage } from '../product-detail/product-detail';
 import { ProductPage } from '../product/product';
@@ -10,10 +10,8 @@ import { ProductPage } from '../product/product';
 import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 
-//import { ArrayFilterPipe } from '../../pipes/array-filter';
-
 import { ViewStatusEnum } from '../../providers/enums';
-//import { IProductFact } from '../../providers/interfaces';
+//import { IOffer, IBuyer, ISeller } from '../../providers/interfaces';
 import { ModelPage } from '../model-page';
 import 'rxjs/add/operator/debounceTime';
 import _ from 'underscore';
@@ -22,7 +20,7 @@ import _ from 'underscore';
   templateUrl: 'search.html'
 })
 export class SearchPage extends ModelPage implements OnInit {
-	products: any = [];
+	//products: IOffer[] = [];
   searchTerm: string = '';
   items: any = [];
   groupedOffers: any = [];

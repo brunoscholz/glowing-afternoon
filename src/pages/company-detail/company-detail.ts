@@ -9,18 +9,17 @@
  * in the load method
  *
 */
-
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams, AlertController, ActionSheetController, ModalController } from 'ionic-angular';
 import { ModelPage } from '../model-page';
-import { ReviewPage } from '../review/review';
-//import { ReviewDetailPage } from '../review-detail/review-detail';
+// import { ReviewPage } from '../review/review';
+// import { ReviewDetailPage } from '../review-detail/review-detail';
 import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 
 import { ViewStatusEnum } from '../../providers/enums';
-import { ISeller, IOffer } from '../../providers/interfaces'; //IProductFact, IProduct, IReviewFact, IReview
-import _ from 'underscore';
+import { ISeller, IOffer } from '../../providers/interfaces';
+//import _ from 'underscore';
 
 @Component({
   templateUrl: 'company-detail.html',

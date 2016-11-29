@@ -1,21 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform, NavController, NavParams, AlertController } from 'ionic-angular';
 
-import { CategoryPage } from '../category/category';
+import { SearchPage } from '../search/search';
+
 import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 import { ConnectivityService } from '../../providers/services/connectivity.service';
 
-import { SearchPage } from '../search/search';
-
-import { ViewStatusEnum } from '../../providers/enums';
-import { IBuyer } from '../../providers/interfaces';
+//import { ViewStatusEnum } from '../../providers/enums';
+//import { IBuyer } from '../../providers/interfaces';
 import { ModelPage } from '../model-page';
 
 // import { SpeechRecognition } from 'SpeechRecognition';
-
-import _ from 'underscore';
-
 //declare var SpeechRecognition: any;
 declare var webkitSpeechRecognition: any;
 declare var platform: any;

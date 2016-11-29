@@ -8,11 +8,8 @@ import { AuthService } from '../../providers/services/auth.service';
 import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 
-import { SignTabsPage } from '../sign-tabs/sign-tabs';
-import { HomeTabsPage } from '../home-tabs/home-tabs';
 import { ModelPage } from '../model-page';
 
-import { ViewStatusEnum } from '../../providers/enums';
 //import { ICategory } from '../../providers/interfaces';
 //import _ from 'underscore';
 

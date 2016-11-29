@@ -15,7 +15,7 @@ import { NavController, NavParams, AlertController, ActionSheetController, Modal
 import { ModelPage } from '../model-page';
 import { ReviewPage } from '../review/review';
 import { CompanyDetailPage } from '../company-detail/company-detail';
-//import { ReviewDetailPage } from '../review-detail/review-detail';
+import { ReviewDetailPage } from '../review-detail/review-detail';
 import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 
@@ -46,7 +46,7 @@ export class ProductDetailPage extends ModelPage implements OnInit {
   }
 
   ngOnInit() {
-    var self = this;
+    //var self = this;
     /*this.dataService.offers$
       .subscribe(
         (data) => {
@@ -196,10 +196,10 @@ export class ProductDetailPage extends ModelPage implements OnInit {
   }
 
   reviewTapped(event, item) {
-    /*this.navCtrl.push(ReviewDetailPage, {
+    this.navCtrl.push(ReviewDetailPage, {
       review: item,
       product: this.product
-    });*/
+    });
   }
 
   getRating(rate) {

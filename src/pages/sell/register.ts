@@ -4,7 +4,7 @@ import { DataService } from '../../providers/services/data.service';
 import { LoadingService } from '../../providers/services/loading.service';
 
 import { ModelPage } from '../model-page';
-import { ViewStatusEnum } from '../../providers/enums';
+//import { ViewStatusEnum } from '../../providers/enums';
 
 /*
 	O objetivo desta página é, temporariamente, servir de apoio 
