@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { CompanyDetailPage } from '../company-detail/company-detail';
 import { DataService } from '../../providers/data/data.service';
-import { LoadingService } from '../../providers/utils/loading.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
 import { ModelPage } from '../model-page';
@@ -25,8 +25,11 @@ import _ from 'underscore';
 export class CompanyPage extends ModelPage implements OnInit {
   companies: any = [];
 
-  constructor(public navCtrl: NavController, navParams: NavParams, public dataService: DataService, public loading: LoadingService) {
-    super('Empresas', dataService, loading);
+  constructor(public navCtrl: NavController,
+              navParams: NavParams,
+              public dataService: DataService,
+              public util: UtilProvider) {
+    super('Empresas', dataService, util);
     this.selectedItem = navParams.get('item');
   }
 

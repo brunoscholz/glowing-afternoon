@@ -1,9 +1,7 @@
 //import { Injectable, ReflectiveInjector } from '@angular/core';
 import { DataService } from '../providers/data/data.service';
-import { LoadingService } from '../providers/utils/loading.service';
-
 // import { AuthService } from '../providers/auth/auth.service';
-// import { UtilsService } from '../providers/utils/utils.service';
+import { UtilProvider } from '../providers/utils/util.provider';
 
 import { ViewStatusEnum, DisplayModeEnum } from '../providers/utils/enums';
 //import _ from 'underscore';
@@ -21,9 +19,11 @@ export class ModelPage {
   display: any;
   online: boolean = false;
 
-  constructor(private ttl: string, public dataService: DataService, public loadingService: LoadingService) {
-    //let injector = ReflectiveInjector.resolveAndCreate([LoadingService]);
-    this.loadingService = loadingService;//injector.get(LoadingService);
+  constructor(private ttl: string,
+              public dataService: DataService,
+              public util: UtilProvider) {
+
+    //this.loadingService = loadingService;//injector.get(LoadingService);
 
     this.doReset(ttl);
     this.status = ViewStatusEnum.Loading;
@@ -42,7 +42,7 @@ export class ModelPage {
   }
 
   doToggleLoading(l: boolean) {
-    this.loadingService.toggleLoadingIndicator(l);
+    
   }
 
   /*doRefresh(refresher) {

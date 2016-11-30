@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { DataService } from '../../providers/data/data.service';
-import { LoadingService } from '../../providers/utils/loading.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
 
 import { ModelPage } from '../model-page';
 //import { ViewStatusEnum } from '../../providers/enums';
@@ -26,11 +26,9 @@ export class RegisterPage extends ModelPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     public dataService: DataService,
-    private toastCtrl: ToastController,
-    public loading: LoadingService
+    public util: UtilProvider
   ) {
-    //private alertCtrl: AlertController,
-    super('Pré Cadastro', dataService, loading);
+    super('Pré Cadastro', dataService, util);
     this.company = dataService.getVisitingCompany();
 
     this.doToggleLoading(false);
@@ -76,12 +74,7 @@ export class RegisterPage extends ModelPage implements OnInit {
   }*/
 
   presentToast(msg) {
-    let toast = this.toastCtrl.create({
-      message: msg,
-      position: 'middle',
-      showCloseButton: true,
-      closeButtonText: "Ok"
-    });
+    let toast = this.util.getToast(msg);
 
     toast.onDidDismiss(() => {
       this.doToggleLoading(false);

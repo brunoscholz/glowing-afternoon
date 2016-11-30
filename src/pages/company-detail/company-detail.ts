@@ -10,12 +10,12 @@
  *
 */
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, AlertController, ActionSheetController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ActionSheetController, ModalController } from 'ionic-angular';
 import { ModelPage } from '../model-page';
 // import { ReviewPage } from '../review/review';
 // import { ReviewDetailPage } from '../review-detail/review-detail';
 import { DataService } from '../../providers/data/data.service';
-import { LoadingService } from '../../providers/utils/loading.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
 import { ISeller, IOffer } from '../../providers/data/interfaces';
@@ -29,8 +29,13 @@ export class CompanyDetailPage extends ModelPage implements OnInit {
   bgImage: string;
   offers: IOffer[];
 
-  constructor(public navCtrl: NavController, navParams: NavParams, public alertCtrl: AlertController, public acCtrl: ActionSheetController, public modCtrl: ModalController, public dataService: DataService, public loading: LoadingService) {
-    super("Company Details", dataService, loading);
+  constructor(public navCtrl: NavController,
+              navParams: NavParams,
+              public acCtrl: ActionSheetController,
+              public modCtrl: ModalController,
+              public dataService: DataService,
+              public util: UtilProvider) {
+    super("Company Details", dataService, util);
     this.company = navParams.get('company');
     console.log(this.company);
     this.bgImage = 'http://ondetem.tk/' + this.company.picture.cover;

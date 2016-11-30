@@ -13,7 +13,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { DataService } from '../../providers/data/data.service';
-import { LoadingService } from '../../providers/utils/loading.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
 import { ModelPage } from '../model-page';
@@ -29,14 +29,13 @@ export class ReviewDetailPage extends ModelPage {
 	product: any;
   review: any;
 
-  constructor(
-  	public navCtrl: NavController, 
-  	navParams: NavParams,
-  	public viewCtrl: ViewController,
-    public dataService: DataService, 
-    public loading: LoadingService
+  constructor(public navCtrl: NavController, 
+            	navParams: NavParams,
+            	public viewCtrl: ViewController,
+              public dataService: DataService, 
+              public util: UtilProvider
   ) {
-  	super('Review', dataService, loading)
+  	super('Review', dataService, util)
   	this.review = navParams.get('review');
   	this.product = navParams.get('product');
   	_.extend(this.review, { comments: [] });
@@ -71,7 +70,7 @@ export class ReviewDetailPage extends ModelPage {
     else {
       this.doChangeView(ViewStatusEnum.Empty);
     }
-    this.loading.toggleLoadingIndicator(false);
+    this.doToggleLoading(false);
   }
 
   doRefresh(refresher) {

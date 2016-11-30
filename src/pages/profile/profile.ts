@@ -5,9 +5,8 @@ import { ProfileOptionsPage } from './options';
 
 import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
-import { LoadingService } from '../../providers/utils/loading.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
-import { ViewStatusEnum } from '../../providers/utils/enums';
+//import { ViewStatusEnum } from '../../providers/utils/enums';
 //import { ElasticHeader } from '../../directives/elastic-header';
 import { IUser } from '../../providers/data/interfaces';
 
@@ -23,17 +22,17 @@ export class ProfilePage extends ModelPage implements OnInit {
   loginInfo: any;
 	bgImage: string;
 	rows: any;
+  preferred: any;
 
   constructor(public navCtrl: NavController,
               navParams: NavParams,
               public sanitizer: DomSanitizer,
               public dataService: DataService,
-              public loading: LoadingService,
               public authService: AuthService,
               public actionSheet: ActionSheetController,
               public popoverCtrl: PopoverController,
               public util: UtilProvider) {
-  	super('Perfil', dataService, loading);
+  	super('Perfil', dataService, util);
   }
 
   ngOnInit() {
@@ -64,6 +63,7 @@ export class ProfilePage extends ModelPage implements OnInit {
   load() {
     this.doToggleLoading(true);
     var self = this;
+
     this.dataService.getUser().then((res: IUser) => {
       if(res) {
         self.user = res;
@@ -75,17 +75,26 @@ export class ProfilePage extends ModelPage implements OnInit {
   }
 
   loadBalance () {
-    this.dataService.findAll({
+    var self = this;
+    self.dataService.findAll({
       controller: 'loyalty',
-      query: { 'buyer.buyerId': { test: "like binary", value: this.user.buyer.buyerId } }
+      query: { 'buyer.buyerId': { test: "like binary", value: self.user.buyer.buyerId } }
     });
   }
 
   prepareUser() {
+    var self = this;
     //console.log(this.user);
     //this.bgImage = this.sanitizer.bypassSecurityTrustUrl(this.user.picture.large);
-    this.bgImage = 'http://ondetem.tk/' + this.user.buyer.picture.cover;
+    self.bgImage = 'http://ondetem.tk/' + self.user.buyer.picture.cover;
     //this.rows = Array.from(Array(Math.ceil(this.user.buyer.reviews.length / 2)).keys());
+    self.dataService.getPreferredProfile()
+      .then((ret) => {
+        if(ret)
+          self.preferred = ret;
+        else
+          self.preferred = { type: 'buyer', id: self.user.buyer.buyerId };
+      });
   }
 
   hasField(field: any) {
@@ -117,7 +126,20 @@ export class ProfilePage extends ModelPage implements OnInit {
   }
 
   moreOptions(myEvent) {
-    let popover = this.popoverCtrl.create(ProfileOptionsPage);
+    let userProfiles = { profiles: [{ name: this.user.buyer.name, id: this.user.buyer.buyerId, pic: this.user.buyer.picture.thumbnail, type: 'buyer', index: 0 }] };
+    let i = 1;
+    this.user.sellers.forEach(function(entry) {
+      //console.log(entry);
+      userProfiles.profiles.push({ name: entry.name, id: entry.sellerId, pic: entry.picture.thumbnail, type: 'seller', index: i++ });
+    });
+
+    let popover = this.popoverCtrl.create(ProfileOptionsPage, userProfiles);
+    popover.onDidDismiss(pref => {
+      if(pref) {
+        this.preferred = pref;
+        this.dataService.setPreferredProfile(this.preferred);
+      }
+    });
     popover.present({
       ev: myEvent
     });
@@ -170,9 +192,9 @@ export class ProfilePage extends ModelPage implements OnInit {
   updateProfile() {
     let toast = this.util.getToast("Your Profile is updated");
     //this.userProvider.updateProfile({name: this.user['name'], about: this.user['about']})
+    toast.present();
     /*this.dataService.updateProfile(this.user)
     .then(()=> {
-      toast.present();
     });*/
   }
 }

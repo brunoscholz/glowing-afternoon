@@ -14,64 +14,68 @@
 </ion-header>
 
 <ion-content class="profile-page">
-  <loading-modal></loading-modal>
-
   <div *ngIf="user">
-    <div id="elastic-header" [style.backgroundImage]="'url(' + bgImage + ')'"></div>
-    <div class="profile-info">
-      <ion-card>
-        <ion-card-content>
-          <img class="animated wobble" src="http://ondetem.tk/{{user.buyer.picture.thumbnail}}">
-          <h2>{{user.buyer.name}}</h2>
-          <h3>{{user.username}}</h3>
-        </ion-card-content>
+    <div *ngIf="preferred.type == 'buyer'">
+      <div id="elastic-header" [style.backgroundImage]="'url(' + bgImage + ')'"></div>
+        <div class="profile-info">
+          <ion-card>
+            <ion-card-content>
+              <img class="animated wobble" src="http://ondetem.tk/{{user.buyer.picture.thumbnail}}">
+              <h2>{{user.buyer.name}}</h2>
+              <h3>{{user.username}}</h3>
+            </ion-card-content>
 
-        <ion-row no-padding>
-          <ion-col>
-            <button ion-button clear small color="secondary" icon-left (click)="addReview()">
-              <ion-icon name='star'></ion-icon>
-              Seguir
-            </button>
-          </ion-col>
-          <ion-col text-center>
-            <button ion-button clear small color="secondary" icon-left (click)="like($event)">
-              <ion-icon name='navigate'></ion-icon>
-              Mensagem
-            </button>
-          </ion-col>
-          <ion-col text-right>
-            <button ion-button clear small color="secondary" icon-left (click)="share($event)">
-              <ion-icon name='share-alt'></ion-icon>
-              Sobre
-            </button>
-          </ion-col>
-        </ion-row>
-      </ion-card>
+            <ion-row no-padding>
+              <ion-col>
+                <button ion-button clear small color="secondary" icon-left (click)="addReview()">
+                  <ion-icon name='star'></ion-icon>
+                  Seguir
+                </button>
+              </ion-col>
+              <ion-col text-center>
+                <button ion-button clear small color="secondary" icon-left (click)="like($event)">
+                  <ion-icon name='navigate'></ion-icon>
+                  Mensagem
+                </button>
+              </ion-col>
+              <ion-col text-right>
+                <button ion-button clear small color="secondary" icon-left (click)="share($event)">
+                  <ion-icon name='share-alt'></ion-icon>
+                  Sobre
+                </button>
+              </ion-col>
+            </ion-row>
+          </ion-card>
+        </div>
+
+        <h4 class="content padding double-padding-x" style="text-align: center;">Moedas</h4>
+        <ion-list>
+          <ion-list-header>
+            Saldo
+          </ion-list-header>
+          <ion-item class="value">{{user.buyer.coinsBalance}}</ion-item>
+          <ion-list-header>
+            Últimas Transações
+          </ion-list-header>
+          <ion-item class="balance-pos animated bounceInRight"><span class="value">20</span></ion-item>
+          <ion-item class="balance-pos animated bounceInRight"><span class="value">5</span></ion-item>
+          <ion-item class="balance-pos animated bounceInRight"><span class="value">10</span></ion-item>
+          <ion-item class="balance-pos animated bounceInRight"><span class="value">10</span></ion-item>
+          <ion-item class="balance-neg animated bounceInLeft"><span class="value">1200</span></ion-item>
+        </ion-list>
+
+        <ion-list inset>
+          <button ion-item (click)="updatePicture()">Update Picture</button>
+          <button ion-item (click)="changeUsername()">Change Username</button>
+          <button ion-item (click)="changePassword()">Change Password</button>
+          <button ion-item (click)="connectFacebook()">Connect with Facebook</button>
+          <button ion-item (click)="logout()">Logout</button>
+        </ion-list>
     </div>
 
-    <h4 class="content padding double-padding-x" style="text-align: center;">Moedas</h4>
-    <ion-list>
-      <ion-list-header>
-        Saldo
-      </ion-list-header>
-      <ion-item class="value">{{user.buyer.coinsBalance}}</ion-item>
-      <ion-list-header>
-        Últimas Transações
-      </ion-list-header>
-      <ion-item class="balance-pos animated bounceInRight"><span class="value">20</span></ion-item>
-      <ion-item class="balance-pos animated bounceInRight"><span class="value">5</span></ion-item>
-      <ion-item class="balance-pos animated bounceInRight"><span class="value">10</span></ion-item>
-      <ion-item class="balance-pos animated bounceInRight"><span class="value">10</span></ion-item>
-      <ion-item class="balance-neg animated bounceInLeft"><span class="value">1200</span></ion-item>
-    </ion-list>
-
-    <ion-list inset>
-      <button ion-item (click)="updatePicture()">Update Picture</button>
-      <button ion-item (click)="changeUsername()">Change Username</button>
-      <button ion-item (click)="changePassword()">Change Password</button>
-      <button ion-item (click)="connectFacebook()">Connect with Facebook</button>
-      <button ion-item (click)="logout()">Logout</button>
-    </ion-list>
+    <div *ngIf="preferred.type == 'seller'">
+      
+    </div>
 
     <!-- <h4 class="content padding double-padding-x" style="text-align: center;">Avaliações</h4>
     <ion-grid class="reviews" *ngIf="hasField(user.buyer.reviews)">

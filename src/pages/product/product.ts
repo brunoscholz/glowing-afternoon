@@ -12,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ProductDetailPage } from '../product-detail/product-detail';
 import { DataService } from '../../providers/data/data.service';
-import { LoadingService } from '../../providers/utils/loading.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
 import { ICategory, IOffer } from '../../providers/data/interfaces';
@@ -29,8 +29,11 @@ export class ProductPage extends ModelPage implements OnInit {
   groupedOffers: any = [];
   toOrder: string;
 
-  constructor(private navCtrl: NavController, navParams: NavParams, public dataService: DataService, public loading: LoadingService) {
-  	super('Ofertas', dataService, loading)
+  constructor(private navCtrl: NavController,
+              navParams: NavParams,
+              public dataService: DataService,
+              public util: UtilProvider) {
+  	super('Ofertas', dataService, util)
   	this.category = this.selectedItem = navParams.get('category');
     this.toOrder = 'name';
   }

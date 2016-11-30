@@ -11,13 +11,13 @@
 */
 
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, AlertController, ActionSheetController, ModalController, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ActionSheetController, ModalController } from 'ionic-angular';
 import { ModelPage } from '../model-page';
 import { ReviewPage } from '../review/review';
 import { CompanyDetailPage } from '../company-detail/company-detail';
 import { ReviewDetailPage } from '../review-detail/review-detail';
 import { DataService } from '../../providers/data/data.service';
-import { LoadingService } from '../../providers/utils/loading.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
 import { IOffer } from '../../providers/data/interfaces';
@@ -33,14 +33,12 @@ export class ProductDetailPage extends ModelPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     navParams: NavParams,
-    public alertCtrl: AlertController,
-    private toastCtrl: ToastController,
     public acCtrl: ActionSheetController,
     public modCtrl: ModalController,
     public dataService: DataService,
-    public loading: LoadingService
+    public util: UtilProvider
   ) {
-    super("Product Details", dataService, loading);
+    super("Product Details", dataService, util);
     this.product = navParams.get('offer');
     this.bgImage = 'http://ondetem.tk/' + this.product.picture.cover;
   }
@@ -93,11 +91,7 @@ export class ProductDetailPage extends ModelPage implements OnInit {
   favorite(event) {
     // this.dataService.favorite(this.product).subscribe(
     //   favorites => {
-        let alert = this.alertCtrl.create({
-            title: 'Favorites',
-            subTitle: 'Product added to your favorites',
-            buttons: ['OK']
-        });
+        let alert = this.util.doAlert('Favorites', 'Product added to your favorites', 'OK');
         alert.present();
     //   }
     // );
@@ -164,13 +158,13 @@ export class ProductDetailPage extends ModelPage implements OnInit {
   }
 
   presentToast() {
-    let toast = this.toastCtrl.create({
-      message: 'Você ganhou 10 moedas pela avaliação. Obrigado!',
-      position: 'middle',
+    let toast = this.util.getToast('Você ganhou 10 moedas pela avaliação. Obrigado!');
+    //  message: 'Você ganhou 10 moedas pela avaliação. Obrigado!',
+    /*position: 'middle',
       showCloseButton: true,
       closeButtonText: "Ok",
       cssClass: 'coin-toast'
-    });
+    });*/
 
     toast.onDidDismiss(() => {
       this.dataService.creditUser(10);

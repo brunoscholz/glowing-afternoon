@@ -161,6 +161,20 @@ export class DataService {
     });
   }
 
+  getPreferredProfile() {
+    return new Promise(resolve => {
+      let usr = JSON.parse(this.lstorageLoad('profile'));
+      if(usr)
+        resolve(usr);
+      else
+        resolve(null);
+    });
+  }
+
+  setPreferredProfile(prefs) {
+    this.lstorageSave('profile', JSON.stringify(prefs));
+  }
+
   fetchUser(usr) {
     if(usr == {} || usr == null)
       usr = this.lstorageLoad('user');
@@ -172,7 +186,8 @@ export class DataService {
       .map((res: Response) => res.json())
       .subscribe(data => {
         let u = data['data'][0];
-        this.lstorageSave('user', u);
+        this.lstorageSave('user', JSON.stringify(u));
+        //this.lstorageSave('profile', JSON.stringify({ type: 'buyer', id: u.buyer.buyerId }));
         this._subjects$['user'].next(u);
       }, 
       error => console.log('Something went wrong'),

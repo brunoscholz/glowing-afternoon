@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core'; //, provide
-import { Platform, MenuController, Nav, AlertController } from 'ionic-angular';
+import { Platform, MenuController, Nav } from 'ionic-angular';
 import { Splashscreen, StatusBar } from 'ionic-native';
-
 
 import { WelcomePage } from '../pages/welcome/welcome';
 import { SignTabsPage } from '../pages/sign-tabs/sign-tabs';
@@ -15,9 +14,8 @@ import { IPage } from '../providers/data/interfaces';
 import { ErrorNotifierService } from '../providers/utils/error.notifier';
 import { DataService } from '../providers/data/data.service';
 import { AuthService } from '../providers/auth/auth.service';
-import { LoadingService } from '../providers/utils/loading.service';
+import { UtilProvider } from '../providers/utils/util.provider';
 import { ConnectivityService } from '../providers/utils/connectivity.service';
-import { LoadingModal } from '../components/loading-modal/loading-modal';
 
 import { IUser } from '../providers/data/interfaces';
 
@@ -27,8 +25,7 @@ import { IUser } from '../providers/data/interfaces';
     AuthService,
     DataService,
     ConnectivityService,
-    LoadingService,
-    LoadingModal
+    UtilProvider
   ]
 })
 export class MyApp {
@@ -44,17 +41,23 @@ export class MyApp {
   ];
 
   loggedInPages: IPage[] = [
-    { title: 'Perfil', component: HomeTabsPage, index: 2, icon: 'profile' },
-    { title: 'Configurações', component: SettingsPage, icon: 'cog', passRoot: true },
+    { title: 'Perfil', component: HomeTabsPage, index: 2, icon: 'person' },
     { title: 'Sair', component: SignTabsPage, icon: 'log-out', logsOut: true }
   ];
+  //{ title: 'Configurações', component: SettingsPage, icon: 'settings', passRoot: true },
 
   loggedOutPages: IPage[] = [
     { title: 'Entrar', component: SignTabsPage, icon: 'log-in' },
     { title: 'Cadastrar', component: SignTabsPage, index:1, icon: 'person-add' }
   ];
 
-  constructor(public platform: Platform, public menu: MenuController, public alertCtrl: AlertController, private errorNotifier:ErrorNotifierService, public dataService: DataService, public auth: AuthService, public connService: ConnectivityService) {
+  constructor(public platform: Platform,
+              public menu: MenuController,
+              private errorNotifier:ErrorNotifierService,
+              public dataService: DataService,
+              public auth: AuthService,
+              public util: UtilProvider,
+              public connService: ConnectivityService) {
     this.initializeApp();
   }
 
@@ -114,10 +117,7 @@ export class MyApp {
 
         }
         else {
-          let alert = this.alertCtrl.create({
-            title: "Connection",
-            message: "You are offline!"
-          });
+          let alert = this.util.doAlert("Connection", "You are offline!", 'OK');
           alert.present();
         }
       });

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, ToastController, AlertController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
-import { LoadingService } from '../../providers/utils/loading.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
 
 import { IBuyer } from '../../providers/data/interfaces';
 import { ModelPage } from '../model-page';
@@ -19,11 +19,9 @@ export class SettingsPage extends ModelPage implements OnInit {
 
   constructor(private navCtrl: NavController,
               public dataService: DataService,
-              public loading: LoadingService,
               public authService: AuthService,
-              private alertCtrl: AlertController,
-              private toastCtrl: ToastController) {
-  	super('Configurações', dataService, loading)
+              public util: UtilProvider) {
+  	super('Configurações', dataService, util)
     //this.user = authService.
   }
 

@@ -4,7 +4,7 @@ import { Platform, NavController, NavParams, AlertController } from 'ionic-angul
 import { SearchPage } from '../search/search';
 
 import { DataService } from '../../providers/data/data.service';
-import { LoadingService } from '../../providers/utils/loading.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
 import { ConnectivityService } from '../../providers/utils/connectivity.service';
 
 //import { ViewStatusEnum } from '../../providers/enums';
@@ -30,12 +30,12 @@ export class HomePage extends ModelPage implements OnInit {
     public navCtrl: NavController,
     navParams: NavParams,
     public dataService: DataService,
-    public loading: LoadingService,
+    public util: UtilProvider,
     platform: Platform,
     private alertCtrl: AlertController,
     public connService: ConnectivityService
   ) {
-    super('OndeTem?!', dataService, loading);
+    super('OndeTem?!', dataService, util);
     platform = platform;
     platform.ready().then(() => {
       console.log('platform ready...');

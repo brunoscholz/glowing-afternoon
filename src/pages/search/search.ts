@@ -8,7 +8,7 @@ import { ProductPage } from '../product/product';
 // CategoryPage
 
 import { DataService } from '../../providers/data/data.service';
-import { LoadingService } from '../../providers/utils/loading.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
 //import { IOffer, IBuyer, ISeller } from '../../providers/interfaces';
@@ -28,8 +28,8 @@ export class SearchPage extends ModelPage implements OnInit {
   constructor(public navCtrl: NavController,
               navParams: NavParams,
               public dataService: DataService,
-              public loading: LoadingService) {
-    super('Busca', dataService, loading)
+              public util: UtilProvider) {
+    super('Busca', dataService, util)
   	this.searchTerm = navParams.get('term') || '';
   }
 

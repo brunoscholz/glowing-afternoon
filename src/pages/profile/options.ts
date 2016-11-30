@@ -1,16 +1,21 @@
 import { Component } from '@angular/core';
-import { ViewController } from 'ionic-angular';
+import { ViewController, NavParams } from 'ionic-angular';
 
 @Component({
   templateUrl: 'options.html',
 })
 
 export class ProfileOptionsPage {
-	constructor(public viewCtrl: ViewController) {}
+	list: any;
+
+	constructor(public viewCtrl: ViewController, params: NavParams) {
+		this.list = params.data.profiles;
+		console.log(this.list);
+	}
 
 	ionViewWillLoad() {}
 
-	close() {
-		this.viewCtrl.dismiss();
+	close(id, type) {
+		this.viewCtrl.dismiss({ type: type, id: id });
 	}
 }

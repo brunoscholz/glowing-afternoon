@@ -43,10 +43,8 @@ import { UserProfile } from '../pages/user-profile/user-profile';
 import { ArrayFilterPipe } from '../pipes/array-filter';
 import { OrderByPipe } from '../pipes/order-by';
 import { ElasticHeader } from '../directives/elastic-header';
-import { LoadingModal } from '../components/loading-modal/loading-modal';
 
 // Services and Providers
-//import { LoadingService } from '../providers/utils/loading.service';
 import { ConnectivityService } from '../providers/utils/connectivity.service';
 import { AuthService } from '../providers/auth/auth.service';
 import { DataService } from '../providers/data/data.service';
@@ -95,7 +93,6 @@ CloudModule.forRoot(cloudSettings)*/
     ProfilePage,
     ProfileOptionsPage,
     UserProfile,
-    LoadingModal,
     ArrayFilterPipe,
     OrderByPipe,
     ElasticHeader
@@ -129,8 +126,7 @@ CloudModule.forRoot(cloudSettings)*/
     ReviewDetailPage,
     ProfilePage,
     ProfileOptionsPage,
-    UserProfile,
-    LoadingModal
+    UserProfile
   ],
   providers: [
     ErrorNotifierService,

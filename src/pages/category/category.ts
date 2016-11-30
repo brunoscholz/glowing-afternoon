@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 //import { SubCategoryPage } from '../sub-category/sub-category';
 import { ProductPage } from '../product/product';
 import { DataService } from '../../providers/data/data.service';
-import { LoadingService } from '../../providers/utils/loading.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
 import { ICategory } from '../../providers/data/interfaces';
@@ -18,8 +18,11 @@ export class CategoryPage extends ModelPage implements OnInit {
   categories: ICategory[] = [];
   rows: any;
 
-  constructor(public navCtrl: NavController, navParams: NavParams, public dataService: DataService, public loading: LoadingService) {
-    super('Categorias', dataService, loading);
+  constructor(public navCtrl: NavController,
+              navParams: NavParams,
+              public dataService: DataService,
+              public util: UtilProvider) {
+    super('Categorias', dataService, util);
     //this.selectedItem = navParams.get('item');
   }
 

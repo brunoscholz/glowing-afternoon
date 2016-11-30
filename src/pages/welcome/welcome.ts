@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 //import {Observable} from 'rxjs/Observable';
 //import 'rxjs/add/observable/fromEvent';
 
-import { ConnectivityService } from '../../providers/utils/connectivity.service';
 import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
-import { LoadingService } from '../../providers/utils/loading.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
+import { ConnectivityService } from '../../providers/utils/connectivity.service';
 
 import { ModelPage } from '../model-page';
 
@@ -25,13 +25,12 @@ export class WelcomePage extends ModelPage implements OnInit {
   constructor(
     navParams: NavParams,
     public navCtrl: NavController,
-    public alertCtrl: AlertController,
     public dataService: DataService,
-    public loading: LoadingService,
     public connService: ConnectivityService,
-    public auth: AuthService
+    public auth: AuthService,
+    public util: UtilProvider
   ) {
-    super('OndeTem?!', dataService, loading);
+    super('OndeTem?!', dataService, util);
     console.log('WelcomePage');
     this.doToggleLoading(false);
   }
