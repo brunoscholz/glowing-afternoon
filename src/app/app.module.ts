@@ -36,6 +36,7 @@ import { ReviewDetailPage } from '../pages/review-detail/review-detail';
 
 // User related Pages
 import { ProfilePage } from '../pages/profile/profile';
+import { ProfileOptionsPage } from '../pages/profile/options';
 import { UserProfile } from '../pages/user-profile/user-profile';
 
 // Pipes and Directives
@@ -51,6 +52,7 @@ import { AuthService } from '../providers/auth/auth.service';
 import { DataService } from '../providers/data/data.service';
 import { APIService } from '../providers/api/api.service';
 import { APISettings } from '../providers/api/api-settings';
+import { UtilProvider } from '../providers/utils/util.provider'
 import { ErrorNotifierService } from '../providers/utils/error.notifier';
 
 // Map related
@@ -91,6 +93,7 @@ CloudModule.forRoot(cloudSettings)*/
     ReviewPage,
     ReviewDetailPage,
     ProfilePage,
+    ProfileOptionsPage,
     UserProfile,
     LoadingModal,
     ArrayFilterPipe,
@@ -125,6 +128,7 @@ CloudModule.forRoot(cloudSettings)*/
     ReviewPage,
     ReviewDetailPage,
     ProfilePage,
+    ProfileOptionsPage,
     UserProfile,
     LoadingModal
   ],
@@ -134,7 +138,8 @@ CloudModule.forRoot(cloudSettings)*/
     APIService,
     APISettings,
     ConnectivityService,
-    AuthService
+    AuthService,
+    UtilProvider
   ]
 })
 export class AppModule {}

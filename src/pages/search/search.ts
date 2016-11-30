@@ -24,9 +24,6 @@ export class SearchPage extends ModelPage implements OnInit {
   searchTerm: string = '';
   items: any = [];
   groupedOffers: any = [];
-  query: string = "";
-
-  private nearbyPlaces: Array<any> = [];
 
   constructor(public navCtrl: NavController,
               navParams: NavParams,
@@ -42,7 +39,7 @@ export class SearchPage extends ModelPage implements OnInit {
 	    .subscribe(
 	      (data) => {
 	      	self.items = data;
-	      	self.changeViewState();
+	      	this.doToggleLoading(false);
 	        if(self.refresher)
 	          self.refresher.complete();
 	      },
@@ -50,16 +47,11 @@ export class SearchPage extends ModelPage implements OnInit {
 	      () => {}
 	    );
 
-    this.doReset('Busca');
-    this.load();
   }
 
   ionViewDidLoad() {
-    /*this.searchControl.valueChanges.debounceTime(700)
-      .subscribe(search => {
-        this.load();
-      });*/
-    //this.initializeItems();
+    this.doReset('Busca');
+    this.load();
   }
 
   changeViewState() {
@@ -88,6 +80,7 @@ export class SearchPage extends ModelPage implements OnInit {
   }
 
   load() {
+    this.doToggleLoading(true);
     // searchFor : {offers} -> offers only
     // searchFor : {offers, users} -> offers and users
     this.dataService.search({ term: this.searchTerm });

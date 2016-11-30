@@ -19,6 +19,8 @@ import { LoadingService } from '../providers/utils/loading.service';
 import { ConnectivityService } from '../providers/utils/connectivity.service';
 import { LoadingModal } from '../components/loading-modal/loading-modal';
 
+import { IUser } from '../providers/data/interfaces';
+
 @Component({
   templateUrl: 'app.html',
   providers: [
@@ -54,14 +56,6 @@ export class MyApp {
 
   constructor(public platform: Platform, public menu: MenuController, public alertCtrl: AlertController, private errorNotifier:ErrorNotifierService, public dataService: DataService, public auth: AuthService, public connService: ConnectivityService) {
     this.initializeApp();
-
-    this.dataService.loggedUser$
-    .distinctUntilChanged()
-    .subscribe((buyer) => {
-      this.isSalesPerson = (buyer.user.role === 'salesman' || buyer.user.role === 'administrator');
-      this.enableMenu(this.auth.isLoggedin === true);
-      this.gotoMainPage(this.auth.isLoggedin === true);
-    });
   }
 
   initializeApp() {
@@ -79,12 +73,12 @@ export class MyApp {
   }
 
   authenticate() {
-    this.auth.loadUserCredentials().then((res) => {
-      if(res) {
-        this.dataService.fetchUser(res);
-      } else {
-        this.gotoMainPage(false);
+    this.auth.loadUserCredentials().then((user: IUser) => {
+      if(user) {
+        this.isSalesPerson = (user.role === 'salesman' || user.role === 'administrator');
       }
+      this.enableMenu(this.auth.isLoggedin === true);
+      this.gotoMainPage(this.auth.isLoggedin === true);
     });
   }
 

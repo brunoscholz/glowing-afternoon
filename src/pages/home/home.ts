@@ -17,9 +17,8 @@ declare var webkitSpeechRecognition: any;
 declare var platform: any;
 
 @Component({
+  selector: 'home-page',
   templateUrl: './home.html'
-  //selector: 'page-home',
-  //providers: [LocationTracker]
 })
 export class HomePage extends ModelPage implements OnInit {
   recognition: any;

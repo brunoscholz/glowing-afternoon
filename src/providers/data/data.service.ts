@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { NativeStorage } from 'ionic-native';
 import { Response } from '@angular/http';
 
 import { Subject } from 'rxjs/Rx';
@@ -116,33 +117,66 @@ export class DataService {
   }
 
   setVisitingCompany(cp: any) {
-    return this._cached$['visitingCompany'] = cp;
+    this.lstorageSave('visitingCompany', JSON.stringify(cp));
   }
 
   getVisitingCompany() {
-    return this._cached$['visitingCompany'];
+    return JSON.parse(this.lstorageLoad('visitingCompany'));
   }
 
-  fetchUser(data) {
-    if(this._cached$['loggedUser']) {
-      this._subjects$['user'].next(this._cached$['loggedUser']);
-    }
-    else {
-      if(data === {} || data === null)
-        data = this._cached$['loggedUser'];
+  updateProfile(data) {
+    /*return new Promise(resolve => {
+      //NativeStorage.getItem('ondetemTK').then((token) => {
+        //nav.push(UserPage);
+        this.api.add({
+          controller: 'auth/signin',
+          body: { token: encodeURIComponent(token) },
+          query: {}
+        })
+          .map((res: Response) => res.json())
+          .subscribe(data => {
+            if(data.status == 200) {
+              this.storeUserCredentials(token);
+              this.storeUser(data.data[0]);
+              resolve(data.data[0]);
+            }
+            else
+              resolve(null);
+          });
 
-      this.api.findAll({
-        controller: 'buyers',
-        query: { 'userId': { test: "like binary", value: data.userId } }
+      }, function (error) {
+        console.log(error);
+        resolve(false);
       })
-        .map((res: Response) => res.json())
-        .subscribe(data => {
-          this._cached$['loggedUser'] = data["data"][0];
-          this._subjects$['user'].next(this._cached$['loggedUser']);
-        }, 
-        error => console.log('Something went wrong'),
-        () => console.log('user retrieved'));
-    }
+    });*/
+  }
+
+  getUser() {
+    return new Promise(resolve => {
+      let usr = JSON.parse(this.lstorageLoad('user'));
+      if(usr)
+        resolve(usr);
+      else
+        resolve(null);
+    });
+  }
+
+  fetchUser(usr) {
+    if(usr == {} || usr == null)
+      usr = this.lstorageLoad('user');
+
+    this.api.findAll({
+      controller: 'buyers',
+      query: { 'userId': { test: "like binary", value: usr.userId } }
+    })
+      .map((res: Response) => res.json())
+      .subscribe(data => {
+        let u = data['data'][0];
+        this.lstorageSave('user', u);
+        this._subjects$['user'].next(u);
+      }, 
+      error => console.log('Something went wrong'),
+      () => console.log('user retrieved'));
   }
 
   findAll(options: any) {
@@ -228,6 +262,70 @@ export class DataService {
     observer.next(CUSTOMERS);
     observer.complete();
   });*/
+
+  storageLoad(name) {
+    return NativeStorage.getItem(name)
+      .then((data) => {
+        return data;
+      }, (err) => {
+        console.log(err);
+        return null;
+      });
+  }
+
+  storageSave(name, data) {
+    return NativeStorage.setItem(name, data)
+      .then(() => {
+        return true;
+      }, (err) => {
+        console.log(err);
+        return false;
+      })
+  }
+
+  storageClear() {
+    return NativeStorage.clear()
+      .then(() => {
+        return true;
+      }, (err) => {
+        console.log(err);
+        return false;
+      });
+  }
+
+  storageRemove(item) {
+    return NativeStorage.remove(item)
+    .then(() => {
+      return true;
+    }, (err) => {
+        console.log(err);
+      return false
+    });
+  }
+
+  /* temporary */
+  lstorageLoad(name) {
+    let value = window.localStorage.getItem(name);
+    if(value)
+      return value;
+
+    return null;
+  }
+
+  lstorageSave(name, data) {
+    window.localStorage.setItem(name, data);
+    return true;
+  }
+
+  lstorageClear() {
+    window.localStorage.clear();
+    return true;
+  }
+
+  lstorageRemove(item) {
+    window.localStorage.removeItem(item);
+    return true;
+  }
 
   filterResults(list, query: any) {
     if(query == {} || query == null) {

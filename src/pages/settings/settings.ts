@@ -1,76 +1,33 @@
-import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
+import { NavController, ToastController, AlertController } from 'ionic-angular';
+import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
+import { LoadingService } from '../../providers/utils/loading.service';
 
-import {Camera} from 'ionic-native';
+import { IBuyer } from '../../providers/data/interfaces';
+import { ModelPage } from '../model-page';
 
-/*
-	O objetivo desta página é, temporariamente, servir de apoio 
-	de venda.
-
-	Tira-se uma foto da loja e da logo
-	Talvez adicionar alguns produtos
-	E customizar para a empresa a ser visitada...
-
-*/
+//import {Camera} from 'ionic-native';
 
 @Component({
+  selector: 'settings-page',
   templateUrl: 'settings.html',
 })
-export class SettingsPage {
-	company: any = [];
-	title: string;
+export class SettingsPage extends ModelPage implements OnInit {
+	user: IBuyer = null;
+  username: string;
 
-	public base64CoverImage: string;
-	public base64ThumbImage: string;
-
-  constructor(private navCtrl: NavController, public dataService: DataService, private toastCtrl: ToastController) {
-  	this.company = dataService.getVisitingCompany();
-  	this.title = 'Configurações';
+  constructor(private navCtrl: NavController,
+              public dataService: DataService,
+              public loading: LoadingService,
+              public authService: AuthService,
+              private alertCtrl: AlertController,
+              private toastCtrl: ToastController) {
+  	super('Configurações', dataService, loading)
+    //this.user = authService.
   }
 
-  takePictureCover(){
-    Camera.getPicture({
-      destinationType: Camera.DestinationType.DATA_URL,
-      targetWidth: 592,
-      targetHeight: 396
-    }).then((imageData) => {
-      // imageData is a base64 encoded string
-        this.base64CoverImage = "data:image/jpeg;base64," + imageData;
-    }, (err) => {
-        console.log(err);
-    });
+  ngOnInit() {
+    
   }
-
-  takePictureThumb(){
-    Camera.getPicture({
-      destinationType: Camera.DestinationType.DATA_URL,
-      targetWidth: 400,
-      targetHeight: 400
-    }).then((imageData) => {
-      // imageData is a base64 encoded string
-        this.base64ThumbImage = "data:image/jpeg;base64," + imageData;
-    }, (err) => {
-        console.log(err);
-    });
-  }
-
-  save() {
-  	this.company.photoSrc = this.base64CoverImage;
-  	this.company.thumbSrc = this.base64ThumbImage;
-    this.dataService.setVisitingCompany(this.company);
-    let toast = this.toastCtrl.create({
-      message: 'Informações Salvas',
-      position: 'middle',
-      showCloseButton: true,
-      closeButtonText: "Ok"
-    });
-
-    toast.onDidDismiss(() => {
-      
-    });
-
-    toast.present();
-  }
-
 }

@@ -3,7 +3,7 @@ import { Platform } from 'ionic-angular';
 import { Response } from '@angular/http';
 import { APIService } from '../api/api.service';
 import { DataService } from '../data/data.service';
-import { Facebook, NativeStorage } from 'ionic-native';
+import { Facebook } from 'ionic-native';
 
 @Injectable() 
 export class AuthService {
@@ -66,32 +66,14 @@ export class AuthService {
 
   storeUser(data, fb = false) {
     if(!fb)
-      window.localStorage.setItem('user', data);
+      this.dataService.lstorageSave('user', JSON.stringify(data));
     else
-      window.localStorage.setItem('userfb', data);
-
-    /*NativeStorage.setItem('user', {
-      token
-    }).then(() => {
-      this.dataService.fetchUser(data[0]);
-    }, (error) => {
-      console.log(error);
-    });*/
+      this.dataService.lstorageSave('userfb', JSON.stringify(data));
   }
 
   storeUserCredentials(token) {
-    // --- web version
-    window.localStorage.setItem('ondetemTK', token);
+    this.dataService.lstorageSave('ondetemTK', token)
     this.useCredentials(token);
-
-    // --- mobile version
-    /*NativeStorage.setItem('ondetemTK', {
-      token
-    }).then(() => {
-      this.useCredentials(token);
-    }, (error) => {
-      console.log(error);
-    });*/
   }    
 
   useCredentials(token) {
@@ -100,57 +82,38 @@ export class AuthService {
   }
 
   loadUserCredentials() {
-    var token = window.localStorage.getItem('ondetemTK');
+    var token = this.dataService.lstorageLoad('ondetemTK');
     return new Promise(resolve => {
-      //NativeStorage.getItem('ondetemTK').then((token) => {
-        //nav.push(UserPage);
-        this.api.add({
-          controller: 'auth/signin',
-          body: { token: encodeURIComponent(token) },
-          query: {}
-        })
-          .map((res: Response) => res.json())
-          .subscribe(data => {
-            if(data.status == 200) {
-              this.storeUserCredentials(token);
-              this.storeUser(data.data[0]);
-              resolve(data.data[0]);
-            }
-            else
-              resolve(null);
-          });
-
-      /*}, function (error) {
-        console.log(error);
-        resolve(false);
-      })*/
+      this.api.add({
+        controller: 'auth/signin',
+        body: { token: encodeURIComponent(token) },
+        query: {}
+      })
+        .map((res: Response) => res.json())
+        .subscribe(data => {
+          if(data.status == 200) {
+            this.storeUserCredentials(token);
+            this.storeUser(data.data[0]);
+            resolve(data.data[0]);
+          }
+          else
+            resolve(null);
+        });
     });
   }
   
   destroyUserCredentials() {
     this.isLoggedin = false;
     this.AuthToken = null;
-    window.localStorage.clear();
-    /*NativeStorage.clear()
-    .then(() => {
-      console.log('cleared');
-    }, (error) => {
-      console.log(error);
-    });*/
+    this.dataService.lstorageClear();
   }
 
   removeUserCredentials(item) {
-    localStorage.removeItem(item);
-
-    /*NativeStorage.remove(item)
-    .then(() => {
-      //nav.push(LoginPage);
-    }, function(error) {
-      console.log(error);
-    });*/
+    this.dataService.lstorageRemove(item);
   }
 
   authenticate(user) {
+
     //var creds = "name=" + user.name + "&password=" + user.password;
     return new Promise(resolve => {
       this.api.add({

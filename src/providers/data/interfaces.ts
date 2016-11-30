@@ -55,9 +55,24 @@ export interface IItem {
   status: string;
 }
 
+export interface IUser {
+  userId: string;
+  buyer: IBuyer;
+  sellers: ISeller[];
+  username: string;
+  email: string;
+  lastLogin: string;
+  role: string;
+  palette: string;
+  visibility: string;
+  createdAt: string;
+  updatedAt: string;
+  status: string;
+}
+
 export interface ISeller {
   sellerId: string;
-  user: IUser;
+  userId: string;
   picture: IPicture;
   about: string;
   name: string;
@@ -74,7 +89,6 @@ export interface ISeller {
 
 export interface IBuyer {
   buyerId: string;
-  user: IUser;
   picture: IPicture;
   about: string;
   dob: string;
@@ -86,19 +100,6 @@ export interface IBuyer {
   coinsBalance: number;
   loyalties: ILoyalty[];
   reviews: IReviewFact[];
-  createdAt: string;
-  updatedAt: string;
-  status: string;
-}
-
-export interface IUser {
-  userId: string;
-  username: string;
-  email: string;
-  lastLogin: string;
-  role: string;
-  palette: string;
-  visibility: string;
   createdAt: string;
   updatedAt: string;
   status: string;

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController, ActionSheetController } from 'ionic-angular';
 import { DataService } from '../../providers/data/data.service';
-
-import {Camera} from 'ionic-native';
+import { UtilProvider } from '../../providers/utils/util.provider';
 
 /*
 	O objetivo desta página é, temporariamente, servir de apoio 
@@ -24,34 +23,67 @@ export class SupportPage {
 	public base64CoverImage: string;
 	public base64ThumbImage: string;
 
-  constructor(private navCtrl: NavController, public dataService: DataService, private toastCtrl: ToastController) {
+  constructor(private navCtrl: NavController,
+              public dataService: DataService,
+              private actionSheet: ActionSheetController,
+              public util: UtilProvider) {
   	this.company = dataService.getVisitingCompany();
   	this.title = 'Apoio de Vendas';
   }
 
-  takePictureCover(){
-    Camera.getPicture({
-      destinationType: Camera.DestinationType.DATA_URL,
-      targetWidth: 592,
-      targetHeight: 396
-    }).then((imageData) => {
-      // imageData is a base64 encoded string
-        this.base64CoverImage = "data:image/jpeg;base64," + imageData;
-    }, (err) => {
-        console.log(err);
+  presentPictureSource() {
+    let promise = new Promise((res, rej) => {
+      let ac = this.actionSheet.create({
+        title: 'Select Picture Source',
+        buttons: [
+          { text: 'Camera', handler: () => { res(1); } },
+          { text: 'Gallery', handler: () => { res(0); } },
+          { text: 'Cancel', role: 'cancel', handler: () => { rej('cancel'); } }
+        ]
+      });
+      ac.present();
     });
+    return promise;
+  }
+
+  takePictureCover(){
+    this.presentPictureSource()
+    .then(source => {
+      let sourceType:number = Number(source);
+      return this.util.getPicture(sourceType);
+    })
+    .then(imageData => {
+      //var blobImage = this.util.dataURItoBlob(imageData);
+      //this.user.picture.thumbnail = imageData;
+      
+      // imageData is a base64 encoded string
+      this.base64CoverImage = "data:image/jpeg;base64," + imageData;
+      //return this.userProvider.uploadPicture(blobImage);
+      let toast = this.util.getToast('Your Picture is updated');
+      toast.present();
+    });
+    /*.then(imageURL => {
+      return this.userProvider.updateProfile({avatar: imageURL});
+    })*/
+    /*.then(()=> {
+    });*/
   }
 
   takePictureThumb(){
-    Camera.getPicture({
-      destinationType: Camera.DestinationType.DATA_URL,
-      targetWidth: 400,
-      targetHeight: 400
-    }).then((imageData) => {
+    this.presentPictureSource()
+    .then(source => {
+      let sourceType:number = Number(source);
+      return this.util.getPicture(sourceType, true, {width:400, height:400});
+    })
+    .then(imageData => {
+      //var blobImage = this.util.dataURItoBlob(imageData);
+      //this.user.picture.thumbnail = imageData;
+      
       // imageData is a base64 encoded string
-        this.base64ThumbImage = "data:image/jpeg;base64," + imageData;
-    }, (err) => {
-        console.log(err);
+      this.base64ThumbImage = "data:image/jpeg;base64," + imageData;
+      //return this.userProvider.uploadPicture(blobImage);
+      let toast = this.util.getToast('Your Picture is updated');
+      toast.present();
     });
   }
 
@@ -59,13 +91,8 @@ export class SupportPage {
   	this.company.photoSrc = this.base64CoverImage;
   	this.company.thumbSrc = this.base64ThumbImage;
     this.dataService.setVisitingCompany(this.company);
-    let toast = this.toastCtrl.create({
-      message: 'Informações Salvas',
-      position: 'middle',
-      showCloseButton: true,
-      closeButtonText: "Ok"
-    });
 
+    let toast = this.util.getToast('Informações Salvas');
     toast.onDidDismiss(() => {
       
     });

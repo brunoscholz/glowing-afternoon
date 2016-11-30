@@ -4,6 +4,12 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>{{title}}</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="moreOptions($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -15,9 +21,9 @@
     <div class="profile-info">
       <ion-card>
         <ion-card-content>
-          <img class="animated wobble" src="http://ondetem.tk/{{user.picture.thumbnail}}">
-          <h2>{{user.name}}</h2>
-          <h3>{{user.user.username}}</h3>
+          <img class="animated wobble" src="http://ondetem.tk/{{user.buyer.picture.thumbnail}}">
+          <h2>{{user.buyer.name}}</h2>
+          <h3>{{user.username}}</h3>
         </ion-card-content>
 
         <ion-row no-padding>
@@ -48,7 +54,7 @@
       <ion-list-header>
         Saldo
       </ion-list-header>
-      <ion-item class="value">{{user.coinsBalance}}</ion-item>
+      <ion-item class="value">{{user.buyer.coinsBalance}}</ion-item>
       <ion-list-header>
         Últimas Transações
       </ion-list-header>
@@ -59,10 +65,18 @@
       <ion-item class="balance-neg animated bounceInLeft"><span class="value">1200</span></ion-item>
     </ion-list>
 
-    <h4 class="content padding double-padding-x" style="text-align: center;">Avaliações</h4>
-    <ion-grid class="reviews" *ngIf="hasField(user.reviews)">
+    <ion-list inset>
+      <button ion-item (click)="updatePicture()">Update Picture</button>
+      <button ion-item (click)="changeUsername()">Change Username</button>
+      <button ion-item (click)="changePassword()">Change Password</button>
+      <button ion-item (click)="connectFacebook()">Connect with Facebook</button>
+      <button ion-item (click)="logout()">Logout</button>
+    </ion-list>
+
+    <!-- <h4 class="content padding double-padding-x" style="text-align: center;">Avaliações</h4>
+    <ion-grid class="reviews" *ngIf="hasField(user.buyer.reviews)">
       <ion-row *ngFor="let i of rows" (click)="itemTapped($event, item)">
-        <ion-col width-50 *ngFor="let item of user.reviews | slice:(i*2):(i+1)*2;">
+        <ion-col width-50 *ngFor="let item of user.buyer.reviews | slice:(i*2):(i+1)*2;">
           <ion-card>
             <img src="assets/img/generic-product.png"/>
             <div class="card-title">{{item.title}}</div>
@@ -71,9 +85,9 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <div class="missing-item" *ngIf="!hasField(user.reviews)">
+    <div class="missing-item" *ngIf="!hasField(user.buyer.reviews)">
       Nenhuma revisão encontrada!
-    </div>
+    </div> -->
 
   </div>
 
