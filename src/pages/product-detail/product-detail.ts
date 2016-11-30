@@ -16,11 +16,11 @@ import { ModelPage } from '../model-page';
 import { ReviewPage } from '../review/review';
 import { CompanyDetailPage } from '../company-detail/company-detail';
 import { ReviewDetailPage } from '../review-detail/review-detail';
-import { DataService } from '../../providers/services/data.service';
-import { LoadingService } from '../../providers/services/loading.service';
+import { DataService } from '../../providers/data/data.service';
+import { LoadingService } from '../../providers/utils/loading.service';
 
-import { ViewStatusEnum } from '../../providers/enums';
-import { IOffer } from '../../providers/interfaces';
+import { ViewStatusEnum } from '../../providers/utils/enums';
+import { IOffer } from '../../providers/data/interfaces';
 import _ from 'underscore';
 
 @Component({

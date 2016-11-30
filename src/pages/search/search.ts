@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular'; //reorderArray
 
 import { ProductDetailPage } from '../product-detail/product-detail';
@@ -7,10 +7,10 @@ import { ProductPage } from '../product/product';
 // CompanyPage
 // CategoryPage
 
-import { DataService } from '../../providers/services/data.service';
-import { LoadingService } from '../../providers/services/loading.service';
+import { DataService } from '../../providers/data/data.service';
+import { LoadingService } from '../../providers/utils/loading.service';
 
-import { ViewStatusEnum } from '../../providers/enums';
+import { ViewStatusEnum } from '../../providers/utils/enums';
 //import { IOffer, IBuyer, ISeller } from '../../providers/interfaces';
 import { ModelPage } from '../model-page';
 import 'rxjs/add/operator/debounceTime';
@@ -26,7 +26,12 @@ export class SearchPage extends ModelPage implements OnInit {
   groupedOffers: any = [];
   query: string = "";
 
-  constructor(public navCtrl: NavController, navParams: NavParams, public dataService: DataService, public loading: LoadingService) {
+  private nearbyPlaces: Array<any> = [];
+
+  constructor(public navCtrl: NavController,
+              navParams: NavParams,
+              public dataService: DataService,
+              public loading: LoadingService) {
     super('Busca', dataService, loading)
   	this.searchTerm = navParams.get('term') || '';
   }

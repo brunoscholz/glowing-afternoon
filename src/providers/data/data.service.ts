@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 import { Subject } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
-import { APIService } from './api.service';
+import { APIService } from '../api/api.service';
 
 import _ from 'underscore';
 

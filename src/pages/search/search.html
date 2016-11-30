@@ -104,4 +104,15 @@
 
   </ion-list>
 
+  <ion-list>
+    <ion-item *ngFor="let place of nearbyPlaces" (click)="selectPlace(place)">
+      <ion-avatar item-left>
+        <img [src]="place.icon">
+      </ion-avatar>
+      <h3>{{ place.name }}</h3>
+      <p>{{ place.vicinity }}</p>
+      <p>Distance: {{ place.distance }} meters</p>
+    </ion-item>
+  </ion-list>
+
 </ion-content>

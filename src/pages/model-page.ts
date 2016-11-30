@@ -1,8 +1,11 @@
 //import { Injectable, ReflectiveInjector } from '@angular/core';
-import { DataService } from '../providers/services/data.service';
-import { LoadingService } from '../providers/services/loading.service';
+import { DataService } from '../providers/data/data.service';
+import { LoadingService } from '../providers/utils/loading.service';
 
-import { ViewStatusEnum, DisplayModeEnum } from '../providers/enums';
+// import { AuthService } from '../providers/auth/auth.service';
+// import { UtilsService } from '../providers/utils/utils.service';
+
+import { ViewStatusEnum, DisplayModeEnum } from '../providers/utils/enums';
 //import _ from 'underscore';
 
 export class ModelPage {

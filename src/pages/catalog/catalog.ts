@@ -12,10 +12,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ProductDetailPage } from '../product-detail/product-detail';
-import { DataService } from '../../providers/services/data.service';
-import { LoadingService } from '../../providers/services/loading.service';
+import { DataService } from '../../providers/data/data.service';
+import { LoadingService } from '../../providers/utils/loading.service';
 
-import { ViewStatusEnum } from '../../providers/enums';
+import { ViewStatusEnum } from '../../providers/utils/enums';
 //import { IProductFact } from '../../providers/interfaces';
 import { ModelPage } from '../model-page';
 

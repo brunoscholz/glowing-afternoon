@@ -3,10 +3,10 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 //import {Observable} from 'rxjs/Observable';
 //import 'rxjs/add/observable/fromEvent';
 
-import { ConnectivityService } from '../../providers/services/connectivity.service';
-import { AuthService } from '../../providers/services/auth.service';
-import { DataService } from '../../providers/services/data.service';
-import { LoadingService } from '../../providers/services/loading.service';
+import { ConnectivityService } from '../../providers/utils/connectivity.service';
+import { AuthService } from '../../providers/auth/auth.service';
+import { DataService } from '../../providers/data/data.service';
+import { LoadingService } from '../../providers/utils/loading.service';
 
 import { ModelPage } from '../model-page';
 

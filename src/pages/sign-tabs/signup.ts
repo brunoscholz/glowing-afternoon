@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Nav } from 'ionic-angular';
-import { AuthService } from '../../providers/services/auth.service';
+import { AuthService } from '../../providers/auth/auth.service';
 //import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 
 import { TourPage } from '../tour/tour';

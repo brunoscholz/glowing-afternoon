@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
-import { DataService } from '../../providers/services/data.service';
+import { DataService } from '../../providers/data/data.service';
 
 import {Camera} from 'ionic-native';
 

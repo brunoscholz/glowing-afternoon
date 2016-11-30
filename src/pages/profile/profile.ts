@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { DataService } from '../../providers/services/data.service';
-import { LoadingService } from '../../providers/services/loading.service';
-import { ViewStatusEnum } from '../../providers/enums';
+import { DataService } from '../../providers/data/data.service';
+import { LoadingService } from '../../providers/utils/loading.service';
+import { ViewStatusEnum } from '../../providers/utils/enums';
 //import { ElasticHeader } from '../../directives/elastic-header';
 
-import { IBuyer } from '../../providers/interfaces';
+import { IBuyer } from '../../providers/data/interfaces';
 
 import { ModelPage } from '../model-page';
 import _ from 'underscore';

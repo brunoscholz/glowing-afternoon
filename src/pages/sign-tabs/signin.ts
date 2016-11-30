@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Nav } from 'ionic-angular';
-import { AuthService } from '../../providers/services/auth.service';
+import { AuthService } from '../../providers/auth/auth.service';
 //import { Facebook, NativeStorage } from 'ionic-native';
 
 //import { Auth, User } from '@ionic/cloud-angular';

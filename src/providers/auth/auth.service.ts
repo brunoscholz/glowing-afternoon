@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Response } from '@angular/http';
-import { APIService } from './api.service';
-import { DataService } from './data.service';
+import { APIService } from '../api/api.service';
+import { DataService } from '../data/data.service';
 import { Facebook, NativeStorage } from 'ionic-native';
 
 @Injectable() 

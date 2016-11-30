@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, OnDestroy } from '@angular/core';
-import { LoadingService } from "../../providers/services/loading.service";
+import { LoadingService } from "../../providers/utils/loading.service";
 
 @Component({
   selector: 'loading-modal',

@@ -45,13 +45,19 @@ import { ElasticHeader } from '../directives/elastic-header';
 import { LoadingModal } from '../components/loading-modal/loading-modal';
 
 // Services and Providers
-//import { LoadingService } from '../providers/services/loading.service';
-import { ConnectivityService } from '../providers/services/connectivity.service';
-import { AuthService } from '../providers/services/auth.service';
-import { DataService } from '../providers/services/data.service';
-import { APIService } from '../providers/services/api.service';
-import { APISettings } from '../providers/api-settings';
-import { ErrorNotifierService } from '../providers/services/error.notifier';
+//import { LoadingService } from '../providers/utils/loading.service';
+import { ConnectivityService } from '../providers/utils/connectivity.service';
+import { AuthService } from '../providers/auth/auth.service';
+import { DataService } from '../providers/data/data.service';
+import { APIService } from '../providers/api/api.service';
+import { APISettings } from '../providers/api/api-settings';
+import { ErrorNotifierService } from '../providers/utils/error.notifier';
+
+// Map related
+// import { MapService } from '../providers/map/map.service';
+// import { GeocoderService } from '../providers/map/geocoder.service';
+// import { MapComponent } from '../components/map/map';
+// import { MapPage } from '../pages/map/map';
 
 /*const cloudSettings: CloudSettings = {
   'core': {

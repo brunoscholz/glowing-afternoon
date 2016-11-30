@@ -3,9 +3,9 @@ import { Platform, NavController, NavParams, AlertController } from 'ionic-angul
 
 import { SearchPage } from '../search/search';
 
-import { DataService } from '../../providers/services/data.service';
-import { LoadingService } from '../../providers/services/loading.service';
-import { ConnectivityService } from '../../providers/services/connectivity.service';
+import { DataService } from '../../providers/data/data.service';
+import { LoadingService } from '../../providers/utils/loading.service';
+import { ConnectivityService } from '../../providers/utils/connectivity.service';
 
 //import { ViewStatusEnum } from '../../providers/enums';
 //import { IBuyer } from '../../providers/interfaces';

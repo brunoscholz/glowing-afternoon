@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core'; //, provide
 import { Platform, MenuController, Nav, AlertController } from 'ionic-angular';
 import { Splashscreen, StatusBar } from 'ionic-native';
 
-import { ErrorNotifierService } from '../providers/services/error.notifier';
 
 import { WelcomePage } from '../pages/welcome/welcome';
 import { SignTabsPage } from '../pages/sign-tabs/sign-tabs';
@@ -11,13 +10,14 @@ import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
 import { SettingsPage } from '../pages/settings/settings';
 import { SellPage } from '../pages/sell/sell';
 
-import { IPage } from '../providers/interfaces';
+import { IPage } from '../providers/data/interfaces';
 
-import { DataService } from '../providers/services/data.service';
-import { AuthService } from '../providers/services/auth.service';
-import { LoadingService } from '../providers/services/loading.service';
+import { ErrorNotifierService } from '../providers/utils/error.notifier';
+import { DataService } from '../providers/data/data.service';
+import { AuthService } from '../providers/auth/auth.service';
+import { LoadingService } from '../providers/utils/loading.service';
+import { ConnectivityService } from '../providers/utils/connectivity.service';
 import { LoadingModal } from '../components/loading-modal/loading-modal';
-import { ConnectivityService } from '../providers/services/connectivity.service';
 
 @Component({
   templateUrl: 'app.html',
