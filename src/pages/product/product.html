@@ -15,25 +15,7 @@
   </div>
 
   <div *ngIf="status === viewStatus.Full">
-    <ion-card *ngFor="let offer of products | orderBy:toOrder" (click)="itemTapped($event, offer)">
-      <ion-item>
-        <ion-avatar item-right class="item-rating">
-          <ion-icon name='star-outline'></ion-icon>
-          <span> 4.5</span>
-        </ion-avatar>
-        <ion-avatar item-right>
-          <img src="http://ondetem.tk/{{offer.seller.picture.thumbnail}}">
-        </ion-avatar>
-        <h2>{{offer.item.title}}</h2>
-        <p>{{offer.seller.name}}</p>
-      </ion-item>
-
-      <img src="http://ondetem.tk/{{offer.picture.cover}}">
-
-      <ion-card-content>
-        <p>{{offer.description}}</p>
-      </ion-card-content>
-    </ion-card>
+    <offer *ngFor="let feed of products | orderBy:toOrder" (click)="itemTapped($event, feed)" [feed]="feed"></offer>
   </div>
 
 </ion-content>

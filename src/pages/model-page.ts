@@ -18,13 +18,12 @@ export class ModelPage {
   displayMode = DisplayModeEnum;
   display: any;
   online: boolean = false;
+  loading: any;
 
   constructor(private ttl: string,
               public dataService: DataService,
-              public util: UtilProvider) {
-
-    //this.loadingService = loadingService;//injector.get(LoadingService);
-
+              public util: UtilProvider
+  ) {
     this.doReset(ttl);
     this.status = ViewStatusEnum.Loading;
     this.display = DisplayModeEnum.Card;
@@ -42,7 +41,7 @@ export class ModelPage {
   }
 
   doToggleLoading(l: boolean) {
-    
+
   }
 
   /*doRefresh(refresher) {

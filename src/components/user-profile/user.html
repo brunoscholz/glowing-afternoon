@@ -1,0 +1,53 @@
+<div class="background-image" [style.backgroundImage]="'url(' + profile.bgImage + ')'"></div>
+<ion-card>
+  <ion-card-content>
+    <img class="animated wobble" src="http://ondetem.tk/{{profile.picture.thumbnail}}">
+    <h2>{{profile.name}}</h2>
+    <h3>{{profile.username}}</h3>
+  </ion-card-content>
+
+  <div class="profile-menu">
+		<ion-grid>    
+	    <ion-row>
+	      <ion-col width-33>
+	        <div class="slot" (click)="gotoFollowers($event)">
+	          <ion-icon name="return-left"></ion-icon>
+	          <h3 class="cat-title">seguidores</h3>
+	        </div>
+	      </ion-col>
+	      <ion-col width-33>
+	        <div class="slot" (click)="gotoFollows($event)">
+	          <ion-icon name="return-right"></ion-icon>
+	          <h3 class="cat-title">seguindo</h3>
+	        </div>
+	      </ion-col>
+	      <ion-col width-33>
+	        <div class="slot" (click)="gotoFavorites($event)">
+	          <ion-icon name="list-box"></ion-icon>
+	          <h3 class="cat-title">lista</h3>
+	        </div>
+	      </ion-col>
+	    </ion-row>
+	    <ion-row>
+	      <ion-col width-33>
+	        <div class="slot" (click)="gotoReviews($event)">
+	          <ion-icon name="paper"></ion-icon>
+	          <h3 class="cat-title">avaliações</h3>
+	        </div>
+	      </ion-col>
+	      <ion-col width-33>
+	        <div class="slot" (click)="gotSettings($event)">
+	          <ion-icon name="settings"></ion-icon>
+	          <h3 class="cat-title">configurações</h3>
+	        </div>
+	      </ion-col>
+	      <ion-col width-33>
+	        <div class="slot" (click)="gotoBank($event)">
+	        	<ion-icon name="cash"></ion-icon>
+	          <h3 class="cat-title">moedas</h3>
+	        </div>
+	      </ion-col>
+	    </ion-row>
+	  </ion-grid>
+  </div>
+</ion-card>

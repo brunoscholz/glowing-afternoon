@@ -1,6 +1,4 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
-//import {TimeAgoPipe, FromUnixPipe} from 'angular2-moment';
-//import { SocialProvider } from '../../providers/social-provider/social-provider';
+import { Component, Input } from '@angular/core';
 import { IOffer } from '../../providers/data/interfaces';
 
 @Component({

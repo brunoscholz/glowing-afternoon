@@ -8,6 +8,15 @@ export interface IPage {
   passRoot?: boolean;
 }
 
+export interface IProfile {
+  bgImage: string;
+  type: string;
+  name: string;
+  username: string;
+  picture: IPicture;
+
+}
+
 export interface ICategory {
   categoryId: string;
   parentId: string;

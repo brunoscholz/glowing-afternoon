@@ -8,7 +8,7 @@ import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 //import { ViewStatusEnum } from '../../providers/utils/enums';
 //import { ElasticHeader } from '../../directives/elastic-header';
-import { IUser } from '../../providers/data/interfaces';
+import { IUser, IProfile } from '../../providers/data/interfaces';
 
 import { ModelPage } from '../model-page';
 import _ from 'underscore';
@@ -53,16 +53,13 @@ export class ProfilePage extends ModelPage implements OnInit {
     this.load();
   }
 
-  changeViewState() {
-    
-  }
-
   doRefresh(refresher) {
     this.load();
   }
 
   load() {
-    this.doToggleLoading(true);
+    let loading = this.util.presentLoading('Carregando usuário!');
+    loading.present();
     var self = this;
 
     this.dataService.getUser().then((res: IUser) => {
@@ -71,6 +68,7 @@ export class ProfilePage extends ModelPage implements OnInit {
         self.prepareUser();
         this.loadBalance();
         this.doChangeTitle(this.user.buyer.name);
+        loading.dismiss();
       }
     });
   }
@@ -105,8 +103,8 @@ export class ProfilePage extends ModelPage implements OnInit {
   }
 
   getBuyerProfile() {
-    this.bgImage = 'http://ondetem.tk/' + this.user.buyer.picture.cover;
     this.profile = {
+      bgImage: 'http://ondetem.tk/' + this.user.buyer.picture.cover,
       name: this.user.buyer.name,
       username: this.user.buyer.email,
       picture: this.user.buyer.picture
@@ -117,8 +115,8 @@ export class ProfilePage extends ModelPage implements OnInit {
   getSellerProfile(id) {
     let seller = _.where(this.user.sellers, { sellerId: id });
 
-    this.bgImage = 'http://ondetem.tk/' + seller[0].picture.cover;
     this.profile = {
+      bgImage: 'http://ondetem.tk/' + seller[0].picture.cover,
       name: seller[0].name,
       username: seller[0].email,
       picture: seller[0].picture

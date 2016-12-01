@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core'; //ElementRef
 import { IonicApp, IonicModule } from 'ionic-angular';
+import { TimeAgoPipe, FromUnixPipe } from 'angular2-moment';
 import { MyApp } from './app.component';
 //import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
@@ -15,6 +16,10 @@ import { SignUpPage } from '../pages/sign-tabs/signup';
 import { ForgotPage } from '../pages/sign-tabs/forgot';
 
 import { SettingsPage } from '../pages/settings/settings';
+import { FollowsPage } from '../pages/follows/follows';
+import { FavoritesPage } from '../pages/favorites/favorites';
+import { ReviewListPage } from '../pages/review-list/review-list';
+import { BalancePage } from '../pages/balance/balance';
 import { TourPage } from '../pages/tour/tour';
 
 // support tabs
@@ -35,16 +40,16 @@ import { ReviewPage } from '../pages/review/review';
 import { ReviewDetailPage } from '../pages/review-detail/review-detail';
 
 import { OfferPostCmp } from '../components/offer/offer';
+import { UserProfileCmp } from '../components/user-profile/user';
 
 // User related Pages
 import { ProfilePage } from '../pages/profile/profile';
 import { ProfileOptionsPage } from '../pages/profile/options';
-import { UserProfile } from '../pages/user-profile/user-profile';
 
 // Pipes and Directives
 import { ArrayFilterPipe } from '../pipes/array-filter';
 import { OrderByPipe } from '../pipes/order-by';
-import { ElasticHeader } from '../directives/elastic-header';
+import { ElasticHeader } from '../directives/elastic-header/elastic-header';
 
 // Services and Providers
 import { ConnectivityService } from '../providers/utils/connectivity.service';
@@ -81,6 +86,10 @@ CloudModule.forRoot(cloudSettings)*/
     ForgotPage,
     SearchPage,
     SettingsPage,
+    FollowsPage,
+    FavoritesPage,
+    ReviewListPage,
+    BalancePage,
     SellPage,
     RegisterPage,
     SupportPage,
@@ -94,11 +103,13 @@ CloudModule.forRoot(cloudSettings)*/
     ReviewDetailPage,
     ProfilePage,
     ProfileOptionsPage,
-    UserProfile,
     ArrayFilterPipe,
     OrderByPipe,
+    TimeAgoPipe,
+    FromUnixPipe,
     ElasticHeader,
-    OfferPostCmp
+    OfferPostCmp,
+    UserProfileCmp
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -116,6 +127,10 @@ CloudModule.forRoot(cloudSettings)*/
     ForgotPage,
     SearchPage,
     SettingsPage,
+    FollowsPage,
+    FavoritesPage,
+    ReviewListPage,
+    BalancePage,
     SellPage,
     RegisterPage,
     SupportPage,
@@ -128,8 +143,7 @@ CloudModule.forRoot(cloudSettings)*/
     ReviewPage,
     ReviewDetailPage,
     ProfilePage,
-    ProfileOptionsPage,
-    UserProfile
+    ProfileOptionsPage
   ],
   providers: [
     ErrorNotifierService,

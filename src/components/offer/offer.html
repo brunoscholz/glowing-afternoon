@@ -21,8 +21,8 @@
     </ion-card-content>
 
     <ion-item-divider>
-      {{post.createdAt}}
-      <!-- (post | async)?.timestamp/1000 | amFromUnix| amTimeAgo -->
+      <!-- {{post.createdAt}} -->
+      {{post.createdAt | amTimeAgo}}
     </ion-item-divider>
   </ion-card>
 </ion-item>

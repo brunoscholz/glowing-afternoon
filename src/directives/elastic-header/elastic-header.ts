@@ -1,5 +1,5 @@
 import { Directive, ElementRef, OnInit } from '@angular/core';
-import {Subject} from "rxjs/Subject";
+import { Subject } from "rxjs/Subject";
 
 @Directive({
   selector: '[elastic-header]'
@@ -19,17 +19,22 @@ export class ElasticHeader implements OnInit {
 
   constructor(private el: ElementRef) {
     this.element = el;
-
-    this.scrollSubject.debounceTime(200).subscribe(() => {
-      this.updateElasticHeader();
-    });
+    this.scrollSubject = new Subject();
   }
 
   ngOnInit() {
     var self = this;
 
-    this.scrollerHandle = this.element.nativeElement.children[0];
-    this.header = document.getElementById("elastic-header");
+    self.scrollSubject.debounceTime(200)
+    .subscribe(() => {
+      self.updateElasticHeader();
+    });
+
+    // this.scrollerHandle = this.element.nativeElement.children[0];
+    // this.header = this.scrollerHandle; //document.getElementById("elastic-header");
+    this.scrollerHandle = this.element.nativeElement.getElementsByClassName('scroll-content')[0];
+    this.header = this.scrollerHandle.children[0];
+    console.log(this.header);
     this.headerHeight = this.scrollerHandle.clientHeight;
     this.translateAmt = null;
     this.scrollTop = null;
@@ -43,7 +48,7 @@ export class ElasticHeader implements OnInit {
     }, false);
 
     this.scrollerHandle.addEventListener('scroll', function() {
-      this.scrollSubject.next({});
+      self.scrollSubject.next({});
       /*if(self.ticking) {
         window.requestAnimationFrame(function() {
           self.updateElasticHeader();
