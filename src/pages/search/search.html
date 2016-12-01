@@ -26,27 +26,9 @@
       <ion-list-header (click)="catTapped($event, group.category)">
         Ofertas ({{items.offers.length}})
       </ion-list-header>
-      <ion-item *ngFor="let offer of items.offers" (click)="itemTapped($event, offer)">
-        <ion-card>
-          <ion-item>
-            <ion-avatar item-right class="item-rating">
-              <ion-icon name='star-outline'></ion-icon>
-              <span> 4.5</span>
-            </ion-avatar>
-            <ion-avatar item-right>
-              <img src="http://ondetem.tk/{{offer.seller.picture.thumbnail}}">
-            </ion-avatar>
-            <h2>{{offer.item.title}}</h2>
-            <p>{{offer.seller.name}}</p>
-          </ion-item>
+      
+      <offer *ngFor="let feed of items.offers" (click)="itemTapped($event, feed)" [feed]="feed"></offer>
 
-          <img src="http://ondetem.tk/{{offer.picture.cover}}">
-
-          <ion-card-content>
-            <p>{{offer.description}}</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-item>
     </ion-item-group>
 
     <ion-item-group *ngIf="items.sellers">

@@ -7,6 +7,8 @@ import { ProductPage } from '../product/product';
 // CompanyPage
 // CategoryPage
 
+import { OfferPostCmp } from '../../components/offer/offer';
+
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 

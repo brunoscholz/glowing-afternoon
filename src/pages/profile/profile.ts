@@ -23,6 +23,7 @@ export class ProfilePage extends ModelPage implements OnInit {
 	bgImage: string;
 	rows: any;
   preferred: any;
+  profile: any;
 
   constructor(public navCtrl: NavController,
               navParams: NavParams,
@@ -86,15 +87,43 @@ export class ProfilePage extends ModelPage implements OnInit {
     var self = this;
     //console.log(this.user);
     //this.bgImage = this.sanitizer.bypassSecurityTrustUrl(this.user.picture.large);
-    self.bgImage = 'http://ondetem.tk/' + self.user.buyer.picture.cover;
     //this.rows = Array.from(Array(Math.ceil(this.user.buyer.reviews.length / 2)).keys());
     self.dataService.getPreferredProfile()
       .then((ret) => {
-        if(ret)
+        if(ret) {
           self.preferred = ret;
-        else
+        }
+        else {
           self.preferred = { type: 'buyer', id: self.user.buyer.buyerId };
+        }
+
+        if(self.preferred.type == 'buyer')
+          self.getBuyerProfile();
+        else
+          self.getSellerProfile(self.preferred.id);
       });
+  }
+
+  getBuyerProfile() {
+    this.bgImage = 'http://ondetem.tk/' + this.user.buyer.picture.cover;
+    this.profile = {
+      name: this.user.buyer.name,
+      username: this.user.buyer.email,
+      picture: this.user.buyer.picture
+    };
+    this.doChangeTitle(this.profile.name);
+  }
+
+  getSellerProfile(id) {
+    let seller = _.where(this.user.sellers, { sellerId: id });
+
+    this.bgImage = 'http://ondetem.tk/' + seller[0].picture.cover;
+    this.profile = {
+      name: seller[0].name,
+      username: seller[0].email,
+      picture: seller[0].picture
+    };
+    this.doChangeTitle(this.profile.name);
   }
 
   hasField(field: any) {
@@ -138,6 +167,10 @@ export class ProfilePage extends ModelPage implements OnInit {
       if(pref) {
         this.preferred = pref;
         this.dataService.setPreferredProfile(this.preferred);
+        if(this.preferred.type == 'buyer')
+          this.getBuyerProfile();
+        else
+          this.getSellerProfile(this.preferred.id);
       }
     });
     popover.present({

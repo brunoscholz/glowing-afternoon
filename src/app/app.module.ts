@@ -34,6 +34,8 @@ import { ProductDetailPage } from '../pages/product-detail/product-detail';
 import { ReviewPage } from '../pages/review/review';
 import { ReviewDetailPage } from '../pages/review-detail/review-detail';
 
+import { OfferPostCmp } from '../components/offer/offer';
+
 // User related Pages
 import { ProfilePage } from '../pages/profile/profile';
 import { ProfileOptionsPage } from '../pages/profile/options';
@@ -95,7 +97,8 @@ CloudModule.forRoot(cloudSettings)*/
     UserProfile,
     ArrayFilterPipe,
     OrderByPipe,
-    ElasticHeader
+    ElasticHeader,
+    OfferPostCmp
   ],
   imports: [
     IonicModule.forRoot(MyApp)

@@ -10,7 +10,6 @@ export class ProfileOptionsPage {
 
 	constructor(public viewCtrl: ViewController, params: NavParams) {
 		this.list = params.data.profiles;
-		console.log(this.list);
 	}
 
 	ionViewWillLoad() {}
