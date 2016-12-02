@@ -13,7 +13,7 @@
       <ion-item class="item-title">
         <ion-avatar item-right class="item-rating">
           <i class='otIcon-star-outline'></i>
-          <span> 4.5</span>
+          <span> {{product.avgRating}}</span>
         </ion-avatar>
         <ion-avatar item-right>
           <img src="http://ondetem.tk/{{product.seller.picture.thumbnail}}">
@@ -55,10 +55,10 @@
           <h2>{{item.review.title}}</h2>
 
           <ion-avatar class="item-rating" item-right>
-            {{getRating(item.rating)}}
+            {{item.rating.grade}}
           </ion-avatar>
-          <ion-icon *ngIf="getRating(item.rating) < 5" danger name="sad" item-right></ion-icon>
-          <ion-icon *ngIf="getRating(item.rating) >= 5" secondary name="happy" item-right></ion-icon> 
+          <ion-icon *ngIf="item.rating.grade < 5" danger name="sad" item-right></ion-icon>
+          <ion-icon *ngIf="item.rating.grade >= 5" secondary name="happy" item-right></ion-icon> 
         </ion-item>
         <ion-item-options side="right">
           <button primary (click)="reviewTapped($event, item)">

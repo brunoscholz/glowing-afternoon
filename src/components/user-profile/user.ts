@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { FollowsPage } from '../follows/follows';
-import { FavoritesPage } from '../favorites/favorites';
-import { ReviewListPage } from '../review-list/review-list';
-import { SettingsPage } from '../settings/settings';
-import { BalancePage } from '../balance/balance';
+import { FollowsPage } from '../../pages/follows/follows';
+import { FavoritesPage } from '../../pages/favorites/favorites';
+import { ReviewListPage } from '../../pages/review-list/review-list';
+import { SettingsPage } from '../../pages/settings/settings';
+import { BalancePage } from '../../pages/balance/balance';
 
 import { IProfile } from '../../providers/data/interfaces';
 
@@ -24,22 +24,28 @@ export class UserProfileCmp {
 
     gotoFollowers() {
     	this.navCtrl.push(FollowsPage, {
-    		me: true;
+    		me: true,
+    		profile: this.profile
     	});
     }
 
     gotoFollows() {
     	this.navCtrl.push(FollowsPage, {
-    		me: false;
+    		me: false,
+    		profile: this.profile
     	});
     }
 
     gotoFavorites() {
-    	this.navCtrl.push(FavoritesPage);
+    	this.navCtrl.push(FavoritesPage, {
+    		profile: this.profile
+    	});
     }
 
     gotoReviews() {
-    	this.navCtrl.push(ReviewListPage);
+    	this.navCtrl.push(ReviewListPage, {
+    		profile: this.profile
+    	});
     }
 
     gotoSettings() {

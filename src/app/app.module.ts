@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core'; //ElementRef
 import { IonicApp, IonicModule } from 'ionic-angular';
-import { TimeAgoPipe, FromUnixPipe } from 'angular2-moment';
 import { MyApp } from './app.component';
+import { TimeAgoPipe, FromUnixPipe } from 'angular2-moment';
+import moment from 'moment';
+
 //import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
 // Main generic Pages
@@ -156,3 +158,4 @@ CloudModule.forRoot(cloudSettings)*/
   ]
 })
 export class AppModule {}
+moment.locale('pt-br');

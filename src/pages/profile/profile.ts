@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, ActionSheetController, PopoverController } from 'ionic-angular';
+import { NavController, NavParams, PopoverController } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ProfileOptionsPage } from './options';
 
@@ -22,15 +22,12 @@ export class ProfilePage extends ModelPage implements OnInit {
   loginInfo: any;
 	bgImage: string;
 	rows: any;
-  preferred: any;
-  profile: any;
 
   constructor(public navCtrl: NavController,
               navParams: NavParams,
               public sanitizer: DomSanitizer,
               public dataService: DataService,
               public authService: AuthService,
-              public actionSheet: ActionSheetController,
               public popoverCtrl: PopoverController,
               public util: UtilProvider) {
   	super('Perfil', dataService, util);
@@ -48,7 +45,7 @@ export class ProfilePage extends ModelPage implements OnInit {
     });
   }
 
-  ionViewWillEnter() {
+  ionViewDidLoad() {
     this.doReset("Perfil");
     this.load();
   }
@@ -58,17 +55,16 @@ export class ProfilePage extends ModelPage implements OnInit {
   }
 
   load() {
-    let loading = this.util.presentLoading('Carregando usuário!');
-    loading.present();
+    this.util.presentLoading('Carregando usuário!');
     var self = this;
 
     this.dataService.getUser().then((res: IUser) => {
       if(res) {
         self.user = res;
         self.prepareUser();
-        this.loadBalance();
-        this.doChangeTitle(this.user.buyer.name);
-        loading.dismiss();
+        self.loadBalance();
+        self.doChangeTitle(self.user.buyer.name);
+        self.util.dismissLoading();
       }
     });
   }
@@ -77,51 +73,55 @@ export class ProfilePage extends ModelPage implements OnInit {
     var self = this;
     self.dataService.findAll({
       controller: 'loyalty',
-      query: { 'buyer.buyerId': { test: "like binary", value: self.user.buyer.buyerId } }
+      query: { 'userId': { test: "like binary", value: self.user.userId } },
+      asset: 'coin'
     });
   }
 
   prepareUser() {
-    var self = this;
     //console.log(this.user);
     //this.bgImage = this.sanitizer.bypassSecurityTrustUrl(this.user.picture.large);
     //this.rows = Array.from(Array(Math.ceil(this.user.buyer.reviews.length / 2)).keys());
-    self.dataService.getPreferredProfile()
-      .then((ret) => {
-        if(ret) {
-          self.preferred = ret;
-        }
-        else {
-          self.preferred = { type: 'buyer', id: self.user.buyer.buyerId };
-        }
-
-        if(self.preferred.type == 'buyer')
-          self.getBuyerProfile();
-        else
-          self.getSellerProfile(self.preferred.id);
-      });
+    if(!this.user.preferred)
+      this.setProfile(this.getBuyerProfile());
   }
 
   getBuyerProfile() {
-    this.profile = {
+    let profile: IProfile = {
+      id: this.user.buyer.buyerId,
+      type: 'buyer',
       bgImage: 'http://ondetem.tk/' + this.user.buyer.picture.cover,
       name: this.user.buyer.name,
       username: this.user.buyer.email,
       picture: this.user.buyer.picture
     };
-    this.doChangeTitle(this.profile.name);
+    //this.doChangeTitle(this.profile.name);
+    return profile;
   }
 
   getSellerProfile(id) {
     let seller = _.where(this.user.sellers, { sellerId: id });
 
-    this.profile = {
+    let profile: IProfile = {
+      id: id,
+      type: 'seller',
       bgImage: 'http://ondetem.tk/' + seller[0].picture.cover,
       name: seller[0].name,
       username: seller[0].email,
       picture: seller[0].picture
     };
-    this.doChangeTitle(this.profile.name);
+    //this.doChangeTitle(this.profile.name);
+    return profile;
+  }
+
+  setProfile(pref: IProfile) {
+    this.dataService.setPreferredProfile(pref)
+    .then((usr: IUser) => {
+      if(usr) {
+        this.user = usr;
+        this.doChangeTitle(this.user.preferred.name);
+      }
+    });
   }
 
   hasField(field: any) {
@@ -129,27 +129,6 @@ export class ProfilePage extends ModelPage implements OnInit {
       return true;
 
     return false;
-  }
-
-  updatePicture() {
-    this.presentPictureSource()
-    .then(source => {
-      let sourceType:number = Number(source);
-      return this.util.getPicture(sourceType);
-    })
-    .then(imageData => {
-      //var blobImage = this.util.dataURItoBlob(imageData);
-      //this.user.picture.thumbnail = imageData;
-      console.log(imageData);
-      //return this.userProvider.uploadPicture(blobImage);
-      let toast = this.util.getToast('Your Picture is updated');
-      toast.present();
-    });
-    /*.then(imageURL => {
-      return this.userProvider.updateProfile({avatar: imageURL});
-    })*/
-    /*.then(()=> {
-    });*/
   }
 
   moreOptions(myEvent) {
@@ -163,12 +142,10 @@ export class ProfilePage extends ModelPage implements OnInit {
     let popover = this.popoverCtrl.create(ProfileOptionsPage, userProfiles);
     popover.onDidDismiss(pref => {
       if(pref) {
-        this.preferred = pref;
-        this.dataService.setPreferredProfile(this.preferred);
-        if(this.preferred.type == 'buyer')
-          this.getBuyerProfile();
+        if(pref.type == 'seller')
+          this.setProfile(this.getSellerProfile(pref.id));
         else
-          this.getSellerProfile(this.preferred.id);
+          this.setProfile(this.getBuyerProfile());
       }
     });
     popover.present({
@@ -176,56 +153,11 @@ export class ProfilePage extends ModelPage implements OnInit {
     });
   }
 
-  presentPictureSource() {
-    let promise = new Promise((res, rej) => {
-      let ac = this.actionSheet.create({
-        title: 'Select Picture Source',
-        buttons: [
-          { text: 'Camera', handler: () => { res(1); } },
-          { text: 'Gallery', handler: () => { res(0); } },
-          { text: 'Cancel', role: 'cancel', handler: () => { rej('cancel'); } }
-        ]
-      });
-      ac.present();
-    });
-    return promise;
-  }
-
-  changeUsername() {
-    let alert = this.util.doAlert('Change Username', '', 'Cancel');
-    alert.addInput({
-      name: 'username',
-      value: this.user.username,
-      placeholder: 'username'
-    });
-    alert.addButton({
-      text: 'Ok',
-      handler: data => {
-        this.user.username = data.username;
-      }
-    });
-
-    alert.present();
-  }
-
-  changePassword() {
-    console.log('Clicked to change password');
-  }
-
-  connectFacebook() {
-    console.log('Clicked to connect with facebook');
-  }
-
-  logout() {
-    console.log('Clicked logout');
-  }
-
-  updateProfile() {
-    let toast = this.util.getToast("Your Profile is updated");
-    //this.userProvider.updateProfile({name: this.user['name'], about: this.user['about']})
-    toast.present();
-    /*this.dataService.updateProfile(this.user)
+  followUser(user) {
+    /*this.socialProvider.followUser(user)
     .then(()=> {
+      let toast = this.util.getToast("You are now following " + user.name);
+      this.navController.present(toast);
     });*/
   }
 }

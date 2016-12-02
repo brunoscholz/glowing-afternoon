@@ -9,12 +9,12 @@ export interface IPage {
 }
 
 export interface IProfile {
+  id: string;
   bgImage: string;
   type: string;
   name: string;
   username: string;
   picture: IPicture;
-
 }
 
 export interface ICategory {
@@ -51,6 +51,7 @@ export interface IOffer {
   updatedAt: string;
   status: string;
   reviews: IReviewFact[];
+  avgRating: number;
 }
 
 export interface IItem {
@@ -77,6 +78,7 @@ export interface IUser {
   createdAt: string;
   updatedAt: string;
   status: string;
+  preferred: IProfile;
 }
 
 export interface ISeller {
@@ -114,6 +116,23 @@ export interface IBuyer {
   status: string;
 }
 
+export interface IFollowFact {
+  followFactId: string;
+  actionId: number;
+  user: IBuyer;
+  buyer: IBuyer;
+  seller: ISeller;
+  status: string;
+}
+
+export interface IFavoriteFact {
+  favoriteFactId: string;
+  actionId: number;
+  buyer: IBuyer;
+  offer: IOffer;
+  status: string;
+}
+
 export interface IPolicy {
   policyId: string;
   description: string;
@@ -138,13 +157,19 @@ export interface IReviewFact {
   seller: ISeller;
   review: IReview;
   grades: string;
-  rating: number;
+  rating: IRating;
 }
 
 export interface IReview {
   reviewId: string;
   title: string;
   body: string;
+}
+
+export interface IRating {
+  grade: number;
+  attendance: number;
+  price: number;
 }
 
 export interface ICommentFact {
@@ -180,6 +205,14 @@ export interface ILoyalty {
   ruleId: string;
   points: number;
   status: string;
+}
+
+export interface IBalance {
+  USD: number;
+  COIN: number;
+  CRED: number;
+  BRL: number;
+  SALE: number;
 }
 
 export interface ITransaction {

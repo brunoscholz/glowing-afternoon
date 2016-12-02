@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
 import { AlertController, LoadingController, ToastController} from 'ionic-angular';
 import { Camera } from 'ionic-native';
+import { Subject } from 'rxjs/Rx';
+import 'rxjs/Rx';
 
 @Injectable()
 export class UtilProvider {
+  load$: any;
+  get loading$() { return this.load$.asObservable(); }
+
   constructor(public alertCtrl: AlertController, public loadCtrl: LoadingController, public toastCtrl: ToastController) {
+    this.load$ = new Subject();
   }
 
   doAlert(title, message, buttonText) {
@@ -16,12 +22,20 @@ export class UtilProvider {
       return alert; 
   }
   
-  presentLoading(content) {
+  getLoading(content) {
     let loading = this.loadCtrl.create({
       dismissOnPageChange: true,
       content: content
     });
     return loading;
+  }
+
+  presentLoading(content) {
+    this.load$.next(content);
+  }
+
+  dismissLoading() {
+    this.load$.next(false);
   }
 
   getToast(message) {

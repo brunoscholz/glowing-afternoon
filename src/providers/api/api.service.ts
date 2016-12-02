@@ -35,7 +35,7 @@ export class APIService {
   }
 
   // get by query
-  findAll (options): Observable<any> {
+  findAll (options: any): Observable<any> {
     var database = options.controller || 'offers';
     var OPTIONAL_PARAMS = <any> {
       q: options.query || null,
@@ -44,7 +44,9 @@ export class APIService {
       s: options.sortOrder || null,
       pg: options.page || null,
       l: options.limit || null,
-      ft: options.fromto || null
+      ft: options.fromto || null,
+      asset: options.asset || null,
+      token: options.auth || null
     };
 
     if (database === null) {

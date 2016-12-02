@@ -57,8 +57,10 @@ export class DataService {
   get searchItems$() { return this._subjects$.searchitems.asObservable(); }
   get offers$() { return this._subjects$.offers.asObservable(); }
   get catalog$() { return this._subjects$.catalog.asObservable(); }
-  get reviews$() { return this._subjects$.reviews.asObservable(); }
-  get comments$() { return this._subjects$.comments.asObservable(); }
+  get reviews$() { return this._subjects$['review-facts'].asObservable(); }
+  get comments$() { return this._subjects$['comment-facts'].asObservable(); }
+  get follows$() { return this._subjects$['follow-facts'].asObservable(); }
+  get favorites$() { return this._subjects$['favorite-facts'].asObservable(); }
   get categories$() { return this._subjects$.categories.asObservable(); }
   get sellers$() { return this._subjects$.sellers.asObservable(); }
   get buyers$() { return this._subjects$.buyers.asObservable(); }
@@ -72,8 +74,10 @@ export class DataService {
       buyers: new Subject(),
       offers: new Subject(),
       catalog: new Subject(),
-      reviews: new Subject(),
-      comments: new Subject(),
+      'review-facts': new Subject(),
+      'comment-facts': new Subject(),
+      'follow-facts': new Subject(),
+      'favorite-facts': new Subject(),
       categories: new Subject(),
       sellers: new Subject(),
       searchitems: new Subject(),
@@ -161,23 +165,23 @@ export class DataService {
     });
   }
 
-  getPreferredProfile() {
+  setPreferredProfile(prefs) {
     return new Promise(resolve => {
-      let usr = JSON.parse(this.lstorageLoad('profile'));
-      if(usr)
+      let usr = JSON.parse(this.lstorageLoad('user'));
+      if(usr) {
+        usr.preferred = prefs;
+        this.lstorageSave('user', JSON.stringify(usr));
         resolve(usr);
+      }
       else
         resolve(null);
     });
-  }
-
-  setPreferredProfile(prefs) {
-    this.lstorageSave('profile', JSON.stringify(prefs));
+    //this.lstorageSave('profile', JSON.stringify(prefs));
   }
 
   fetchUser(usr) {
     if(usr == {} || usr == null)
-      usr = this.lstorageLoad('user');
+      usr = JSON.parse(this.lstorageLoad('user'));
 
     this.api.findAll({
       controller: 'buyers',
@@ -187,7 +191,6 @@ export class DataService {
       .subscribe(data => {
         let u = data['data'][0];
         this.lstorageSave('user', JSON.stringify(u));
-        //this.lstorageSave('profile', JSON.stringify({ type: 'buyer', id: u.buyer.buyerId }));
         this._subjects$['user'].next(u);
       }, 
       error => console.log('Something went wrong'),

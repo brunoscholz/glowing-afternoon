@@ -1,10 +1,6 @@
 <ion-item>
   <ion-card>
     <ion-item>
-      <ion-avatar item-right class="item-rating">
-        <ion-icon name='star-outline'></ion-icon>
-        <span> 4.5</span> <!-- {{post.rating}} -->
-      </ion-avatar>
       <ion-avatar item-right>
         <img src="http://ondetem.tk/{{post.seller.picture.thumbnail}}">
         <!-- <img *ngIf="(poster | async)?.avatar" [src]="(poster | async)?.avatar">
@@ -21,7 +17,10 @@
     </ion-card-content>
 
     <ion-item-divider>
-      <!-- {{post.createdAt}} -->
+      <ion-avatar item-left class="item-rating">
+        <ion-icon name='star-outline'></ion-icon>
+        <span> {{post.avgRating}}</span>
+      </ion-avatar>
       {{post.createdAt | amTimeAgo}}
     </ion-item-divider>
   </ion-card>

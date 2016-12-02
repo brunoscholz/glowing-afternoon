@@ -1,18 +1,26 @@
-<!--
-  Generated template for the Follows page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>follows</ion-title>
+    <ion-title>{{title}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-
 <ion-content padding>
+
+<div class="empty" *ngIf="status === viewStatus.Empty">
+    <ion-icon name="thumbs-down"></ion-icon>
+    <p>Nenhum resultado encontrado aqui!!</p>
+  </div>
+
+  <div *ngIf="status === viewStatus.Full">
+	<ion-list *ngIf="follows">
+		<ion-item class="bounceInRight" *ngFor="let flw of follows">
+			<span class="value">{{flw.name}}</span>
+			<p>{{flw.email}}</p>
+		</ion-item>
+	</ion-list>
+  </div>
+
 
 </ion-content>

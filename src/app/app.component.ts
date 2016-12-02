@@ -6,7 +6,6 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { SignTabsPage } from '../pages/sign-tabs/sign-tabs';
 
 import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
-import { SettingsPage } from '../pages/settings/settings';
 import { SellPage } from '../pages/sell/sell';
 
 import { IPage } from '../providers/data/interfaces';
@@ -34,6 +33,8 @@ export class MyApp {
   rootPage: any = WelcomePage;
   error: any;
   isSalesPerson: boolean = false;
+  loading: any;
+  isLoading: boolean = false;
 
   appPages: IPage[] = [
     { title: 'Início', component: HomeTabsPage, icon: 'home' },
@@ -66,6 +67,7 @@ export class MyApp {
       StatusBar.styleDefault();
       Splashscreen.hide();
       this.checkConnection();
+      this.loadIndicator();
       this.errorNotifier.onError(err => {
         this.error = err;
         console.log(err);
@@ -122,6 +124,23 @@ export class MyApp {
         }
       });
     if(!this.connService.isOnline()) {}
+  }
+
+  loadIndicator() {
+    this.util.load$
+    .subscribe((result) => {
+      if(result) {
+        if(this.isLoading)
+          return;
+        this.loading = this.util.getLoading(result);
+        this.loading.present();
+        this.isLoading = true;
+      }
+      else {
+        this.loading.dismiss();
+        this.isLoading = false;
+      }
+    });
   }
 
   openPage(page: IPage) {

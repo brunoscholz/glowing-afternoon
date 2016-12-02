@@ -8,7 +8,9 @@ import { IOffer } from '../../providers/data/interfaces';
 export class OfferPostCmp {
     @Input('feed') post: IOffer;
 
-    constructor() {}
+    constructor() {
+        //moment.locale('pt-br');
+    }
 
     ngOnInit() {
         /*let postID = this.feed.$key;
