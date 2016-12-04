@@ -198,8 +198,14 @@ export class ProductDetailPage extends ModelPage implements OnInit {
 
   getRating(rate) {
     // let rate = this.rating + this.attendance * 1000 + this.price * 100;
-    let decimal = rate - (Math.floor(rate / 100) * 100);
-    return decimal;
+    // let decimal = rate - (Math.floor(rate / 100) * 100);
+    // return decimal;
+    if(rate >= 7)
+      return 'green';
+    else if(rate >= 4)
+      return 'yellow';
+    else
+      return 'red';
   }
 
   hasField(field: any) {

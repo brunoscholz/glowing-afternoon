@@ -5,32 +5,37 @@
 </ion-header>
 
 <ion-content padding class="signin-page" align="center">
-  <form #loginForm="ngForm" (submit)="signin()" novalidate>
-    <ion-list no-lines padding class="search-header">
-      <ion-item class="animated tada">
-        <img src="assets/img/logo.png">
-      </ion-item>
-      <ion-item class="search-bar">
-        <ion-input [(ngModel)]="login.username" name="username" type="text" placeholder="Email" spellcheck="false" autocapitaliza="off" required></ion-input>
-      </ion-item>
+  <ion-list no-lines padding class="search-header">
+    <ion-item class="animated tada">
+      <img src="assets/img/logo.png">
+    </ion-item>
+
+    <form [formGroup]="signInForm">
 
       <ion-item class="search-bar">
-        <ion-input [(ngModel)]="login.password" name="password" type="password" placeholder="Senha" required></ion-input>
+        <ion-label floating>Email</ion-label>
+        <ion-input formControlName="username" type="text" [class.invalid]="!signInForm.controls.username.valid && (signInForm.controls.username.dirty || submitAttempt)"></ion-input>
       </ion-item>
+      <control-messages [control]="signInForm.controls.username"></control-messages>
 
-      <ion-item class="search-btn">
-        <button ion-button round type="submit">Entrar</button>
-        <!-- <button (click)="onLogin(loginForm2)" type="submit" primary block>Login</button>
-          <button (click)="onSignup()" light block>Signup</button> -->
+      <ion-item class="search-bar">
+        <ion-label floating>Senha</ion-label>
+        <ion-input formControlName="password" type="password" [class.invalid]="!signInForm.controls.password.valid && (signInForm.controls.password.dirty || submitAttempt)"></ion-input>
       </ion-item>
-    </ion-list>
-  </form>
+      <control-messages [control]="signInForm.controls.password"></control-messages>
 
-  <ul class="altLogin">
+    </form>
+
+    <ion-item class="search-btn">
+      <button ion-button round [disabled]="!signInForm.valid" (click)="signin()">Entrar</button>
+    </ion-item>
+  </ion-list>
+
+  <!-- <ul class="altLogin">
     <li><button round icon-only (click)="facebookConnect()"><ion-icon name="logo-facebook"></ion-icon></button></li>
     <li><button round icon-only (click)="dummy()"><ion-icon name="logo-twitter"></ion-icon></button></li>
     <li><button round icon-only (click)="dummy()"><ion-icon name="logo-googleplus"></ion-icon></button></li>
-  </ul>
+  </ul> -->
 
 </ion-content>
       

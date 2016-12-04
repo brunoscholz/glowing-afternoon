@@ -5,21 +5,25 @@
 </ion-header>
 
 <ion-content padding class="signup-page" align="center">
-  <form #loginForm="ngForm" (submit)="sendEmail($event)">
-    <ion-list no-lines padding class="search-header">
-      <ion-item class="animated tada">
-        <img src="assets/img/logo.png">
-      </ion-item>
-      <ion-item class="search-bar">
-        <ion-input [(ngModel)]="login.username" name="username" type="text" placeholder="Email" spellcheck="false" autocapitaliza="off" required></ion-input>
-      </ion-item>
+  
+  <ion-list no-lines padding class="search-header">
+    <ion-item class="animated tada">
+      <img src="assets/img/logo.png">
+    </ion-item>
+    <form [formGroup]="forgotForm">
 
-      <ion-item class="search-btn">
-        <button ion-button round type="submit">Enviar</button>
-        <!-- <button (click)="onLogin(loginForm)" type="submit" primary block>Login</button> -->
+      <ion-item class="search-bar">
+        <ion-label floating>Email</ion-label>
+        <ion-input formControlName="username" type="text" [class.invalid]="!forgotForm.controls.username.valid && (forgotForm.controls.username.dirty || submitAttempt)"></ion-input>
       </ion-item>
-    </ion-list>
-  </form>
-  <!-- [disabled]="!loginForm.valid" -->
+      <control-messages [control]="forgotForm.controls.username"></control-messages>
+
+    </form>
+
+    <ion-item class="search-btn">
+      <button ion-button round [disabled]="!forgotForm.valid" (click)="sendEmail()">Enviar</button>
+    </ion-item>
+
+  </ion-list>
 
 </ion-content>

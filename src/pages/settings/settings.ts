@@ -16,7 +16,7 @@ import { ModelPage } from '../model-page';
 export class SettingsPage extends ModelPage implements OnInit {
 	user: IUser = null;
   preferred: any;
-  profile: any;
+  profile: IProfile = null;
 
   constructor(private navCtrl: NavController,
               public actionSheet: ActionSheetController,
@@ -58,11 +58,11 @@ export class SettingsPage extends ModelPage implements OnInit {
   presentPictureSource() {
     let promise = new Promise((res, rej) => {
       let ac = this.actionSheet.create({
-        title: 'Select Picture Source',
+        title: 'Selecione a fonte da Imagem',
         buttons: [
           { text: 'Camera', handler: () => { res(1); } },
-          { text: 'Gallery', handler: () => { res(0); } },
-          { text: 'Cancel', role: 'cancel', handler: () => { rej('cancel'); } }
+          { text: 'Galeria', handler: () => { res(0); } },
+          { text: 'Cancelar', role: 'cancel', handler: () => { rej('cancel'); } }
         ]
       });
       ac.present();
@@ -71,7 +71,7 @@ export class SettingsPage extends ModelPage implements OnInit {
   }
 
   changeUsername() {
-    let alert = this.util.doAlert('Change Username', '', 'Cancel');
+    let alert = this.util.doAlert('Alterar Nome', '', 'Cancelar');
     alert.addInput({
       name: 'username',
       value: this.user.username,
@@ -88,7 +88,33 @@ export class SettingsPage extends ModelPage implements OnInit {
   }
 
   changePassword() {
-    console.log('Clicked to change password');
+    let alert = this.util.doAlert('Alterar Senha', '', 'Cancelar');
+    alert.addInput({
+      type: 'password',
+      name: 'currentPass',
+      value: '',
+      placeholder: 'senha atual'
+    });
+    alert.addInput({
+      type: 'password',
+      name: 'newPass',
+      value: '',
+      placeholder: 'nova senha'
+    });
+    alert.addInput({
+      type: 'password',
+      name: 'confirmPass',
+      value: '',
+      placeholder: 'confirmar senha'
+    });
+    alert.addButton({
+      text: 'Ok',
+      handler: data => {
+        this.updatePassword(data);
+      }
+    });
+
+    alert.present();
   }
 
   connectFacebook() {
@@ -99,12 +125,32 @@ export class SettingsPage extends ModelPage implements OnInit {
     console.log('Clicked logout');
   }
 
+  updatePassword(data) {
+    let msg = "Senha Alterada com Sucesso";
+    this.dataService.updateProfile({
+      pass: data
+    })
+    .then((res) => {
+      if(res["error"])
+        msg = res["error"];
+
+      let toast = this.util.getToast(msg);
+      toast.present();
+    });
+  }
+
   updateProfile() {
-    let toast = this.util.getToast("Your Profile is updated");
-    //this.userProvider.updateProfile({name: this.user['name'], about: this.user['about']})
-    toast.present();
-    /*this.dataService.updateProfile(this.user)
+    let toast = this.util.getToast("Perfil Atualizado");
+    /*this.data.updateProfile({
+      name: this.user['name'], 
+      about: this.user['about']
+    })*/
+
+    this.dataService.updateProfile({
+      user: this.user
+    })
     .then(()=> {
-    });*/
+      toast.present();
+    });
   }
 }

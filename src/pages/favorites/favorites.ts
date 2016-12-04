@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
-import { IUser, IProfile, IFavoriteFact } from '../../providers/data/interfaces';
+import { IProfile, IFavoriteFact } from '../../providers/data/interfaces';
 import { ModelPage } from '../model-page';
 import { ViewStatusEnum } from '../../providers/utils/enums';
 import _ from 'underscore';

@@ -20,11 +20,17 @@
 	    	margin-top: 10px;
 		}
 	}
+	ion-label {
+		font-size: 2rem;
+	}
+	control-messages {
+		color: map-get($colors, danger);
+	}
 }
 
 ul.altLogin {
 	padding-left: 0px;
-
+	text-align: center;
 	li {
 		display: inline;
 		list-style-type: none;

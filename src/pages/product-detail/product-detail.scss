@@ -29,6 +29,32 @@
 	}
 }
 
+ion-avatar.item-rating {
+	.rating-round {
+		align-self: center;
+    h3 {
+      background-color: map-get($colors, primary);
+      border-radius: 50%;
+      width: 64px;
+      height: 64px;
+      line-height: 64px;
+      text-align: center;
+      color: white;
+      font-size: 2.5rem;
+
+      &.green {
+        background-color: map-get($colors, primary);
+      }
+      &.yellow {
+        background-color: #ffca00;
+      }
+      &.red {
+        background-color: map-get($colors, danger);
+      }
+    }
+	}
+}
+
 .product-detail-page, .company-detail-page {
 	ion-card-content {
 		h2,p {

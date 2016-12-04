@@ -2,6 +2,15 @@
 
 }
 
+offer {
+  .item-md.item-block .item-inner {
+    border-bottom: none;
+  }
+  .item-md, ion-item-divider.item-md {
+    background-color: transparent;
+  }
+}
+
 ion-content.card-background-page {
   .card-title {
     font-size: 1.5em;
@@ -10,7 +19,7 @@ ion-content.card-background-page {
     top: 55%;
   }
   ion-card {
-    box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.1);
 
     ion-item {
       h2 {

@@ -1,42 +1,52 @@
 import { Component } from '@angular/core';
-import { Nav } from 'ionic-angular';
+import { Nav, LoadingController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
-//import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
-
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { ValidationService } from '../../validators/validators';
+import { ControlMessages } from '../../components/control-messages/control-messages';
+//import { UtilProvider } from '../../providers/utils/util.provider';
 import { TourPage } from '../tour/tour';
 
 @Component({
   templateUrl: 'signup.html',
 })
 export class SignUpPage {
-	login: { name?: string, username?: string, password?: string } = {};
-	submitted = false;
+  submitAttempt: boolean = false;
+  signUpForm: any;
+  passwordGroup: any;
 
-  constructor(private navCtrl: Nav, public auth: AuthService) {
-  	//public auth: Auth, public user: User
+  constructor(private navCtrl: Nav,
+              public formBuilder: FormBuilder,
+              public auth: AuthService,
+              public loadingCtrl: LoadingController
+  ) {
+    this.signUpForm = formBuilder.group({
+      name: ['', Validators.required],
+      username: ['', Validators.compose([Validators.required, ValidationService.emailValidator])],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
+      confirmPassword: ['', Validators.required]
+    }, { validator: ValidationService.matchingPasswords('password', 'confirmPassword')});
   }
 
   signup() {
-    this.auth.register(this.login).then(data => {
-      if(data) {
-        console.log(data);
-        this.navCtrl.setRoot(TourPage);
-      }
+    this.submitAttempt = true;
+    let loading = this.loadingCtrl.create({
+      content: 'Aguarde...'
     });
-    //this.navCtrl.setRoot(TourPage);
-    /*let details: UserDetails = {'email': 'hi@ionic.io', 'password': 'puppies123'};
 
-		this.auth.signup(details).then(() => {
-		  // `this.user` is now registered
-		}, (err: IDetailedError<string[]>) => {
-		  for (let e of err.details) {
-		    if (e === 'conflict_email') {
-		      alert('Email already exists.');
-		    } else {
-		      // handle other errors
-		    }
-		  }
-		});*/
+    setTimeout(() => {
+      loading.dismiss();
+    }, 20000);
+
+    if(this.signUpForm.valid) {
+      loading.present();
+      this.auth.register(this.signUpForm.value).then(data => {
+        if(data) {
+          console.log(data);
+          loading.dismiss();
+          this.navCtrl.setRoot(TourPage);
+        }
+      });
+    }
   }
-
 }

@@ -7,7 +7,6 @@ import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 //import { ViewStatusEnum } from '../../providers/utils/enums';
-//import { ElasticHeader } from '../../directives/elastic-header';
 import { IUser, IProfile } from '../../providers/data/interfaces';
 
 import { ModelPage } from '../model-page';
@@ -87,10 +86,13 @@ export class ProfilePage extends ModelPage implements OnInit {
   }
 
   getBuyerProfile() {
+    this.user.buyer.picture.cover = (this.user.buyer.picture.cover) ? 'http://ondetem.tk/' + this.user.buyer.picture.cover : 'assets/img/generic-cover.jpg';
+    this.user.buyer.picture.thumbnail = (this.user.buyer.picture.thumbnail) ? 'http://ondetem.tk/' + this.user.buyer.picture.thumbnail : 'assets/img/generic-avatar.png';
+    
     let profile: IProfile = {
       id: this.user.buyer.buyerId,
       type: 'buyer',
-      bgImage: 'http://ondetem.tk/' + this.user.buyer.picture.cover,
+      bgImage: this.user.buyer.picture.cover,
       name: this.user.buyer.name,
       username: this.user.buyer.email,
       picture: this.user.buyer.picture
@@ -101,11 +103,13 @@ export class ProfilePage extends ModelPage implements OnInit {
 
   getSellerProfile(id) {
     let seller = _.where(this.user.sellers, { sellerId: id });
+    seller[0].picture.cover = (seller[0].picture.cover) ? 'http://ondetem.tk/' + seller[0].picture.cover : 'assets/img/generic-cover.jpg';
+    seller[0].picture.thumbnail = (seller[0].picture.thumbnail) ? 'http://ondetem.tk/' + seller[0].picture.thumbnail : 'assets/img/generic-avatar.png';
 
     let profile: IProfile = {
       id: id,
       type: 'seller',
-      bgImage: 'http://ondetem.tk/' + seller[0].picture.cover,
+      bgImage: seller[0].picture.cover,
       name: seller[0].name,
       username: seller[0].email,
       picture: seller[0].picture

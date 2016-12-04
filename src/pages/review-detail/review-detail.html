@@ -6,51 +6,57 @@
 
 </ion-header>
 
-<ion-content class="reviews">
+<ion-content class="review-detail-page">
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div *ngIf="review" class="selection">
+  <div *ngIf="fact">
   	<ion-card>
-      <!-- <img src="{{review.author}}"/> -->
+      <ion-item (click)="gotoUser(fact.buyer.buyerId)">
+        <ion-avatar item-left>
+          <img src="http://ondetem.tk/{{fact.buyer.picture.thumbnail}}">
+        </ion-avatar>
+        <h2>{{fact.buyer.name}}</h2>
+        <p>{{fact.date | amCalendar}}, escreveu:</p>
+      </ion-item>
       <ion-card-content>
-        <h2 class="card-title">
-          {{review.data.title}}
-        </h2>
-        <p>
-          {{review.data.body}}
-        </p>
+        <div class="background-image" [style.backgroundImage]="'url(http://ondetem.tk/' + fact.offer.picture.cover + ')'">
+          <div class="rating-round"><h3>{{fact.rating.grade}}.0</h3></div>
+        </div>
+        <div>
+          <h2>{{fact.review.title}}</h2>
+          <p>Geral: {{fact.rating.grade}}</p>
+          <p>Atendimento: {{fact.rating.attendance}}</p>
+          <p>Preço: {{fact.rating.price}}</p>
+        </div>
       </ion-card-content>
-
-      <ion-list>
+      <ion-list class="review-body">
         <ion-item>
-          <ion-icon item-left name="moon"></ion-icon>
-          <h3>Rating</h3>
-          <!-- <ion-note item-right>{{product.category.name}}</ion-note> -->
+          <p>{{fact.review.body}}</p>
         </ion-item>
       </ion-list>
     </ion-card>
 
-    <h4 class="content padding" style="text-align: center;">Comments</h4>
+    <!-- <h4 class="content padding" style="text-align: center;">Comentários</h4> -->
     <!-- form for new ones -->
 
-    <ion-list class="comments">
-      <ion-item *ngFor="let item of review.comments">
+    <!-- <ion-list class="comments">
+      <ion-item *ngFor="let item of fact.comments">
       	<ion-avatar item-left>
         <img src="img/jon-snow.jpg">
       </ion-avatar>
       <p>
-        {{item.data.body}}
+        {{item.comment.body}}
       </p>
      </ion-item>
 
      <ion-item *ngIf="status === viewStatus.Empty" style="text-align: center;">
         <ion-icon name="thumbs-down"></ion-icon>
-        <p>No comments yet... </p>
-        <p>Write one!</p>
+        <p>Nenhum comentário ainda... </p>
+        <p>Seja o primeiro!</p>
       </ion-item>
 
-    </ion-list>
+    </ion-list> -->
   </div>
 </ion-content>

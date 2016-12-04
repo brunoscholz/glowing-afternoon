@@ -10,7 +10,7 @@
  *
 */
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
@@ -20,14 +20,14 @@ import { ModelPage } from '../model-page';
 
 //import { IReview, IComment } from '../../providers/interfaces';
 
-import _ from 'underscore';
+//import _ from 'underscore';
 
 @Component({
   templateUrl: 'review-detail.html',
 })
-export class ReviewDetailPage extends ModelPage {
+export class ReviewDetailPage extends ModelPage implements OnInit {
 	product: any;
-  review: any;
+  fact: any;
 
   constructor(public navCtrl: NavController, 
             	navParams: NavParams,
@@ -36,9 +36,8 @@ export class ReviewDetailPage extends ModelPage {
               public util: UtilProvider
   ) {
   	super('Review', dataService, util)
-  	this.review = navParams.get('review');
+  	this.fact = navParams.get('review');
   	this.product = navParams.get('product');
-  	_.extend(this.review, { comments: [] });
   }
 
   ngOnInit() {
@@ -47,7 +46,7 @@ export class ReviewDetailPage extends ModelPage {
 	    .subscribe(
 	      (data) => {
 	      	console.log(data);
-	      	self.review.comments = data;
+	      	self.fact.comments = data;
 	      	self.changeViewState();
 	        if(self.refresher)
 	          self.refresher.complete();
@@ -60,11 +59,12 @@ export class ReviewDetailPage extends ModelPage {
 
   ionViewWillEnter() {
     this.doReset('Review');
+    this.changeViewState();
     this.load();
   }
 
   changeViewState() {
-    if (_.size(this.data.comments) > 0) {
+    if (this.fact) {
       this.doChangeView(ViewStatusEnum.Full);
     }
     else {

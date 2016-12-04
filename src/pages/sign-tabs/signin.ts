@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Nav } from 'ionic-angular';
+import { Nav, LoadingController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
-//import { Facebook, NativeStorage } from 'ionic-native';
-
-//import { Auth, User } from '@ionic/cloud-angular';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { ValidationService } from '../../validators/validators';
+import { ControlMessages } from '../../components/control-messages/control-messages';
 
 import { HomeTabsPage } from '../home-tabs/home-tabs';
 
@@ -11,20 +11,40 @@ import { HomeTabsPage } from '../home-tabs/home-tabs';
   templateUrl: 'signin.html',
 })
 export class SignInPage {
-	login: { username?: string, password?: string } = {};
-	submitted = false;
+	submitAttempt: boolean = false;
+  signInForm: any;
 
-  constructor(private navCtrl: Nav, public auth: AuthService) {
+  constructor(private navCtrl: Nav,
+              public formBuilder: FormBuilder,
+              public auth: AuthService,
+              public loadingCtrl: LoadingController
+  ) {
+    this.signInForm = formBuilder.group({
+      username: ['', Validators.compose([Validators.required, ValidationService.emailValidator])],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
+    });
   }
 
   signin() {
-    console.log(this.login);
-    this.auth.authenticate(this.login).then(data => {
-      if(data) {
-        console.log(data);
-          this.navCtrl.setRoot(HomeTabsPage);
-      }
+    this.submitAttempt = true;
+    let loading = this.loadingCtrl.create({
+      content: 'Autenticando...'
     });
+
+    setTimeout(() => {
+      loading.dismiss();
+    }, 20000);
+
+    if(this.signInForm.valid) {
+      loading.present();
+      this.auth.authenticate(this.signInForm.value).then(data => {
+        if(data) {
+          console.log(data);
+          loading.dismiss();
+          this.navCtrl.setRoot(HomeTabsPage);
+        }
+      });
+    }
   }
 
   dummy() {}

@@ -128,31 +128,38 @@ export class DataService {
     return JSON.parse(this.lstorageLoad('visitingCompany'));
   }
 
-  updateProfile(data) {
-    /*return new Promise(resolve => {
-      //NativeStorage.getItem('ondetemTK').then((token) => {
-        //nav.push(UserPage);
+  updateProfile(options) {
+    return new Promise(resolve => {
+      let token = this.lstorageLoad('ondetemTK')
+      //.then((token) => {
+        let body = { token: token }
+        if(options.pass)
+          body['pass'] = options.pass;
+
+        if(options.username)
+          body['username'] = options.username;
+
         this.api.add({
-          controller: 'auth/signin',
-          body: { token: encodeURIComponent(token) },
+          controller: 'auth/settings',
+          body: body,
           query: {}
         })
           .map((res: Response) => res.json())
           .subscribe(data => {
             if(data.status == 200) {
-              this.storeUserCredentials(token);
-              this.storeUser(data.data[0]);
-              resolve(data.data[0]);
+              // this.storeUserCredentials(token);
+              // this.storeUser(data.data[0]);
+              //resolve(data.data[0]);
+              resolve({error: 'not functioning'});
             }
             else
               resolve(null);
           });
-
-      }, function (error) {
-        console.log(error);
-        resolve(false);
-      })
-    });*/
+      /*},
+      (err) => {
+        resolve(err);
+      });*/
+    });
   }
 
   getUser() {

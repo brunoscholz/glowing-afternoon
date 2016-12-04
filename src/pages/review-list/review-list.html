@@ -6,22 +6,40 @@
 
 </ion-header>
 
-<ion-content padding>
-
-<div class="empty" *ngIf="status === viewStatus.Empty">
+<ion-content class="review-detail-page">
+  <div class="empty" *ngIf="status === viewStatus.Empty">
     <ion-icon name="thumbs-down"></ion-icon>
     <p>Nenhum resultado encontrado aqui!!</p>
   </div>
 
   <div *ngIf="status === viewStatus.Full">
 	<ion-list *ngIf="reviews">
-		<ion-item class="bounceInRight" *ngFor="let fact of reviews">
-			<span class="value">{{fact.offer.item.title}}</span>
-			<p>{{fact.review.title}}</p>
-			<p>{{fact.rating.grade}}</p>
-		</ion-item>
+		<ion-card *ngFor="let fact of reviews">
+	      <ion-item (click)="gotoUser(fact.buyer.buyerId)">
+	        <ion-avatar item-left>
+	          <img src="http://ondetem.tk/{{fact.buyer.picture.thumbnail}}">
+	        </ion-avatar>
+	        <h2>{{fact.buyer.name}}</h2>
+	        <p>{{fact.date | amCalendar}}, escreveu:</p>
+	      </ion-item>
+	      <ion-card-content>
+	        <div class="background-image" [style.backgroundImage]="'url(http://ondetem.tk/' + fact.offer.picture.cover + ')'">
+	          <div class="rating-round"><h3>{{fact.rating.grade}}.0</h3></div>
+	        </div>
+	        <div>
+	          <h2>{{fact.review.title}}</h2>
+	          <p>Geral: {{fact.rating.grade}}</p>
+	          <p>Atendimento: {{fact.rating.attendance}}</p>
+	          <p>Preço: {{fact.rating.price}}</p>
+	        </div>
+	      </ion-card-content>
+	      <ion-list class="review-body">
+	        <ion-item>
+	          <p>{{fact.review.body}}</p>
+	        </ion-item>
+	      </ion-list>
+	    </ion-card>
 	</ion-list>
   </div>
-
-
 </ion-content>
+

@@ -113,8 +113,6 @@ export class AuthService {
   }
 
   authenticate(user) {
-
-    //var creds = "name=" + user.name + "&password=" + user.password;
     return new Promise(resolve => {
       this.api.add({
         controller: 'auth/signin',
@@ -135,7 +133,6 @@ export class AuthService {
   }
 
   register(user) {
-    console.log(user);
     return new Promise(resolve => {
       this.api.add({
         controller: 'auth/signup',
@@ -152,20 +149,24 @@ export class AuthService {
             resolve(false);
         });
       });
-    /*var creds = "name=" + user.name + "&password=" + user.password;
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    
-    return new Promise(resolve => {
-      this.http.post('http://localhost:3333/adduser', creds, {headers: headers})
-      .subscribe(data => {
-        if(data.json().success){
-          resolve(true);
-        }
-        else
-          resolve(false);
-      });
-    });*/
+  }
+
+  forgotPassword(user) {
+    let promise = new Promise((resolve, reject) => {
+      this.api.add({
+        controller: 'auth/forgot-password',
+        body: user,
+      })
+        .map((res: Response) => res.json())
+        .subscribe(data => {
+          if(data.status == 200) {
+            resolve(true);
+          }
+          else
+            reject(false);
+        });
+    });
+    return promise;
   }
 
   getinfo() {

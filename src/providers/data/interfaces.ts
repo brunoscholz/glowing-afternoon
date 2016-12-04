@@ -156,7 +156,7 @@ export interface IReviewFact {
   buyer: IBuyer;
   seller: ISeller;
   review: IReview;
-  grades: string;
+  date: string;
   rating: IRating;
 }
 

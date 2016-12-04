@@ -1,3 +1,60 @@
-.review-detail {
+.review-detail-page {
+  ion-card {
+    .background-image {
+      height: 30vw;
+      width: 30vw;
+      background-size: cover;
+      background-position: 50%;
+      margin-right: 10px;
+      float: left;
+      display: flex;
+      justify-content: center;
+    }
 
+    .rating-round {
+      align-self: center;
+      h3 {
+        background-color: map-get($colors, primary);
+        border-radius: 50%;
+        width: 64px;
+        height: 64px;
+        line-height: 64px;
+        text-align: center;
+        color: white;
+        font-size: 2.5rem;
+
+        .yellow {
+          background-color: map-get($colors, primary);
+
+        }
+        .red {
+          background-color: map-get($colors, danger);
+        }
+      }
+    }
+
+    ion-card-content {
+      h2 {
+        font-weight: bold;
+        font-size: 2rem;
+        font-family: 'LatoBlack';
+      }
+
+      p {
+        color: map-get($colors, primary);
+        font-size: 1.8rem;
+        font-family: 'Lato';
+      }
+    }
+
+    .review-body {
+      ion-item {
+        ion-label p {
+          color: map-get($colors, midtone);
+          font-size: 1.8rem;
+          font-family: 'Lato';
+        }
+      }
+    }
+  }
 }

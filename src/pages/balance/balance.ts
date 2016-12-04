@@ -3,7 +3,7 @@ import { NavController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
-import { IUser, IProfile, ILoyalty, IBalance } from '../../providers/data/interfaces';
+import { IUser, ILoyalty, IBalance } from '../../providers/data/interfaces';
 import { ModelPage } from '../model-page';
 
 @Component({

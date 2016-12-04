@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'; //ElementRef
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { TimeAgoPipe, FromUnixPipe } from 'angular2-moment';
+import { CalendarPipe, TimeAgoPipe, FromUnixPipe } from 'angular2-moment';
 import moment from 'moment';
 
 //import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
@@ -43,6 +43,7 @@ import { ReviewDetailPage } from '../pages/review-detail/review-detail';
 
 import { OfferPostCmp } from '../components/offer/offer';
 import { UserProfileCmp } from '../components/user-profile/user';
+import { ControlMessages } from '../components/control-messages/control-messages';
 
 // User related Pages
 import { ProfilePage } from '../pages/profile/profile';
@@ -59,7 +60,8 @@ import { AuthService } from '../providers/auth/auth.service';
 import { DataService } from '../providers/data/data.service';
 import { APIService } from '../providers/api/api.service';
 import { APISettings } from '../providers/api/api-settings';
-import { UtilProvider } from '../providers/utils/util.provider'
+import { UtilProvider } from '../providers/utils/util.provider';
+//import { ValidationService } from '../validators/validators';
 import { ErrorNotifierService } from '../providers/utils/error.notifier';
 
 // Map related
@@ -109,9 +111,11 @@ CloudModule.forRoot(cloudSettings)*/
     OrderByPipe,
     TimeAgoPipe,
     FromUnixPipe,
+    CalendarPipe,
     ElasticHeader,
     OfferPostCmp,
-    UserProfileCmp
+    UserProfileCmp,
+    ControlMessages
   ],
   imports: [
     IonicModule.forRoot(MyApp)
