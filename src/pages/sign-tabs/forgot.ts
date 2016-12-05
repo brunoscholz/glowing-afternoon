@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, ToastController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../validators/validators';
-import { ControlMessages } from '../../components/control-messages/control-messages';
 
 @Component({
   templateUrl: 'forgot.html',
 })
 export class ForgotPage {
   submitAttempt: boolean = false;
+  serverError: boolean = false;
+  serverMessage: string = '';
   forgotForm: any;
 
   constructor(private navCtrl: NavController,
@@ -24,7 +25,8 @@ export class ForgotPage {
   }
 
   sendEmail() {
-    this.submitAttempt = true;
+    this.submitAttempt = !this.forgotForm.valid;
+
     let loading = this.loadingCtrl.create({
       content: 'Verificando...'
     });
@@ -46,7 +48,8 @@ export class ForgotPage {
       },
       (err) => {
       	loading.dismiss();
-      	console.log('error: ' + err);
+        this.serverError = true;
+        this.serverMessage = err;
       });
     }
   }

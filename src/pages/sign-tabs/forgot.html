@@ -5,13 +5,14 @@
 </ion-header>
 
 <ion-content padding class="signup-page" align="center">
-  
   <ion-list no-lines padding class="search-header">
     <ion-item class="animated tada">
       <img src="assets/img/logo.png">
     </ion-item>
-    <form [formGroup]="forgotForm">
 
+    <form [formGroup]="forgotForm">
+      <p *ngIf="submitAttempt" style="color: #ea6153;">Por favor preencha todos os campos corretamente!</p>
+      <p *ngIf="serverError" style="color: #ea6153;">{{serverMessage}}</p>
       <ion-item class="search-bar">
         <ion-label floating>Email</ion-label>
         <ion-input formControlName="username" type="text" [class.invalid]="!forgotForm.controls.username.valid && (forgotForm.controls.username.dirty || submitAttempt)"></ion-input>
@@ -21,7 +22,7 @@
     </form>
 
     <ion-item class="search-btn">
-      <button ion-button round [disabled]="!forgotForm.valid" (click)="sendEmail()">Enviar</button>
+      <button ion-button round (click)="sendEmail()">Enviar</button>
     </ion-item>
 
   </ion-list>

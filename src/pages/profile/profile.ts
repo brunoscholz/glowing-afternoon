@@ -6,7 +6,7 @@ import { ProfileOptionsPage } from './options';
 import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
-//import { ViewStatusEnum } from '../../providers/utils/enums';
+import { ViewStatusEnum } from '../../providers/utils/enums';
 import { IUser, IProfile } from '../../providers/data/interfaces';
 
 import { ModelPage } from '../model-page';
@@ -38,7 +38,7 @@ export class ProfilePage extends ModelPage implements OnInit {
     self.dataService.balance$.subscribe((loyal) => {
       self.balance = loyal;
       console.log(loyal);
-      this.doToggleLoading(false);
+      self.changeViewState();
       if(self.refresher)
         self.refresher.complete();
     });
@@ -49,13 +49,21 @@ export class ProfilePage extends ModelPage implements OnInit {
     this.load();
   }
 
+  changeViewState() {
+    if(this.user && this.balance)
+      this.doChangeView(ViewStatusEnum.Full);
+    else
+      this.doChangeView(ViewStatusEnum.Empty);
+    this.util.dismissLoading();
+  }
+
   doRefresh(refresher) {
     this.load();
   }
 
   load() {
-    this.util.presentLoading('Carregando usuário!');
     var self = this;
+    this.doChangeView(ViewStatusEnum.Empty);
 
     this.dataService.getUser().then((res: IUser) => {
       if(res) {
@@ -63,12 +71,12 @@ export class ProfilePage extends ModelPage implements OnInit {
         self.prepareUser();
         self.loadBalance();
         self.doChangeTitle(self.user.buyer.name);
-        self.util.dismissLoading();
       }
     });
   }
 
   loadBalance () {
+    this.util.presentLoading('Carregando usuário!');
     var self = this;
     self.dataService.findAll({
       controller: 'loyalty',

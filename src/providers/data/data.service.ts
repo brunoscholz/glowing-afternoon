@@ -86,7 +86,6 @@ export class DataService {
     };
 
     this._cached$ = {
-      loggedUser: null,
       categories: null,
       visitingCompany: null
     };

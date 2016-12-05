@@ -5,14 +5,14 @@
 </ion-header>
 
 <ion-content padding class="signup-page" align="center">
-  <!-- <p *ngIf="submitAttempt" style="color: #ea6153;">Please fill out all details accurately.</p> -->
-
   <ion-list no-lines padding class="search-header">
     <ion-item class="animated tada">
       <img src="assets/img/logo.png">
     </ion-item>
 
     <form [formGroup]="signUpForm">
+      <p *ngIf="submitAttempt" style="color: #ea6153;">Por favor preencha todos os campos corretamente!</p>
+      <p *ngIf="serverError" style="color: #ea6153;">{{serverMessage}}</p>
       <ion-item class="search-bar">
         <ion-label floating>Nome Completo</ion-label>
         <ion-input formControlName="name" type="text" [class.invalid]="!signUpForm.controls.name.valid && (signUpForm.controls.name.dirty || submitAttempt)" autofocus></ion-input>
@@ -44,7 +44,7 @@
     </form>
 
     <ion-item class="search-btn">
-      <button ion-button round [disabled]="!signUpForm.valid" (click)="signup()">Enviar</button>
+      <button ion-button round (click)="signup()">Enviar</button>
     </ion-item>
   </ion-list>
 

@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { Nav, LoadingController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../validators/validators';
-import { ControlMessages } from '../../components/control-messages/control-messages';
 //import { UtilProvider } from '../../providers/utils/util.provider';
 import { TourPage } from '../tour/tour';
 
@@ -13,7 +12,8 @@ import { TourPage } from '../tour/tour';
 export class SignUpPage {
   submitAttempt: boolean = false;
   signUpForm: any;
-  passwordGroup: any;
+  serverError: boolean = false;
+  serverMessage: string = '';
 
   constructor(private navCtrl: Nav,
               public formBuilder: FormBuilder,
@@ -23,13 +23,13 @@ export class SignUpPage {
     this.signUpForm = formBuilder.group({
       name: ['', Validators.required],
       username: ['', Validators.compose([Validators.required, ValidationService.emailValidator])],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
+      password: ['', Validators.compose([Validators.required, ValidationService.passwordValidator])],
       confirmPassword: ['', Validators.required]
     }, { validator: ValidationService.matchingPasswords('password', 'confirmPassword')});
   }
 
   signup() {
-    this.submitAttempt = true;
+    this.submitAttempt = !this.signUpForm.value;
     let loading = this.loadingCtrl.create({
       content: 'Aguarde...'
     });
@@ -46,6 +46,10 @@ export class SignUpPage {
           loading.dismiss();
           this.navCtrl.setRoot(TourPage);
         }
+      }, (err) => {
+        loading.dismiss();
+        this.serverError = true;
+        this.serverMessage = err;
       });
     }
   }

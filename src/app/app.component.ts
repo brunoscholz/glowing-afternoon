@@ -73,17 +73,33 @@ export class MyApp {
         console.log(err);
       });
     });
-    
+
+    this.getUser();    
     this.authenticate();
   }
 
   authenticate() {
     this.auth.loadUserCredentials().then((user: IUser) => {
-      if(user) {
-        this.isSalesPerson = (user.role === 'salesman' || user.role === 'administrator');
+
+    }, (err) => {});
+  }
+
+  getUser() { 
+    let self = this;
+    self.auth.loggedIn$
+    .subscribe((status) => {
+      self.enableMenu(status === true);
+      self.gotoMainPage(status === true);
+      if(status) {
+        self.dataService.getUser().then((user: IUser) => {
+          if(user) {
+            self.isSalesPerson = (user.role === 'salesman' || user.role === 'administrator');
+          }
+        });
       }
-      this.enableMenu(this.auth.isLoggedin === true);
-      this.gotoMainPage(this.auth.isLoggedin === true);
+      else {
+        self.isSalesPerson = false;
+      }
     });
   }
 
@@ -179,6 +195,6 @@ export class MyApp {
   logout() {
     this.auth.logout();
     this.enableMenu(false);
-    this.nav.setRoot(SignTabsPage);
+    //this.nav.setRoot(SignTabsPage);
   }
 }

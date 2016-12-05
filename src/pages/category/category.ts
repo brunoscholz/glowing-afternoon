@@ -30,7 +30,7 @@ export class CategoryPage extends ModelPage implements OnInit {
     var self = this;
     self.dataService.categories$.subscribe((categories: Array<ICategory>) => {
       self.categories = categories;
-      self.rows = Array.from(Array(Math.ceil(self.categories.length / 3)).keys());
+      self.rows = Array.from(Array(Math.ceil(self.categories.length / 2)).keys());
       self.changeViewState();
       if(self.refresher)
         self.refresher.complete();

@@ -14,9 +14,8 @@
 </ion-header>
 
 <ion-content class="profile-page">
-  <div *ngIf="user">
+  <div *ngIf="status === viewStatus.Full">
     <user [feed]="user.preferred"></user>
-
   </div>
 
     <!-- <h4 class="content padding double-padding-x" style="text-align: center;">Avaliações</h4>

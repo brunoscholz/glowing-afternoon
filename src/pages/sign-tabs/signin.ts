@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { Nav, LoadingController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../validators/validators';
-import { ControlMessages } from '../../components/control-messages/control-messages';
 
 import { HomeTabsPage } from '../home-tabs/home-tabs';
 
@@ -13,6 +12,8 @@ import { HomeTabsPage } from '../home-tabs/home-tabs';
 export class SignInPage {
 	submitAttempt: boolean = false;
   signInForm: any;
+  serverError: boolean = false;
+  serverMessage: string = '';
 
   constructor(private navCtrl: Nav,
               public formBuilder: FormBuilder,
@@ -26,7 +27,7 @@ export class SignInPage {
   }
 
   signin() {
-    this.submitAttempt = true;
+    this.submitAttempt = !this.signInForm.valid;
     let loading = this.loadingCtrl.create({
       content: 'Autenticando...'
     });
@@ -43,6 +44,10 @@ export class SignInPage {
           loading.dismiss();
           this.navCtrl.setRoot(HomeTabsPage);
         }
+      }, (err) => {
+        loading.dismiss();
+        this.serverError = true;
+        this.serverMessage = err;
       });
     }
   }

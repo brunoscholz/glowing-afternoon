@@ -4,19 +4,22 @@ import { Response } from '@angular/http';
 import { APIService } from '../api/api.service';
 import { DataService } from '../data/data.service';
 import { Facebook } from 'ionic-native';
+import { Subject } from 'rxjs/Rx';
 
 @Injectable() 
 export class AuthService {
   isLoggedin: boolean = false;
+  private _logged: any;
   AuthToken: any;
   FB_APP_ID: number = 806581699497571;
 
+  get loggedIn$() { return this._logged.asObservable(); }
+
   constructor(public platform: Platform, public api: APIService, public dataService: DataService) {
     this.isLoggedin = false;
+    this._logged = new Subject();
     this.AuthToken = null;
     this.api.Init("auth");
-
-    //this.loadUserCredentials();
     //console.log(this.AuthToken);
 
     this.platform.ready().then(() => {
@@ -72,18 +75,24 @@ export class AuthService {
   }
 
   storeUserCredentials(token) {
-    this.dataService.lstorageSave('ondetemTK', token)
+    this.dataService.lstorageSave('ondetemTK', token);
     this.useCredentials(token);
   }    
 
   useCredentials(token) {
     this.isLoggedin = true;
+    this._logged.next(true);
     this.AuthToken = token;
   }
 
   loadUserCredentials() {
     var token = this.dataService.lstorageLoad('ondetemTK');
-    return new Promise(resolve => {
+    let promise = new Promise((resolve, reject) => {
+      if(!token) {
+        this._logged.next(false);
+        resolve(null);
+      }
+
       this.api.add({
         controller: 'auth/signin',
         body: { token: encodeURIComponent(token) },
@@ -97,13 +106,15 @@ export class AuthService {
             resolve(data.data[0]);
           }
           else
-            resolve(null);
+            reject(data.error);
         });
     });
+    return promise;
   }
   
   destroyUserCredentials() {
     this.isLoggedin = false;
+    this._logged.next(false);
     this.AuthToken = null;
     this.dataService.lstorageClear();
   }
@@ -113,7 +124,7 @@ export class AuthService {
   }
 
   authenticate(user) {
-    return new Promise(resolve => {
+    let promise = new Promise((resolve, reject) => {
       this.api.add({
         controller: 'auth/signin',
         body: user,
@@ -123,17 +134,18 @@ export class AuthService {
         .subscribe(data => {
           if(data.status == 200) {
             this.storeUserCredentials(data.token)
-            this.storeUser(data.data);
+            this.storeUser(data.data[0]);
             resolve(true);
           }
           else
-            resolve(false);
+            reject(data.error);
         });
-      });
+    });
+    return promise;
   }
 
   register(user) {
-    return new Promise(resolve => {
+    let promise = new Promise((resolve, reject) => {
       this.api.add({
         controller: 'auth/signup',
         body: user,
@@ -146,9 +158,10 @@ export class AuthService {
             resolve(true);
           }
           else
-            resolve(false);
+            reject(data.error);
         });
-      });
+    });
+    return promise;
   }
 
   forgotPassword(user) {
@@ -163,7 +176,7 @@ export class AuthService {
             resolve(true);
           }
           else
-            reject(false);
+            reject(data.error);
         });
     });
     return promise;

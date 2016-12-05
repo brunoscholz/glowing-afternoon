@@ -64,16 +64,6 @@
 
     <ion-list>
       <ion-list-header>
-        Conta
-      </ion-list-header>
-      <button ion-item *ngFor="let p of loggedInPages" (click)="openPage(p)">
-        <ion-icon item-left [name]="p.icon"></ion-icon>
-        {{p.title}}
-      </button>
-    </ion-list>
-
-    <ion-list>
-      <ion-list-header>
         Tutorial
       </ion-list-header>
       <button ion-item (click)="openTutorial()">
@@ -89,6 +79,16 @@
       <button menuClose ion-item (click)="openSales()">
         <ion-icon item-left name="briefcase"></ion-icon>
         Vendas
+      </button>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header>
+        Conta
+      </ion-list-header>
+      <button ion-item *ngFor="let p of loggedInPages" (click)="openPage(p)">
+        <ion-icon item-left [name]="p.icon"></ion-icon>
+        {{p.title}}
       </button>
     </ion-list>
   </ion-content>

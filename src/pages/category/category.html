@@ -15,7 +15,7 @@
     <p>Nenhuma categoria encontrada!</p>
   </div>
 
-  <div class="full">
+  <div class="full" *ngIf="status === viewStatus.Full">
     <input type="checkbox" class="show-more-state" id="more-categories" />
 
     <ion-grid class="main-categories show-more-wrap">

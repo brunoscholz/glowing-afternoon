@@ -42,33 +42,20 @@ export class ProductPage extends ModelPage implements OnInit {
   	var self = this;
     // get offers by category
   	this.dataService.offers$
-	    .subscribe(
-	      (data) => {
-          self.products = data;
-          console.log(data);
-          this.initializeItems();
-	      	self.changeViewState();
-	        if(self.refresher)
-	          self.refresher.complete();
-	      },
-	      (err) => { console.log(err); },
-	      () => {}
-	    );
+      .distinctUntilChanged()
+	    .subscribe((data) => {
+        self.products = data;
+        console.log(data);
+      	self.changeViewState();
+        if(self.refresher)
+          self.refresher.complete();
+      },
+      (err) => { console.log(err); });
   }
 
-  ngAfterContentInit() {
+  ionViewDidLoad() {
     this.doReset(this.category.name);
     this.load();
-  }
-
-  initializeItems() {
-    //let test = _.groupBy(this.products, 'category');
-
-    /*this.groupedOffers = [];
-    for (var key in test) {
-      let entry = { group: {id: cat.id, title: cat.title}, items: test[key] };
-      this.groupedOffers.push(entry);
-    }*/
   }
 
   changeViewState() {
