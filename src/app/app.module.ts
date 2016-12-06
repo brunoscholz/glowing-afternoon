@@ -1,30 +1,31 @@
-import { NgModule } from '@angular/core'; //ElementRef
+import { NgModule } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { CalendarPipe, TimeAgoPipe, FromUnixPipe } from 'angular2-moment';
-import moment from 'moment';
-
-//import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
 // Main generic Pages
 import { WelcomePage } from '../pages/welcome/welcome';
 import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
 import { HomePage } from '../pages/home/home';
+import { CategoryPage } from '../pages/category/category';
+import { ProfilePage } from '../pages/profile/profile';
 import { SearchPage } from '../pages/search/search';
+import { TourPage } from '../pages/tour/tour';
 
+// Sign related pages
 import { SignTabsPage } from '../pages/sign-tabs/sign-tabs';
 import { SignInPage } from '../pages/sign-tabs/signin';
 import { SignUpPage } from '../pages/sign-tabs/signup';
 import { ForgotPage } from '../pages/sign-tabs/forgot';
 
+// User related Pages
+import { ProfileOptionsPage } from '../pages/profile/options';
 import { SettingsPage } from '../pages/settings/settings';
 import { FollowsPage } from '../pages/follows/follows';
 import { FavoritesPage } from '../pages/favorites/favorites';
 import { ReviewListPage } from '../pages/review-list/review-list';
 import { BalancePage } from '../pages/balance/balance';
-import { TourPage } from '../pages/tour/tour';
 
-// support tabs
+// sale support tabs & pages
 import { SellPage } from '../pages/sell/sell';
 import { RegisterPage } from '../pages/sell/register';
 import { SupportPage } from '../pages/sell/support';
@@ -35,22 +36,19 @@ import { CompanyDetailPage } from '../pages/company-detail/company-detail';
 import { CatalogPage } from '../pages/catalog/catalog';
 
 // Item related Pages
-import { CategoryPage } from '../pages/category/category';
 import { ProductPage } from '../pages/product/product';
 import { ProductDetailPage } from '../pages/product-detail/product-detail';
 import { ReviewPage } from '../pages/review/review';
 import { ReviewDetailPage } from '../pages/review-detail/review-detail';
 
+// directives
 import { OfferPostCmp } from '../components/offer/offer';
 import { UserProfileCmp } from '../components/user-profile/user';
 import { ControlMessages } from '../components/control-messages/control-messages';
 
-// User related Pages
-import { ProfilePage } from '../pages/profile/profile';
-import { ProfileOptionsPage } from '../pages/profile/options';
-
 // Pipes and Directives
 import { ArrayFilterPipe } from '../pipes/array-filter';
+import { TimeAgoPipe } from '../pipes/time-ago';
 import { OrderByPipe } from '../pipes/order-by';
 import { ElasticHeader } from '../directives/elastic-header/elastic-header';
 
@@ -70,25 +68,21 @@ import { ErrorNotifierService } from '../providers/utils/error.notifier';
 // import { MapComponent } from '../components/map/map';
 // import { MapPage } from '../pages/map/map';
 
-/*const cloudSettings: CloudSettings = {
-  'core': {
-    'app_id': 'a00a135f'
-  }
-};
-CloudModule.forRoot(cloudSettings)*/
-
 @NgModule({
   declarations: [
     MyApp,
     WelcomePage,
-    TourPage,
     HomeTabsPage,
     HomePage,
-    SignTabsPage,
-    SignUpPage,
-    SignInPage,
-    ForgotPage,
+    CategoryPage,
+    ProfilePage,
     SearchPage,
+    TourPage,
+    SignTabsPage,
+    SignInPage,
+    SignUpPage,
+    ForgotPage,
+    ProfileOptionsPage,
     SettingsPage,
     FollowsPage,
     FavoritesPage,
@@ -100,22 +94,17 @@ CloudModule.forRoot(cloudSettings)*/
     CompanyPage,
     CompanyDetailPage,
     CatalogPage,
-    CategoryPage,
     ProductPage,
     ProductDetailPage,
     ReviewPage,
     ReviewDetailPage,
-    ProfilePage,
-    ProfileOptionsPage,
+    OfferPostCmp,
+    UserProfileCmp,
+    ControlMessages,
     ArrayFilterPipe,
     OrderByPipe,
     TimeAgoPipe,
-    FromUnixPipe,
-    CalendarPipe,
-    ElasticHeader,
-    OfferPostCmp,
-    UserProfileCmp,
-    ControlMessages
+    ElasticHeader
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -124,14 +113,17 @@ CloudModule.forRoot(cloudSettings)*/
   entryComponents: [
     MyApp,
     WelcomePage,
-    TourPage,
     HomeTabsPage,
     HomePage,
-    SignTabsPage,
-    SignUpPage,
-    SignInPage,
-    ForgotPage,
+    CategoryPage,
+    ProfilePage,
     SearchPage,
+    TourPage,
+    SignTabsPage,
+    SignInPage,
+    SignUpPage,
+    ForgotPage,
+    ProfileOptionsPage,
     SettingsPage,
     FollowsPage,
     FavoritesPage,
@@ -143,13 +135,10 @@ CloudModule.forRoot(cloudSettings)*/
     CompanyPage,
     CompanyDetailPage,
     CatalogPage,
-    CategoryPage,
     ProductPage,
     ProductDetailPage,
     ReviewPage,
-    ReviewDetailPage,
-    ProfilePage,
-    ProfileOptionsPage
+    ReviewDetailPage
   ],
   providers: [
     ErrorNotifierService,
@@ -162,4 +151,3 @@ CloudModule.forRoot(cloudSettings)*/
   ]
 })
 export class AppModule {}
-moment.locale('pt-br');

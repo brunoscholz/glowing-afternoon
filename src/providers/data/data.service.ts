@@ -271,15 +271,28 @@ export class DataService {
   }
 
   addPreRegisterSeller() {
-    return this.api.add({
-      controller: 'auth/seller-register',
-      body: { 
-        salesman: this._cached$['loggedUser'].buyerId,
-        company: this._cached$['visitingCompany']
-      },
-      query: {}
-    })
-    .map((res: Response) => res.json());
+    let promise = new Promise((resolve, reject) => {
+      this.api.add({
+        controller: 'auth/seller-register',
+        body: { 
+          salesman: this._cached$['loggedUser'].buyerId,
+          company: this._cached$['visitingCompany']
+        },
+        query: {}
+      })
+      .map((res: Response) => res.json())
+      .subscribe(data => {
+        console.log(data);
+        if(data.status == 200) {
+          resolve(data.data);
+        }
+        else
+        {
+          reject(data.error);
+        }
+      });
+    });
+    return promise;
   }
 
   /*return Observable.create(observer => {

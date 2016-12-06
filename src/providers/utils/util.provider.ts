@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AlertController, LoadingController, ToastController} from 'ionic-angular';
+import { AlertController, Alert, LoadingController, Loading, ToastController, Toast } from 'ionic-angular';
 import { Camera } from 'ionic-native';
 import { Subject } from 'rxjs/Rx';
 import 'rxjs/Rx';
@@ -13,16 +13,16 @@ export class UtilProvider {
     this.load$ = new Subject();
   }
 
-  doAlert(title, message, buttonText) {
+  doAlert(title, message, buttonText): Alert {
       let alert = this.alertCtrl.create({
           title: title,
           subTitle: message,
           buttons: [buttonText]
       });
-      return alert; 
+      return alert;
   }
   
-  getLoading(content) {
+  getLoading(content): Loading {
     let loading = this.loadCtrl.create({
       dismissOnPageChange: true,
       content: content
@@ -38,7 +38,7 @@ export class UtilProvider {
     this.load$.next(false);
   }
 
-  getToast(message) {
+  getToast(message): Toast {
     let toast = this.toastCtrl.create({
       message: message,
       duration:2000

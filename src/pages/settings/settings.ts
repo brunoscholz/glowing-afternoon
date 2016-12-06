@@ -55,6 +55,8 @@ export class SettingsPage extends ModelPage implements OnInit {
     });*/
   }
 
+  updateAvatar() {}
+
   presentPictureSource() {
     let promise = new Promise((res, rej) => {
       let ac = this.actionSheet.create({

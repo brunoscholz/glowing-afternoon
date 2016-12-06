@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ToastController } from 'ionic-angular';
+import { NavController, LoadingController, ToastController, Toast } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
 import { Validators, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../validators/validators';
@@ -54,7 +54,7 @@ export class ForgotPage {
     }
   }
 
-  getToast(message) {
+  getToast(message): Toast {
     let toast = this.toastCtrl.create({
       message: message,
       duration:4000

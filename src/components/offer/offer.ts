@@ -8,16 +8,12 @@ import { IOffer } from '../../providers/data/interfaces';
 export class OfferPostCmp {
     @Input('feed') post: IOffer;
 
-    constructor() {
-        //moment.locale('pt-br');
-    }
+    constructor() {}
 
-    ngOnInit() {
-        /*let postID = this.feed.$key;
-        this.post = this.socialProvider.getPost(postID);
-        this.post
-        .subscribe(value => {
-            this.offer = this.socialProvider.getUser(value.from);
-        });*/
-    }
+    /*let postID = this.feed.$key;
+    this.post = this.socialProvider.getPost(postID);
+    this.post
+    .subscribe(value => {
+        this.offer = this.socialProvider.getUser(value.from);
+    });*/
 }

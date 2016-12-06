@@ -10,7 +10,7 @@ import { BalancePage } from '../../pages/balance/balance';
 import { IProfile } from '../../providers/data/interfaces';
 
 @Component({
-    selector: 'user',
+    selector: 'user-profile',
     templateUrl: 'user.html'
 })
 export class UserProfileCmp {
@@ -18,41 +18,37 @@ export class UserProfileCmp {
 
     constructor(public navCtrl: NavController) {}
 
-    ngOnInit() {
-
-    }
-
-    gotoFollowers() {
+    gotoFollowers(event) {
     	this.navCtrl.push(FollowsPage, {
     		me: true,
     		profile: this.profile
     	});
     }
 
-    gotoFollows() {
+    gotoFollows(event) {
     	this.navCtrl.push(FollowsPage, {
     		me: false,
     		profile: this.profile
     	});
     }
 
-    gotoFavorites() {
+    gotoFavorites(event) {
     	this.navCtrl.push(FavoritesPage, {
     		profile: this.profile
     	});
     }
 
-    gotoReviews() {
+    gotoReviews(event) {
     	this.navCtrl.push(ReviewListPage, {
     		profile: this.profile
     	});
     }
 
-    gotoSettings() {
+    gotoSettings(event) {
     	this.navCtrl.push(SettingsPage);
     }
 
-    gotoBank() {
+    gotoBank(event) {
     	this.navCtrl.push(BalancePage);
     }
 }

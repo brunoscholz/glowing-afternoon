@@ -18,7 +18,7 @@
           <img src="http://ondetem.tk/{{fact.buyer.picture.thumbnail}}">
         </ion-avatar>
         <h2>{{fact.buyer.name}}</h2>
-        <p>{{fact.date | amCalendar}}, escreveu:</p>
+        <p>em {{fact.date | emTimeAgo}}, escreveu:</p>
       </ion-item>
       <ion-card-content>
         <div class="background-image" [style.backgroundImage]="'url(http://ondetem.tk/' + fact.offer.picture.cover + ')'">

@@ -91,24 +91,28 @@ export class RegisterPage extends ModelPage implements OnInit {
     this.doToggleLoading(true);
     this.dataService.setVisitingCompany(this.company);
     this.dataService.addPreRegisterSeller()
-      .subscribe(data => {
-        console.log(data);
-        if(data.status == 200) {
-          this.sended = true;
-          this.company = [];
-          this.presentToast('Pré cadastro efetuado');
-        }
-        else if(data.status == 401) {
-          this.presentToast('Vendedor não autorizado!');
-        }
-        else if(data.status == 404) {
-          this.presentToast('Email já cadastrado!');
-        }
-        else if(data.status == 500) {
-          // send email to admin from server with the problems
-          this.presentToast('Erro do servidor, tente mais tarde!');
-        }
+      .then((data) => {
+        this.sended = true;
+        this.company = [];
+        this.presentToast('Pré cadastro efetuado');
+      }, (err) => {
+        this.presentToast(err);
       });
   }
+  /*if(data.status == 200) {
+    this.sended = true;
+    this.company = [];
+    this.presentToast('Pré cadastro efetuado');
+  }
+  else if(data.status == 401) {
+    this.presentToast('Vendedor não autorizado!');
+  }
+  else if(data.status == 404) {
+    this.presentToast('Email já cadastrado!');
+  }
+  else if(data.status == 500) {
+    // send email to admin from server with the problems
+    this.presentToast('Erro do servidor, tente mais tarde!');
+  }*/
 
 }
