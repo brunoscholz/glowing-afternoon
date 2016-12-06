@@ -3,16 +3,6 @@ import { NavController, ActionSheetController } from 'ionic-angular';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 
-/*
-	O objetivo desta página é, temporariamente, servir de apoio 
-	de venda.
-
-	Tira-se uma foto da loja e da logo
-	Talvez adicionar alguns produtos
-	E customizar para a empresa a ser visitada...
-
-*/
-
 @Component({
   templateUrl: 'support.html',
 })

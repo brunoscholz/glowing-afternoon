@@ -12,26 +12,41 @@
 	<ion-list>
 
     <ion-item>
-      <ion-label floating>Nome da empresa</ion-label>
-      <ion-input [(ngModel)]="company.name" type="text"></ion-input>
-    </ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input [(ngModel)]="company.email" type="text"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label floating>Breve descrição</ion-label>
-      <ion-textarea [(ngModel)]="company.description"></ion-textarea>
-    </ion-item>
+      <ion-item>
+        <ion-label floating>Nome da empresa</ion-label>
+        <ion-input [(ngModel)]="company.name" type="text"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label floating>Endereço</ion-label>
-      <ion-input [(ngModel)]="company.address"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label floating>Breve descrição</ion-label>
+        <ion-textarea [(ngModel)]="company.about"></ion-textarea>
+      </ion-item>
 
-    <ion-item>
-      <ion-label floating>Localização</ion-label>
-      <ion-input [(ngModel)]="company.location"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label floating>Endereço</ion-label>
+        <ion-input [(ngModel)]="company.address"></ion-input>
+      </ion-item>
 
-    <ion-item>
+      <ion-item>
+        <ion-label floating>Telefone</ion-label>
+        <ion-input [(ngModel)]="company.phone"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Celular/WhatsApp</ion-label>
+        <ion-input [(ngModel)]="company.cellphone"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Cidade</ion-label>
+        <ion-input [(ngModel)]="company.city"></ion-input>
+      </ion-item>
+
+    <!-- <ion-item>
       <ion-label><ion-icon name="clock"></ion-icon> Horários</ion-label>
       <ion-select [(ngModel)]="company.hours">
         <ion-option value="1">24h</ion-option>
@@ -44,10 +59,10 @@
         <ion-option value="8">das 18h as 24h</ion-option>
         <ion-option value="9">das 18h a último cliente</ion-option>
       </ion-select>
-    </ion-item>
+    </ion-item> -->
   </ion-list>
 
-  <div class="cover-picture">
+  <!-- <div class="cover-picture">
 	  <button ion-button (click)="takePictureCover()">Tirar Foto de Capa</button>
 	  <p>Foto de Capa:</p>
 	  <img [src]="base64CoverImage" *ngIf="base64CoverImage" />
@@ -57,7 +72,7 @@
 	  <button ion-button (click)="takePictureThumb()">Tirar Foto para Logo</button>
 	  <p>Foto Logo:</p>
 	  <img [src]="base64ThumbImage" *ngIf="base64ThumbImage" />
-	</div>
+	</div> -->
 
 	<div class="save">
 	  <button ion-button (click)="save()">Salvar</button>

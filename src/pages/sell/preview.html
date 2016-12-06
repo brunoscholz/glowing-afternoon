@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{title}}</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="moreOptions($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="company-detail-page">
+  <div *ngIf="company">
+    <div id="elastic-header" [style.backgroundImage]="'url(' + bgImage + ')'">
+    </div>
+    <div class="profile-info">
+      <ion-card>
+        <ion-card-content>
+          <img src="{{company.picture.thumbnail}}">
+          <h2>{{company.name}}</h2>
+        </ion-card-content>
+        <p class="company-about">
+          {{company.about}}
+        </p>
+
+        <ion-list no-lines class="info-list">
+          <ion-item>
+            <i class="otIcon-email" item-left></i>
+            <h2>{{company.email}}</h2>
+          </ion-item>
+          <ion-item>
+            <i class="otIcon-phone" item-left></i>
+            <h2>{{company.phone}}</h2>
+          </ion-item>
+          <ion-item>
+            <i class="otIcon-map" item-left></i>
+            <h2>{{company.address}}</h2>
+          </ion-item>
+        </ion-list>
+      </ion-card>
+    </div>
+
+    <h4 class="content padding" style="text-align: center;">Catálogo</h4>
+    <ion-list class="offers" *ngIf="offers">
+      <ion-item *ngFor="let offer of offers">
+        {{offer.item.title}}
+      </ion-item>
+    </ion-list>
+
+  </div>  
+
+</ion-content>

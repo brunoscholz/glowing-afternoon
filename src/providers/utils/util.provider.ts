@@ -4,8 +4,6 @@ import { Camera } from 'ionic-native';
 import { Subject } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
-import { IPicture } from '../../providers/data/interfaces';
-
 @Injectable()
 export class UtilProvider {
   load$: any;

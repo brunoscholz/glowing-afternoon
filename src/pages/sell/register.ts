@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavController, ViewController, NavParams, ActionSheetController } from 'ionic-angular';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 
-import { ModelPage } from '../model-page';
 //import { ViewStatusEnum } from '../../providers/enums';
 
 /*
@@ -19,65 +18,72 @@ import { ModelPage } from '../model-page';
 @Component({
   templateUrl: 'register.html',
 })
-export class RegisterPage extends ModelPage implements OnInit {
+export class RegisterPage {
 	company: any = [];
   sended: boolean = false;
 
+
   constructor(
+    public viewCtrl: ViewController,
     private navCtrl: NavController,
+    params: NavParams,
     public dataService: DataService,
+    public actionSheet: ActionSheetController,
     public util: UtilProvider
   ) {
-    super('Pré Cadastro', dataService, util);
-    this.company = dataService.getVisitingCompany();
-
-    this.doToggleLoading(false);
+    this.company = params.data.company;
+    console.log(params.data);
   }
 
-  ngOnInit() {
-    /*this.dataService.loggedUser$
-    .subscribe((user) => {
-      this.loggedUser = user;
-      //this.setUser();
+  close(id, type) {
+    this.viewCtrl.dismiss({ type: type, id: id });
+  }
+
+  updatePicture() {
+    this.presentPictureSource()
+    .then(source => {
+      let sourceType:number = Number(source);
+      return this.util.getPicture(sourceType);
+    })
+    .then(imageData => {
+      //var blobImage = this.util.dataURItoBlob(imageData);
+      //this.user.picture.thumbnail = imageData;
+      console.log(imageData);
+      //return this.userProvider.uploadPicture(blobImage);
+      let toast = this.util.getToast('Your Picture is updated');
+      toast.present();
+    })
+    .catch((ex) => {
+      //console.log(ex);
     });
-
-    this.dataService.getLoggedUser();*/
+    /*.then(imageURL => {
+      return this.userProvider.updateProfile({avatar: imageURL});
+    })*/
+    /*.then(()=> {
+    });*/
   }
 
-  ionViewWillEnter() {
-    //this.doReset('OndeTem?!');
-    //this.load();
-  }
+  updateAvatar() {}
 
-  changeViewState() {
-    this.doToggleLoading(false);
-  }
-
-  doRefresh(refresher) {
-    //this.refresher = refresher;
-    //this.load();
-  }
-
-  load() {}
-
-  /*presentAlert(input: string) {
-    let alert = this.alertCtrl.create({
-      title: input,
-      buttons: ['ok']
+  presentPictureSource() {
+    let promise = new Promise((res, rej) => {
+      let ac = this.actionSheet.create({
+        title: 'Selecione a fonte da Imagem',
+        buttons: [
+          { text: 'Camera', handler: () => { res(1); } },
+          { text: 'Galeria', handler: () => { res(0); } },
+          { text: 'Cancelar', role: 'cancel', handler: () => { rej('cancel'); } }
+        ]
+      });
+      ac.present();
     });
-
-    alert.onDidDismiss(() => {
-      //this.recognition.stop();
-    });
-
-    alert.present();
-  }*/
+    return promise;
+  }
 
   presentToast(msg) {
     let toast = this.util.getToast(msg);
 
     toast.onDidDismiss(() => {
-      this.doToggleLoading(false);
       this.sended = false;
     });
 
@@ -88,12 +94,13 @@ export class RegisterPage extends ModelPage implements OnInit {
     if(this.sended)
       return;
 
-    this.doToggleLoading(true);
+    this.util.presentLoading('Registrando...')
     this.dataService.setVisitingCompany(this.company);
     this.dataService.addPreRegisterSeller()
       .then((data) => {
         this.sended = true;
         this.company = [];
+        this.util.dismissLoading();
         this.presentToast('Pré cadastro efetuado');
       }, (err) => {
         this.presentToast(err);
@@ -114,5 +121,4 @@ export class RegisterPage extends ModelPage implements OnInit {
     // send email to admin from server with the problems
     this.presentToast('Erro do servidor, tente mais tarde!');
   }*/
-
 }

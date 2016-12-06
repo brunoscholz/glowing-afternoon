@@ -89,6 +89,8 @@ export interface ISeller {
   name: string;
   email: string;
   website: string;
+  phone: string;
+  cellphone: string;
   hours: string;
   categories: string;
   paymentOptions: string;
@@ -147,6 +149,24 @@ export interface IShipping {
   origins: string;
   fee: number;
   free: boolean;
+}
+
+export interface IShippingAddress {
+  shippingAddressId: string;
+  adress: string;
+  city: string;
+  state: string;
+  postCode: string;
+  country: string;
+}
+
+export interface IBillingAddress {
+  billingAddressId: string;
+  adress: string;
+  city: string;
+  state: string;
+  postCode: string;
+  country: string;
 }
 
 export interface IReviewFact {

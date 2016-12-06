@@ -5,11 +5,11 @@ import { Response } from '@angular/http';
 import { Subject } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
+import { IUser } from './interfaces';
 import { APIService } from '../api/api.service';
 
 import _ from 'underscore';
 
-//import { ICategory, IBuyer, ISeller, IOffer } from '../interfaces'; //, IReview, IReviewFact, IComment, ISocialFact, IUser, IRelationship, ITransaction, IAction, IDate
 
 //let favorites = [];
 
@@ -93,14 +93,19 @@ export class DataService {
     };
 
     this.setVisitingCompany({
-      id: 1,
-      name: "Casa da Mãe Joana",
-      description: "Artigos Genéricos",
-      address: "Rua da casa da Joana",
+      name: "",
+      about: "",
+      address: "",
       location: "",
-      hours: "8h00 as 18h00",
-      photoSrc: "assets/img/generic-company.png",
-      thumbSrc: "assets/img/generic-company-logo.png"
+      hours: "",
+      phone: "",
+      cellphone: "",
+      website: "",
+      email: "",
+      picture: {
+        cover: "assets/img/generic-cover.jpg",
+        thumbnail: "assets/img/generic-avatar.png"
+      }
     });
   }
 
@@ -323,24 +328,31 @@ export class DataService {
   }
 
   addPreRegisterSeller() {
+    let self = this;
     let promise = new Promise((resolve, reject) => {
-      this.api.add({
-        controller: 'auth/seller-register',
-        body: { 
-          salesman: this._cached$['loggedUser'].buyerId,
-          company: this._cached$['visitingCompany']
-        },
-        query: {}
-      })
-      .map((res: Response) => res.json())
-      .subscribe((data) => {
-        if(data.status == 200) {
-          resolve(data.data);
-        }
-        else
-        {
-          reject(data.error);
-        }
+      let cp = self.getVisitingCompany();
+      console.log(cp);
+      self.getUser()
+      .then((usr: IUser) => {
+        self.api.add({
+          controller: 'auth/seller-register',
+          body: { 
+            salesman: usr.userId,
+            company: self.getVisitingCompany()
+          },
+          query: {}
+        })
+        .map((res: Response) => res.json())
+        .subscribe((data) => {
+          if(data.status == 200) {
+            resolve(data.data);
+          }
+          else
+          {
+            reject(data.error);
+          }
+        });
+
       });
     });
     return promise;

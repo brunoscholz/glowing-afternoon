@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SupportPage } from './support';
-import { RegisterPage } from './register';
+import { PreviewPage } from './preview';
 
 @Component({
   templateUrl: 'sell.html',
@@ -11,7 +11,7 @@ export class SellPage {
   tabsell2: any;
 
   constructor() {
-    this.tabsell1 = SupportPage;
-    this.tabsell2 = RegisterPage;
+  	this.tabsell1 = PreviewPage;
+    this.tabsell2 = SupportPage;
   }
 }

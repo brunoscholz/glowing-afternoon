@@ -29,6 +29,7 @@ import { BalancePage } from '../pages/balance/balance';
 import { SellPage } from '../pages/sell/sell';
 import { RegisterPage } from '../pages/sell/register';
 import { SupportPage } from '../pages/sell/support';
+import { PreviewPage } from '../pages/sell/preview';
 
 // Company related Pages
 import { CompanyPage } from '../pages/company/company';
@@ -92,6 +93,7 @@ import { ErrorNotifierService } from '../providers/utils/error.notifier';
     SellPage,
     RegisterPage,
     SupportPage,
+    PreviewPage,
     CompanyPage,
     CompanyDetailPage,
     CatalogPage,
@@ -134,6 +136,7 @@ import { ErrorNotifierService } from '../providers/utils/error.notifier';
     SellPage,
     RegisterPage,
     SupportPage,
+    PreviewPage,
     CompanyPage,
     CompanyDetailPage,
     CatalogPage,
