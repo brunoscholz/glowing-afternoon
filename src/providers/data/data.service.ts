@@ -54,7 +54,7 @@ export class DataService {
   private _cached$: any;
   private _toStorage: any = ['loggedUser', 'categories', 'visitingCompany'];
 
-  get searchItems$() { return this._subjects$.searchitems.asObservable(); }
+  /*get searchItems$() { return this._subjects$.searchitems.asObservable(); }
   get offers$() { return this._subjects$.offers.asObservable(); }
   get catalog$() { return this._subjects$.catalog.asObservable(); }
   get reviews$() { return this._subjects$['review-facts'].asObservable(); }
@@ -64,13 +64,13 @@ export class DataService {
   get categories$() { return this._subjects$.categories.asObservable(); }
   get sellers$() { return this._subjects$.sellers.asObservable(); }
   get buyers$() { return this._subjects$.buyers.asObservable(); }
+  get loggedUser$() { return this._subjects$.user.asObservable(); }*/
   get balance$() { return this._subjects$.loyalty.asObservable(); }
-  get loggedUser$() { return this._subjects$.user.asObservable(); }
 
   constructor(public api: APIService) {
     this.api.Init("offers");
 
-    this._subjects$ = {
+    /*
       buyers: new Subject(),
       offers: new Subject(),
       catalog: new Subject(),
@@ -82,6 +82,8 @@ export class DataService {
       sellers: new Subject(),
       searchitems: new Subject(),
       user: new Subject(),
+    */
+    this._subjects$ = {
       loyalty: new Subject(),
     };
 
@@ -115,8 +117,6 @@ export class DataService {
 
   creditUser(coins) {
     console.log(coins);
-    //USERS[0].coins.balance = USERS[0].coins.balance + coins;
-    //this._subjects$["users"].next(USERS[0]);
   }
 
   setVisitingCompany(cp: any) {
@@ -204,65 +204,117 @@ export class DataService {
   }
 
   findAll(options: any) {
-    if(!options) throw new Error('invalid options');
+    let promise = new Promise((resolve, reject) => {
+      if(!options) //throw new Error('invalid options');
+        reject(new Error('invalid options'));
 
       if(this._cached$[options.controller] && this._cached$[options.controller] !== null && this._cached$[options.controller] !== []) {
-        this._subjects$[options.controller].next(this._cached$[options.controller]);
+        //this._subjects$[options.controller].next(this._cached$[options.controller]);
+        resolve(this._cached$[options.controller]);
       }
       else {
         this.api.findAll(options)
         .map((res: Response) => res.json())
-        .subscribe(data => {
-          // check data["status"]...
-          let ret = data["data"];
-          if(_.contains(this._toStorage, options.controller))
-            this._cached$[options.controller] = ret;
-          this._subjects$[options.controller].next(ret);
+        .subscribe((data) => {
+          if(data.status == 200) {
+            //this._subjects$[options.controller].next(ret);
+            if(_.contains(this._toStorage, options.controller))
+              this._cached$[options.controller] = data.data;
+
+            if(_.contains(this._subjects$, options.controller))
+              this._subjects$[options.controller].next(data.data);
+            
+            resolve(data.data);
+          }
+          else
+          {
+            reject(data.error);
+          }
         }, 
         error => console.log('Something went wrong'),
         () => console.log('findAll Completed for ' + options.controller));
       }
+    });
+    return promise;
+  }
+
+  getBalance(options: any) {
+    this.api.findAll(options)
+      .map((res: Response) => res.json())
+      .subscribe((data) => {
+        if(data.status == 200) {
+          this._subjects$['loyalty'].next(data.data);
+        }
+      },
+      error => console.log('Something went wrong'),
+      () => console.log('findAll Completed for balance'));
   }
 
   getPretty(options: any) {
-    if(!options) throw new Error('invalid options');
-
-    this.api.getPretty(options)
+    let promise = new Promise((resolve, reject) => {
+      if(!options) //throw new Error('invalid options');
+        reject(new Error('invalid options'));
+      
+      this.api.getPretty(options)
         .map((res: Response) => res.json())
-        .subscribe(data => {
-          // check data["status"]...
-          let ret = data["data"];
-          this._subjects$[options.controller].next(ret);
+        .subscribe((data) => {
+          if(data.status == 200) {
+            // let ret = data["data"];
+            // this._subjects$[options.controller].next(ret);
+            resolve(data.data);
+          }
+          else
+          {
+            reject(data.error);
+          }
         }, 
         error => console.log('Something went wrong'),
         () => console.log('getPretty Completed for ' + options.controller));
+    });
+    return promise;
   }
 
   search(options: any) {
-    this.api.search(options)
-      .map((res: Response) => res.json())
-      .subscribe(data => {
-        // check data["status"]...
-        this._subjects$['searchitems'].next(data["data"]);
-      }, 
-      error => console.log('Something went wrong'),
-      () => console.log('search Completed for ' + options.term));
+    let promise = new Promise((resolve, reject) => {
+      this.api.search(options)
+        .map((res: Response) => res.json())
+        .subscribe((data) => {
+          if(data.status == 200) {
+            //this._subjects$['searchitems'].next(data["data"]);
+            resolve(data.data);
+          }
+          else
+          {
+            reject(data.error);
+          }
+        }, 
+        error => console.log('Something went wrong'),
+        () => console.log('search Completed for ' + options.term));
+    });
+    return promise;
   }
 
   addReview(review) {
-    this.api.add({
-      controller: 'review-facts',
-      body: review,
-      query: {}
-    })
-      .map((res: Response) => res.json())
-      .subscribe(data => {
-        // check data["status"]...
-        //this._subjects$[options.controller].next(data["data"]);
-        console.log(data);
-      }, 
-      error => console.log('Something went wrong'),
-      () => console.log('findAll Completed for ' + 'review-facts'));
+    let promise = new Promise((resolve, reject) => {
+      this.api.add({
+        controller: 'review-facts',
+        body: review,
+        query: {}
+      })
+        .map((res: Response) => res.json())
+        .subscribe((data) => {
+          if(data.status == 200) {
+            resolve(data.data);
+          }
+          else
+          {
+            reject(data.error);
+          }
+        }, 
+        error => console.log('Something went wrong'),
+        () => console.log('findAll Completed for ' + 'review-facts'));
+    });
+    return promise;
   }
 
   addComments(comment) {
@@ -281,8 +333,7 @@ export class DataService {
         query: {}
       })
       .map((res: Response) => res.json())
-      .subscribe(data => {
-        console.log(data);
+      .subscribe((data) => {
         if(data.status == 200) {
           resolve(data.data);
         }

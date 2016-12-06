@@ -4,6 +4,7 @@ import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 import { IUser, ILoyalty, IBalance } from '../../providers/data/interfaces';
+import { ViewStatusEnum } from '../../providers/utils/enums';
 import { ModelPage } from '../model-page';
 
 @Component({
@@ -29,6 +30,7 @@ export class BalancePage extends ModelPage implements OnInit {
     self.dataService.balance$.subscribe((loyal: any) => {
       self.tx = <ILoyalty[]>loyal['loyalties'];
       self.balance = <IBalance>loyal['balance'];
+      self.changeViewState();
       console.log(this.balance);
       console.log(this.tx)
     });
@@ -47,15 +49,26 @@ export class BalancePage extends ModelPage implements OnInit {
         self.loadBalance();
         //self.util.dismissLoading();
       }
+    }, (err) => {
+      console.log(err);
     });
   }
 
   loadBalance() {
   	let self = this;
-  	self.dataService.findAll({
+    this.util.presentLoading('Carregando usuário!');
+  	self.dataService.getBalance({
       controller: 'loyalty',
       query: { 'userId': { test: "like binary", value: self.user.userId } }
     });
+  }
+
+  changeViewState() {
+    if(this.balance)
+      this.doChangeView(ViewStatusEnum.Full);
+    else
+      this.doChangeView(ViewStatusEnum.Empty);
+    this.util.dismissLoading();
   }
 
   posNeg(tr) {

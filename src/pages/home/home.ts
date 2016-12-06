@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Platform, NavController, NavParams, AlertController } from 'ionic-angular';
 
 import { SearchPage } from '../search/search';
@@ -20,7 +20,7 @@ declare var platform: any;
   selector: 'home-page',
   templateUrl: './home.html'
 })
-export class HomePage extends ModelPage implements OnInit {
+export class HomePage extends ModelPage {
   recognition: any;
   ready: boolean = false;
   recognizedText: string = "";
@@ -41,20 +41,9 @@ export class HomePage extends ModelPage implements OnInit {
       console.log('platform ready...');
       this.ready = true;
     });
-    this.doToggleLoading(false);
   }
 
-  ngOnInit() {
-    /*this.dataService.loggedUser$
-    .subscribe((user) => {
-      this.loggedUser = user;
-      //this.setUser();
-    });
-
-    this.dataService.getLoggedUser();*/
-  }
-
-  ionViewWillEnter() {
+  ionViewDidLoad() {
     this.doReset('OndeTem?!');
     this.formData.q = "";
     this.online = this.checkNetwork();
@@ -116,14 +105,9 @@ export class HomePage extends ModelPage implements OnInit {
     }
   }
 
-  morethantworows(i) {
-    return (i > 1) ? 'show-more-target' : '';
-  }
-
   onInput() {
     if(this.formData.q == '')
       return;
-
     this.navCtrl.push(SearchPage, {term: this.formData.q});
   }
 

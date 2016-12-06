@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular'; //reorderArray
 
 import { ProductDetailPage } from '../product-detail/product-detail';
@@ -19,11 +19,10 @@ import _ from 'underscore';
 @Component({
   templateUrl: 'search.html'
 })
-export class SearchPage extends ModelPage implements OnInit {
-	//products: IOffer[] = [];
+export class SearchPage extends ModelPage {
   searchTerm: string = '';
   items: any = [];
-  groupedOffers: any = [];
+  //groupedOffers: any = [];
 
   constructor(public navCtrl: NavController,
               navParams: NavParams,
@@ -33,35 +32,37 @@ export class SearchPage extends ModelPage implements OnInit {
   	this.searchTerm = navParams.get('term') || '';
   }
 
-  ngOnInit() {
-    var self = this;
-  	this.dataService.searchItems$
-	    .subscribe(
-	      (data) => {
-	      	self.items = data;
-	      	this.doToggleLoading(false);
-	        if(self.refresher)
-	          self.refresher.complete();
-	      },
-	      (err) => { console.log(err); },
-	      () => {}
-	    );
-
-  }
-
   ionViewDidLoad() {
     this.doReset('Busca');
     this.load();
   }
 
+  load() {
+    var self = this;
+    this.doChangeView(ViewStatusEnum.Empty);
+    this.util.presentLoading('Buscando...');
+
+    // searchFor : {offers} -> offers only
+    // searchFor : {offers, users} -> offers and users
+    this.dataService.search({ term: this.searchTerm })
+      .then((data) => {
+        self.items = data;
+        self.changeViewState();
+        if(self.refresher)
+          self.refresher.complete();
+      }, (err) => {
+        console.log(err);
+      });
+  }
+
   changeViewState() {
-    if (_.size(this.groupedOffers) > 0) {
+    if (_.size(this.items) > 0) {
       this.doChangeView(ViewStatusEnum.Full);
     }
     else {
       this.doChangeView(ViewStatusEnum.Empty);
     }
-  	this.doToggleLoading(false);
+    this.util.dismissLoading();
   }
 
   doRefresh(refresher) {
@@ -79,29 +80,10 @@ export class SearchPage extends ModelPage implements OnInit {
 
   }
 
-  load() {
-    this.doToggleLoading(true);
-    // searchFor : {offers} -> offers only
-    // searchFor : {offers, users} -> offers and users
-    this.dataService.search({ term: this.searchTerm });
-  }
-
-  filterItems(term) {
-    // if the value is an empty string don't filter the items
-    /*if (term && term.trim() != '' && term.length > 3) {
-      this.items = this.products.filter((item) => {
-        return (item.title.toLowerCase().indexOf(term.toLowerCase()) > -1);
-      })
-    } else {
-      this.items = [];
-    }
-      */
-	}
-
   getItems(ev: any) {
     // set val to the value of the searchbar
-    let val = ev.target.value;
-    this.filterItems(val);
+    //let val = ev.target.value;
+    //this.filterItems(val);
   }
 
   reorderItems(indexes) {

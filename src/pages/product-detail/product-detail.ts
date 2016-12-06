@@ -10,7 +10,7 @@
  *
 */
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams, ActionSheetController, ModalController } from 'ionic-angular';
 import { ModelPage } from '../model-page';
 import { ReviewPage } from '../review/review';
@@ -26,7 +26,7 @@ import _ from 'underscore';
 @Component({
   templateUrl: 'product-detail.html',
 })
-export class ProductDetailPage extends ModelPage implements OnInit {
+export class ProductDetailPage extends ModelPage {
   product: IOffer;
   bgImage: string;
 
@@ -43,26 +43,22 @@ export class ProductDetailPage extends ModelPage implements OnInit {
     this.bgImage = 'http://ondetem.tk/' + this.product.picture.cover;
   }
 
-  ngOnInit() {
-    //var self = this;
-    /*this.dataService.offers$
-      .subscribe(
-        (data) => {
-          self.product = data[0];
-          self.changeViewState();
-          if(self.refresher)
-            self.refresher.complete();
-        },
-        (err) => { console.log(err); },
-        () => {
-        }
-      );*/
-  }
-
   ionViewWillEnter() {
     this.doReset(this.product.item.title);
     this.doToggleLoading(false);
     //this.load();
+  }
+
+  load() {
+    // redo the offer api call by this.product.offerId
+    this.dataService.findAll({
+      controller: 'offers',
+      query: { 'offerId': this.product.offerId }
+    }).then(() => {
+
+    }, (err) => {
+
+    });
   }
 
   changeViewState() {
@@ -72,20 +68,12 @@ export class ProductDetailPage extends ModelPage implements OnInit {
     else {
       this.doChangeView(ViewStatusEnum.Empty);
     }
-    this.doToggleLoading(false);
+    this.util.dismissLoading();
   }
 
   doRefresh(refresher) {
     //this.refresher = refresher;
     this.load();
-  }
-
-  load() {
-    // redo the offer api call by this.product.offerId
-    this.dataService.findAll({
-      controller: 'offers',
-      query: { 'offerId': this.product.offerId }
-    });
   }
 
   favorite(event) {
@@ -181,10 +169,10 @@ export class ProductDetailPage extends ModelPage implements OnInit {
 
   deleteReview(review) {
     //Remove locally
-    let index = this.product.reviews.indexOf(review);
+    /*let index = this.product.reviews.indexOf(review);
     if(index > -1){
       this.product.reviews.splice(index, 1);
-    }
+    }*/
     //Remove from database
     //this.reviewService.deleteReview(review._id);
   }

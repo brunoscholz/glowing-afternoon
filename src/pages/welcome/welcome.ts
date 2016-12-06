@@ -32,7 +32,6 @@ export class WelcomePage extends ModelPage implements OnInit {
   ) {
     super('OndeTem?!', dataService, util);
     console.log('WelcomePage');
-    this.doToggleLoading(false);
   }
 
   ngOnInit() {
@@ -44,7 +43,7 @@ export class WelcomePage extends ModelPage implements OnInit {
   }
 
   changeViewState() {
-    this.doToggleLoading(false);
+    //this.util.dismissLoading();
   }
 
   doRefresh(refresher) {
@@ -54,12 +53,19 @@ export class WelcomePage extends ModelPage implements OnInit {
 
   load() {
     var self = this;
-    this.doToggleLoading(true);
+    //this.util.presentLoading('Carregando...');
     
     if(!self.connService.isOnline()) {
-      self.retryConnection();
+      self.retryConnection(false);
       return;
     }
+
+    self.dataService.findAll({
+      controller: 'categories',
+      query: { parentId: 0 }
+    }).then((cats) => {
+      self.loaded();
+    });
 
     /*var source = Observable.combineLatest(
       this.dataService.categories$,
@@ -68,32 +74,15 @@ export class WelcomePage extends ModelPage implements OnInit {
     )
     .distinctUntilChanged()
     .startWith(false);*/
-    
-    self.dataService.categories$
-      .subscribe((cats) => {
-        self.loaded();
-      });
-
-    this.dataService.loadMinimum();
-
-    /*
-    //this.categories$ = this.dataService.categories$;
-    /*var self = this;
-    source.subscribe(
-      function(x) {
-        self.loaded = x;
-        self.changeViewState();
-      },
-      err => console.log(err)
-    );*/
-    this.loaded();
+    //this.dataService.loadMinimum();
   }
 
   loaded() {
-    this.doToggleLoading(false);
+    //this.util.dismissLoading();
   }
 
-  retryConnection() {
+  retryConnection(pass = false) {
+    // setTimeout({}, 2000);
     console.log('Offline');
   }
 
@@ -131,15 +120,5 @@ export class WelcomePage extends ModelPage implements OnInit {
   openPage(page) {
     // navigate to the new page if it is not the current page
     this.navCtrl.setRoot(page);
-  }
-
-  doRefreshOld() {
-    /*this.dataService.clearCache("category");
-    this.dataService.getCategories({parent: 0}, {sort: {id: 1}})
-      .subscribe((categories: ICategory[]) => {
-        this.data.categories = categories;
-        this.changeViewState();
-        refresher.complete();
-      });*/
   }
 }

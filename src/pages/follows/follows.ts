@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
@@ -12,7 +12,7 @@ import _ from 'underscore';
   selector: 'page-follows',
   templateUrl: 'follows.html'
 })
-export class FollowsPage extends ModelPage implements OnInit {
+export class FollowsPage extends ModelPage {
 	//user: IUser;
 	follows: IFollowFact[];
 	me: boolean;
@@ -29,19 +29,37 @@ export class FollowsPage extends ModelPage implements OnInit {
   	this.profile = navParams.get('profile');
   }
 
-  ngOnInit() {
-  	var self = this;
-
-    self.dataService.follows$.subscribe((fws: IFollowFact[]) => {
-      self.follows = fws;
-      this.changeViewState();
-    });
-  }
-
   ionViewDidLoad() {
   	let t = this.me ? 'Seguidores' : 'Seguindo';
   	this.doChangeTitle(t);
     this.load();
+  }
+
+  load() {
+    var self = this;
+    this.doChangeView(ViewStatusEnum.Empty);
+    this.util.presentLoading('Buscando...');
+
+    let query = {};
+    if(this.me) {
+      if(this.profile.type == 'buyer')
+        query = {'buyerId':{test:"like binary",value:this.profile.id}};
+      else
+        query = {'sellerId':{test:"like binary",value:this.profile.id}};
+    }
+    else {
+      query = {'userId':{test:"like binary",value:this.profile.id}};
+    }
+
+    self.dataService.findAll({
+      controller: 'follow-facts',
+      query: query
+    }).then((fws: IFollowFact[]) => {
+      self.follows = fws;
+      this.changeViewState();
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   changeViewState() {
@@ -51,26 +69,6 @@ export class FollowsPage extends ModelPage implements OnInit {
     else {
       this.doChangeView(ViewStatusEnum.Empty);
     }
-    //this.doToggleLoading(false);
-  }
-
-  load() {
-  	let self = this;
-
-  	let query = {};
-  	if(this.me) {
-			if(this.profile.type == 'buyer')
-  			query = {'buyerId':{test:"like binary",value:this.profile.id}};
-  		else
-  			query = {'sellerId':{test:"like binary",value:this.profile.id}};
-  	}
-  	else {
-  		query = {'userId':{test:"like binary",value:this.profile.id}};
-  	}
-
-  	self.dataService.findAll({
-      controller: 'follow-facts',
-      query: query
-    });
+    this.util.dismissLoading();
   }
 }

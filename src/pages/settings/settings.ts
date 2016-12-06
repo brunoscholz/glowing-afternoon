@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, ActionSheetController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
@@ -13,7 +13,7 @@ import { ModelPage } from '../model-page';
   selector: 'settings-page',
   templateUrl: 'settings.html',
 })
-export class SettingsPage extends ModelPage implements OnInit {
+export class SettingsPage extends ModelPage {
 	user: IUser = null;
   preferred: any;
   profile: IProfile = null;
@@ -25,10 +25,6 @@ export class SettingsPage extends ModelPage implements OnInit {
               public util: UtilProvider) {
   	super('Configurações', dataService, util)
     //this.user = authService.
-  }
-
-  ngOnInit() {
-    
   }
 
   updatePicture() {

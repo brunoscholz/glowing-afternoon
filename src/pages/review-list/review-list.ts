@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
@@ -12,7 +12,7 @@ import _ from 'underscore';
   selector: 'page-review-list',
   templateUrl: 'review-list.html'
 })
-export class ReviewListPage extends ModelPage implements OnInit {
+export class ReviewListPage extends ModelPage {
 	//user: IUser;
 	reviews: IReviewFact[];
 	profile: IProfile;
@@ -27,17 +27,24 @@ export class ReviewListPage extends ModelPage implements OnInit {
   	this.profile = navParams.get('profile');
   }
 
-  ngOnInit() {
-  	var self = this;
-
-    self.dataService.reviews$.subscribe((fws: IReviewFact[]) => {
-      self.reviews = fws;
-      this.changeViewState();
-    });
-  }
-
   ionViewDidLoad() {
     this.load();
+  }
+
+  load() {
+  	var self = this;
+    this.doChangeView(ViewStatusEnum.Empty);
+    this.util.presentLoading('Buscando...');
+
+  	self.dataService.findAll({
+      controller: 'review-facts',
+      query: {'buyerId':{test:"like binary",value:this.profile.id}}
+    }).then((fws: IReviewFact[]) => {
+    	self.reviews = fws;
+      this.changeViewState();
+    }, (err) => {
+    	console.log(err);
+    });
   }
 
   changeViewState() {
@@ -47,15 +54,6 @@ export class ReviewListPage extends ModelPage implements OnInit {
     else {
       this.doChangeView(ViewStatusEnum.Empty);
     }
-    //this.doToggleLoading(false);
-  }
-
-  load() {
-  	let self = this;
-
-  	self.dataService.findAll({
-      controller: 'review-facts',
-      query: {'buyerId':{test:"like binary",value:this.profile.id}}
-    });
+    this.util.dismissLoading();
   }
 }

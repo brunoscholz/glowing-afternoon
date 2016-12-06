@@ -87,19 +87,18 @@ export class MyApp {
   getUser() { 
     let self = this;
     self.auth.loggedIn$
-    .subscribe((status) => {
-      self.enableMenu(status === true);
-      self.gotoMainPage(status === true);
-      if(status) {
-        self.dataService.getUser().then((user: IUser) => {
-          if(user) {
-            self.isSalesPerson = (user.role === 'salesman' || user.role === 'administrator');
-          }
-        });
+    .subscribe((usr) => {
+      let logged = false;
+      if(usr) {
+        self.isSalesPerson = (usr.role === 'salesman' || usr.role === 'administrator');
+        logged = true;
       }
       else {
         self.isSalesPerson = false;
       }
+      
+      self.enableMenu(logged);
+      self.gotoMainPage(logged);
     });
   }
 

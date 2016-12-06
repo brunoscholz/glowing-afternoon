@@ -11,19 +11,19 @@
 
 <ion-content class="card-background-page" home-page>
 
-<form (submit)="onInput()">
   <ion-list no-lines padding class="search-header">
     <ion-item class="animated tada">
       <img src="assets/img/logo.png">
     </ion-item>
-    <ion-item class="search-bar">
-      <ion-input [(ngModel)]="formData.q" name="search" type="search" placeholder="ex.: encanador.."></ion-input>
-      <!-- <button item-right class="search-mic" (click)="SpeechToText()"><i class="otIcon-mic"></i></button> -->
-    </ion-item>
-    <ion-item class="search-btn">
-      <button ion-button round type="submit">Buscar</button>
-    </ion-item>
+    <form (submit)="onInput()">
+      <ion-item class="search-bar">
+        <ion-input [(ngModel)]="formData.q" name="search" type="search" placeholder="ex.: encanador.."></ion-input>
+        <!-- <button item-right class="search-mic" (click)="SpeechToText()"><i class="otIcon-mic"></i></button> -->
+      </ion-item>
+      <ion-item class="search-btn">
+        <button ion-button round type="submit">Buscar</button>
+      </ion-item>
+    </form>
   </ion-list>
-</form>
 
 </ion-content>

@@ -10,7 +10,7 @@
  *
 */
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
@@ -25,7 +25,7 @@ import { ModelPage } from '../model-page';
 @Component({
   templateUrl: 'review-detail.html',
 })
-export class ReviewDetailPage extends ModelPage implements OnInit {
+export class ReviewDetailPage extends ModelPage {
 	product: any;
   fact: any;
 
@@ -40,27 +40,18 @@ export class ReviewDetailPage extends ModelPage implements OnInit {
   	this.product = navParams.get('product');
   }
 
-  ngOnInit() {
-  	var self = this;
-  	this.dataService.comments$
-	    .subscribe(
-	      (data) => {
-	      	console.log(data);
-	      	self.fact.comments = data;
-	      	self.changeViewState();
-	        if(self.refresher)
-	          self.refresher.complete();
-	      },
-	      (err) => { console.log(err); },
-	      () => {
-	      }
-	    );
-  }
-
   ionViewWillEnter() {
     this.doReset('Review');
     this.changeViewState();
     this.load();
+  }
+
+  load() {
+    //var self = this;
+    //this.doChangeView(ViewStatusEnum.Empty);
+    //this.util.presentLoading('Buscando...');
+    //this.dataService.getComments({ collectionName: 'factSocial', query: { reviewId: this.review.data._id } })
+    //this.dataService.findAllComments({ query: { reviewId: this.review.id } });
   }
 
   changeViewState() {
@@ -70,17 +61,12 @@ export class ReviewDetailPage extends ModelPage implements OnInit {
     else {
       this.doChangeView(ViewStatusEnum.Empty);
     }
-    this.doToggleLoading(false);
+    this.util.dismissLoading();
   }
 
   doRefresh(refresher) {
     this.refresher = refresher;
     this.load();
-  }
-
-  load() {
-  	//this.dataService.getComments({ collectionName: 'factSocial', query: { reviewId: this.review.data._id } })
-    //this.dataService.findAllComments({ query: { reviewId: this.review.id } });
   }
 
   dismiss() {

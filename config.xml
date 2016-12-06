@@ -4,7 +4,7 @@
   <description>OndeTem: Guia de Negócios</description>
   <author email="brunoscholz@yahoo.de" href="http://ondetem.tk/">OndeTem LTDA</author>
   <content src="index.html"/>
-  <access origin="*"/>
+  <access origin="file:*" launch-external="true"/>
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
   <allow-intent href="tel:*"/>

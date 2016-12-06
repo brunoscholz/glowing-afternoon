@@ -14,12 +14,12 @@ export class UtilProvider {
   }
 
   doAlert(title, message, buttonText): Alert {
-      let alert = this.alertCtrl.create({
-          title: title,
-          subTitle: message,
-          buttons: [buttonText]
-      });
-      return alert;
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: message,
+      buttons: [buttonText]
+    });
+    return alert;
   }
   
   getLoading(content): Loading {

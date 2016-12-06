@@ -81,7 +81,6 @@ export class AuthService {
 
   useCredentials(token) {
     this.isLoggedin = true;
-    this._logged.next(true);
     this.AuthToken = token;
   }
 
@@ -103,6 +102,7 @@ export class AuthService {
           if(data.status == 200) {
             this.storeUserCredentials(token);
             this.storeUser(data.data[0]);
+            this._logged.next(data.data[0]);
             resolve(data.data[0]);
           }
           else
@@ -135,6 +135,7 @@ export class AuthService {
           if(data.status == 200) {
             this.storeUserCredentials(data.token)
             this.storeUser(data.data[0]);
+            this._logged.next(data.data[0]);
             resolve(true);
           }
           else
@@ -183,19 +184,7 @@ export class AuthService {
   }
 
   getinfo() {
-    /*return new Promise(resolve => {
-      var headers = new Headers();
-      this.loadUserCredentials();
-      console.log(this.AuthToken);
-      headers.append('Authorization', 'Bearer ' +this.AuthToken);
-      this.http.get('http://localhost:3333/getinfo', {headers: headers})
-      .subscribe(data => {
-        if(data.json().success)
-          resolve(data.json());
-        else
-          resolve(false);
-      });
-    })*/
+    
   }
   
   logout() {

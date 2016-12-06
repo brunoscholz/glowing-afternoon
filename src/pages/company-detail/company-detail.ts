@@ -9,7 +9,7 @@
  * in the load method
  *
 */
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams, ActionSheetController, ModalController } from 'ionic-angular';
 import { ModelPage } from '../model-page';
 // import { ReviewPage } from '../review/review';
@@ -24,7 +24,7 @@ import { ISeller, IOffer } from '../../providers/data/interfaces';
 @Component({
   templateUrl: 'company-detail.html',
 })
-export class CompanyDetailPage extends ModelPage implements OnInit {
+export class CompanyDetailPage extends ModelPage {
   company: ISeller;
   bgImage: string;
   offers: IOffer[];
@@ -34,32 +34,35 @@ export class CompanyDetailPage extends ModelPage implements OnInit {
               public acCtrl: ActionSheetController,
               public modCtrl: ModalController,
               public dataService: DataService,
-              public util: UtilProvider) {
+              public util: UtilProvider
+  ) {
     super("Company Details", dataService, util);
     this.company = navParams.get('company');
     console.log(this.company);
     this.bgImage = 'http://ondetem.tk/' + this.company.picture.cover;
   }
 
-  ngOnInit() {
-    var self = this;
-    this.dataService.catalog$
-      .subscribe(
-        (data) => {
-          self.offers = data;
-          self.changeViewState();
-          if(self.refresher)
-            self.refresher.complete();
-        },
-        (err) => { console.log(err); },
-        () => {}
-      );
-  }
-
-  ionViewWillEnter() {
+  ionViewDidLoad() {
     this.doReset(this.company.name);
     this.load();
-    //this.doToggleLoading(false);
+  }
+
+  load() {
+    var self = this;
+    this.doChangeView(ViewStatusEnum.Empty);
+    this.util.presentLoading('Buscando...');
+
+    this.dataService.getPretty({
+      controller: 'catalog',
+      url: 'sellers/catalog/' + self.company.sellerId
+    }).then((data: Array<IOffer>) => {
+      self.offers = data;
+      self.changeViewState();
+      if(self.refresher)
+        self.refresher.complete();
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   changeViewState() {
@@ -69,23 +72,12 @@ export class CompanyDetailPage extends ModelPage implements OnInit {
     else {
       this.doChangeView(ViewStatusEnum.Empty);
     }
-    this.doToggleLoading(false);
+    this.util.dismissLoading();
   }
 
   doRefresh(refresher) {
     //this.refresher = refresher;
     this.load();
-  }
-
-  load() {
-    /*this.dataService.findAll({
-      controller: 'sellers',
-      query: { 'sellerId': this.company.sellerId }
-    });*/
-    this.dataService.getPretty({
-      controller: 'catalog',
-      url: 'sellers/catalog/' + this.company.sellerId
-    });
   }
 
   like(event) {

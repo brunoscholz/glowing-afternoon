@@ -28,7 +28,8 @@ export class ProfilePage extends ModelPage implements OnInit {
               public dataService: DataService,
               public authService: AuthService,
               public popoverCtrl: PopoverController,
-              public util: UtilProvider) {
+              public util: UtilProvider
+  ) {
   	super('Perfil', dataService, util);
   }
 
@@ -78,7 +79,8 @@ export class ProfilePage extends ModelPage implements OnInit {
   loadBalance () {
     this.util.presentLoading('Carregando usuário!');
     var self = this;
-    self.dataService.findAll({
+    // get balance
+    self.dataService.getBalance({
       controller: 'loyalty',
       query: { 'userId': { test: "like binary", value: self.user.userId } },
       asset: 'coin'

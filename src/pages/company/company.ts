@@ -6,7 +6,7 @@
  *
 */
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { CompanyDetailPage } from '../company-detail/company-detail';
 import { DataService } from '../../providers/data/data.service';
@@ -22,30 +22,39 @@ import _ from 'underscore';
 @Component({
   templateUrl: 'company.html'
 })
-export class CompanyPage extends ModelPage implements OnInit {
+export class CompanyPage extends ModelPage {
   companies: any = [];
 
   constructor(public navCtrl: NavController,
               navParams: NavParams,
               public dataService: DataService,
-              public util: UtilProvider) {
+              public util: UtilProvider
+  ) {
     super('Empresas', dataService, util);
     this.selectedItem = navParams.get('item');
-  }
-
-  ngOnInit() {
-    var self = this;
-    self.dataService.sellers$.subscribe((companies: ISeller) => {
-        self.companies = companies;
-        self.changeViewState();
-        if(self.refresher)
-          self.refresher.complete();
-      });
   }
 
   ionViewWillEnter() {
     this.doReset('Empresas');
     this.load();
+  }
+
+  load() {
+    var self = this;
+    this.doChangeView(ViewStatusEnum.Empty);
+    this.util.presentLoading('Buscando...');
+
+    this.dataService.findAll({
+      controller: 'sellers',
+      query: { }
+    }).then((companies: Array<ISeller>) => {
+      self.companies = companies;
+      self.changeViewState();
+      if(self.refresher)
+        self.refresher.complete();
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   changeViewState() {
@@ -55,17 +64,12 @@ export class CompanyPage extends ModelPage implements OnInit {
     else {
       this.doChangeView(ViewStatusEnum.Empty);
     }
-    this.doToggleLoading(false);
+    this.util.dismissLoading();
   }
 
   doRefresh(refresher) {
     this.refresher = refresher;
     this.load();
-  }
-
-  load() {
-    this.doToggleLoading(true);
-    this.dataService.findAll({ controller: 'sellers', query: { } } );
   }
 
   // changeDisplayMode(mode: DisplayModeEnum) {

@@ -9,7 +9,7 @@
  * Same as ProductPage, but for companies' offers
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ProductDetailPage } from '../product-detail/product-detail';
 import { DataService } from '../../providers/data/data.service';
@@ -24,24 +24,24 @@ import _ from 'underscore';
 @Component({
   templateUrl: 'catalog.html',
 })
-export class CatalogPage extends ModelPage implements OnInit {
+export class CatalogPage extends ModelPage {
 	products: any = [];
-  groupedOffers: any = [];
   toOrder: string;
 
   constructor(private navCtrl: NavController,
               navParams: NavParams,
               public dataService: DataService,
-              public util: UtilProvider) {
+              public util: UtilProvider
+  ) {
   	super('Ofertas', dataService, util)
   	this.selectedItem = navParams.get('item');
     this.toOrder = 'name';
   }
 
   ngOnInit() {
-  	var self = this;
+  	//var self = this;
     // get offers by category
-  	this.dataService.offers$
+  	/*this.dataService.offers$
 	    .subscribe(
 	      (data) => {
           self.products = data;
@@ -52,23 +52,12 @@ export class CatalogPage extends ModelPage implements OnInit {
 	      },
 	      (err) => { console.log(err); },
 	      () => {}
-	    );
+	    );*/
   }
 
-  ngAfterContentInit() {
+  ionViewDidLoad() {
     this.doReset(this.selectedItem.title);
     this.load();
-  }
-
-  initializeItems() {
-    //let test = _.groupBy(this.products, 'category');
-
-    this.groupedOffers = [];
-    /*for (var key in test) {
-      let cat = this.dataService.getCategory({ id: Number(key) });
-      let entry = { group: {id: cat.id, title: cat.title}, items: test[key] };
-      this.groupedOffers.push(entry);
-    }*/
   }
 
   changeViewState() {
