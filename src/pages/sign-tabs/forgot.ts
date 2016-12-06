@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ToastController, Toast } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
 import { Validators, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../validators/validators';
 
@@ -8,16 +9,12 @@ import { ValidationService } from '../../validators/validators';
   templateUrl: 'forgot.html',
 })
 export class ForgotPage {
-  submitAttempt: boolean = false;
-  serverError: boolean = false;
-  serverMessage: string = '';
   forgotForm: any;
 
   constructor(private navCtrl: NavController,
               public formBuilder: FormBuilder,
               public auth: AuthService,
-              public loadingCtrl: LoadingController,
-              public toastCtrl: ToastController
+              public util: UtilProvider
   ) {
     this.forgotForm = formBuilder.group({
       username: ['', Validators.compose([Validators.required, ValidationService.emailValidator])],
@@ -25,40 +22,25 @@ export class ForgotPage {
   }
 
   sendEmail() {
-    this.submitAttempt = !this.forgotForm.valid;
+    if(!this.forgotForm.valid) {
+      this.util.notifyError('Por favor preencha todos os campos corretamente!');
+    } else {
+      this.util.presentLoading('Verificando...');
+      setTimeout(() => {
+        this.util.dismissLoading();
+      }, 20000);
 
-    let loading = this.loadingCtrl.create({
-      content: 'Verificando...'
-    });
-
-    setTimeout(() => {
-      loading.dismiss();
-    }, 20000);
-
-    if(this.forgotForm.valid) {
-      loading.present();
       this.auth.forgotPassword(this.forgotForm.value).then(data => {
         if(data) {
-          console.log(data);
-          loading.dismiss();
-          let toast = this.getToast('Email enviado');
+          this.util.dismissLoading();
+          let toast = this.util.getToast('Email enviado');
           toast.present();
-          //this.navCtrl.setRoot(HomeTabsPage);
         }
       },
       (err) => {
-      	loading.dismiss();
-        this.serverError = true;
-        this.serverMessage = err;
+      	this.util.dismissLoading();
+        this.util.notifyError(err);
       });
     }
-  }
-
-  getToast(message): Toast {
-    let toast = this.toastCtrl.create({
-      message: message,
-      duration:4000
-    });
-    return toast;
   }
 }

@@ -11,8 +11,6 @@
     </ion-item>
 
     <form [formGroup]="signInForm">
-      <p *ngIf="submitAttempt" style="color: #ea6153;">Por favor preencha todos os campos corretamente!</p>
-      <p *ngIf="serverError" style="color: #ea6153;">{{serverMessage}}</p>
       <ion-item class="search-bar">
         <ion-label floating>Email</ion-label>
         <ion-input formControlName="username" type="text" [class.invalid]="!signInForm.controls.username.valid && (signInForm.controls.username.dirty || submitAttempt)"></ion-input>

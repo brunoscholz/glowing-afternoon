@@ -1,16 +1,29 @@
 import { Injectable } from '@angular/core';
 import { AlertController, Alert, LoadingController, Loading, ToastController, Toast } from 'ionic-angular';
 import { Camera } from 'ionic-native';
-import { Subject } from 'rxjs/Rx';
+import { Subject, Observable, Observer } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
 @Injectable()
 export class UtilProvider {
   load$: any;
+  private errorObservable:Observable<any>;
+  private errorObserver:Observer<any>;
   get loading$() { return this.load$.asObservable(); }
 
   constructor(public alertCtrl: AlertController, public loadCtrl: LoadingController, public toastCtrl: ToastController) {
     this.load$ = new Subject();
+    this.errorObservable = Observable.create((observer:Observer<any>) => {
+      this.errorObserver = observer;
+    }).share();
+  }
+
+  notifyError(error:any) {
+    this.errorObserver.next(error);
+  }
+
+  onError(callback:(err:any) => void) {
+    this.errorObservable.subscribe(callback);
   }
 
   doAlert(title, message, buttonText): Alert {

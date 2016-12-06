@@ -10,7 +10,6 @@ import { SellPage } from '../pages/sell/sell';
 
 import { IPage } from '../providers/data/interfaces';
 
-import { ErrorNotifierService } from '../providers/utils/error.notifier';
 import { DataService } from '../providers/data/data.service';
 import { AuthService } from '../providers/auth/auth.service';
 import { UtilProvider } from '../providers/utils/util.provider';
@@ -54,7 +53,6 @@ export class MyApp {
 
   constructor(public platform: Platform,
               public menu: MenuController,
-              private errorNotifier:ErrorNotifierService,
               public dataService: DataService,
               public auth: AuthService,
               public util: UtilProvider,
@@ -68,9 +66,10 @@ export class MyApp {
       Splashscreen.hide();
       this.checkConnection();
       this.loadIndicator();
-      this.errorNotifier.onError(err => {
-        this.error = err;
-        console.log(err);
+      this.util.onError(err => {
+        //this.error = err;
+        let alert = this.util.doAlert('Erro!', err, 'Ok');
+        alert.present();
       });
     });
 

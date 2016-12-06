@@ -62,7 +62,6 @@ import { APIService } from '../providers/api/api.service';
 import { APISettings } from '../providers/api/api-settings';
 import { UtilProvider } from '../providers/utils/util.provider';
 //import { ValidationService } from '../validators/validators';
-import { ErrorNotifierService } from '../providers/utils/error.notifier';
 
 // Map related
 // import { MapService } from '../providers/map/map.service';
@@ -146,7 +145,6 @@ import { ErrorNotifierService } from '../providers/utils/error.notifier';
     ReviewDetailPage
   ],
   providers: [
-    ErrorNotifierService,
     DataService,
     APIService,
     APISettings,

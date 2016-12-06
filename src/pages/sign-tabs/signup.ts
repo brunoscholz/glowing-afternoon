@@ -1,24 +1,21 @@
 import { Component } from '@angular/core';
-import { Nav, LoadingController } from 'ionic-angular';
+import { Nav } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
 import { Validators, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../validators/validators';
-//import { UtilProvider } from '../../providers/utils/util.provider';
 import { TourPage } from '../tour/tour';
 
 @Component({
   templateUrl: 'signup.html',
 })
 export class SignUpPage {
-  submitAttempt: boolean = false;
   signUpForm: any;
-  serverError: boolean = false;
-  serverMessage: string = '';
 
   constructor(private navCtrl: Nav,
               public formBuilder: FormBuilder,
               public auth: AuthService,
-              public loadingCtrl: LoadingController
+              public util: UtilProvider
   ) {
     this.signUpForm = formBuilder.group({
       name: ['', Validators.required],
@@ -29,27 +26,23 @@ export class SignUpPage {
   }
 
   signup() {
-    this.submitAttempt = !this.signUpForm.value;
-    let loading = this.loadingCtrl.create({
-      content: 'Aguarde...'
-    });
+    if(!this.signUpForm.valid) {
+      this.util.notifyError('Por favor preencha todos os campos corretamente!');
+    } else {
+      this.util.presentLoading('Aguarde...');
+      setTimeout(() => {
+        this.util.dismissLoading();
+      }, 20000);
 
-    setTimeout(() => {
-      loading.dismiss();
-    }, 20000);
-
-    if(this.signUpForm.valid) {
-      loading.present();
       this.auth.register(this.signUpForm.value).then(data => {
         if(data) {
           console.log(data);
-          loading.dismiss();
+          this.util.dismissLoading();
           this.navCtrl.setRoot(TourPage);
         }
       }, (err) => {
-        loading.dismiss();
-        this.serverError = true;
-        this.serverMessage = err;
+        this.util.dismissLoading();
+        this.util.notifyError(err);
       });
     }
   }
