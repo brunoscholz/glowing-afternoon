@@ -44,6 +44,7 @@ import { ReviewDetailPage } from '../pages/review-detail/review-detail';
 // directives
 import { OfferPostCmp } from '../components/offer/offer';
 import { UserProfileCmp } from '../components/user-profile/user';
+import { UserCardCmp } from '../components/user-card/user';
 import { ControlMessages } from '../components/control-messages/control-messages';
 
 // Pipes and Directives
@@ -100,6 +101,7 @@ import { ErrorNotifierService } from '../providers/utils/error.notifier';
     ReviewDetailPage,
     OfferPostCmp,
     UserProfileCmp,
+    UserCardCmp,
     ControlMessages,
     ArrayFilterPipe,
     OrderByPipe,

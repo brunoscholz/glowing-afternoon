@@ -16,7 +16,7 @@
           <span> {{product.avgRating}}</span>
         </ion-avatar>
         <ion-avatar item-right>
-          <img src="http://ondetem.tk/{{product.seller.picture.thumbnail}}">
+          <img src="{{product.seller.picture.thumbnail}}">
         </ion-avatar>
         <h2>{{product.item.title}}</h2>
         <p>{{product.seller.name}}</p>
@@ -48,7 +48,7 @@
       <ion-item-sliding *ngFor="let item of product.reviews">
         <ion-item (click)="reviewTapped($event, item)">
           <ion-avatar item-left>
-            <img src="http://ondetem.tk/{{item.buyer.picture.thumbnail}}">
+            <img src="{{item.buyer.picture.thumbnail}}">
           </ion-avatar>
           <p>{{item.buyer.name}}</p>
           <h2>{{item.review.title}}</h2>

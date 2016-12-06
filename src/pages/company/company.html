@@ -19,15 +19,10 @@
   </div>
 
   <div>
-    <ion-card>
-      <img src="assets/img/card-saopaolo.png"/>
-      <div class="card-title">Company #1</div>
-      <div class="card-subtitle">41 Ofertas</div>
-    </ion-card>
     <ion-card *ngFor="let seller of companies" (click)="itemTapped($event, seller)">
-      <img src="http://ondetem.tk/{{seller.picture.cover}}"/>
+      <img src="{{seller.picture.cover}}"/>
       <div class="card-title">{{seller.name}}</div>
-      <div class="card-subtitle">41 Ofertas</div>
+      <div class="card-subtitle">{{seller.offers.length}}</div>
     </ion-card>
   </div>
 

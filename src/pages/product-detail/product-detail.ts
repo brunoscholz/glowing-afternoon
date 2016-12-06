@@ -40,7 +40,7 @@ export class ProductDetailPage extends ModelPage {
   ) {
     super("Product Details", dataService, util);
     this.product = navParams.get('offer');
-    this.bgImage = 'http://ondetem.tk/' + this.product.picture.cover;
+    this.bgImage = this.product.picture.cover;
   }
 
   ionViewWillEnter() {

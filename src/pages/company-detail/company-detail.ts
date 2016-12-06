@@ -38,8 +38,7 @@ export class CompanyDetailPage extends ModelPage {
   ) {
     super("Company Details", dataService, util);
     this.company = navParams.get('company');
-    console.log(this.company);
-    this.bgImage = 'http://ondetem.tk/' + this.company.picture.cover;
+    this.bgImage = this.company.picture.cover;
   }
 
   ionViewDidLoad() {

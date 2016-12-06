@@ -15,7 +15,7 @@
   	<ion-card>
       <ion-item (click)="gotoUser(fact.buyer.buyerId)">
         <ion-avatar item-left>
-          <img src="http://ondetem.tk/{{fact.buyer.picture.thumbnail}}">
+          <img src="{{fact.buyer.picture.thumbnail}}">
         </ion-avatar>
         <h2>{{fact.buyer.name}}</h2>
         <p>em {{fact.date | emTimeAgo}}, escreveu:</p>

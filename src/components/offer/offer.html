@@ -2,7 +2,7 @@
   <ion-card>
     <ion-item>
       <ion-avatar item-right>
-        <img src="http://ondetem.tk/{{post.seller.picture.thumbnail}}">
+        <img src="{{post.seller.picture.thumbnail}}">
         <!-- <img *ngIf="(poster | async)?.avatar" [src]="(poster | async)?.avatar">
         <img *ngIf="!(poster | async)?.avatar" src="images/defaultAvatar.png"> -->
       </ion-avatar>
@@ -10,7 +10,7 @@
       <p>{{post.seller.name}}</p>
     </ion-item>
 
-    <img src="http://ondetem.tk/{{post.picture.cover}}">
+    <img src="{{post.picture.cover}}">
 
     <ion-card-content>
       <p>{{post.description}}</p>

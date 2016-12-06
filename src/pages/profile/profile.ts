@@ -96,8 +96,7 @@ export class ProfilePage extends ModelPage implements OnInit {
   }
 
   getBuyerProfile() {
-    this.user.buyer.picture.cover = (this.user.buyer.picture.cover) ? 'http://ondetem.tk/' + this.user.buyer.picture.cover : 'assets/img/generic-cover.jpg';
-    this.user.buyer.picture.thumbnail = (this.user.buyer.picture.thumbnail) ? 'http://ondetem.tk/' + this.user.buyer.picture.thumbnail : 'assets/img/generic-avatar.png';
+    //this.user.buyer.picture = this.util.fixPictureUrl(this.user.buyer.picture);
     
     let profile: IProfile = {
       id: this.user.buyer.buyerId,
@@ -113,8 +112,7 @@ export class ProfilePage extends ModelPage implements OnInit {
 
   getSellerProfile(id) {
     let seller = _.where(this.user.sellers, { sellerId: id });
-    seller[0].picture.cover = (seller[0].picture.cover) ? 'http://ondetem.tk/' + seller[0].picture.cover : 'assets/img/generic-cover.jpg';
-    seller[0].picture.thumbnail = (seller[0].picture.thumbnail) ? 'http://ondetem.tk/' + seller[0].picture.thumbnail : 'assets/img/generic-avatar.png';
+    //seller[0].picture = this.util.fixPictureUrl(seller[0].picture);
 
     let profile: IProfile = {
       id: id,
