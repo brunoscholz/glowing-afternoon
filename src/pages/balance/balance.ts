@@ -72,11 +72,11 @@ export class BalancePage extends ModelPage implements OnInit {
   }
 
   posNeg(tr) {
-  	if(tr.senderId == this.user.userId)
+  	if(tr.senderId == this.user.userId && tr.token.name == 'COIN')
   		return 'balance-neg';
   	else if(tr.recipientId == this.user.userId)
   		return 'balance-pos';
 
-  	return 'balance';
+  	return 'balance-pos';
   }
 }

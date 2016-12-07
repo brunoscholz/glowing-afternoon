@@ -133,7 +133,7 @@ export class DataService {
   }
 
   updateProfile(options) {
-    return new Promise(resolve => {
+    let promise = new Promise((resolve, reject) => {
       let token = this.lstorageLoad('ondetemTK')
       //.then((token) => {
         let body = { token: token }
@@ -151,19 +151,13 @@ export class DataService {
           .map((res: Response) => res.json())
           .subscribe(data => {
             if(data.status == 200) {
-              // this.storeUserCredentials(token);
-              // this.storeUser(data.data[0]);
-              //resolve(data.data[0]);
-              resolve({error: 'not functioning'});
+              resolve(data.data);
             }
             else
-              resolve(null);
+              reject(data.error);
           });
-      /*},
-      (err) => {
-        resolve(err);
-      });*/
     });
+    return promise;
   }
 
   getUser() {

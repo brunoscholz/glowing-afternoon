@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
@@ -19,12 +19,13 @@ export class SettingsPage extends ModelPage {
   profile: IProfile = null;
 
   constructor(private navCtrl: NavController,
+              navParams: NavParams,
               public actionSheet: ActionSheetController,
               public dataService: DataService,
               public authService: AuthService,
               public util: UtilProvider) {
   	super('Configurações', dataService, util)
-    //this.user = authService.
+    this.profile = navParams.get('profile');
   }
 
   updatePicture() {
@@ -33,25 +34,61 @@ export class SettingsPage extends ModelPage {
       let sourceType:number = Number(source);
       return this.util.getPicture(sourceType);
     })
-    .then(imageData => {
+    .then((imageData) => {
       //var blobImage = this.util.dataURItoBlob(imageData);
-      //this.user.picture.thumbnail = imageData;
-      console.log(imageData);
-      //return this.userProvider.uploadPicture(blobImage);
-      let toast = this.util.getToast('Your Picture is updated');
-      toast.present();
-    })
-    .catch((ex) => {
-      //console.log(ex);
+      this.profile.picture.thumbnail = imageData;
+      this.util.presentLoading('Atualizando...');
+      setTimeout(() => {
+        this.util.dismissLoading();
+      }, 20000);
+
+      let data = {picture: imageData, cover: true};
+      this.dataService.updateProfile({
+        picture: data
+      }).then((res) => {
+        if(res) {
+          this.util.dismissLoading();
+          let toast = this.util.getToast("Foto Alterada com Sucesso");
+          toast.present();
+        }
+      }, (err) => {
+        this.util.dismissLoading();
+        this.util.notifyError(err);
+      });
     });
-    /*.then(imageURL => {
-      return this.userProvider.updateProfile({avatar: imageURL});
-    })*/
-    /*.then(()=> {
-    });*/
   }
 
-  updateAvatar() {}
+  updateAvatar() {
+    this.presentPictureSource()
+    .then(source => {
+      let sourceType:number = Number(source);
+      return this.util.getPicture(sourceType, true, { width: 256, height: 256 });
+    })
+    .then((imageData) => {
+      //var blobImage = this.util.dataURItoBlob(imageData);
+      this.profile.picture.thumbnail = imageData;
+      //return this.userProvider.uploadPicture(blobImage);
+      
+      this.util.presentLoading('Atualizando...');
+      setTimeout(() => {
+        this.util.dismissLoading();
+      }, 20000);
+
+      let data = {picture: imageData, thumbnail: true};
+      this.dataService.updateProfile({
+        picture: data
+      }).then((res) => {
+        if(res) {
+          this.util.dismissLoading();
+          let toast = this.util.getToast("Foto Alterada com Sucesso");
+          toast.present();
+        }
+      }, (err) => {
+        this.util.dismissLoading();
+        this.util.notifyError(err);
+      });
+    });
+  }
 
   presentPictureSource() {
     let promise = new Promise((res, rej) => {
@@ -72,13 +109,13 @@ export class SettingsPage extends ModelPage {
     let alert = this.util.doAlert('Alterar Nome', '', 'Cancelar');
     alert.addInput({
       name: 'username',
-      value: this.user.username,
+      value: this.profile.name,
       placeholder: 'username'
     });
     alert.addButton({
       text: 'Ok',
       handler: data => {
-        this.user.username = data.username;
+        this.updateUsername(data);
       }
     });
 
@@ -123,32 +160,46 @@ export class SettingsPage extends ModelPage {
     console.log('Clicked logout');
   }
 
-  updatePassword(data) {
-    let msg = "Senha Alterada com Sucesso";
-    this.dataService.updateProfile({
-      pass: data
-    })
-    .then((res) => {
-      if(res["error"])
-        msg = res["error"];
+  updateUsername(data) {
+    let t = this.profile.type + "Id";
+    data[t] = this.profile.id;
 
-      let toast = this.util.getToast(msg);
-      toast.present();
+    this.util.presentLoading('Atualizando...');
+    setTimeout(() => {
+      this.util.dismissLoading();
+    }, 20000);
+      
+    this.dataService.updateProfile({
+      username: data
+    }).then((res) => {
+      if(res) {
+        this.util.dismissLoading();
+        let toast = this.util.getToast("Nome Alterado com Sucesso");
+        toast.present();
+      }
+    }, (err) => {
+      this.util.dismissLoading();
+      this.util.notifyError(err);
     });
   }
 
-  updateProfile() {
-    let toast = this.util.getToast("Perfil Atualizado");
-    /*this.data.updateProfile({
-      name: this.user['name'], 
-      about: this.user['about']
-    })*/
-
+  updatePassword(data) {
+    this.util.presentLoading('Atualizando...');
+    setTimeout(() => {
+      this.util.dismissLoading();
+    }, 20000);
+      
     this.dataService.updateProfile({
-      user: this.user
-    })
-    .then(()=> {
-      toast.present();
+      pass: data
+    }).then((res) => {
+      if(res) {
+        this.util.dismissLoading();
+        let toast = this.util.getToast("Senha Alterada com Sucesso");
+        toast.present();
+      }
+    }, (err) => {
+      this.util.dismissLoading();
+      this.util.notifyError(err);
     });
   }
 }

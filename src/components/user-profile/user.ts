@@ -45,7 +45,9 @@ export class UserProfileCmp {
     }
 
     gotoSettings(event) {
-    	this.navCtrl.push(SettingsPage);
+    	this.navCtrl.push(SettingsPage, {
+            profile: this.profile
+        });
     }
 
     gotoBank(event) {

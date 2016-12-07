@@ -91,6 +91,7 @@ export class ProfilePage extends ModelPage implements OnInit {
     //console.log(this.user);
     //this.bgImage = this.sanitizer.bypassSecurityTrustUrl(this.user.picture.large);
     //this.rows = Array.from(Array(Math.ceil(this.user.buyer.reviews.length / 2)).keys());
+    console.log(this.user);
     if(!this.user.preferred)
       this.setProfile(this.getBuyerProfile());
   }
