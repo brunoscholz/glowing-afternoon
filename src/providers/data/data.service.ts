@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { NativeStorage } from 'ionic-native';
 import { Response } from '@angular/http';
 
-import { Subject } from 'rxjs/Rx';
+import { Subject, Observable, Observer } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
 import { IUser } from './interfaces';
 import { APIService } from '../api/api.service';
+import { UtilProvider } from '../utils/util.provider';
 
 import _ from 'underscore';
 
@@ -53,39 +54,17 @@ export class DataService {
   private _subjects$: any;
   private _cached$: any;
   private _toStorage: any = ['loggedUser', 'categories', 'visitingCompany'];
+  balance$: Observable<any>;
 
-  /*get searchItems$() { return this._subjects$.searchitems.asObservable(); }
-  get offers$() { return this._subjects$.offers.asObservable(); }
-  get catalog$() { return this._subjects$.catalog.asObservable(); }
-  get reviews$() { return this._subjects$['review-facts'].asObservable(); }
-  get comments$() { return this._subjects$['comment-facts'].asObservable(); }
-  get follows$() { return this._subjects$['follow-facts'].asObservable(); }
-  get favorites$() { return this._subjects$['favorite-facts'].asObservable(); }
-  get categories$() { return this._subjects$.categories.asObservable(); }
-  get sellers$() { return this._subjects$.sellers.asObservable(); }
-  get buyers$() { return this._subjects$.buyers.asObservable(); }
-  get loggedUser$() { return this._subjects$.user.asObservable(); }*/
-  get balance$() { return this._subjects$.loyalty.asObservable(); }
 
-  constructor(public api: APIService) {
+  constructor(public api: APIService, public util: UtilProvider) {
     this.api.Init("offers");
 
-    /*
-      buyers: new Subject(),
-      offers: new Subject(),
-      catalog: new Subject(),
-      'review-facts': new Subject(),
-      'comment-facts': new Subject(),
-      'follow-facts': new Subject(),
-      'favorite-facts': new Subject(),
-      categories: new Subject(),
-      sellers: new Subject(),
-      searchitems: new Subject(),
-      user: new Subject(),
-    */
-    this._subjects$ = {
-      loyalty: new Subject(),
-    };
+    this._subjects$ = {};
+
+    this.balance$ = Observable.create((observer:Observer<any>) => {
+      this._subjects$['loyalty'] = observer;
+    }).share();
 
     this._cached$ = {
       categories: null,
@@ -143,6 +122,9 @@ export class DataService {
         if(options.username)
           body['username'] = options.username;
 
+        if(options.picture)
+          body['picture'] = options.picture;
+
         this.api.add({
           controller: 'auth/settings',
           body: body,
@@ -193,13 +175,11 @@ export class DataService {
       query: { 'userId': { test: "like binary", value: usr.userId } }
     })
       .map((res: Response) => res.json())
-      .subscribe(data => {
-        let u = data['data'][0];
+      .subscribe((data) => {
+        let u = data.data[0];
         this.lstorageSave('user', JSON.stringify(u));
         this._subjects$['user'].next(u);
-      }, 
-      error => console.log('Something went wrong'),
-      () => console.log('user retrieved'));
+      });
   }
 
   findAll(options: any) {
@@ -225,28 +205,27 @@ export class DataService {
             
             resolve(data.data);
           }
-          else
-          {
+          else {
             reject(data.error);
           }
-        }, 
-        error => console.log('Something went wrong'),
-        () => console.log('findAll Completed for ' + options.controller));
+        });
       }
     });
     return promise;
   }
 
   getBalance(options: any) {
-    this.api.findAll(options)
+    let promise = new Promise((resolve, reject) => {
+      this.api.findAll(options)
       .map((res: Response) => res.json())
       .subscribe((data) => {
-        if(data.status == 200) {
-          this._subjects$['loyalty'].next(data.data);
-        }
-      },
-      error => console.log('Something went wrong'),
-      () => console.log('findAll Completed for balance'));
+        if(data.status == 200)
+          resolve(data.data);
+        else
+          reject(data.error);
+      });
+    });
+    return promise;
   }
 
   getPretty(options: any) {
@@ -258,17 +237,12 @@ export class DataService {
         .map((res: Response) => res.json())
         .subscribe((data) => {
           if(data.status == 200) {
-            // let ret = data["data"];
-            // this._subjects$[options.controller].next(ret);
             resolve(data.data);
           }
-          else
-          {
+          else {
             reject(data.error);
           }
-        }, 
-        error => console.log('Something went wrong'),
-        () => console.log('getPretty Completed for ' + options.controller));
+        });
     });
     return promise;
   }
@@ -279,16 +253,12 @@ export class DataService {
         .map((res: Response) => res.json())
         .subscribe((data) => {
           if(data.status == 200) {
-            //this._subjects$['searchitems'].next(data["data"]);
             resolve(data.data);
           }
-          else
-          {
+          else {
             reject(data.error);
           }
-        }, 
-        error => console.log('Something went wrong'),
-        () => console.log('search Completed for ' + options.term));
+        });
     });
     return promise;
   }
@@ -305,20 +275,16 @@ export class DataService {
           if(data.status == 200) {
             resolve(data.data);
           }
-          else
-          {
+          else {
             reject(data.error);
           }
-        }, 
-        error => console.log('Something went wrong'),
-        () => console.log('findAll Completed for ' + 'review-facts'));
+        });
     });
     return promise;
   }
 
   addComments(comment) {
-    // COMMENTS.push(comment);
-    // this.findAllComments({ query: {} });
+    
   }
 
   addPreRegisterSeller() {
@@ -341,8 +307,7 @@ export class DataService {
           if(data.status == 200) {
             resolve(data.data);
           }
-          else
-          {
+          else {
             reject(data.error);
           }
         });
@@ -421,7 +386,7 @@ export class DataService {
     return true;
   }
 
-  filterResults(list, query: any) {
+  /*filterResults(list, query: any) {
     if(query == {} || query == null) {
       return list;
     }
@@ -435,5 +400,5 @@ export class DataService {
     });
 
     return (res.length) ? res : null;
-  }
+  }*/
 }

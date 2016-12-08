@@ -22,7 +22,7 @@ export class SettingsPage extends ModelPage {
               navParams: NavParams,
               public actionSheet: ActionSheetController,
               public dataService: DataService,
-              public authService: AuthService,
+              public auth: AuthService,
               public util: UtilProvider) {
   	super('Configurações', dataService, util)
     this.profile = navParams.get('profile');
@@ -36,13 +36,16 @@ export class SettingsPage extends ModelPage {
     })
     .then((imageData) => {
       //var blobImage = this.util.dataURItoBlob(imageData);
-      this.profile.picture.thumbnail = imageData;
+      //this.profile.picture.thumbnail = imageData;
       this.util.presentLoading('Atualizando...');
       setTimeout(() => {
         this.util.dismissLoading();
       }, 20000);
 
       let data = {picture: imageData, cover: true};
+      let t = this.profile.type + "Id";
+      data[t] = this.profile.id;
+
       this.dataService.updateProfile({
         picture: data
       }).then((res) => {
@@ -50,12 +53,14 @@ export class SettingsPage extends ModelPage {
           this.util.dismissLoading();
           let toast = this.util.getToast("Foto Alterada com Sucesso");
           toast.present();
+          return this.auth.loadUserCredentials();
         }
       }, (err) => {
         this.util.dismissLoading();
         this.util.notifyError(err);
       });
-    });
+    })
+    .then((usr) => {});
   }
 
   updateAvatar() {
@@ -66,7 +71,7 @@ export class SettingsPage extends ModelPage {
     })
     .then((imageData) => {
       //var blobImage = this.util.dataURItoBlob(imageData);
-      this.profile.picture.thumbnail = imageData;
+      //this.profile.picture.thumbnail = imageData;
       //return this.userProvider.uploadPicture(blobImage);
       
       this.util.presentLoading('Atualizando...');
@@ -75,6 +80,8 @@ export class SettingsPage extends ModelPage {
       }, 20000);
 
       let data = {picture: imageData, thumbnail: true};
+      let t = this.profile.type + "Id";
+      data[t] = this.profile.id;
       this.dataService.updateProfile({
         picture: data
       }).then((res) => {
@@ -82,12 +89,14 @@ export class SettingsPage extends ModelPage {
           this.util.dismissLoading();
           let toast = this.util.getToast("Foto Alterada com Sucesso");
           toast.present();
+          return this.auth.loadUserCredentials();
         }
       }, (err) => {
         this.util.dismissLoading();
         this.util.notifyError(err);
       });
-    });
+    })
+    .then((usr) => {});
   }
 
   presentPictureSource() {
@@ -115,6 +124,8 @@ export class SettingsPage extends ModelPage {
     alert.addButton({
       text: 'Ok',
       handler: data => {
+        let t = this.profile.type + "Id";
+        data[t] = this.profile.id;
         this.updateUsername(data);
       }
     });
@@ -161,9 +172,6 @@ export class SettingsPage extends ModelPage {
   }
 
   updateUsername(data) {
-    let t = this.profile.type + "Id";
-    data[t] = this.profile.id;
-
     this.util.presentLoading('Atualizando...');
     setTimeout(() => {
       this.util.dismissLoading();
@@ -176,11 +184,13 @@ export class SettingsPage extends ModelPage {
         this.util.dismissLoading();
         let toast = this.util.getToast("Nome Alterado com Sucesso");
         toast.present();
+        return this.auth.loadUserCredentials();
       }
     }, (err) => {
       this.util.dismissLoading();
       this.util.notifyError(err);
-    });
+    })
+    .then((usr) => {});
   }
 
   updatePassword(data) {
@@ -196,10 +206,12 @@ export class SettingsPage extends ModelPage {
         this.util.dismissLoading();
         let toast = this.util.getToast("Senha Alterada com Sucesso");
         toast.present();
+        return this.auth.loadUserCredentials();
       }
     }, (err) => {
       this.util.dismissLoading();
       this.util.notifyError(err);
-    });
+    })
+    .then((usr) => {});
   }
 }

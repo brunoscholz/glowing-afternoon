@@ -1,11 +1,9 @@
 //import { Storage, LocalStorage } from 'ionic-angular';
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams, Headers } from '@angular/http'; //Response
+import { Http, URLSearchParams, Headers, Response } from '@angular/http';
 
-import { Observable } from 'rxjs/Observable';
-// import { Observer } from 'rxjs/Observer';
-import 'rxjs/add/operator/map'; 
-import 'rxjs/add/operator/catch'
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/Rx';
 
 import { APISettings } from './api-settings';
 

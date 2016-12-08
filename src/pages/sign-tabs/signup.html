@@ -13,13 +13,13 @@
     <form [formGroup]="signUpForm">
       <ion-item class="search-bar">
         <ion-label floating>Nome Completo</ion-label>
-        <ion-input formControlName="name" type="text" [class.invalid]="!signUpForm.controls.name.valid && (signUpForm.controls.name.dirty || submitAttempt)" autofocus></ion-input>
+        <ion-input formControlName="name" type="text" [class.invalid]="!signUpForm.controls.name.valid && (signUpForm.controls.name.dirty)" autofocus></ion-input>
       </ion-item>
       <control-messages [control]="signUpForm.controls.name"></control-messages>
 
       <ion-item class="search-bar">
         <ion-label floating>Email</ion-label>
-        <ion-input formControlName="username" type="text" [class.invalid]="!signUpForm.controls.username.valid && (signUpForm.controls.username.dirty || submitAttempt)"></ion-input>
+        <ion-input formControlName="username" type="text" [class.invalid]="!signUpForm.controls.username.valid && (signUpForm.controls.username.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signUpForm.controls.username"></control-messages>
 
@@ -29,13 +29,13 @@
 
       <ion-item class="search-bar">
         <ion-label floating>Senha</ion-label>
-        <ion-input formControlName="password" type="password" [class.invalid]="!signUpForm.controls.password.valid && (signUpForm.controls.password.dirty || submitAttempt)"></ion-input>
+        <ion-input formControlName="password" type="password" [class.invalid]="!signUpForm.controls.password.valid && (signUpForm.controls.password.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signUpForm.controls.password"></control-messages>
 
       <ion-item class="search-bar">
         <ion-label floating>Confirme a Senha</ion-label>
-        <ion-input formControlName="confirmPassword" type="password" [class.invalid]="!signUpForm.controls.confirmPassword.valid && (signUpForm.controls.confirmPassword.dirty || submitAttempt)"></ion-input>
+        <ion-input formControlName="confirmPassword" type="password" [class.invalid]="!signUpForm.controls.confirmPassword.valid && (signUpForm.controls.confirmPassword.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signUpForm.controls.confirmPassword"></control-messages>
 

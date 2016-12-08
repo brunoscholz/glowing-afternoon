@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
@@ -11,7 +11,7 @@ import { ModelPage } from '../model-page';
   selector: 'page-balance',
   templateUrl: 'balance.html'
 })
-export class BalancePage extends ModelPage implements OnInit {
+export class BalancePage extends ModelPage {
 	user: IUser;
 	balance: IBalance;
 	tx: ILoyalty[];
@@ -24,30 +24,17 @@ export class BalancePage extends ModelPage implements OnInit {
   	super('Saldos', dataService, util);
   }
 
-  ngOnInit() {
-  	var self = this;
-
-    self.dataService.balance$.subscribe((loyal: any) => {
-      self.tx = <ILoyalty[]>loyal['loyalties'];
-      self.balance = <IBalance>loyal['balance'];
-      self.changeViewState();
-      console.log(this.balance);
-      console.log(this.tx)
-    });
-  }
-
   ionViewDidLoad() {
-    console.log('Hello Balance Page');
     this.load();
   }
 
   load() {
-  	let self = this;
-  	this.dataService.getUser().then((res: IUser) => {
-      if(res) {
-        self.user = res;
+    let self = this;
+    this.doChangeView(ViewStatusEnum.Empty);
+  	this.auth.loadUserCredentials().then((usr: IUser) => {
+      if(usr) {
+        self.user = usr;
         self.loadBalance();
-        //self.util.dismissLoading();
       }
     }, (err) => {
       console.log(err);
@@ -56,10 +43,16 @@ export class BalancePage extends ModelPage implements OnInit {
 
   loadBalance() {
   	let self = this;
-    this.util.presentLoading('Carregando usuário!');
+    this.util.presentLoading('Carregando saldos!');
   	self.dataService.getBalance({
       controller: 'loyalty',
       query: { 'userId': { test: "like binary", value: self.user.userId } }
+    }).then((loyal: any) => {
+      self.tx = <ILoyalty[]>loyal['loyalties'];
+      self.balance = <IBalance>loyal['balance'];
+      self.changeViewState();
+      console.log(this.balance);
+      console.log(this.tx);
     });
   }
 

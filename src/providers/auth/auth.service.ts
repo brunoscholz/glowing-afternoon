@@ -85,7 +85,12 @@ export class AuthService {
   }
 
   loadUserCredentials() {
-    var token = this.dataService.lstorageLoad('ondetemTK');
+    let token = this.dataService.lstorageLoad('ondetemTK');
+    let user = JSON.parse(this.dataService.lstorageLoad('user'));
+    /*let pref = null;
+    if(user.preferred)
+      pref = user.preferred;*/
+
     let promise = new Promise((resolve, reject) => {
       if(!token) {
         this._logged.next(false);
@@ -101,9 +106,11 @@ export class AuthService {
         .subscribe(data => {
           if(data.status == 200) {
             this.storeUserCredentials(token);
-            this.storeUser(data.data[0]);
-            this._logged.next(data.data[0]);
-            resolve(data.data[0]);
+            let usr = data.data[0];
+            //usr.preferred = pref;
+            this.storeUser(usr);
+            this._logged.next(usr);
+            resolve(usr);
           }
           else
             reject(data.error);
@@ -111,7 +118,7 @@ export class AuthService {
     });
     return promise;
   }
-  
+
   destroyUserCredentials() {
     this.isLoggedin = false;
     this._logged.next(false);
@@ -150,12 +157,16 @@ export class AuthService {
       this.api.add({
         controller: 'auth/signup',
         body: user,
+        query: {}
       })
         .map((res: Response) => res.json())
         .subscribe(data => {
           if(data.status == 200) {
             this.storeUserCredentials(data.token);
-            this.storeUser(data.data);
+            let res = data.data[0]
+            this.storeUser(res);
+            res['firstLogin'] = true;
+            this._logged.next(res);
             resolve(true);
           }
           else

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams, PopoverController } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ProfileOptionsPage } from './options';
@@ -15,7 +15,7 @@ import _ from 'underscore';
 @Component({
   templateUrl: 'profile.html',
 })
-export class ProfilePage extends ModelPage implements OnInit {
+export class ProfilePage extends ModelPage {
   user: IUser = null;
   balance: any = null;
   loginInfo: any;
@@ -26,23 +26,11 @@ export class ProfilePage extends ModelPage implements OnInit {
               navParams: NavParams,
               public sanitizer: DomSanitizer,
               public dataService: DataService,
-              public authService: AuthService,
+              public auth: AuthService,
               public popoverCtrl: PopoverController,
               public util: UtilProvider
   ) {
   	super('Perfil', dataService, util);
-  }
-
-  ngOnInit() {
-    var self = this;
-
-    self.dataService.balance$.subscribe((loyal) => {
-      self.balance = loyal;
-      console.log(loyal);
-      self.changeViewState();
-      if(self.refresher)
-        self.refresher.complete();
-    });
   }
 
   ionViewDidLoad() {
@@ -63,16 +51,18 @@ export class ProfilePage extends ModelPage implements OnInit {
   }
 
   load() {
-    var self = this;
+    let self = this;
     this.doChangeView(ViewStatusEnum.Empty);
 
-    this.dataService.getUser().then((res: IUser) => {
-      if(res) {
-        self.user = res;
+    this.auth.loadUserCredentials().then((usr: IUser) => {
+      if(usr) {
+        self.user = usr;
         self.prepareUser();
         self.loadBalance();
-        self.doChangeTitle(self.user.buyer.name);
+        //self.doChangeTitle(this.profile.name);
       }
+    }, (err) => {
+      console.log(err);
     });
   }
 
@@ -84,16 +74,19 @@ export class ProfilePage extends ModelPage implements OnInit {
       controller: 'loyalty',
       query: { 'userId': { test: "like binary", value: self.user.userId } },
       asset: 'coin'
+    }).then((loyal) => {
+      self.balance = loyal;
+      self.changeViewState();
+      if(self.refresher)
+        self.refresher.complete();
     });
   }
 
   prepareUser() {
-    //console.log(this.user);
-    //this.bgImage = this.sanitizer.bypassSecurityTrustUrl(this.user.picture.large);
-    //this.rows = Array.from(Array(Math.ceil(this.user.buyer.reviews.length / 2)).keys());
-    console.log(this.user);
     if(!this.user.preferred)
       this.setProfile(this.getBuyerProfile());
+    else
+      this.setProfile(this.user.preferred);
   }
 
   getBuyerProfile() {
@@ -107,7 +100,7 @@ export class ProfilePage extends ModelPage implements OnInit {
       username: this.user.buyer.email,
       picture: this.user.buyer.picture
     };
-    //this.doChangeTitle(this.profile.name);
+    this.doChangeTitle(profile.name);
     return profile;
   }
 
@@ -123,7 +116,7 @@ export class ProfilePage extends ModelPage implements OnInit {
       username: seller[0].email,
       picture: seller[0].picture
     };
-    //this.doChangeTitle(this.profile.name);
+    this.doChangeTitle(profile.name);
     return profile;
   }
 
@@ -132,7 +125,7 @@ export class ProfilePage extends ModelPage implements OnInit {
     .then((usr: IUser) => {
       if(usr) {
         this.user = usr;
-        this.doChangeTitle(this.user.preferred.name);
+        this.doChangeTitle(pref.name);
       }
     });
   }

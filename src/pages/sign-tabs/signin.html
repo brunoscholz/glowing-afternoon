@@ -13,13 +13,13 @@
     <form [formGroup]="signInForm">
       <ion-item class="search-bar">
         <ion-label floating>Email</ion-label>
-        <ion-input formControlName="username" type="text" [class.invalid]="!signInForm.controls.username.valid && (signInForm.controls.username.dirty || submitAttempt)"></ion-input>
+        <ion-input formControlName="username" type="text" [class.invalid]="!signInForm.controls.username.valid && (signInForm.controls.username.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signInForm.controls.username"></control-messages>
 
       <ion-item class="search-bar">
         <ion-label floating>Senha</ion-label>
-        <ion-input formControlName="password" type="password" [class.invalid]="!signInForm.controls.password.valid && (signInForm.controls.password.dirty || submitAttempt)"></ion-input>
+        <ion-input formControlName="password" type="password" [class.invalid]="!signInForm.controls.password.valid && (signInForm.controls.password.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signInForm.controls.password"></control-messages>
 

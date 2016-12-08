@@ -7,6 +7,7 @@ import { SignTabsPage } from '../pages/sign-tabs/sign-tabs';
 
 import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
 import { SellPage } from '../pages/sell/sell';
+import { TourPage } from '../pages/tour/tour';
 
 import { IPage } from '../providers/data/interfaces';
 
@@ -34,6 +35,7 @@ export class MyApp {
   isSalesPerson: boolean = false;
   loading: any;
   isLoading: boolean = false;
+  loggedUser: string = 'none';
 
   appPages: IPage[] = [
     { title: 'Início', component: HomeTabsPage, icon: 'home' },
@@ -73,31 +75,42 @@ export class MyApp {
       });
     });
 
-    this.getUser();    
+    this.getUser();
     this.authenticate();
   }
 
   authenticate() {
     this.auth.loadUserCredentials().then((user: IUser) => {
-
-    }, (err) => {});
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   getUser() { 
     let self = this;
-    self.auth.loggedIn$
+    this.auth.loggedIn$
     .subscribe((usr) => {
       let logged = false;
+      let changed = false;
+      let first = false;
       if(usr) {
         self.isSalesPerson = (usr.role === 'salesman' || usr.role === 'administrator');
         logged = true;
+        first = usr['firstLogin'];
+
+        if(usr.userId !== self.loggedUser || self.loggedUser == 'none') {
+          self.loggedUser = usr.userId;
+          changed = true;
+        }
       }
       else {
         self.isSalesPerson = false;
+        changed = true;
       }
       
       self.enableMenu(logged);
-      self.gotoMainPage(logged);
+      if(changed && !first)
+        self.gotoMainPage(logged);
     });
   }
 
@@ -113,17 +126,6 @@ export class MyApp {
         }, 2000);
       }
   }
-
-  /*setUser(user) {
-    if(!user)
-
-    if(user.role === 'salesman' || this.loggedUser.user.role === 'administrator')
-    {
-      //this.pages.push({ title: 'Vendas', component: SellPage, root: false });
-      this.isSalesPerson = true;
-    }
-    this.pages.push({ title: 'Logout', component: 'logout', root: false });
-  }*/
 
   checkConnection() {
     this.connService.connection$
@@ -183,7 +185,7 @@ export class MyApp {
   }
 
   openTutorial() {
-    //this.nav.setRoot(TourPage);
+    this.nav.setRoot(TourPage);
   }
 
   openSales() {
