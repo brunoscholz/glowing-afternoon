@@ -32,7 +32,6 @@ export class RegisterPage {
     public util: UtilProvider
   ) {
     this.company = params.data.company;
-    console.log(params.data);
   }
 
   close(id, type) {

@@ -100,16 +100,17 @@ page-home {
         text-align: center;
       }
 
-      .search-mic {
-        border-radius: 50px;
-        background-color: map-get($colors, primary);
-        width: 5rem;
-        height: 5rem;
+      }
+    
+    .search-mic {
+      border-radius: 50px;
+      background-color: map-get($colors, primary);
+      width: 6rem;
+      height: 6rem;
 
-        i {
-          font-size: 3rem;
-          color: white;
-        }
+      i {
+        font-size: 3rem;
+        color: white;
       }
     }
 

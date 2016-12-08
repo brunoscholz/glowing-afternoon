@@ -9,15 +9,15 @@
  * in the load method
  *
 */
-
 import { Component } from '@angular/core';
-import { NavController, NavParams, ActionSheetController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, PopoverController } from 'ionic-angular';
 import { ModelPage } from '../model-page';
 import { ReviewPage } from '../review/review';
 import { CompanyDetailPage } from '../company-detail/company-detail';
 import { ReviewDetailPage } from '../review-detail/review-detail';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
+import { ProductOptionsPage } from './product-options';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
 import { IOffer } from '../../providers/data/interfaces';
@@ -33,8 +33,8 @@ export class ProductDetailPage extends ModelPage {
   constructor(
     public navCtrl: NavController,
     navParams: NavParams,
-    public acCtrl: ActionSheetController,
     public modCtrl: ModalController,
+    public popoverCtrl: PopoverController,
     public dataService: DataService,
     public util: UtilProvider
   ) {
@@ -61,6 +61,17 @@ export class ProductDetailPage extends ModelPage {
     });
   }
 
+  moreOptions(myEvent) {
+    let popover = this.popoverCtrl.create(ProductOptionsPage, { product: this.product });
+    popover.onDidDismiss((act) => {
+      if(act == 'addReview')
+        this.addReview();
+    });
+    popover.present({
+      ev: myEvent
+    });
+  }
+
   changeViewState() {
     if (_.size(this.product.reviews) > 0) {
       this.doChangeView(ViewStatusEnum.Full);
@@ -76,73 +87,27 @@ export class ProductDetailPage extends ModelPage {
     this.load();
   }
 
-  favorite(event) {
-    // this.dataService.favorite(this.product).subscribe(
-    //   favorites => {
-        let alert = this.util.doAlert('Favorites', 'Product added to your favorites', 'OK');
-        alert.present();
-    //   }
-    // );
-  }
-
-  like(event) {
-    /*this.dataService.like(this.product).subscribe(
-        likes => {
-          this.product.likes = likes;
-        }
-    );*/
-  }
-
-  share(event) {
-    let actionSheet = this.acCtrl.create({
-      buttons: [
-        {
-          text: 'Text',
-          handler: () => {
-            console.log('Text clicked');
-          }
-        },
-        {
-          text: 'Email',
-          handler: () => {
-            console.log('Email clicked');
-          }
-        },
-        {
-          text: 'Facebook',
-          handler: () => {
-            console.log('Facebook clicked');
-          }
-        },
-        {
-          text: 'Twitter',
-          handler: () => {
-            console.log('Twitter clicked');
-          }
-        },
-        {
-          text: 'Cancel',
-          style: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    actionSheet.present();
-  }
-
   addReview() {
     let modal = this.modCtrl.create(ReviewPage, { item: this.product });
     modal.onDidDismiss(review => {
       if(review){
-        this.product.reviews.push(review);
-        this.dataService.addReview(review);
-        this.presentToast();
+        this.saveReview(review);
       }
     });
 
     modal.present();
+  }
+
+  saveReview(review) {
+    this.product.reviews.push(review);
+    this.presentToast();
+    this.dataService.addSocialAction({
+      controller: 'review-facts',
+      data: review
+    })
+    .then(() => {
+
+    });
   }
 
   presentToast() {

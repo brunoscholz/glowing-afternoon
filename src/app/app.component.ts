@@ -8,15 +8,14 @@ import { SignTabsPage } from '../pages/sign-tabs/sign-tabs';
 import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
 import { SellPage } from '../pages/sell/sell';
 import { TourPage } from '../pages/tour/tour';
-
-import { IPage } from '../providers/data/interfaces';
+import { AboutPage } from '../pages/about/about';
 
 import { DataService } from '../providers/data/data.service';
 import { AuthService } from '../providers/auth/auth.service';
 import { UtilProvider } from '../providers/utils/util.provider';
+import { SpeechService } from '../providers/speech/speech.service';
 import { ConnectivityService } from '../providers/utils/connectivity.service';
-
-import { IUser } from '../providers/data/interfaces';
+import { IUser, IPage } from '../providers/data/interfaces';
 
 @Component({
   templateUrl: 'app.html',
@@ -24,7 +23,8 @@ import { IUser } from '../providers/data/interfaces';
     AuthService,
     DataService,
     ConnectivityService,
-    UtilProvider
+    UtilProvider,
+    SpeechService
   ]
 })
 export class MyApp {
@@ -39,6 +39,7 @@ export class MyApp {
 
   appPages: IPage[] = [
     { title: 'Início', component: HomeTabsPage, icon: 'home' },
+    { title: 'Sobre', component: AboutPage, icon: 'book' },
     { title: 'Categorias', component: HomeTabsPage, index: 1, icon: 'grid' },
   ];
 
@@ -58,6 +59,7 @@ export class MyApp {
               public dataService: DataService,
               public auth: AuthService,
               public util: UtilProvider,
+              public speech: SpeechService,
               public connService: ConnectivityService) {
     this.initializeApp();
   }
@@ -73,6 +75,7 @@ export class MyApp {
         let alert = this.util.doAlert('Erro!', err, 'Ok');
         alert.present();
       });
+      this.speech.init();
     });
 
     this.getUser();

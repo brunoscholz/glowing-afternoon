@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+  	<button ion-button menuToggle left>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Sobre Nós
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+	<ion-list>
+      <ion-list-header>
+        Geral
+      </ion-list-header>
+      <button ion-item *ngFor="let p of appPages" (click)="openPage(p)">
+        <!-- <ion-icon item-left [name]="p.icon"></ion-icon> -->
+        {{p.title}}
+      	<ion-icon item-right name="arrow-forward"></ion-icon>
+      </button>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header>
+        Legal
+      </ion-list-header>
+      <button ion-item *ngFor="let p of legalPages" (click)="openPage(p)">
+        <!-- <ion-icon item-left [name]="p.icon"></ion-icon> -->
+        {{p.title}}
+      	<ion-icon item-right name="arrow-forward"></ion-icon>
+      </button>
+    </ion-list>
+
+</ion-content>

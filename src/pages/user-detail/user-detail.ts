@@ -16,19 +16,18 @@ import { ModelPage } from '../model-page';
 // import { ReviewDetailPage } from '../review-detail/review-detail';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
-import { CompanyOptionsPage } from './company-options';
+import { UserOptionsPage } from './user-options';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
-import { ISeller, IOffer } from '../../providers/data/interfaces';
+import { IBuyer } from '../../providers/data/interfaces';
 //import _ from 'underscore';
 
 @Component({
-  templateUrl: 'company-detail.html',
+  templateUrl: 'user-detail.html',
 })
-export class CompanyDetailPage extends ModelPage {
-  company: ISeller;
+export class UserDetailPage extends ModelPage {
+  buyer: IBuyer;
   bgImage: string;
-  offers: IOffer[];
 
   constructor(public navCtrl: NavController,
               navParams: NavParams,
@@ -38,22 +37,22 @@ export class CompanyDetailPage extends ModelPage {
               public dataService: DataService,
               public util: UtilProvider
   ) {
-    super("Company Details", dataService, util);
-    this.company = navParams.get('company');
-    this.bgImage = this.company.picture.cover;
+    super("Buyer Details", dataService, util);
+    this.buyer = navParams.get('user');
+    this.bgImage = this.buyer.picture.cover;
   }
 
   ionViewDidLoad() {
-    this.doReset(this.company.name);
+    this.doReset(this.buyer.name);
     this.load();
   }
 
   load() {
-    var self = this;
+    //var self = this;
     this.doChangeView(ViewStatusEnum.Empty);
     this.util.presentLoading('Buscando...');
 
-    this.dataService.getPretty({
+    /*this.dataService.getPretty({
       controller: 'catalog',
       url: 'sellers/catalog/' + self.company.sellerId
     }).then((data: Array<IOffer>) => {
@@ -63,11 +62,11 @@ export class CompanyDetailPage extends ModelPage {
         self.refresher.complete();
     }, (err) => {
       console.log(err);
-    });
+    });*/
   }
 
   changeViewState() {
-    if(this.company) // && this.offers
+    if(this.buyer) // && this.offers
       this.doChangeView(ViewStatusEnum.Full);
     else
       this.doChangeView(ViewStatusEnum.Empty);
@@ -79,43 +78,22 @@ export class CompanyDetailPage extends ModelPage {
     this.load();
   }
 
+  follow(event) {
+    /*this.dataService.like(this.company).subscribe(
+        likes => {
+          this.company.likes = likes;
+        }
+    );*/
+  }
+
   moreOptions(myEvent) {
-    let popover = this.popoverCtrl.create(CompanyOptionsPage, { company: this.company });
-    popover.onDidDismiss((act) => {
-      if(act == 'addReview')
-        this.addReview();
+    let popover = this.popoverCtrl.create(UserOptionsPage, { buyer: this.buyer });
+    popover.onDidDismiss(() => {
+      //if(act == 'addReview') {}
+        
     });
     popover.present({
       ev: myEvent
     });
-  }
-
-  addReview() {
-    /*let modal = this.modCtrl.create(ReviewPage, { item: this.company });
-    modal.onDidDismiss(review => {
-      if(review){
-        this.company.reviews.push(review);
-        this.dataService.addReview(review);
-      }
-    });
-
-    modal.present();*/
-  }
-
-  deleteReview(review) {
-    //Remove locally
-    /*let index = this.company.reviews.indexOf(review);
-    if(index > -1){
-      this.company.reviews.splice(index, 1);
-    }*/
-    //Remove from database
-    //this.reviewService.deleteReview(review._id);
-  }
-
-  reviewTapped(event, item) {
-    /*this.navCtrl.push(ReviewDetailPage, {
-      review: item,
-      company: this.company
-    });*/
   }
 }

@@ -98,6 +98,7 @@ export interface ISeller {
   updatedAt: string;
   status: string;
   reviews: IReviewFact[];
+  followers: IFollowFact[];
 }
 
 export interface IBuyer {
@@ -111,11 +112,14 @@ export interface IBuyer {
   title: string;
   website: string;
   coinsBalance: number;
-  loyalties: ILoyalty[];
-  reviews: IReviewFact[];
   createdAt: string;
   updatedAt: string;
   status: string;
+  loyalties: ILoyalty[];
+  reviews: IReviewFact[];
+  followers: IFollowFact[];
+  following: IFollowFact[];
+  favorites: IFavoriteFact[];
 }
 
 export interface IFollowFact {

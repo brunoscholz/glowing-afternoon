@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NativeStorage } from 'ionic-native';
 import { Response } from '@angular/http';
 
-import { Subject, Observable, Observer } from 'rxjs/Rx';
+import { Observable, Observer } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
 import { IUser } from './interfaces';
@@ -263,11 +263,11 @@ export class DataService {
     return promise;
   }
 
-  addReview(review) {
+  addSocialAction(options) {
     let promise = new Promise((resolve, reject) => {
       this.api.add({
-        controller: 'review-facts',
-        body: review,
+        controller: options.controller,
+        body: options.data,
         query: {}
       })
         .map((res: Response) => res.json())
@@ -281,10 +281,6 @@ export class DataService {
         });
     });
     return promise;
-  }
-
-  addComments(comment) {
-    
   }
 
   addPreRegisterSeller() {

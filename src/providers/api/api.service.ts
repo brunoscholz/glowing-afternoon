@@ -1,6 +1,6 @@
 //import { Storage, LocalStorage } from 'ionic-angular';
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams, Headers, Response } from '@angular/http';
+import { Http, URLSearchParams, Headers } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/Rx';

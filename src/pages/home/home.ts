@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { Platform, NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 
 import { SearchPage } from '../search/search';
 
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 import { ConnectivityService } from '../../providers/utils/connectivity.service';
+import { SpeechService } from '../../providers/speech/speech.service';
 
 //import { ViewStatusEnum } from '../../providers/enums';
 //import { IBuyer } from '../../providers/interfaces';
@@ -13,8 +14,7 @@ import { ModelPage } from '../model-page';
 
 // import { SpeechRecognition } from 'SpeechRecognition';
 //declare var SpeechRecognition: any;
-declare var webkitSpeechRecognition: any;
-declare var platform: any;
+//declare var webkitSpeechRecognition: any;
 
 @Component({
   selector: 'home-page',
@@ -25,28 +25,32 @@ export class HomePage extends ModelPage {
   ready: boolean = false;
   recognizedText: string = "";
   formData: any = {q:''};
+  alert: any;
 
   constructor(
     public navCtrl: NavController,
     navParams: NavParams,
     public dataService: DataService,
     public util: UtilProvider,
-    platform: Platform,
+    public speech : SpeechService,
     private alertCtrl: AlertController,
     public connService: ConnectivityService
   ) {
     super('OndeTem?!', dataService, util);
-    platform = platform;
-    platform.ready().then(() => {
-      console.log('platform ready...');
-      this.ready = true;
+    
+    this.speech.onResultText(txt => {
+      this.formData.q = txt;
+      this.alert.dismiss();
     });
   }
 
   ionViewDidLoad() {
     this.doReset('OndeTem?!');
-    this.formData.q = "";
     this.online = this.checkNetwork();
+  }
+
+  ionViewWillEnter() {
+    this.formData.q = "";
   }
 
   checkNetwork() {
@@ -64,44 +68,38 @@ export class HomePage extends ModelPage {
 
   load() {}
 
-  presentAlert(input: string) {
-    let alert = this.alertCtrl.create({
-      title: input,
-      buttons: ['ok']
+  presentAlert(msg: string) {
+    this.alert = this.alertCtrl.create({
+      title: "Busca",
+      message: msg,
+      buttons: [
+      {
+        text: 'Cancelar',
+        role: 'cancel',
+        handler: () => {
+          this.formData.q = "";
+        }
+      }
+      /*{
+        text: 'Buscar',
+        handler: () => {
+          this.onInput();
+        }
+      }*/
+    ]
     });
 
-    alert.onDidDismiss(() => {
-      //this.recognition.stop();
+    this.alert.onDidDismiss(() => {
+      this.speech.stop();
     });
 
-    alert.present();
+    this.alert.present();
   }
 
-  SpeechToText() {
-    if (this.ready && this.online) {
-      this.presentAlert('Busca por Voz');
-
-      this.recognition = new webkitSpeechRecognition();
-
-      this.recognition.lang = 'pt-BR'; //en-US
-      
-      this.recognition.onnomatch = (event => {
-        console.log('No match found.');
-      });
-      
-      this.recognition.onerror = (event => {
-        console.log('Error happens.');
-      });
-      
-      this.recognition.onresult = (event => {
-        if (event.results.length > 0) {
-          //this.recognizedText = event.results[0][0].transcript;
-          this.formData.q = event.results[0][0].transcript;
-          this.recognition.stop();
-          //console.log('Output STT: ', this.formData.q);
-        }
-      });
-      this.recognition.start();
+  toggleStartStop() {
+    if(!this.speech.recognizing) {
+      this.speech.start();
+      this.presentAlert("Diga um nome, serviço ou produto para buscar");
     }
   }
 

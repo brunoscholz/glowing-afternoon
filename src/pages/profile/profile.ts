@@ -59,7 +59,6 @@ export class ProfilePage extends ModelPage {
         self.user = usr;
         self.prepareUser();
         self.loadBalance();
-        //self.doChangeTitle(this.profile.name);
       }
     }, (err) => {
       console.log(err);

@@ -15,7 +15,10 @@ export class AuthService {
 
   get loggedIn$() { return this._logged.asObservable(); }
 
-  constructor(public platform: Platform, public api: APIService, public dataService: DataService) {
+  constructor(public platform: Platform,
+              public api: APIService,
+              public dataService: DataService
+  ) {
     this.isLoggedin = false;
     this._logged = new Subject();
     this.AuthToken = null;
@@ -86,7 +89,7 @@ export class AuthService {
 
   loadUserCredentials() {
     let token = this.dataService.lstorageLoad('ondetemTK');
-    let user = JSON.parse(this.dataService.lstorageLoad('user'));
+    //let user = JSON.parse(this.dataService.lstorageLoad('user'));
     /*let pref = null;
     if(user.preferred)
       pref = user.preferred;*/

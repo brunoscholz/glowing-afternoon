@@ -24,6 +24,8 @@ import { FollowsPage } from '../pages/follows/follows';
 import { FavoritesPage } from '../pages/favorites/favorites';
 import { ReviewListPage } from '../pages/review-list/review-list';
 import { BalancePage } from '../pages/balance/balance';
+import { UserDetailPage } from '../pages/user-detail/user-detail';
+import { UserOptionsPage } from '../pages/user-detail/user-options';
 
 // sale support tabs & pages
 import { SellPage } from '../pages/sell/sell';
@@ -34,13 +36,22 @@ import { PreviewPage } from '../pages/sell/preview';
 // Company related Pages
 import { CompanyPage } from '../pages/company/company';
 import { CompanyDetailPage } from '../pages/company-detail/company-detail';
+import { CompanyOptionsPage } from '../pages/company-detail/company-options';
 import { CatalogPage } from '../pages/catalog/catalog';
 
 // Item related Pages
 import { ProductPage } from '../pages/product/product';
 import { ProductDetailPage } from '../pages/product-detail/product-detail';
+import { ProductOptionsPage } from '../pages/product-detail/product-options';
 import { ReviewPage } from '../pages/review/review';
 import { ReviewDetailPage } from '../pages/review-detail/review-detail';
+
+import { AboutPage } from '../pages/about/about';
+import { WhyPage } from '../pages/about/why';
+import { ContactPage } from '../pages/about/contact';
+import { PolicyPage } from '../pages/about/policy';
+import { TermsPage } from '../pages/about/terms';
+import { LicensePage } from '../pages/about/license';
 
 // directives
 import { OfferPostCmp } from '../components/offer/offer';
@@ -61,6 +72,7 @@ import { DataService } from '../providers/data/data.service';
 import { APIService } from '../providers/api/api.service';
 import { APISettings } from '../providers/api/api-settings';
 import { UtilProvider } from '../providers/utils/util.provider';
+import { SpeechService } from '../providers/speech/speech.service';
 //import { ValidationService } from '../validators/validators';
 
 // Map related
@@ -89,21 +101,31 @@ import { UtilProvider } from '../providers/utils/util.provider';
     FavoritesPage,
     ReviewListPage,
     BalancePage,
+    UserDetailPage,
+    UserOptionsPage,
     SellPage,
     RegisterPage,
     SupportPage,
     PreviewPage,
     CompanyPage,
     CompanyDetailPage,
+    CompanyOptionsPage,
     CatalogPage,
     ProductPage,
     ProductDetailPage,
+    ProductOptionsPage,
     ReviewPage,
     ReviewDetailPage,
     OfferPostCmp,
     UserProfileCmp,
     UserCardCmp,
     ControlMessages,
+    AboutPage,
+    WhyPage,
+    ContactPage,
+    PolicyPage,
+    TermsPage,
+    LicensePage,
     ArrayFilterPipe,
     OrderByPipe,
     TimeAgoPipe,
@@ -132,17 +154,27 @@ import { UtilProvider } from '../providers/utils/util.provider';
     FavoritesPage,
     ReviewListPage,
     BalancePage,
+    UserDetailPage,
+    UserOptionsPage,
     SellPage,
     RegisterPage,
     SupportPage,
     PreviewPage,
     CompanyPage,
     CompanyDetailPage,
+    CompanyOptionsPage,
     CatalogPage,
     ProductPage,
     ProductDetailPage,
+    ProductOptionsPage,
     ReviewPage,
-    ReviewDetailPage
+    ReviewDetailPage,
+    AboutPage,
+    WhyPage,
+    ContactPage,
+    PolicyPage,
+    TermsPage,
+    LicensePage
   ],
   providers: [
     DataService,
@@ -150,7 +182,8 @@ import { UtilProvider } from '../providers/utils/util.provider';
     APISettings,
     ConnectivityService,
     AuthService,
-    UtilProvider
+    UtilProvider,
+    SpeechService
   ]
 })
 export class AppModule {}
