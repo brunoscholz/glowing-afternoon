@@ -1,14 +1,36 @@
-page-home {
-
-}
-
 #map_canvas {
     width: 100%;
     height: 100%;
 }
 
-.home {
+.home-page {
 
+}
+
+ion-item {
+  h2 {
+    font-weight: bold;
+    font-size: 2rem;
+    font-family: 'LatoBlack';
+  }
+
+  p {
+    color: map-get($colors, primary);
+    font-size: 1.8rem;
+    font-family: 'Lato';
+  }
+}
+
+ion-label {
+  h2 {
+    font-size: 2.3rem;
+    font-family: 'LatoBlack';
+  }
+  p {
+    color: map-get($colors, primary) !important;
+    font-size: 1.6rem !important;
+    text-align: left;
+  }
 }
 
 .bar-button-menutoggle-md {
@@ -17,59 +39,6 @@ page-home {
     border-radius: 50%;
     margin-top: -10px;
   }
-}
-
-.show-more-state {
-  display: none;
-}
-
-.show-more-target {
-  opacity: 0;
-  max-height: 0;
-  font-size: 0;
-  transition: .25s ease;
-}
-
-.show-more-state:checked ~ .show-more-wrap .show-more-target {
-  opacity: 1;
-  font-size: inherit;
-  max-height: 999em;
-}
-
-.show-more-state ~ .show-more-trigger-container .show-more-trigger:before {
-  content: "Mais categorias";
-}
-
-.show-more-state:checked ~ .show-more-trigger-container .show-more-trigger:before {
-  content: "mostrar menos";
-}
-
-.show-more-trigger-container {
-  padding: 8px;
-  height: 58px;
-  text-align: center;
-}
-
-.show-more-trigger {
-  font-family: 'Lato', sans-serif;
-  font-weight: 500;
-  cursor: pointer;
-  display: inline-block;
-  text-align: center;
-  text-transform: uppercase;
-  
-  line-height: 5rem;
-  height: 5rem;
-
-  margin: 0.4rem 0.2rem;
-  padding: 0 2.6em;
-
-  border-radius: 64px;
-
-  color: #fff;
-  background-color: map-get($colors, primary);
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1), background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .search-header {
@@ -126,150 +95,6 @@ page-home {
 
 [class*='-page'] {
   background: url('../assets/img/BG.png');
-}
-
-ion-content.card-background-page {
-	ion-grid.main-functions, ion-grid.main-categories {
-    margin-top: 2%;
-    ion-col {
-      //box-shadow: 1px 0 0 #ddd;
-
-      i {
-        padding: 0;
-        display: block;
-        -webkit-transition: -webkit-transform 0.2s;
-        transition: -moz-transform 0.2s;
-        transition: transform 0.2s;
-				text-align: center;
-      }
-
-      i:before {
-        display: inline-block;
-        font-family: 'ondetem';
-				font-size: 4em;
-				font-style: normal;
-				font-weight: normal;
-				font-variant: normal;
-				text-transform: none;
-				line-height: 1;
-				-webkit-font-smoothing: antialiased;
-      }
-      
-      div.cat-slot {
-        display: block;
-        height: 100%;
-        color: map-get($colors, icons);
-        -webkit-transition: background 0.2s;
-        -moz-transition: background 0.2s;
-        transition: background 0.2s;
-        text-decoration: none;
-        /*-webkit-box-shadow: inset 0px 0px 3px 1px rgba(128,128,128,.2);
-        -moz-box-shadow: inset 0px 0px 3px 1px rgba(128,128,128,.2);
-        box-shadow: inset 0px 0px 3px 1px rgba(128,128,128,.2);*/
-      }
-
-      h3.cat-title {
-        margin: 2px 0 10px 0;
-        padding: 2px 0 0 0;
-        font-size: 1em;
-        color: map-get($colors, dark);
-        text-align: center;
-        position: relative;
-        -webkit-transition: -webkit-transform 0.2s;
-        -moz-transition: -moz-transform 0.2s;
-        transition: transform 0.2s;
-        font-family: "Lato";
-      }
-    }
-
-  }
-  ion-grid.main-functions {
-    //margin-top: 20%;
-    ion-col {
-      div.cat-slot {
-        color: map-get($colors, danger);
-      }
-    }
-  }
-
-  ion-card {
-    position: relative;
-    text-align: center;
-  }
-
-  .card-title {
-    position: absolute;
-    top: 36%;
-    font-size: 2.0em;
-    width: 100%;
-    font-weight: bold;
-    color: #fff;
-  }
-
-  .card-subtitle {
-    font-size: 1.0em;
-    position: absolute;
-    top: 52%;
-    width: 100%;
-    color: #fff;
-  }
-
-  #home-wrapper {
-    width: 100%;
-    height: 100%;
-    margin: auto;
-    position: relative;
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: 700;
-
-    #search {
-      position: relative;
-      height: 33%;
-      background-color: #f6716c;
-      color: #cf82a4;
-    }
-
-    #scan {
-      position: relative;
-      width:100%;
-      height: 33%;
-      background-color: #b79c42;
-      color: #535c59;
-    }
-
-    #browse {
-      position: relative;
-      width:100%;
-      height: 33%;
-      background-color: #46879b;
-      color: #2c5f8a;
-    }
-  }
-}
-
-ion-content.card-background-page {
-  ion-card {
-    position: relative;
-    text-align: center;
-  }
-
-  .card-title {
-    position: absolute;
-    top: 36%;
-    font-size: 2.0em;
-    width: 100%;
-    font-weight: bold;
-    color: #fff;
-  }
-
-  .card-subtitle {
-    font-size: 1.0em;
-    position: absolute;
-    top: 52%;
-    width: 100%;
-    color: #fff;
-  }
 }
 
 .missing-item {

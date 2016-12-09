@@ -6,21 +6,15 @@
 
 </ion-header>
 
-<ion-content padding>
+<<ion-content *ngIf="status === viewStatus.Empty">
+  <empty-list [msg]="'Nenhum favorito na lista!!'"></empty-list>
+</ion-content>
 
-<div class="empty" *ngIf="status === viewStatus.Empty">
-    <ion-icon name="thumbs-down"></ion-icon>
-    <p>Nenhum resultado encontrado aqui!!</p>
-  </div>
-
-  <div *ngIf="status === viewStatus.Full">
+<ion-content padding *ngIf="status === viewStatus.Full">
 	<ion-list *ngIf="favorites">
 		<ion-item class="bounceInRight" *ngFor="let fav of favorites">
 			<span class="value">{{fav.offer.item.title}}</span>
 			<p>{{flw.offer.description}}</p>
 		</ion-item>
 	</ion-list>
-  </div>
-
-
 </ion-content>

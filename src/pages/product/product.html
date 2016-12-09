@@ -15,7 +15,7 @@
   </div>
 
   <div *ngIf="status === viewStatus.Full">
-    <offer *ngFor="let feed of products | orderBy:toOrder" (click)="itemTapped($event, feed)" [feed]="feed"></offer>
+    <offer-card *ngFor="let feed of products | orderBy:toOrder" (click)="itemTapped($event, feed)" [feed]="feed"></offer-card>
   </div>
 
 </ion-content>

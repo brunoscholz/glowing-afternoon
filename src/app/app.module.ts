@@ -54,15 +54,19 @@ import { TermsPage } from '../pages/about/terms';
 import { LicensePage } from '../pages/about/license';
 
 // directives
+import { EmptyListCmp } from '../components/empty/empty';
 import { OfferPostCmp } from '../components/offer/offer';
 import { UserProfileCmp } from '../components/user-profile/user';
 import { UserCardCmp } from '../components/user-card/user';
+import { SellerCardCmp } from '../components/seller-card/seller';
+import { TransactionCmp } from '../components/transaction/transaction';
 import { ControlMessages } from '../components/control-messages/control-messages';
 
 // Pipes and Directives
 import { ArrayFilterPipe } from '../pipes/array-filter';
 import { TimeAgoPipe } from '../pipes/time-ago';
 import { OrderByPipe } from '../pipes/order-by';
+import { TxFilterPipe } from '../pipes/tx-filter';
 import { ElasticHeader } from '../directives/elastic-header/elastic-header';
 
 // Services and Providers
@@ -116,9 +120,12 @@ import { SpeechService } from '../providers/speech/speech.service';
     ProductOptionsPage,
     ReviewPage,
     ReviewDetailPage,
+    EmptyListCmp,
     OfferPostCmp,
+    TransactionCmp,
     UserProfileCmp,
     UserCardCmp,
+    SellerCardCmp,
     ControlMessages,
     AboutPage,
     WhyPage,
@@ -128,6 +135,7 @@ import { SpeechService } from '../providers/speech/speech.service';
     LicensePage,
     ArrayFilterPipe,
     OrderByPipe,
+    TxFilterPipe,
     TimeAgoPipe,
     ElasticHeader
   ],

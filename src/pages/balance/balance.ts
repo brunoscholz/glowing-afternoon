@@ -12,9 +12,11 @@ import { ModelPage } from '../model-page';
   templateUrl: 'balance.html'
 })
 export class BalancePage extends ModelPage {
-	user: IUser;
-	balance: IBalance;
-	tx: ILoyalty[];
+  user: IUser;
+  balance: IBalance;
+  tx: ILoyalty[] = [];
+  txtabs:string = 'alltx';
+  tk: string = 'all';
 
   constructor(public navCtrl: NavController,
 							public dataService: DataService,
@@ -51,8 +53,6 @@ export class BalancePage extends ModelPage {
       self.tx = <ILoyalty[]>loyal['loyalties'];
       self.balance = <IBalance>loyal['balance'];
       self.changeViewState();
-      console.log(this.balance);
-      console.log(this.tx);
     });
   }
 
@@ -62,14 +62,5 @@ export class BalancePage extends ModelPage {
     else
       this.doChangeView(ViewStatusEnum.Empty);
     this.util.dismissLoading();
-  }
-
-  posNeg(tr) {
-  	if(tr.senderId == this.user.userId && tr.token.name == 'COIN')
-  		return 'balance-neg';
-  	else if(tr.recipientId == this.user.userId)
-  		return 'balance-pos';
-
-  	return 'balance-pos';
   }
 }

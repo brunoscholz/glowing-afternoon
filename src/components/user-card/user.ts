@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { IUser } from '../../providers/data/interfaces';
+import { IBuyer } from '../../providers/data/interfaces';
 
 @Component({
     selector: 'user-card',
     templateUrl: 'user.html'
 })
 export class UserCardCmp {
-    @Input('feed') post: IUser;
+    @Input('feed') buyer: IBuyer;
 
     constructor() {}
 }

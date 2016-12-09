@@ -25,11 +25,11 @@ export class UserOptionsPage {
     //this.viewCtrl.dismiss();
   }
 
-  favorite() {
+  follow() {
     this.viewCtrl.dismiss();
   }
 
-  addReview() {
+  /*addReview() {
     this.viewCtrl.dismiss('addReview');
-  }
+  }*/
 }

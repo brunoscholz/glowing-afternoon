@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { IOffer } from '../../providers/data/interfaces';
 
 @Component({
-    selector: 'offer',
+    selector: 'offer-card',
     templateUrl: 'offer.html'
 })
 export class OfferPostCmp {

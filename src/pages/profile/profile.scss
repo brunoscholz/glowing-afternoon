@@ -74,34 +74,14 @@ ion-list-header {
   color: map-get($colors, secondary) !important;
 }
 
-.balance-pos .value:before, .balance-neg .value:before {
-  font-family: "Ionicons";
-  margin-right: .5em;
-}
-
-.balance-pos .value:before {
-  content: "\f28c";
-  color: #0f0;
-}
-.balance-neg .value:before {
-  content: "\f27e";
-  color: #f00;
-}
-
-.balance-pos .value, .balance-neg .value, ion-item.value {
-  font-family: 'Lato';
-  font-size: 1.3rem;
-}
-
 .background-image {
-    height: 64vw;
-    width: 100%;
-    margin: 0 auto;
-    overflow: hidden;
+  height: 64vw;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
 }
 
 div.profile-menu {
-
   ion-grid {
     padding: 0 10px;
     margin-top: -15px;

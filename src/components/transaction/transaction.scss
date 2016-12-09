@@ -1,0 +1,58 @@
+transaction-card {
+	ion-card {
+		&.card-md {
+			margin: 0;
+			width: 100%;
+			box-shadow: 0 1px 50px 0 rgba(0, 0, 0, 0.12);
+		}
+		&.balance-pos {
+			border-right: 2px solid map-get($colors, primary);
+			.date {
+				color: map-get($colors, secondary);
+				font-size: 1.4rem;
+			}
+		}
+
+		&.balance-neg {
+			border-right: 2px solid map-get($colors, danger);
+			.date {
+				color: map-get($colors, secondary);
+				font-size: 1.4rem;
+			}
+		}
+
+		ion-card-content {
+			ion-item {
+				ion-avatar {
+					img {
+
+					}
+				}
+				ion-label {
+					p {
+						font-size: 1.4rem;
+					}
+				}
+			}
+		}
+	}
+}
+
+.balance-pos .value:before, .balance-neg .value:before {
+  font-family: "Ionicons";
+  margin-right: .5em;
+}
+
+.balance-pos .value:before {
+  content: "\f28c";
+  color: map-get($colors, primary);
+}
+.balance-neg .value:before {
+  content: "\f27e";
+  color: map-get($colors, danger);
+}
+
+.balance-pos .value, .balance-neg .value, ion-item.value {
+  font-family: 'Lato';
+  font-size: 1.3rem;
+}

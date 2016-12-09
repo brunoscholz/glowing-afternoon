@@ -2,8 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import _ from 'underscore';
 
 @Pipe({
-    name: "orderBy",
-    pure: false
+  name: "orderBy",
+  pure: false
 })
 export class OrderByPipe implements PipeTransform {
   transform(array, args) {

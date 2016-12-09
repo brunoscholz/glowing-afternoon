@@ -3,24 +3,47 @@
   <ion-navbar>
     <ion-title>{{title}}</ion-title>
   </ion-navbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="txtabs" color="secondary">
+      <ion-segment-button value="alltx">
+        Todas
+      </ion-segment-button>
+      <ion-segment-button value="intx">
+        Recebidas
+      </ion-segment-button>
+      <ion-segment-button value="outtx">
+        Enviadas
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 
 </ion-header>
 
-<ion-content padding>
+<ion-content class="page-balance">
 
-<ion-list *ngIf="status === viewStatus.Full">
-  <ion-list-header>
-    Últimas Transações
-  </ion-list-header>
-	<ion-item class="animated bounceInRight" *ngFor="let tr of tx" [ngClass]="posNeg(tr.transaction)">
-		<span class="value">{{tr.transaction.amount}} {{tr.transaction.token.name}}</span>
-		<p>{{tr.transaction.timestamp}}</p>
-	</ion-item>
+<div *ngIf="status === viewStatus.Empty">
+  <empty-list [msg]="'Nenhuma transação encontrada!'"></empty-list>
+</div>
+<div *ngIf="status === viewStatus.Full">
+  <div [ngSwitch]="txtabs">
+    <ion-list *ngSwitchCase="'alltx'">
+      <ion-list-header>
+        Saldo
+      </ion-list-header>
+      <ion-item class="value">0 COINs</ion-item>
+      <ion-list-header>
+        Últimas Transações
+      </ion-list-header>
+      <transaction-card *ngFor="let feed of (tx | txFilter:['all',tk])" [feed]="feed"></transaction-card>
+    </ion-list>
 
-  <ion-list-header>
-    Saldo
-  </ion-list-header>
-  <ion-item class="value">0 COINs</ion-item>
-</ion-list>
+    <ion-list *ngSwitchCase="'intx'">
+      <transaction-card *ngFor="let feed of (tx | txFilter:['pos',tk])" [feed]="feed"></transaction-card>
+    </ion-list>
 
+    <ion-list *ngSwitchCase="'outtx'">
+      <transaction-card *ngFor="let feed of (tx | txFilter:['neg',tk])" [feed]="feed"></transaction-card>
+    </ion-list>
+  </div>
+</div>
 </ion-content>

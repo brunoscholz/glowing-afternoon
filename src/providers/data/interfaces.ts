@@ -224,7 +224,7 @@ export interface IRelationship {
 export interface ILoyalty {
   loyaltyId: string;
   transaction: ITransaction;
-  buyer: IBuyer;
+  user: IUser;
   action: IAction;
   ruleId: string;
   points: number;
