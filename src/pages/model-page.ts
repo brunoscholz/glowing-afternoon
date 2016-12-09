@@ -10,6 +10,10 @@ export class ModelPage {
   selectedItem: any;
   refresher: any;
   data: any;
+  pageNum: number = 1;
+  hasMore: boolean = true;
+  headerColor: string = '';
+
   
   title: string;
   viewStatus = ViewStatusEnum;
@@ -18,7 +22,6 @@ export class ModelPage {
   displayMode = DisplayModeEnum;
   display: any;
   online: boolean = false;
-  loading: any;
 
   constructor(private ttl: string,
               public dataService: DataService,
@@ -47,10 +50,6 @@ export class ModelPage {
   /*doRefresh(refresher) {
     this.refresher = refresher;
   }*/
-
-  doQuery(query) {
-    this.dataService.findAll(query);
-  }
 
   doChangeView(st: ViewStatusEnum) {
     this.status = st;

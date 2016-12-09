@@ -52,7 +52,7 @@ export class ProfilePage extends ModelPage {
 
   load() {
     let self = this;
-    this.doChangeView(ViewStatusEnum.Empty);
+    this.doChangeView(ViewStatusEnum.Loading);
 
     this.auth.loadUserCredentials().then((usr: IUser) => {
       if(usr) {

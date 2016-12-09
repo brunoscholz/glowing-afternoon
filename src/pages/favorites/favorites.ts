@@ -9,13 +9,12 @@ import { ViewStatusEnum } from '../../providers/utils/enums';
 import _ from 'underscore';
 
 @Component({
-  selector: 'page-favorites',
   templateUrl: 'favorites.html'
 })
 export class FavoritesPage extends ModelPage {
-	//user: IUser;
-	favorites: IFavoriteFact[];
+	favorites: Array<IFavoriteFact> = new Array<IFavoriteFact>();
 	profile: IProfile;
+  authTk: Array<any> = new Array<any>();
 
   constructor(public navCtrl: NavController,
   						navParams: NavParams,
@@ -24,6 +23,7 @@ export class FavoritesPage extends ModelPage {
 							public util: UtilProvider
 	) {
   	super('Favoritos', dataService, util);
+    //this.color = 'primary';
   	this.profile = navParams.get('profile');
   }
 
@@ -32,16 +32,49 @@ export class FavoritesPage extends ModelPage {
   }
 
   load() {
-    var self = this;
     this.doChangeView(ViewStatusEnum.Empty);
     this.util.presentLoading('Buscando...');
 
+    this.query();
+    this.doQuery();
+  }
+
+  query() {
+    var self = this;
     self.dataService.findAll({
       controller: 'favorite-facts',
-      query: {'buyerId':{test:"like binary",value:this.profile.id}}
-    }).then((fws: IFavoriteFact[]) => {
-      self.favorites = fws;
-      this.changeViewState();
+      query: {'buyerId':{test:"like binary",value:self.profile.id}},
+      page: this.pageNum
+    }).then((fws: Array<IFavoriteFact>) => {
+      /*if (_.size(fws) < 10)
+        self.hasMore = false;*/
+
+      self.favorites.push.apply(self.favorites, fws);
+
+      self.changeViewState();
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+  doQuery(dontClear = false) {
+    var self = this;
+    this.util.presentLoading('Buscando...');
+    self.dataService.findAll({
+      controller: 'auth-token',
+      page: this.pageNum,
+      limit: 5
+    }).then((tks: Array<any>) => {
+      if(dontClear) {
+        if (_.size(tks) < 5)
+          self.hasMore = false;
+
+        self.authTk.push.apply(self.authTk, tks);
+      } else {
+        self.authTk = tks;
+      }
+      
+      self.changeViewState();
     }, (err) => {
       console.log(err);
     });
@@ -55,6 +88,11 @@ export class FavoritesPage extends ModelPage {
       this.doChangeView(ViewStatusEnum.Empty);
     }
     this.util.dismissLoading();
+  }
+
+  loadMore() {
+    this.pageNum += 1;
+    this.doQuery(true);
   }
 }
 

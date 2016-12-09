@@ -67,6 +67,7 @@ import { ArrayFilterPipe } from '../pipes/array-filter';
 import { TimeAgoPipe } from '../pipes/time-ago';
 import { OrderByPipe } from '../pipes/order-by';
 import { TxFilterPipe } from '../pipes/tx-filter';
+import { CounterPipe } from '../pipes/counter';
 import { ElasticHeader } from '../directives/elastic-header/elastic-header';
 
 // Services and Providers
@@ -137,6 +138,7 @@ import { SpeechService } from '../providers/speech/speech.service';
     OrderByPipe,
     TxFilterPipe,
     TimeAgoPipe,
+    CounterPipe,
     ElasticHeader
   ],
   imports: [

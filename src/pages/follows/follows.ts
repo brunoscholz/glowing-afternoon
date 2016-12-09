@@ -9,7 +9,6 @@ import { ViewStatusEnum } from '../../providers/utils/enums';
 import _ from 'underscore';
 
 @Component({
-  selector: 'page-follows',
   templateUrl: 'follows.html'
 })
 export class FollowsPage extends ModelPage {

@@ -1,5 +1,4 @@
 <ion-header>
-
   <ion-navbar>
     <ion-title>{{title}}</ion-title>
   </ion-navbar>
@@ -16,11 +15,9 @@
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content class="page-balance">
-
 <div *ngIf="status === viewStatus.Empty">
   <empty-list [msg]="'Nenhuma transação encontrada!'"></empty-list>
 </div>

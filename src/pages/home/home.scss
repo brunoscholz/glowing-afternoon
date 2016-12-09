@@ -82,14 +82,16 @@ ion-label {
         color: white;
       }
     }
+  }
+}
 
-    &.search-btn {
-      margin-top: 30px;
-      button {
-        height: 5rem !important;
-        width: 50%;
-      }
-    }
+.search-btn {
+  margin-top: 26px;
+  text-align: center;
+  border-bottom: unset !important;
+  button {
+    height: 5rem !important;
+    width: 50%;
   }
 }
 

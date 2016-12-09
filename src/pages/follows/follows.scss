@@ -1,3 +1,43 @@
-page-follows {
+follows-page {
+}
 
+ion-grid.social-list {
+  ion-row {
+    ion-col {
+      ion-item {
+        &.item-md {
+          padding: 0 !important;
+        }
+        ion-label {
+          div.avatar {
+            img {
+              width: 45px;
+              float: left;
+            }
+          }
+          p {
+            line-height: 45px;
+          }
+        }
+      }
+    }
+  }
+}
+
+ion-item.social-counter {
+
+  ion-label {
+    h2 {font-size: 6rem !important;}
+    color: map-get($colors, midtone);
+  }
+  .avatar {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+
+    img {
+      width: 100px;
+      border-radius: 50%;
+    }
+  }
 }

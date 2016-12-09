@@ -1,20 +1,35 @@
 <ion-header>
-
-  <ion-navbar>
+  <ion-navbar [color]="color">
     <ion-title>{{title}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-<<ion-content *ngIf="status === viewStatus.Empty">
-  <empty-list [msg]="'Nenhum favorito na lista!!'"></empty-list>
-</ion-content>
 
-<ion-content padding *ngIf="status === viewStatus.Full">
-	<ion-list *ngIf="favorites">
-		<ion-item class="bounceInRight" *ngFor="let fav of favorites">
-			<span class="value">{{fav.offer.item.title}}</span>
-			<p>{{flw.offer.description}}</p>
-		</ion-item>
-	</ion-list>
+<ion-content padding>
+	<div *ngIf="status === viewStatus.Empty">
+	  <empty-list [msg]="'Nenhum favorito na lista!!'"></empty-list>
+	</div>
+
+	<div *ngIf="status === viewStatus.Full">
+		<ion-list>
+			<ion-item *ngFor="let item of favorites">
+				<span class="value">{{item?.offer.item.title}}</span>
+				<p>{{item?.offer.description}}</p>
+			</ion-item>
+			<!-- <ion-item class="search-btn">
+	        	<button ion-button round (click)="loadMore()">Mais</button>
+	      	</ion-item> -->
+		</ion-list>
+	</div>
+	<div *ngIf="authTk">
+		<ion-list>
+			<ion-item *ngFor="let item of authTk">
+				<span class="value">{{item?.selector}}</span>
+				<p>{{item?.user.buyer.name}}</p>
+			</ion-item>
+			<ion-item class="search-btn" *ngIf="hasMore">
+	        	<button ion-button round (click)="loadMore()">Mais</button>
+	      	</ion-item>
+		</ion-list>
+	</div>
 </ion-content>

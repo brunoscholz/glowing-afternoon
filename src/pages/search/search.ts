@@ -22,7 +22,7 @@ export class SearchPage extends ModelPage {
   user: any;
   following: any;
   searchTerm: string = '';
-  items: any = [];
+  items: Array<any> = new Array<any>();
   //groupedOffers: any = [];
 
   constructor(public navCtrl: NavController,
@@ -55,12 +55,13 @@ export class SearchPage extends ModelPage {
     });
   }
 
-  doSearch() {
+  doSearch(dontClear = false) {
     let self = this;
     // searchFor : {offers} -> offers only
     // searchFor : {offers, users} -> offers and users
-    this.dataService.search({ term: this.searchTerm })
-      .then((data) => {
+    this.dataService.search({
+      term: this.searchTerm
+    }).then((data: Array<any>) => {
         self.items = data;
         self.changeViewState();
         if(self.refresher)
@@ -111,6 +112,11 @@ export class SearchPage extends ModelPage {
   reorderItems(indexes) {
     // reorder="true" (ionItemReorder)="reorderItems($event)"
     //this.items = reorderArray(this.items, indexes);
+  }
+
+  loadMore() {
+    this.pageNum += 1;
+    this.doSearch(true);
   }
 
   itemTapped(event, item) {

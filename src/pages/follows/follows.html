@@ -6,20 +6,21 @@
 
 </ion-header>
 
-<ion-content padding>
-
-<div class="empty" *ngIf="status === viewStatus.Empty">
+<ion-content class="follows-page">
+  <div class="empty" *ngIf="status === viewStatus.Empty">
     <ion-icon name="thumbs-down"></ion-icon>
     <p>Nenhum resultado encontrado aqui!!</p>
   </div>
 
   <div *ngIf="status === viewStatus.Full">
-	<ion-list *ngIf="follows">
-		<ion-item class="bounceInRight" *ngFor="let flw of follows">
-			<span class="value">{{flw.name}}</span>
-			<p>{{flw.email}}</p>
-		</ion-item>
-	</ion-list>
+    <ion-item padding class="social-counter">
+      <h2>90</h2>
+      <p>Seguidores</p>
+      <div class="avatar">
+        <img src="assets/img/avatar3.png">
+      </div>
+    </ion-item>
+    <user-card *ngFor="let flw of follows" (click)="userTapped($event, flw.user.buyer.buyerId)" [feed]="flw.user.buyer"></user-card>
   </div>
 
 
