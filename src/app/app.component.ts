@@ -119,9 +119,12 @@ export class MyApp {
 
   gotoMainPage(logged) {
     if(logged) {
-        setTimeout(() => {
-          this.nav.setRoot(HomeTabsPage);
-        }, 2000);
+        let view = this.nav.getActive();
+        console.log(view.name);
+        //if(!this.nav.isActive('HomeTabsPage'))
+          setTimeout(() => {
+            this.nav.setRoot(HomeTabsPage);
+          }, 2000);
       }
       else {
         setTimeout(() => {
@@ -176,9 +179,7 @@ export class MyApp {
     }
 
     if(page.logsOut === true) {
-      setTimeout(() => {
-        this.logout();
-      }, 1000);
+      this.logout();
     }
   }
 
@@ -196,8 +197,10 @@ export class MyApp {
   }
 
   logout() {
-    this.auth.logout();
-    this.enableMenu(false);
+    setTimeout(() => {
+      this.auth.logout();
+      this.enableMenu(false);
+    }, 1000);
     //this.nav.setRoot(SignTabsPage);
   }
 }

@@ -115,8 +115,10 @@ export class AuthService {
             this._logged.next(usr);
             resolve(usr);
           }
-          else
+          else {
+            this._logged.next(null);
             reject(data.error);
+          }
         });
     });
     return promise;
@@ -124,7 +126,7 @@ export class AuthService {
 
   destroyUserCredentials() {
     this.isLoggedin = false;
-    this._logged.next(false);
+    //this._logged.next(false);
     this.AuthToken = null;
     this.dataService.lstorageClear();
   }
@@ -148,8 +150,10 @@ export class AuthService {
             this._logged.next(data.data[0]);
             resolve(true);
           }
-          else
+          else {
+            this._logged.next(null);
             reject(data.error);
+          }
         });
     });
     return promise;
@@ -172,8 +176,10 @@ export class AuthService {
             this._logged.next(res);
             resolve(true);
           }
-          else
+          else {
+            this._logged.next(null);
             reject(data.error);
+          }
         });
     });
     return promise;

@@ -22,6 +22,7 @@ $background-color:  #fafafa;
 
 //798289
 //secondary:  #408b99,
+// #178c97;
 $colors: (
   primary:    #34b483,
   secondary:  #3B77AD,
@@ -31,7 +32,8 @@ $colors: (
   dark:       #2a2a2a,
   favorite:   #25afcb,
   midtone:    #A4B8BA,
-  icons:      #C0D7D9
+  icons:      #C0D7D9,
+  highlight:  #178c97
 );
 
 
@@ -112,3 +114,35 @@ ion-app.wp {
   font-family: "Lato", sans-serif !important;
 }
 
+// Mixins
+
+@function calculateRem($size) {
+  $remSize: $size / 16px;
+  @return $remSize * 1rem;
+}
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
+}
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+@mixin gradient($c1, $c2, $ang: -45deg) {
+  background: $c1; /* Old browsers */
+  background: -moz-linear-gradient($ang, $c1 0%, $c2 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient($ang, $c1 0%,$c2 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient($ang, $c1 0%,$c2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}

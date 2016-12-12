@@ -1,3 +1,21 @@
 page-about {
 
 }
+
+ion-content.full-bg {
+  background: unset;
+  //background-color: map-get($colors, primary);
+  @include gradient(#178c97, #34b483, -15deg);
+
+  ion-list {
+  	background-color: transparent !important;
+  	ion-list-header {
+  		background-color: transparent !important;
+  		font-weight: 900;
+  	}
+  	button {
+  		background-color: transparent !important;
+  		color: white;
+  	}
+  }
+}

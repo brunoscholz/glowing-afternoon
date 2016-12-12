@@ -1,4 +1,5 @@
 .company-detail-page, .profile-page {
+
   ion-card {
     overflow: visible;
     margin: 0;
@@ -6,7 +7,7 @@
     box-shadow: unset;
 
     ion-card-content {
-      background-color: map-get($colors, primary);
+      background-color: transparent;//map-get($colors, primary);
       color: #FFFFFF;
       text-align: center;
       padding-bottom: 28px;
@@ -37,6 +38,14 @@
   h4 {
     font-family: 'Lato';
     color: map-get($colors, dark);
+  }
+}
+
+ion-content.profile-page {
+  background: unset;
+  @include gradient(#178c97, #34b483, -15deg);
+  ion-card {
+    background: unset;
   }
 }
 
@@ -134,9 +143,9 @@ div.profile-menu {
         background-color: map-get($colors, light);
         color: rgba(0,0,0,0.6);
         text-shadow: 2px 2px 3px rgba(255,255,255,0.3);
-        -moz-box-shadow:    inset 0 0 2px #000000;
+        /*-moz-box-shadow:    inset 0 0 2px #000000;
         -webkit-box-shadow: inset 0 0 2px #000000;
-        box-shadow:         inset 0 0 2px #000000;
+        box-shadow:         inset 0 0 2px #000000;*/
         //background-image: url(http://api.thumbr.it/whitenoise-361x370.png?background=4ea6caff&noise=626262&density=26&opacity=29);
         //text-shadow: rgba(255, 255, 255, 0.0980392) -1px -1px 1px, rgba(0, 0, 0, 0.498039) 1px 1px 1px;
       }

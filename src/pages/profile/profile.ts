@@ -31,6 +31,7 @@ export class ProfilePage extends ModelPage {
               public util: UtilProvider
   ) {
   	super('Perfil', dataService, util);
+    this.color = 'primary';
   }
 
   ionViewDidLoad() {

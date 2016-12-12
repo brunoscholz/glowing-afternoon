@@ -22,23 +22,23 @@
   </ul> -->
 
   <ion-list>
-    <ion-item-group *ngIf="items.offers">
+    <ion-item-group *ngIf="items?.offers">
       <ion-list-header>
-        Ofertas ({{items.offers.length}})
+        Ofertas ({{items.offers?.length}})
       </ion-list-header>
       <offer-card *ngFor="let feed of items.offers" (click)="itemTapped($event, feed)" [feed]="feed"></offer-card>
     </ion-item-group>
 
-    <ion-item-group *ngIf="items.sellers">
+    <ion-item-group *ngIf="items?.sellers">
       <ion-list-header>
-        Empresas ({{items.sellers.length}})
+        Empresas ({{items.sellers?.length}})
       </ion-list-header>
       <seller-card *ngFor="let seller of items.sellers" (click)="companyTapped($event, seller)" [feed]="seller"></seller-card>
     </ion-item-group>
 
-    <ion-item-group *ngIf="items.buyers">
+    <ion-item-group *ngIf="items?.buyers">
       <ion-list-header>
-        Usuários ({{items.buyers.length}})
+        Usuários ({{items.buyers?.length}})
       </ion-list-header>
       <user-card *ngFor="let buyer of items.buyers" (click)="userTapped($event, buyer)" [feed]="buyer"></user-card>
     </ion-item-group>

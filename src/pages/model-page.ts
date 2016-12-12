@@ -12,7 +12,7 @@ export class ModelPage {
   data: any;
   pageNum: number = 1;
   hasMore: boolean = true;
-  headerColor: string = '';
+  color: string = '';
 
   
   title: string;
