@@ -31,35 +31,59 @@ export class AuthService {
   }
 
   connectWithFacebook() {
-    return this.doFbLogin();
+    return this.doFbAuthenticate();
+  }
+
+  doFbAuthenticate() {
+    let self = this;
+    return Facebook.getLoginStatus()
+    .then((response) => {
+      if (response.status === 'connected') {
+        return self.doFbGetInfo(response.authResponse);
+      } else {
+        return self.doFbLogin();
+      }
+    }, (err) => {
+      console.log(err);
+      return null;
+    });
+  }
+
+  doFbGetInfo(response) {
+    let self = this;
+    let params = ['email'];
+    let userId = response.userID;
+    return Facebook.api("/me?fields=id,name,email", params)
+    .then(function(user) {
+      user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
+      console.log(user);
+      let usr = {
+        name: user.name,
+        email: user.email,
+        gender: user.gender,
+        picture: user.picture,
+        fbId: userId
+      };
+      return self.authenticate(usr);
+    }, function(error) {
+      console.log(error);
+      return null;
+    });
   }
 
   doFbLogin() {
-    let permissions = new Array();
-    //let nav = this.navCtrl;
+    let self = this;
     //the permissions your facebook app needs from the user
-    permissions = ["public_profile"];
+    //{scope: 'email,read_stream,publish_actions'}
+    let permissions = ["public_profile", "email", "user_friends"];
 
     return Facebook.login(permissions)
-    .then(function(response) {
-      let userId = response.authResponse.userID;
-      let params = new Array();
-
-      //Getting name and gender properties
-      Facebook.api("/me?fields=name,email,gender", params)
-      .then(function(user) {
-        user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
-        //now we have the users info, let's save it in the NativeStorage
-        /*this.storeUser({
-          name: user.name,
-          email: user.email,
-          gender: user.gender,
-          picture: user.picture
-        });*/
-        return this.authenticate(user);
-      });
-    }, function(error){
+    .then((response) => {
+      //if (response.status == 'connected') 
+      return self.doFbGetInfo(response.authResponse);
+    }, function(error) {
       console.log(error);
+      return null;
     });
   }
 
@@ -67,7 +91,8 @@ export class AuthService {
     Facebook.logout()
     .then(function(response) {
       //user logged out so we will remove him from the NativeStorage
-      this.removeUserCredentials('userfb');
+      this.logout();
+      this._logged.next(false);
     });
   }
 
