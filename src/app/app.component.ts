@@ -4,6 +4,8 @@ import { Splashscreen, StatusBar } from 'ionic-native';
 
 import { WelcomePage } from '../pages/welcome/welcome';
 import { SignTabsPage } from '../pages/sign-tabs/sign-tabs';
+import { SignUpPage } from '../pages/sign-tabs/signup';
+import { SignInPage } from '../pages/sign-tabs/signin';
 
 import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
 import { SellPage } from '../pages/sell/sell';
@@ -38,7 +40,6 @@ export class MyApp {
 
   appPages: IPage[] = [
     { title: 'Início', component: HomeTabsPage, icon: 'home' },
-    { title: 'Sobre', component: AboutPage, icon: 'book' },
     { title: 'Categorias', component: HomeTabsPage, index: 1, icon: 'grid' },
   ];
 
@@ -49,8 +50,9 @@ export class MyApp {
   //{ title: 'Configurações', component: SettingsPage, icon: 'settings', passRoot: true },
 
   loggedOutPages: IPage[] = [
-    { title: 'Entrar', component: SignTabsPage, icon: 'log-in' },
-    { title: 'Cadastrar', component: SignTabsPage, index:1, icon: 'person-add' }
+    { title: 'Início', component: SignTabsPage, icon: 'home' },
+    { title: 'Entrar', component: SignInPage, icon: 'log-in', passRoot: true },
+    { title: 'Cadastrar', component: SignUpPage, icon: 'person-add', passRoot: true }
   ];
 
   constructor(public platform: Platform,
@@ -190,8 +192,12 @@ export class MyApp {
     this.menu.enable(!loggedIn, 'loggedOutMenu');
   }
 
-  openTutorial() {
-    this.nav.setRoot(TourPage);
+  openTutorial(isLogged) {
+    this.nav.setRoot(TourPage, { logged: isLogged});
+  }
+
+  openAbout() {
+    this.nav.push(AboutPage);
   }
 
   openSales() {

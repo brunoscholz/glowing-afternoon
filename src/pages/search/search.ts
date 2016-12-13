@@ -41,7 +41,7 @@ export class SearchPage extends ModelPage {
 
   load() {
     let self = this;
-    this.doChangeView(ViewStatusEnum.Empty);
+    this.doChangeView(ViewStatusEnum.Loading);
     this.util.presentLoading('Buscando...');
 
     this.auth.loadUserCredentials().then((usr: IUser) => {
@@ -51,7 +51,8 @@ export class SearchPage extends ModelPage {
         self.doSearch();
       }
     }, (err) => {
-      console.log(err);
+      this.util.notifyError(err);
+      this.util.dismissLoading();
     });
   }
 
@@ -63,12 +64,12 @@ export class SearchPage extends ModelPage {
       term: this.searchTerm
     }).then((data) => {
         self.items = data;
-        console.log(data);
         self.changeViewState();
         if(self.refresher)
           self.refresher.complete();
       }, (err) => {
-        console.log(err);
+        this.util.notifyError(err);
+        this.util.dismissLoading();
       });
   }
 

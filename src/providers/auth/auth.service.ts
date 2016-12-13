@@ -5,6 +5,7 @@ import { APIService } from '../api/api.service';
 import { DataService } from '../data/data.service';
 import { Facebook } from 'ionic-native';
 import { Subject } from 'rxjs/Rx';
+import 'rxjs/Rx';
 
 @Injectable() 
 export class AuthService {
@@ -56,7 +57,6 @@ export class AuthService {
     return Facebook.api("/me?fields=id,name,email", params)
     .then(function(user) {
       user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
-      console.log(user);
       let usr = {
         name: user.name,
         email: user.email,
@@ -96,11 +96,8 @@ export class AuthService {
     });
   }
 
-  storeUser(data, fb = false) {
-    if(!fb)
+  storeUser(data) {
       this.dataService.lstorageSave('user', JSON.stringify(data));
-    else
-      this.dataService.lstorageSave('userfb', JSON.stringify(data));
   }
 
   storeUserCredentials(token) {
@@ -114,38 +111,26 @@ export class AuthService {
   }
 
   loadUserCredentials() {
+    let self = this;
     let token = this.dataService.lstorageLoad('ondetemTK');
-    //let user = JSON.parse(this.dataService.lstorageLoad('user'));
-    /*let pref = null;
-    if(user.preferred)
-      pref = user.preferred;*/
 
     let promise = new Promise((resolve, reject) => {
-      if(!token) {
-        this._logged.next(false);
-        resolve(null);
-      }
-
-      this.api.add({
-        controller: 'auth/signin',
-        body: { token: encodeURIComponent(token) },
-        query: {}
-      })
-        .map((res: Response) => res.json())
-        .subscribe(data => {
-          if(data.status == 200) {
-            this.storeUserCredentials(token);
-            let usr = data.data[0];
-            //usr.preferred = pref;
-            this.storeUser(usr);
-            this._logged.next(usr);
+      if(!token || token == undefined) {
+        self._logged.next(false);
+        reject('usuário não logado - token não encontrado');
+      } else {
+        self.authenticate({ token: encodeURIComponent(token) })
+        .then((res) => {
+          if(res) {
+            let usr = JSON.parse(self.dataService.lstorageLoad('user'));
             resolve(usr);
           }
-          else {
-            this._logged.next(null);
-            reject(data.error);
-          }
+          else
+            reject('autenticação falhou');
+        }, (err) => {
+          console.log(err);
         });
+      }
     });
     return promise;
   }
@@ -165,8 +150,7 @@ export class AuthService {
     let promise = new Promise((resolve, reject) => {
       this.api.add({
         controller: 'auth/signin',
-        body: user,
-        query: {}
+        body: user
       })
         .map((res: Response) => res.json())
         .subscribe(data => {

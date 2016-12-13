@@ -31,7 +31,7 @@ export class SignTabsPage {
     this.util.presentLoading('Autenticando...');
     setTimeout(() => {
       this.util.dismissLoading();
-      this.util.notifyError('Não foi possível fazer conectar...');
+      //this.util.notifyError('Não foi possível fazer conectar...');
     }, 20000);
     
     this.auth.connectWithFacebook()

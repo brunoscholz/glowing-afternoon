@@ -24,11 +24,15 @@
 
       <ion-list>
         <ion-list-header>
-          Tutorial
+          Ajuda
         </ion-list-header>
-        <button ion-item (click)="openTutorial()">
+        <button menuClose ion-item (click)="openTutorial(false)">
           <ion-icon item-left name="hammer"></ion-icon>
-          Mostrar Tutorial
+          Tour
+        </button>
+        <button menuClose ion-item (click)="openAbout()">
+          <ion-icon item-left name="book"></ion-icon>
+          Sobre a OndeTem?
         </button>
       </ion-list>
     </ion-content>
@@ -57,11 +61,15 @@
 
       <ion-list>
         <ion-list-header>
-          Tutorial
+          Ajuda
         </ion-list-header>
-        <button menuClose ion-item (click)="openTutorial()">
+        <button menuClose ion-item (click)="openTutorial(true)">
           <ion-icon item-left name="hammer"></ion-icon>
-          Mostrar Tutorial
+          Tour
+        </button>
+        <button menuClose ion-item (click)="openAbout()">
+          <ion-icon item-left name="book"></ion-icon>
+          Sobre a OndeTem?
         </button>
       </ion-list>
 

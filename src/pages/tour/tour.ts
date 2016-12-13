@@ -1,15 +1,20 @@
 import { Component } from '@angular/core';
-import { Nav } from 'ionic-angular';
+import { Nav, NavParams } from 'ionic-angular';
 
 import { HomeTabsPage } from '../home-tabs/home-tabs';
+import { SignTabsPage } from '../sign-tabs/sign-tabs';
 
 @Component({
   templateUrl: 'tour.html',
 })
 export class TourPage {
   slides: any;
+  logged: boolean = false;
 
-  constructor(public navCtrl: Nav) {
+  constructor(public navCtrl: Nav,
+              navParams: NavParams
+  ) {
+    this.logged = navParams.get('logged');
     this.slides = [
       {
         title: "Bem Vindo ao OndeTem?!",
@@ -39,10 +44,10 @@ export class TourPage {
   }
 
   openPage(event) {
-    this.navCtrl.setRoot(HomeTabsPage);
+    this.navCtrl.setRoot((this.logged) ? HomeTabsPage : SignTabsPage);
   }
 
   skipTapped(event) {
-    this.openPage(HomeTabsPage);
+    this.openPage(event);
   }
 }
