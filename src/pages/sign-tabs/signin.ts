@@ -44,10 +44,4 @@ export class SignInPage {
       });
     }
   }
-
-  dummy() {}
-
-  facebookConnect() {
-    this.auth.connectWithFacebook();
-  }
 }

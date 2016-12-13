@@ -1,26 +1,24 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Recuperar Senha</ion-title>
+    <ion-title>Opções</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding class="signup-page" align="center">
-  <ion-list no-lines padding class="search-header">
-    <ion-item class="animated tada">
+  <ion-list padding class="sign-header">
+    <ion-item class="search-logo" no-lines>
       <img src="assets/img/logo.png">
     </ion-item>
 
     <form [formGroup]="forgotForm">
-      <ion-item class="search-bar">
-        <ion-label floating>Email</ion-label>
-        <ion-input formControlName="username" type="text" [class.invalid]="!forgotForm.controls.username.valid && (forgotForm.controls.username.dirty)"></ion-input>
+      <ion-item class="sign-bar">
+        <ion-label stacked>Esqueceu a Senha?</ion-label>
+        <ion-input formControlName="username" type="text" placeholder="Digite seu email" [class.invalid]="!forgotForm.controls.username.valid && (forgotForm.controls.username.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="forgotForm.controls.username"></control-messages>
-
     </form>
-
-    <ion-item class="search-btn">
-      <button ion-button round (click)="sendEmail()">Enviar</button>
+    <ion-item class="sign-btn-submit">
+      <button ion-button round outline (click)="sendEmail()">Enviar</button>
     </ion-item>
 
   </ion-list>

@@ -1,44 +1,92 @@
-.hometabs-page {
+.night-theme {
+  [class*='-page'] {
+    @include gradient(#178c97, #34b483, -15deg);
+  }
+
+  ion-header {
+    .toolbar-background {
+      background: map-get($colors, primary);
+    }
+
+    .bar-button, .toolbar-title {
+      color: white;
+    }
+  }
+
+  ion-tabs.hometabs-page {
+    .tabbar {
+      background-color: map-get($colors, highlight);
+
+      a {
+        color: map-get($colors, light);
+        &.tab-button[aria-selected=true] {
+          color: white;
+        }
+      }
+    }
+  }
+
+  ion-list {
+    background-color: transparent !important;
+    ion-list-header {
+      background-color: transparent !important;
+      font-weight: 900;
+    }
+    ion-item {
+      background-color: transparent !important;
+    }
+    button:not(.search-mix) {
+      background-color: transparent !important;
+      color: white;
+    }
+  }
+}
+
+
+.light-theme {
+  [class*='-page']:not(.welcome-page) {
+    background: url('../assets/img/BG.png');
+  }
 
 }
 
 .tabs-md .tab-button-icon {
-	&.ion-md-person {
-		&:before {
-    		font-family: 'ondetem' !important;
-    		content:'\004e';
-		}
-	}
-	&.ion-md-grid {
-		&:before {
-    		font-family: 'ondetem' !important;
-    		content:'\0049';
-		}
-	}
-	&.ion-md-home {
-		&:before {
-    		font-family: 'ondetem' !important;
-    		content:'\0042';
-		}
-	}
+  &.ion-md-person {
+    &:before {
+      font-family: 'ondetem' !important;
+      content:'\004e';
+    }
+  }
+  &.ion-md-grid {
+    &:before {
+      font-family: 'ondetem' !important;
+      content:'\0049';
+    }
+  }
+  &.ion-md-home {
+    &:before {
+      font-family: 'ondetem' !important;
+      content:'\0042';
+    }
+  }
 }
 
 .bar-button-menutoggle-md {
-	& .ion-md-menu {
-		&:before {
-    		font-family: 'ondetem' !important;
-    		content:'\004b';
-    		font-size: 2rem;
-		}
-	}
+  & .ion-md-menu {
+    &:before {
+      font-family: 'ondetem' !important;
+      content:'\004b';
+      font-size: 2rem;
+    }
+  }
 }
 
 .back-button-icon-md {
-	&.ion-md-arrow-back {
-		&:before {
-    		font-family: 'ondetem' !important;
-    		content:'\0048';
-    		font-size: 2rem;
-		}
-	}
+  &.ion-md-arrow-back {
+    &:before {
+      font-family: 'ondetem' !important;
+      content:'\0048';
+      font-size: 2rem;
+    }
+  }
 }

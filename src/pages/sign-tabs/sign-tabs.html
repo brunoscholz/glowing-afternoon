@@ -1,6 +1,34 @@
-<ion-tabs selectedIndex="1">
-  <!-- Indicates with tabsPage should handle each tab here -->
-  <ion-tab [root]="tabsign1" tabTitle="Cadastrar" tabIcon="add-circle"></ion-tab>
-  <ion-tab [root]="tabsign2" tabTitle="Entrar" tabIcon="log-in"></ion-tab>
-  <ion-tab [root]="tabsign3" tabTitle="Esqueci!" tabIcon="cloud"></ion-tab>
-</ion-tabs>
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle left>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="sign-tabs-page">
+  <ion-list no-lines padding class="sign-header">
+    <ion-item class="sign-logo">
+      <img src="assets/img/logo.png">
+    </ion-item>
+
+    <ion-item class="sign-btn">
+      <button ion-button round outline (click)="facebookConnect()">Continuar com Facebook</button>
+    </ion-item>
+
+    <ion-item class="sign-btn">
+      <button ion-button round outline (click)="signin()">Entrar</button>
+    </ion-item>
+
+    <ion-item class="sign-btn">
+      <button ion-button round outline (click)="signup()">Criar Conta</button>
+    </ion-item>
+
+    <ion-item class="sign-btn">
+      <button ion-button clear (click)="forgotPass()">Esqueci a senha!</button>
+    </ion-item>
+  </ion-list>
+
+  <p class="paragraph-item">Ao cadastrar, eu concordo com os <a (click)="openTerms()">Termos de Serviço</a> da OnteTem? e a <a (click)="openPolicy()">Política de Privacidade</a>.</p>
+</ion-content>

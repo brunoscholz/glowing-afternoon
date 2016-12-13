@@ -31,7 +31,7 @@ export class AuthService {
   }
 
   connectWithFacebook() {
-    this.doFbLogin();
+    return this.doFbLogin();
   }
 
   doFbLogin() {
@@ -40,8 +40,8 @@ export class AuthService {
     //the permissions your facebook app needs from the user
     permissions = ["public_profile"];
 
-
-    Facebook.login(permissions).then(function(response) {
+    return Facebook.login(permissions)
+    .then(function(response) {
       let userId = response.authResponse.userID;
       let params = new Array();
 
@@ -50,13 +50,14 @@ export class AuthService {
       .then(function(user) {
         user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
         //now we have the users info, let's save it in the NativeStorage
-        this.storeUser({
+        /*this.storeUser({
           name: user.name,
           email: user.email,
           gender: user.gender,
           picture: user.picture
-        }, true);
-      })
+        });*/
+        return this.authenticate(user);
+      });
     }, function(error){
       console.log(error);
     });

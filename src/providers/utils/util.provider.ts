@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AlertController, Alert, LoadingController, Loading, ToastController, Toast } from 'ionic-angular';
 import { Camera } from 'ionic-native';
-import { Subject, Observable, Observer } from 'rxjs/Rx';
+import { Subject, Observable, Observer, BehaviorSubject } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
 @Injectable()
@@ -11,11 +11,20 @@ export class UtilProvider {
   private errorObserver:Observer<any>;
   get loading$() { return this.load$.asObservable(); }
 
+  private theme: BehaviorSubject<string>;
+  availableThemes: {className: string, prettyName: string}[];
+
   constructor(public alertCtrl: AlertController, public loadCtrl: LoadingController, public toastCtrl: ToastController) {
     this.load$ = new Subject();
+    this.theme = new BehaviorSubject('light-theme');
     this.errorObservable = Observable.create((observer:Observer<any>) => {
       this.errorObserver = observer;
     }).share();
+
+    this.availableThemes = [
+      {className: 'light-theme', prettyName: 'Branco'},
+      {className: 'night-theme', prettyName: 'Verde'}
+    ];
   }
 
   notifyError(error:any) {
@@ -97,5 +106,13 @@ export class UtilProvider {
       });
     });
     return promise;
+  }
+
+  setTheme(val) {
+    this.theme.next(val);
+  }
+
+  getTheme() {
+    return this.theme.asObservable();
   }
 }

@@ -5,7 +5,6 @@ import { SearchPage } from '../search/search';
 
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
-import { ConnectivityService } from '../../providers/utils/connectivity.service';
 import { SpeechService } from '../../providers/speech/speech.service';
 
 //import { ViewStatusEnum } from '../../providers/enums';
@@ -33,8 +32,7 @@ export class HomePage extends ModelPage {
     public dataService: DataService,
     public util: UtilProvider,
     public speech : SpeechService,
-    private alertCtrl: AlertController,
-    public connService: ConnectivityService
+    private alertCtrl: AlertController
   ) {
     super('OndeTem?!', dataService, util);
     
@@ -46,16 +44,16 @@ export class HomePage extends ModelPage {
 
   ionViewDidLoad() {
     this.doReset('OndeTem?!');
-    this.online = this.checkNetwork();
+    //this.online = this.checkNetwork();
   }
 
   ionViewWillEnter() {
     this.formData.q = "";
   }
 
-  checkNetwork() {
+  /*checkNetwork() {
     return this.connService.isOnline();
-  }
+  }*/
 
   changeViewState() {
     this.doToggleLoading(false);

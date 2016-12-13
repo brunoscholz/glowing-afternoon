@@ -373,7 +373,9 @@ export class DataService {
   }
 
   lstorageClear() {
-    window.localStorage.clear();
+    //window.localStorage.clear();
+    this.lstorageRemove('ondetemTK');
+    this.lstorageRemove('user');
     return true;
   }
 

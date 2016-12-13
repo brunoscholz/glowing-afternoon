@@ -1,47 +1,68 @@
-.sign-tabs {
+.sign-tabs-page {
 
 }
 
-.signin-page .search-header, .signup-page .search-header {
+.sign-tabs-page .sign-header, .signin-page .sign-header, .signup-page .sign-header {
+  margin-top: 0px;
+  padding-left: 0;
   ion-item {
-    &.search-bar {
-      .text-input {
-        text-align: left;
+    &.sign-bar {
+      ion-input {
+        text-input {
+          text-align: left;
+        }
       }
     }
+    &.sign-logo {
+      margin-bottom: 5rem;
+    }
+    &.sign-btn {
+      margin-top: 5px;
+    }
+    &.sign-btn-submit {
+      margin-top: 5rem;
+    }
+  }
+  ion-label {
+    font-size: 2rem;
+  }
+  control-messages {
+    color: map-get($colors, danger);
   }
 }
 
-.signin-page .search-header, .signup-page .search-header {
-	margin-top: 0px;
-	padding-left: 0;
-	ion-item {
-		&.search-btn {
-	    	margin-top: 10px;
-		}
-	}
-	ion-label {
-		font-size: 2rem;
-	}
-	control-messages {
-		color: map-get($colors, danger);
-	}
+ion-list.sign-header {
+
+}
+
+.sign-btn, .search-btn, .sign-btn-submit {
+  margin-top: 16px;
+  text-align: center;
+  border-bottom: unset !important;
+  ion-label {
+    margin-top: 0;
+  }
+  button {
+    height: 5rem !important;
+    min-width: 70%;
+    padding: 0 2rem;
+  }
 }
 
 ul.altLogin {
-	padding-left: 0px;
-	text-align: center;
-	li {
-		display: inline;
-		list-style-type: none;
-		padding-right: 20px;
+  padding-left: 0px;
+  text-align: center;
+  li {
+    display: inline;
+    list-style-type: none;
+    padding-right: 20px;
 
-		button {
-			border-radius: 50%;
-			background-color: map-get($colors, primary);
-			height: 50px;
-			width: 50px;
-			color: white;
-		}
-	}
+    button {
+      border-radius: 50%;
+      background-color: map-get($colors, primary);
+      height: 50px;
+      width: 50px;
+      color: white;
+    }
+  }
 }

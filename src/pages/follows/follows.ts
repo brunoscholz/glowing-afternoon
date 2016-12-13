@@ -36,7 +36,7 @@ export class FollowsPage extends ModelPage {
 
   load() {
     var self = this;
-    this.doChangeView(ViewStatusEnum.Empty);
+    this.doChangeView(ViewStatusEnum.Loading);
     this.util.presentLoading('Buscando...');
 
     let query = {};

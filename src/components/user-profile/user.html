@@ -7,47 +7,31 @@
   </ion-card-content>
 
   <div class="profile-menu">
-		<ion-grid>    
-	    <ion-row>
-	      <ion-col width-33>
-	        <div class="slot" (click)="gotoFollowers($event)">
-	          <ion-icon name="return-left"></ion-icon>
-	          <h3 class="cat-title">seguidores</h3>
-	        </div>
-	      </ion-col>
-	      <ion-col width-33>
-	        <div class="slot" (click)="gotoFollows($event)">
-	          <ion-icon name="return-right"></ion-icon>
-	          <h3 class="cat-title">seguindo</h3>
-	        </div>
-	      </ion-col>
-	      <ion-col width-33>
-	        <div class="slot" (click)="gotoFavorites($event)">
-	          <ion-icon name="list-box"></ion-icon>
-	          <h3 class="cat-title">lista</h3>
-	        </div>
-	      </ion-col>
-	    </ion-row>
-	    <ion-row>
-	      <ion-col width-33>
-	        <div class="slot" (click)="gotoReviews($event)">
-	          <ion-icon name="paper"></ion-icon>
-	          <h3 class="cat-title">avaliações</h3>
-	        </div>
-	      </ion-col>
-	      <ion-col width-33>
-	        <div class="slot" (click)="gotoSettings($event)">
-	          <ion-icon name="settings"></ion-icon>
-	          <h3 class="cat-title">configurações</h3>
-	        </div>
-	      </ion-col>
-	      <ion-col width-33>
-	        <div class="slot" (click)="gotoBank($event)">
-	        	<ion-icon name="cash"></ion-icon>
-	          <h3 class="cat-title">moedas</h3>
-	        </div>
-	      </ion-col>
-	    </ion-row>
-	  </ion-grid>
+		<ion-list>
+			<button ion-item (click)="gotoBank($event)">
+		    Moedas
+		    <ion-icon item-right name="arrow-forward"></ion-icon>
+		  </button>
+		  <button ion-item (click)="gotoFollowers($event)">
+		    100K Seguidores
+		    <ion-icon item-right name="arrow-forward"></ion-icon>
+		  </button>
+		  <button ion-item (click)="gotoFollows($event)">
+		    Seguindo 3
+		    <ion-icon item-right name="arrow-forward"></ion-icon>
+		  </button>
+		  <button ion-item (click)="gotoFavorites($event)">
+		    Minha Lista
+		    <ion-icon item-right name="arrow-forward"></ion-icon>
+		  </button>
+		  <button ion-item (click)="gotoReviews($event)">
+		    Avaliações
+		    <ion-icon item-right name="arrow-forward"></ion-icon>
+		  </button>
+		  <button ion-item (click)="gotoSettings($event)">
+		    Configurações
+		    <ion-icon item-right name="arrow-forward"></ion-icon>
+		  </button>
+		</ion-list>
   </div>
 </ion-card>

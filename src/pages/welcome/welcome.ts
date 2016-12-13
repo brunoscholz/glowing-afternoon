@@ -6,7 +6,6 @@ import { NavController, NavParams } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
-import { ConnectivityService } from '../../providers/utils/connectivity.service';
 
 import { ModelPage } from '../model-page';
 
@@ -26,7 +25,6 @@ export class WelcomePage extends ModelPage implements OnInit {
     navParams: NavParams,
     public navCtrl: NavController,
     public dataService: DataService,
-    public connService: ConnectivityService,
     public auth: AuthService,
     public util: UtilProvider
   ) {
@@ -55,10 +53,10 @@ export class WelcomePage extends ModelPage implements OnInit {
     var self = this;
     //this.util.presentLoading('Carregando...');
     
-    if(!self.connService.isOnline()) {
+    /*if(!self.connService.isOnline()) {
       self.retryConnection(false);
       return;
-    }
+    }*/
 
     self.dataService.findAll({
       controller: 'categories',

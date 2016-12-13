@@ -58,8 +58,6 @@ ion-label {
 
     &.search-bar {
       text-align: left;
-      border-bottom: 2px solid map-get($colors, primary);
-      border-width: 2px !important;
 
       .text-input {
         padding: 0 13px;
@@ -69,7 +67,7 @@ ion-label {
         text-align: center;
       }
 
-      }
+    }
     
     .search-mic {
       border-radius: 50px;
@@ -83,20 +81,6 @@ ion-label {
       }
     }
   }
-}
-
-.search-btn {
-  margin-top: 26px;
-  text-align: center;
-  border-bottom: unset !important;
-  button {
-    height: 5rem !important;
-    width: 50%;
-  }
-}
-
-[class*='-page'] {
-  background: url('../assets/img/BG.png');
 }
 
 .missing-item {

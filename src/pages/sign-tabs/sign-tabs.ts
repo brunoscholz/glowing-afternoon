@@ -1,31 +1,67 @@
 import { Component } from '@angular/core';
-//import { NavController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
+import { AuthService } from '../../providers/auth/auth.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
 import { SignUpPage } from './signup';
 import { SignInPage } from './signin';
 import { ForgotPage } from './forgot';
+import { TermsPage } from '../about/terms';
+import { PolicyPage } from '../about/policy';
+import { HomeTabsPage } from '../home-tabs/home-tabs';
 
 @Component({
   templateUrl: 'sign-tabs.html',
 })
 export class SignTabsPage {
 
-  tabsign1: any;
+  /*tabsign1: any;
   tabsign2: any;
-  tabsign3: any;
+  tabsign3: any;*/
 
-  constructor() {
-    this.tabsign1 = SignUpPage;
+  constructor(public navCtrl: NavController,
+              public auth: AuthService,
+              public util: UtilProvider
+  ) {
+    /*this.tabsign1 = SignUpPage;
     this.tabsign2 = SignInPage;
-    this.tabsign3 = ForgotPage;
+    this.tabsign3 = ForgotPage;*/
   }
 
-  /*signup() {
-    this.nav.setRoot(WelcomePage);
+  facebookConnect() {
+    this.util.presentLoading('Autenticando...');
+    setTimeout(() => {
+      this.util.dismissLoading();
+    }, 20000);
+    
+    this.auth.connectWithFacebook()
+    .then(data => {
+      if(data) {
+        this.util.dismissLoading();
+        this.navCtrl.setRoot(HomeTabsPage);
+      }
+    }, (err) => {
+      this.util.dismissLoading();
+      this.util.notifyError(err);
+    });
+  }
+
+  signup() {
+    this.navCtrl.push(SignUpPage);
   }
 
   signin() {
-    this.nav.setRoot(HomeTabsPage);
+    this.navCtrl.push(SignInPage);
   }
 
-  forgotPass() {}*/
+  forgotPass() {
+    this.navCtrl.push(ForgotPage);
+  }
+
+  openPolicy() {
+    this.navCtrl.push(PolicyPage);
+  }
+
+  openTerms() {
+    this.navCtrl.push(TermsPage);
+  }
 }

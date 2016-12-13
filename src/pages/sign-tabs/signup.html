@@ -1,25 +1,25 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Cadastrar</ion-title>
+    <ion-title>Criar Conta</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding class="signup-page" align="center">
-  <ion-list no-lines padding class="search-header">
-    <ion-item class="animated tada">
+  <ion-list padding class="sign-header">
+    <ion-item class="search-logo" no-lines>
       <img src="assets/img/logo.png">
     </ion-item>
 
     <form [formGroup]="signUpForm">
-      <ion-item class="search-bar">
-        <ion-label floating>Nome Completo</ion-label>
-        <ion-input formControlName="name" type="text" [class.invalid]="!signUpForm.controls.name.valid && (signUpForm.controls.name.dirty)" autofocus></ion-input>
+      <ion-item class="sign-bar">
+        <ion-label stacked>Nome</ion-label>
+        <ion-input formControlName="name" type="text" placeholder="Nome Completo" [class.invalid]="!signUpForm.controls.name.valid && (signUpForm.controls.name.dirty)" autofocus></ion-input>
       </ion-item>
       <control-messages [control]="signUpForm.controls.name"></control-messages>
 
-      <ion-item class="search-bar">
-        <ion-label floating>Email</ion-label>
-        <ion-input formControlName="username" type="text" [class.invalid]="!signUpForm.controls.username.valid && (signUpForm.controls.username.dirty)"></ion-input>
+      <ion-item class="sign-bar">
+        <ion-label stacked>Email</ion-label>
+        <ion-input formControlName="username" type="text" placeholder="Seu e-mail" [class.invalid]="!signUpForm.controls.username.valid && (signUpForm.controls.username.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signUpForm.controls.username"></control-messages>
 
@@ -27,30 +27,23 @@
         <p>Checking username...</p>
       </ion-item>
 
-      <ion-item class="search-bar">
-        <ion-label floating>Senha</ion-label>
-        <ion-input formControlName="password" type="password" [class.invalid]="!signUpForm.controls.password.valid && (signUpForm.controls.password.dirty)"></ion-input>
+      <ion-item class="sign-bar">
+        <ion-label stacked>Senha</ion-label>
+        <ion-input formControlName="password" type="password" placeholder="Senha (8 dígitos)" [class.invalid]="!signUpForm.controls.password.valid && (signUpForm.controls.password.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signUpForm.controls.password"></control-messages>
 
-      <ion-item class="search-bar">
-        <ion-label floating>Confirme a Senha</ion-label>
-        <ion-input formControlName="confirmPassword" type="password" [class.invalid]="!signUpForm.controls.confirmPassword.valid && (signUpForm.controls.confirmPassword.dirty)"></ion-input>
+      <ion-item class="sign-bar">
+        <ion-label stacked>Confirme a Senha</ion-label>
+        <ion-input formControlName="confirmPassword" type="password" placeholder="Confirme a senha" [class.invalid]="!signUpForm.controls.confirmPassword.valid && (signUpForm.controls.confirmPassword.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signUpForm.controls.confirmPassword"></control-messages>
 
     </form>
 
-    <ion-item class="search-btn">
-      <button ion-button round (click)="signup()">Enviar</button>
+    <ion-item class="sign-btn-submit">
+      <button ion-button round outline (click)="signup()">Enviar</button>
     </ion-item>
   </ion-list>
-
-  <!-- <ul class="altLogin">
-    <li><button round icon-only><ion-icon name="logo-facebook"></ion-icon></button></li>
-    <li><button round icon-only><ion-icon name="logo-twitter"></ion-icon></button></li>
-    <li><button round icon-only><ion-icon name="logo-googleplus"></ion-icon></button></li>
-  </ul> -->
-  <!-- [disabled]="!loginForm.valid" -->
 
 </ion-content>

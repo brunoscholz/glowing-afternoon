@@ -71,7 +71,7 @@ import { CounterPipe } from '../pipes/counter';
 import { ElasticHeader } from '../directives/elastic-header/elastic-header';
 
 // Services and Providers
-import { ConnectivityService } from '../providers/utils/connectivity.service';
+//import { ConnectivityService } from '../providers/utils/connectivity.service';
 import { AuthService } from '../providers/auth/auth.service';
 import { DataService } from '../providers/data/data.service';
 import { APIService } from '../providers/api/api.service';
@@ -190,7 +190,6 @@ import { SpeechService } from '../providers/speech/speech.service';
     DataService,
     APIService,
     APISettings,
-    ConnectivityService,
     AuthService,
     UtilProvider,
     SpeechService

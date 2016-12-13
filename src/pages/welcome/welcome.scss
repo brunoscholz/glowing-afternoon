@@ -1,5 +1,5 @@
 .welcome-page {
-  background: map-get($colors, primary);
+  @include gradient(#178c97, #34b483, -25deg);
   #brand-logo {
     height: 100%;
     text-align: center;
@@ -13,7 +13,7 @@
     svg {
       width: 90%;
       vertical-align: middle;
-      fill: $background-color;
+      fill: map-get($colors, light);
       /*animation-name: logoFill;
       animation-duration: 2s;
       animation-iteration-count: infinite;*/

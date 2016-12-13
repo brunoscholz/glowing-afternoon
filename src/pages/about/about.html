@@ -11,26 +11,26 @@
 
 <ion-content padding class="full-bg">
 
-	<ion-list>
-      <ion-list-header>
-        Geral
-      </ion-list-header>
-      <button ion-item *ngFor="let p of appPages" (click)="openPage(p)">
-        <!-- <ion-icon item-left [name]="p.icon"></ion-icon> -->
-        {{p.title}}
-      	<ion-icon item-right name="arrow-forward"></ion-icon>
-      </button>
-    </ion-list>
+	<ion-list no-lines>
+    <ion-list-header>
+      Geral
+    </ion-list-header>
+    <button ion-item *ngFor="let p of appPages" (click)="openPage(p)">
+      <!-- <ion-icon item-left [name]="p.icon"></ion-icon> -->
+      {{p.title}}
+    	<ion-icon item-right name="arrow-forward"></ion-icon>
+    </button>
+  </ion-list>
 
-    <ion-list>
-      <ion-list-header>
-        Legal
-      </ion-list-header>
-      <button ion-item *ngFor="let p of legalPages" (click)="openPage(p)">
-        <!-- <ion-icon item-left [name]="p.icon"></ion-icon> -->
-        {{p.title}}
-      	<ion-icon item-right name="arrow-forward"></ion-icon>
-      </button>
-    </ion-list>
+  <ion-list no-lines>
+    <ion-list-header>
+      Legal
+    </ion-list-header>
+    <button ion-item *ngFor="let p of legalPages" (click)="openPage(p)">
+      <!-- <ion-icon item-left [name]="p.icon"></ion-icon> -->
+      {{p.title}}
+    	<ion-icon item-right name="arrow-forward"></ion-icon>
+    </button>
+  </ion-list>
 
 </ion-content>

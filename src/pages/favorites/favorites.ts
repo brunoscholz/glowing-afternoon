@@ -32,7 +32,7 @@ export class FavoritesPage extends ModelPage {
   }
 
   load() {
-    this.doChangeView(ViewStatusEnum.Empty);
+    this.doChangeView(ViewStatusEnum.Loading);
     this.util.presentLoading('Buscando...');
 
     this.query();

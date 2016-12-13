@@ -33,7 +33,7 @@ export class ReviewListPage extends ModelPage {
 
   load() {
   	var self = this;
-    this.doChangeView(ViewStatusEnum.Empty);
+    this.doChangeView(ViewStatusEnum.Loading);
     this.util.presentLoading('Buscando...');
 
   	self.dataService.findAll({

@@ -21,7 +21,7 @@
         <p>em {{fact.date | emTimeAgo}}, escreveu:</p>
       </ion-item>
       <ion-card-content>
-        <div class="background-image" [style.backgroundImage]="'url(http://ondetem.tk/' + fact.offer.picture.cover + ')'">
+        <div class="background-image" [style.backgroundImage]="fact.offer.picture.cover">
           <div class="rating-round"><h3>{{fact.rating.grade}}.0</h3></div>
         </div>
         <div>

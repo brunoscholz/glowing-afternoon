@@ -1,41 +1,37 @@
 <ion-header>
   <ion-navbar>
+    <button ion-button menuToggle left>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Login</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding class="signin-page" align="center">
-  <ion-list no-lines padding class="search-header">
-    <ion-item class="animated tada">
+  <ion-list padding class="sign-header">
+    <ion-item class="search-logo" no-lines>
       <img src="assets/img/logo.png">
     </ion-item>
 
     <form [formGroup]="signInForm">
-      <ion-item class="search-bar">
-        <ion-label floating>Email</ion-label>
-        <ion-input formControlName="username" type="text" [class.invalid]="!signInForm.controls.username.valid && (signInForm.controls.username.dirty)"></ion-input>
+      <ion-item class="sign-bar">
+        <ion-label stacked>Email</ion-label>
+        <ion-input formControlName="username" type="text" placeholder="Digite seu e-mail" [class.invalid]="!signInForm.controls.username.valid && (signInForm.controls.username.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signInForm.controls.username"></control-messages>
 
-      <ion-item class="search-bar">
-        <ion-label floating>Senha</ion-label>
-        <ion-input formControlName="password" type="password" [class.invalid]="!signInForm.controls.password.valid && (signInForm.controls.password.dirty)"></ion-input>
+      <ion-item class="sign-bar">
+        <ion-label stacked>Senha</ion-label>
+        <ion-input formControlName="password" type="password" placeholder="Digite sua senha" [class.invalid]="!signInForm.controls.password.valid && (signInForm.controls.password.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signInForm.controls.password"></control-messages>
 
     </form>
 
-    <ion-item class="search-btn">
-      <button ion-button round (click)="signin()">Entrar</button>
+    <ion-item class="sign-btn-submit">
+      <button ion-button round outline (click)="signin()">Entrar</button>
     </ion-item>
+    <!-- [disabled]="!signInForm.valid" -->
   </ion-list>
-  <!-- [disabled]="!signInForm.valid" -->
-
-  <!-- <ul class="altLogin">
-    <li><button round icon-only (click)="facebookConnect()"><ion-icon name="logo-facebook"></ion-icon></button></li>
-    <li><button round icon-only (click)="dummy()"><ion-icon name="logo-twitter"></ion-icon></button></li>
-    <li><button round icon-only (click)="dummy()"><ion-icon name="logo-googleplus"></ion-icon></button></li>
-  </ul> -->
 
 </ion-content>
-      

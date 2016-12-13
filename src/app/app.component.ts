@@ -14,7 +14,6 @@ import { DataService } from '../providers/data/data.service';
 import { AuthService } from '../providers/auth/auth.service';
 import { UtilProvider } from '../providers/utils/util.provider';
 import { SpeechService } from '../providers/speech/speech.service';
-import { ConnectivityService } from '../providers/utils/connectivity.service';
 import { IUser, IPage } from '../providers/data/interfaces';
 
 @Component({
@@ -22,7 +21,6 @@ import { IUser, IPage } from '../providers/data/interfaces';
   providers: [
     AuthService,
     DataService,
-    ConnectivityService,
     UtilProvider,
     SpeechService
   ]
@@ -36,6 +34,7 @@ export class MyApp {
   loading: any;
   isLoading: boolean = false;
   loggedUser: string = 'none';
+  chosenTheme: string = 'night-theme';
 
   appPages: IPage[] = [
     { title: 'Início', component: HomeTabsPage, icon: 'home' },
@@ -59,8 +58,7 @@ export class MyApp {
               public dataService: DataService,
               public auth: AuthService,
               public util: UtilProvider,
-              public speech: SpeechService,
-              public connService: ConnectivityService) {
+              public speech: SpeechService) {
     this.initializeApp();
   }
 
@@ -68,7 +66,6 @@ export class MyApp {
     this.platform.ready().then(() => {
       StatusBar.styleDefault();
       Splashscreen.hide();
-      this.checkConnection();
       this.loadIndicator();
       this.util.onError(err => {
         //this.error = err;
@@ -77,6 +74,11 @@ export class MyApp {
       });
       this.speech.init();
     });
+
+    this.util.getTheme()
+      .subscribe((val) => {
+        this.chosenTheme = val;
+      });
 
     this.getUser();
     this.authenticate();
@@ -133,7 +135,7 @@ export class MyApp {
       }
   }
 
-  checkConnection() {
+  /*checkConnection() {
     this.connService.connection$
       .subscribe((status) => {
         console.log(status);
@@ -146,7 +148,7 @@ export class MyApp {
         }
       });
     if(!this.connService.isOnline()) {}
-  }
+  }*/
 
   loadIndicator() {
     this.util.load$
