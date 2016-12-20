@@ -16,7 +16,7 @@
     <form [formGroup]="signInForm">
       <ion-item class="sign-bar">
         <ion-label stacked>Email</ion-label>
-        <ion-input formControlName="username" type="text" placeholder="Digite seu e-mail" [class.invalid]="!signInForm.controls.username.valid && (signInForm.controls.username.dirty)"></ion-input>
+        <ion-input formControlName="username" type="email" placeholder="Digite seu e-mail" [class.invalid]="!signInForm.controls.username.valid && (signInForm.controls.username.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signInForm.controls.username"></control-messages>
 

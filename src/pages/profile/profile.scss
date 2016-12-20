@@ -87,6 +87,8 @@ ion-list-header {
   margin: 0 auto;
   overflow: hidden;
   border-bottom: solid 2px map-get($colors, light);
+  background-size: cover;
+  background-position: center;
 }
 
 div.profile-menu {

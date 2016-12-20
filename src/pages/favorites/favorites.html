@@ -16,12 +16,12 @@
 				<span class="value">{{item?.offer.item.title}}</span>
 				<p>{{item?.offer.description}}</p>
 			</ion-item>
-			<!-- <ion-item class="search-btn">
+			<ion-item class="search-btn" *ngIf="hasMore">
 	        	<button ion-button round (click)="loadMore()">Mais</button>
-	      	</ion-item> -->
+	      	</ion-item>
 		</ion-list>
 	</div>
-	<div *ngIf="authTk">
+	<!-- <div *ngIf="authTk">
 		<ion-list>
 			<ion-item *ngFor="let item of authTk">
 				<span class="value">{{item?.selector}}</span>
@@ -31,5 +31,5 @@
 	        	<button ion-button round (click)="loadMore()">Mais</button>
 	      	</ion-item>
 		</ion-list>
-	</div>
+	</div> -->
 </ion-content>

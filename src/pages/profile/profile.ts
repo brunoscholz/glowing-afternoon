@@ -58,6 +58,7 @@ export class ProfilePage extends ModelPage {
     this.auth.loadUserCredentials().then((usr: IUser) => {
       if(usr) {
         self.user = usr;
+        //console.log(usr);
         self.prepareUser();
         self.loadBalance();
       }

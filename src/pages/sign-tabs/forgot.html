@@ -13,7 +13,7 @@
     <form [formGroup]="forgotForm">
       <ion-item class="sign-bar">
         <ion-label stacked>Esqueceu a Senha?</ion-label>
-        <ion-input formControlName="username" type="text" placeholder="Digite seu email" [class.invalid]="!forgotForm.controls.username.valid && (forgotForm.controls.username.dirty)"></ion-input>
+        <ion-input formControlName="username" type="email" placeholder="Digite seu email" [class.invalid]="!forgotForm.controls.username.valid && (forgotForm.controls.username.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="forgotForm.controls.username"></control-messages>
     </form>

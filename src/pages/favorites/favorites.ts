@@ -32,24 +32,30 @@ export class FavoritesPage extends ModelPage {
   }
 
   load() {
-    this.doChangeView(ViewStatusEnum.Loading);
-    this.util.presentLoading('Buscando...');
-
     this.query();
-    this.doQuery();
+    //this.doQuery();
   }
 
-  query() {
+  query(dontClear = false) {
+    this.doChangeView(ViewStatusEnum.Loading);
+    this.util.presentLoading('Buscando...');
     var self = this;
     self.dataService.findAll({
       controller: 'favorite-facts',
       query: {'buyerId':{test:"like binary",value:self.profile.id}},
-      page: this.pageNum
+      page: this.pageNum,
+      limit: 10
     }).then((fws: Array<IFavoriteFact>) => {
-      /*if (_.size(fws) < 10)
-        self.hasMore = false;*/
+      if(dontClear) {
+        if (_.size(fws) < 10 || self.pageNum <= 1)
+          self.hasMore = false;
+        else
+          self.hasMore = true;
 
-      self.favorites.push.apply(self.favorites, fws);
+        self.favorites.push.apply(self.favorites, fws);
+      } else {
+        self.favorites = fws;
+      }
 
       self.changeViewState();
     }, (err) => {
@@ -92,7 +98,7 @@ export class FavoritesPage extends ModelPage {
 
   loadMore() {
     this.pageNum += 1;
-    this.doQuery(true);
+    this.query(true);
   }
 }
 

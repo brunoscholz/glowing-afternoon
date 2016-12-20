@@ -11,7 +11,7 @@ export class ModelPage {
   refresher: any;
   data: any;
   pageNum: number = 1;
-  hasMore: boolean = true;
+  hasMore: boolean = false;
   color: string = '';
 
   

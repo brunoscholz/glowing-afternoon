@@ -96,56 +96,6 @@ export class AuthService {
     });
   }
 
-  storeUser(data) {
-      this.dataService.lstorageSave('user', JSON.stringify(data));
-  }
-
-  storeUserCredentials(token) {
-    this.dataService.lstorageSave('ondetemTK', token);
-    this.useCredentials(token);
-  }    
-
-  useCredentials(token) {
-    this.isLoggedin = true;
-    this.AuthToken = token;
-  }
-
-  loadUserCredentials() {
-    let self = this;
-    let token = this.dataService.lstorageLoad('ondetemTK');
-
-    let promise = new Promise((resolve, reject) => {
-      if(!token || token == undefined) {
-        self._logged.next(false);
-        reject('usuário não logado - token não encontrado');
-      } else {
-        self.authenticate({ token: encodeURIComponent(token) })
-        .then((res) => {
-          if(res) {
-            let usr = JSON.parse(self.dataService.lstorageLoad('user'));
-            resolve(usr);
-          }
-          else
-            reject('autenticação falhou');
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    });
-    return promise;
-  }
-
-  destroyUserCredentials() {
-    this.isLoggedin = false;
-    //this._logged.next(false);
-    this.AuthToken = null;
-    this.dataService.lstorageClear();
-  }
-
-  removeUserCredentials(item) {
-    this.dataService.lstorageRemove(item);
-  }
-
   authenticate(user) {
     let promise = new Promise((resolve, reject) => {
       this.api.add({
@@ -211,6 +161,100 @@ export class AuthService {
         });
     });
     return promise;
+  }
+
+  shareWithFacebook() {
+    var options = { method:"feed" };
+    /*Facebook.showDialog(options,
+      function (result) {
+        alert("Posted. " + JSON.stringify(result));             },
+      function (e) {
+        alert("Failed: " + e);
+    });*/
+  }
+
+  /*
+
+  {
+    method: "share",
+    href: "http://example.com",
+    caption: "Such caption, very feed.",
+    description: "Much description",
+    picture: 'http://example.com/image.png'
+  }
+
+  {
+    method: "feed",
+    link: "http://example.com",
+    caption: "Such caption, very feed."
+  }
+
+  {
+    method: "apprequests",
+    message: "Come on man, check out my application."
+  }
+
+  facebookConnectPlugin.showDialog( 
+    {
+        method: "feed",
+        picture:'https://www.google.co.jp/logos/doodles/2014/doodle-4-google-2014-japan-winner-5109465267306496.2-hp.png',
+        name:'Test Post',
+        message:'First photo post',    
+        caption: 'Testing using phonegap plugin',
+        description: 'Posting photo using phonegap facebook plugin'
+    }, 
+    function (response) { alert(JSON.stringify(response)) },
+    function (response) { alert(JSON.stringify(response)) });
+  */
+
+  loadUserCredentials() {
+    let self = this;
+    let token = this.dataService.lstorageLoad('ondetemTK');
+
+    let promise = new Promise((resolve, reject) => {
+      if(!token || token == undefined) {
+        self._logged.next(false);
+        reject('usuário não logado - token não encontrado');
+      } else {
+        self.authenticate({ token: encodeURIComponent(token) })
+        .then((res) => {
+          if(res) {
+            let usr = JSON.parse(self.dataService.lstorageLoad('user'));
+            resolve(usr);
+          }
+          else
+            reject('autenticação falhou');
+        }, (err) => {
+          console.log(err);
+        });
+      }
+    });
+    return promise;
+  }
+
+  storeUser(data) {
+      this.dataService.lstorageSave('user', JSON.stringify(data));
+  }
+
+  storeUserCredentials(token) {
+    this.dataService.lstorageSave('ondetemTK', token);
+    this.useCredentials(token);
+  }    
+
+  useCredentials(token) {
+    this.isLoggedin = true;
+    this.AuthToken = token;
+  }
+
+  destroyUserCredentials() {
+    this.isLoggedin = false;
+    //this._logged.next(false);
+    this.AuthToken = null;
+    this.dataService.lstorageClear();
+  }
+
+  removeUserCredentials(item) {
+    this.dataService.lstorageRemove(item);
   }
 
   getinfo() {
