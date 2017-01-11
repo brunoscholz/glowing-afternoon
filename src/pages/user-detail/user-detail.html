@@ -9,7 +9,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content class="profile-page">
+<ion-content class="user-detail-page">
   <div *ngIf="buyer">
     <div id="elastic-header" [style.backgroundImage]="'url(' + bgImage + ')'">
     </div>
@@ -26,28 +26,30 @@
         <ion-list no-lines class="info-list">
           <ion-item>
             <i class="otIcon-email" item-left></i>
-            <h2>{{buyer.email}}</h2>
+            <h2>{{buyer.followers?.length | counter:[true,'seguidores']}}</h2>
           </ion-item>
           <ion-item>
             <i class="otIcon-phone" item-left></i>
-            <h2></h2>
-            <p>Ugh. As if.</p>
+            <h2>{{buyer.reviews?.length | counter:[true,'avaliações']}}</h2>
           </ion-item>
           <ion-item>
             <i class="otIcon-map" item-left></i>
-            <h2></h2>
+            <h2>{{buyer.name}}</h2>
+            <!-- credibility power -->
           </ion-item>
         </ion-list>
+
+        <div class="profile-menu">
+          <ion-list>
+            <button ion-item (click)="gotoRankings($event)">
+              Rankings
+              <ion-icon item-right name="arrow-forward"></ion-icon>
+            </button>
+          </ion-list>
+        </div>
+
       </ion-card>
     </div>
-
-    <h4 class="content padding" style="text-align: center;">Ranking</h4>
-    <ion-list class="offers" *ngIf="offers">
-      <ion-item *ngFor="let offer of offers">
-        {{offer.item.title}}
-      </ion-item>
-    </ion-list>
-
 
   </div>  
 

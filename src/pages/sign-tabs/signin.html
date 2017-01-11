@@ -16,13 +16,13 @@
     <form [formGroup]="signInForm">
       <ion-item class="sign-bar">
         <ion-label stacked>Email</ion-label>
-        <ion-input formControlName="username" type="email" placeholder="Digite seu e-mail" [class.invalid]="!signInForm.controls.username.valid && (signInForm.controls.username.dirty)"></ion-input>
+        <ion-input [(ngModel)]="userInfo.email" formControlName="username" type="email" placeholder="Digite seu e-mail" [class.invalid]="!signInForm.controls.username.valid && (signInForm.controls.username.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signInForm.controls.username"></control-messages>
 
       <ion-item class="sign-bar">
         <ion-label stacked>Senha</ion-label>
-        <ion-input formControlName="password" type="password" placeholder="Digite sua senha" [class.invalid]="!signInForm.controls.password.valid && (signInForm.controls.password.dirty)"></ion-input>
+        <ion-input [(ngModel)]="userInfo.pass" formControlName="password" type="password" placeholder="Digite sua senha" [class.invalid]="!signInForm.controls.password.valid && (signInForm.controls.password.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signInForm.controls.password"></control-messages>
 

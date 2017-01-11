@@ -1,8 +1,12 @@
 <ion-list no-lines>
   <!-- <ion-list-header>Acoes</ion-list-header> -->
-  <ion-item (click)="follow()">
+  <ion-item *ngIf="canFollow" (click)="follow()">
     <ion-icon item-left name="person-add"></ion-icon>
     <h2>Seguir</h2>
+  </ion-item>
+  <ion-item *ngIf="!canFollow" (click)="unfollow()">
+    <ion-icon item-left name="person-add"></ion-icon>
+    <h2>Parar de Seguir</h2>
   </ion-item>
   <!-- <ion-item (click)="openChat()">
     <ion-icon item-left name="chatbubles"></ion-icon>

@@ -74,13 +74,19 @@ export class DataService {
     this.setVisitingCompany({
       name: "",
       about: "",
-      address: "",
-      location: "",
-      hours: "",
+      email: "",
+      website: "",
       phone: "",
       cellphone: "",
-      website: "",
-      email: "",
+      hours: "",
+      status: "PAY",
+      billingAddress: {
+        address: "",
+        city: "Curitiba",
+        state: "PR",
+        postCode: "",
+        country: "Brasil (BRA)"
+      },
       picture: {
         cover: "assets/img/generic-cover.jpg",
         thumbnail: "assets/img/generic-avatar.png"

@@ -13,23 +13,23 @@
     <form [formGroup]="signUpForm">
       <ion-item class="sign-bar">
         <ion-label stacked>Nome</ion-label>
-        <ion-input formControlName="name" type="text" placeholder="Nome Completo" [class.invalid]="!signUpForm.controls.name.valid && (signUpForm.controls.name.dirty)" autofocus></ion-input>
+        <ion-input [(ngModel)]="userInfo.name" formControlName="name" type="text" placeholder="Nome Completo" [class.invalid]="!signUpForm.controls.name.valid && (signUpForm.controls.name.dirty)" autofocus></ion-input>
       </ion-item>
       <control-messages [control]="signUpForm.controls.name"></control-messages>
 
       <ion-item class="sign-bar">
         <ion-label stacked>Email</ion-label>
-        <ion-input formControlName="username" type="email" placeholder="Seu e-mail" [class.invalid]="!signUpForm.controls.username.valid && (signUpForm.controls.username.dirty)"></ion-input>
+        <ion-input [(ngModel)]="userInfo.email" formControlName="username" type="email" placeholder="Seu e-mail" [class.invalid]="!signUpForm.controls.username.valid && (signUpForm.controls.username.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signUpForm.controls.username"></control-messages>
 
       <ion-item *ngIf="signUpForm.controls.username.pending">
-        <p>Checking username...</p>
+        <p>Checking email...</p>
       </ion-item>
 
       <ion-item class="sign-bar">
         <ion-label stacked>Senha</ion-label>
-        <ion-input formControlName="password" type="password" placeholder="Senha (8 dígitos)" [class.invalid]="!signUpForm.controls.password.valid && (signUpForm.controls.password.dirty)"></ion-input>
+        <ion-input [(ngModel)]="userInfo.pass" formControlName="password" type="password" placeholder="Senha (8 dígitos)" [class.invalid]="!signUpForm.controls.password.valid && (signUpForm.controls.password.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signUpForm.controls.password"></control-messages>
 

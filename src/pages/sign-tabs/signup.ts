@@ -11,6 +11,7 @@ import { TourPage } from '../tour/tour';
 })
 export class SignUpPage {
   signUpForm: any;
+  userInfo: { name: string, email: string, pass: string } = { name: '', email: '', pass: '' };
 
   constructor(private navCtrl: Nav,
               public formBuilder: FormBuilder,

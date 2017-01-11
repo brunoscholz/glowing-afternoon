@@ -55,7 +55,8 @@ export class ProfilePage extends ModelPage {
     let self = this;
     this.doChangeView(ViewStatusEnum.Loading);
 
-    this.auth.loadUserCredentials().then((usr: IUser) => {
+    this.auth.getUserInfo()
+    .then((usr: IUser) => {
       if(usr) {
         self.user = usr;
         //console.log(usr);

@@ -8,6 +8,19 @@ export interface IPage {
   passRoot?: boolean;
 }
 
+export interface ISearchResult { 
+  title: string;
+  list: any[];
+  icon: string;
+  showDetails: boolean;
+}
+
+export interface ISearchItems { 
+  offers: ISearchResult;
+  sellers: ISearchResult;
+  buyers: ISearchResult;
+}
+
 export interface IProfile {
   id: string;
   bgImage: string;
@@ -97,6 +110,8 @@ export interface ISeller {
   createdAt: string;
   updatedAt: string;
   status: string;
+  licenseId: string;
+  billingAddress: IBillingAddress;
   reviews: IReviewFact[];
   followers: IFollowFact[];
 }
@@ -157,7 +172,7 @@ export interface IShipping {
 
 export interface IShippingAddress {
   shippingAddressId: string;
-  adress: string;
+  address: string;
   city: string;
   state: string;
   postCode: string;
@@ -166,7 +181,7 @@ export interface IShippingAddress {
 
 export interface IBillingAddress {
   billingAddressId: string;
-  adress: string;
+  address: string;
   city: string;
   state: string;
   postCode: string;

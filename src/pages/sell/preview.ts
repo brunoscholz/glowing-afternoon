@@ -14,8 +14,12 @@ import { IOffer } from '../../providers/data/interfaces';
 export class PreviewPage extends ModelPage {
   company: any;
   bgImage: string;
+  avImage: string;
   offers: IOffer[];
   sended: boolean = false;
+
+  public base64CoverImage: string;
+  public base64ThumbImage: string;
 
   constructor(public navCtrl: NavController,
               navParams: NavParams,
@@ -25,8 +29,9 @@ export class PreviewPage extends ModelPage {
               public util: UtilProvider
   ) {
     super("Company Details", dataService, util);
-    this.company = this.dataService.getVisitingCompany();
+    this.company = dataService.getVisitingCompany();
     this.bgImage = this.company.picture.cover;
+    this.avImage = this.company.picture.thumbnail;
   }
 
   ionViewDidLoad() {
@@ -36,8 +41,14 @@ export class PreviewPage extends ModelPage {
 
   moreOptions(myEvent) {
     let popover = this.popoverCtrl.create(RegisterPage, { company: this.company });
-    popover.onDidDismiss(() => {
-      
+    popover.onDidDismiss((update, dataUri) => {
+      if(update == 'cover') {
+        this.company.picture.cover = dataUri;
+        this.bgImage = this.company.picture.cover;
+      } else if(update == 'thumb') {
+        this.company.picture.thumbnail = dataUri;
+        this.avImage = this.company.picture.thumbnail;
+      }
     });
     popover.present({
       ev: myEvent

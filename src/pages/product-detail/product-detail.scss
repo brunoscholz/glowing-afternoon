@@ -46,7 +46,7 @@ ion-avatar.item-rating {
 	}
 }
 
-.product-detail-page, .company-detail-page {
+.product-detail-page, .company-detail-page, .user-detail-page {
 	ion-card-content {
 		h2,p {
 			color: map-get($colors, midtone);
@@ -57,7 +57,7 @@ ion-avatar.item-rating {
 		}
 	}
 
-	.company-about {
+	.company-about, .buyer-about {
 		color: map-get($colors, midtone);
 		padding: 16px 16px 13px 18px;
 		font-size: 1.8rem;

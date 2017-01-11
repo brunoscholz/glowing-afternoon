@@ -30,25 +30,28 @@
           </ion-item>
           <ion-item>
             <i class="otIcon-phone" item-left></i>
-            <h2>{{company.hours}}</h2>
-            <p>Ugh. As if.</p>
+            <h2>{{company.phone}}</h2>
+            <p>aberto {{company.hours}}</p>
           </ion-item>
           <ion-item>
             <i class="otIcon-map" item-left></i>
-            <h2>{{company.website}}</h2>
+            <h2>{{company.billingAddress.address}}</h2>
+            <p>{{company.billingAddress.city}} {{company.billingAddress.state}}</p>
           </ion-item>
         </ion-list>
+
+        <div class="profile-menu">
+          <ion-list>
+            <button ion-item (click)="gotoCatalog($event)">
+              Catálogo
+              <ion-icon item-right name="arrow-forward"></ion-icon>
+            </button>
+          </ion-list>
+        </div>
+
       </ion-card>
     </div>
 
-    <h4 class="content padding" style="text-align: center;">Catálogo</h4>
-    <ion-list class="offers" *ngIf="offers">
-      <ion-item *ngFor="let offer of offers">
-        {{offer.item.title}}
-      </ion-item>
-    </ion-list>
-
-
-  </div>  
+  </div>
 
 </ion-content>

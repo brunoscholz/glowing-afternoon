@@ -51,7 +51,7 @@ import { WhyPage } from '../pages/about/why';
 import { ContactPage } from '../pages/about/contact';
 import { PolicyPage } from '../pages/about/policy';
 import { TermsPage } from '../pages/about/terms';
-import { LicensePage } from '../pages/about/license';
+import { LicencePage } from '../pages/about/licence';
 
 // directives
 import { EmptyListCmp } from '../components/empty/empty';
@@ -133,7 +133,7 @@ import { SpeechService } from '../providers/speech/speech.service';
     ContactPage,
     PolicyPage,
     TermsPage,
-    LicensePage,
+    LicencePage,
     ArrayFilterPipe,
     OrderByPipe,
     TxFilterPipe,
@@ -184,7 +184,7 @@ import { SpeechService } from '../providers/speech/speech.service';
     ContactPage,
     PolicyPage,
     TermsPage,
-    LicensePage
+    LicencePage
   ],
   providers: [
     DataService,

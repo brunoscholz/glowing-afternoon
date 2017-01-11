@@ -17,7 +17,7 @@
     <div class="profile-info">
       <ion-card>
         <ion-card-content>
-          <img src="{{company.picture.thumbnail}}">
+          <img src="{{avImage}}">
           <h2>{{company.name}}</h2>
         </ion-card-content>
         <p class="company-about">
@@ -35,18 +35,11 @@
           </ion-item>
           <ion-item>
             <i class="otIcon-map" item-left></i>
-            <h2>{{company.address}}</h2>
+            <h2>{{company.billingAddress.address}}</h2>
           </ion-item>
         </ion-list>
       </ion-card>
     </div>
-
-    <h4 class="content padding" style="text-align: center;">Catálogo</h4>
-    <ion-list class="offers" *ngIf="offers">
-      <ion-item *ngFor="let offer of offers">
-        {{offer.item.title}}
-      </ion-item>
-    </ion-list>
 
   </div>  
 

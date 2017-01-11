@@ -1,46 +1,86 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar class="search-toolbar">
     <ion-title>{{title}}</ion-title>
+    
+      <form (submit)="onInput()">
+        <ion-item class="search-bar" no-lines>
+          <input [(ngModel)]="searchTerm" name="search" type="search" placeholder="Busca" required class="search-box">
+          <button ion-button icon-only type="reset" class="close-icon">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </ion-item>
+      </form>
+      <!-- <ion-searchbar
+        [(ngModel)]="searchTerm"
+        [debounce]="700"
+        [placeholder]="Busca" 
+        (ionInput)="onInput()"
+        (change)="getItems($event)"
+        [required]="required"
+        name="search">
+      </ion-searchbar> -->
+
   </ion-navbar>
 </ion-header>
 
 <ion-content class="search-page">
 
-  <!-- <ul class="search-header">
-    <li><img src="assets/img/logo.png"></li>
-    <li>Onde tem um(a)</li>
-    <li>
-      <ion-searchbar
-        [(ngModel)]="searchTerm"
-        [debounce]="10"
-        (ionInput)="getItems($event)"
-        (change)="onInput()"
-        name="search">
-      </ion-searchbar>
-    </li>
-    <li><button ion-button round>Round Button</button></li>
-  </ul> -->
+  <input type="checkbox" name="toggle" id="toggle">
+  <label for="toggle"></label>
+  
+  <ion-list class="container">
 
-  <ion-list>
     <ion-item-group *ngIf="items?.offers">
-      <ion-list-header>
-        Ofertas ({{items.offers?.length}})
+      <ion-list-header (click)="toggleDetails(items.offers)">
+        <ion-icon color="primary" item-right [name]="items.offers.icon"></ion-icon>
+        {{items.offers.title}} <ion-badge>{{items.offers.list?.length}}</ion-badge>
       </ion-list-header>
-      <offer-card *ngFor="let feed of items.offers" (click)="itemTapped($event, feed)" [feed]="feed"></offer-card>
+      <div class="items animated fadeIn" [hidden]="!items.offers.showDetails">
+        <offer-card *ngFor="let feed of items.offers.list" (click)="itemTapped($event, feed)" [feed]="feed"></offer-card>
+      </div>
     </ion-item-group>
 
     <ion-item-group *ngIf="items?.sellers">
-      <ion-list-header>
-        Empresas ({{items.sellers?.length}})
+      <ion-list-header (click)="toggleDetails(items.sellers)">
+        <ion-icon color="primary" item-right [name]="items.sellers.icon"></ion-icon>
+        {{items.sellers.title}} <ion-badge>{{items.sellers.list?.length}}</ion-badge>
       </ion-list-header>
-      <seller-card *ngFor="let seller of items.sellers" (click)="companyTapped($event, seller)" [feed]="seller"></seller-card>
+      <div class="items animated fadeIn" [hidden]="!items.sellers.showDetails">
+        <seller-card *ngFor="let seller of items.sellers.list" (click)="companyTapped($event, seller)" [feed]="seller"></seller-card>
+      </div>
     </ion-item-group>
 
     <ion-item-group *ngIf="items?.buyers">
-      <ion-list-header>
-        Usuários ({{items.buyers?.length}})
+      <ion-list-header (click)="toggleDetails(items.buyers)">
+        <ion-icon color="primary" item-right [name]="items.buyers.icon"></ion-icon>
+        {{items.buyers.title}} <ion-badge>{{items.buyers.list?.length}}</ion-badge>
       </ion-list-header>
-      <user-card *ngFor="let buyer of items.buyers" (click)="userTapped($event, buyer)" [feed]="buyer"></user-card>
+      <div class="items animated fadeIn" [hidden]="!items.buyers.showDetails">
+        <user-card *ngFor="let buyer of items.buyers.list" (click)="userTapped($event, buyer)" [feed]="buyer"></user-card>
+      </div>
     </ion-item-group>
   </ion-list>
+
+  <ion-list class="filters">
+    <ion-item>
+      <ion-label> Ofertas</ion-label>
+      <ion-toggle checked="true"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label> Empresas</ion-label>
+      <ion-toggle checked="true"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label> Usuários</ion-label>
+      <ion-toggle checked="true"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label> Preço</ion-label>
+      <ion-range dualKnobs="true" [(ngModel)]="priceRange" min="0" max="10000" step="10" snaps="true">
+        <ion-icon range-left small name="minus"></ion-icon>
+        <ion-icon range-right name="plus"></ion-icon>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+
 </ion-content>

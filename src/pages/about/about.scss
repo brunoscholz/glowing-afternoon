@@ -19,3 +19,49 @@ ion-content.full-bg {
   	}
   }
 }
+
+ion-content.contact {
+  color: #1d1d1d;
+  a {
+    color: #fafafa !important;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+}
+
+span.brand {
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #85E442;
+}
+
+section.terms {
+  #section0 {
+    .faq-title {
+      text-align: center;
+      img {
+        -webkit-filter: grayscale; /*sepia, hue-rotate, invert....*/
+        -webkit-filter: brightness(10%);
+      }
+    }
+  }
+
+  .section {
+    margin-bottom: 8vh;
+    .faq-title h3 {
+      color: #1d1d1d;
+      font-family: 'LatoBlack';
+      font-size: 2rem;
+    }
+
+    p {
+      color: #3e3e3e;
+      font-size: 1.6rem;
+      b {
+        color: #1d1d1d;
+        font-family: 'LatoBlack';
+        font-size: 1.4rem;
+      }
+    }
+  }
+}

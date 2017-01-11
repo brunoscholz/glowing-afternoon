@@ -164,7 +164,7 @@ export class AuthService {
   }
 
   shareWithFacebook() {
-    var options = { method:"feed" };
+    //var options = { method:"feed" };
     /*Facebook.showDialog(options,
       function (result) {
         alert("Posted. " + JSON.stringify(result));             },
@@ -232,8 +232,23 @@ export class AuthService {
     return promise;
   }
 
+  setUserInfo(data: any) {
+    this.dataService.lstorageSave('user', JSON.stringify(data));
+  }
+
+  getUserInfo() {
+    let promise = new Promise((resolve, reject) => {
+      let data = JSON.parse(this.dataService.lstorageLoad('user'));
+      if(data)
+        resolve(data);
+      else
+        return this.loadUserCredentials();
+    });
+    return promise;
+  }
+
   storeUser(data) {
-      this.dataService.lstorageSave('user', JSON.stringify(data));
+    this.setUserInfo(data);
   }
 
   storeUserCredentials(token) {

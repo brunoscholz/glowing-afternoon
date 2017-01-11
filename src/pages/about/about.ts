@@ -5,7 +5,7 @@ import { WhyPage } from './why';
 import { ContactPage } from './contact';
 import { PolicyPage } from './policy';
 import { TermsPage } from './terms';
-import { LicensePage } from './license';
+import { LicencePage } from './licence';
 import { IPage } from '../../providers/data/interfaces';
 
 @Component({
@@ -18,14 +18,14 @@ export class AboutPage {
 
   constructor(public navCtrl: NavController) {
   	this.appPages = [
-	    { title: 'Sobre a OndeTem?!', component: WhyPage, icon: 'home' },
+	    { title: 'Sobre o OndeTem?', component: WhyPage, icon: 'home' },
 	    { title: 'Contato', component: ContactPage, icon: 'grid' },
 	  ];
 
 		this.legalPages = [
-			{ title: 'Privacidade', component: PolicyPage, icon: 'home' },
-			{ title: 'Termos de Uso', component: TermsPage, icon: 'grid' },
-			{ title: 'Licensas', component: LicensePage, icon: 'grid' },
+			{ title: 'Políticas de Privacidade', component: PolicyPage, icon: 'home' },
+			{ title: 'Para Usuários', component: TermsPage, icon: 'grid' },
+			{ title: 'Para Clientes', component: LicencePage, icon: 'grid' },
 		];
   }
 

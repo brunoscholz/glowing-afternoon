@@ -12,6 +12,7 @@ import { HomeTabsPage } from '../home-tabs/home-tabs';
 })
 export class SignInPage {
   signInForm: any;
+  userInfo: { email: string, pass: string } = { email: '', pass: '' };
 
   constructor(private navCtrl: Nav,
               public formBuilder: FormBuilder,

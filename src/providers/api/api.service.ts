@@ -104,6 +104,7 @@ export class APIService {
       pg: options.page || null,
       l: options.limit || null,
       ft: options.fromto || null,
+      v: APISettings.APPVERSION,
     };
 
     if (database === null || body === null) {
@@ -122,6 +123,7 @@ export class APIService {
         params.set(key + '', (_.isObject(value) ? JSON.stringify(value) : value + ''));
       }
     });
+    params.set('v', APISettings.APPVERSION);
 
     return this.http.get(url, {
       search: params
@@ -132,13 +134,14 @@ export class APIService {
     let headers = new Headers();
     headers.append('Content-Type', headerType);
 
-    let params: URLSearchParams = new URLSearchParams();
+    /*let params: URLSearchParams = new URLSearchParams();
     //params.set('apiKey', this.config.apiKey);
+    params.set('version', APISettings.APPVERSION);
     _.each(options, function(value, key) {
       if(value) {
         params.set(key+'', (_.isObject(value) ? JSON.stringify(value) : value+''));
       }
-    });
+    });*/
 
     let realBody = this.assembleBody(body).join('&');
 
@@ -162,6 +165,8 @@ export class APIService {
       else
         p.push(key + '=' + value);
     });
+
+    p.push('v=' + APISettings.APPVERSION);
 
     return p; //.join('&');
   }

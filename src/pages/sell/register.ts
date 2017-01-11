@@ -22,7 +22,6 @@ export class RegisterPage {
 	company: any = [];
   sended: boolean = false;
 
-
   constructor(
     public viewCtrl: ViewController,
     private navCtrl: NavController,
@@ -47,13 +46,13 @@ export class RegisterPage {
     .then(imageData => {
       //var blobImage = this.util.dataURItoBlob(imageData);
       //this.user.picture.thumbnail = imageData;
-      console.log(imageData);
-      //return this.userProvider.uploadPicture(blobImage);
-      let toast = this.util.getToast('Your Picture is updated');
+      this.company.picture.cover = imageData; //"data:image/jpeg;base64," + 
+      this.viewCtrl.dismiss('cover', this.company.picture.cover);
+      let toast = this.util.getToast('A foto de capa foi atualizada...');
       toast.present();
     })
     .catch((ex) => {
-      //console.log(ex);
+      console.log(ex);
     });
     /*.then(imageURL => {
       return this.userProvider.updateProfile({avatar: imageURL});
@@ -62,7 +61,24 @@ export class RegisterPage {
     });*/
   }
 
-  updateAvatar() {}
+  updateAvatar() {
+    this.presentPictureSource()
+    .then(source => {
+      let sourceType:number = Number(source);
+      return this.util.getPicture(sourceType, true, { width: 256, height: 256 });
+    })
+    .then((imageData) => {
+      //var blobImage = this.util.dataURItoBlob(imageData);
+      //return this.userProvider.uploadPicture(blobImage);
+      this.company.picture.thumbnail = imageData; //"data:image/jpeg;base64," + 
+      this.viewCtrl.dismiss('thumb', this.company.picture.thumbnail);
+      let toast = this.util.getToast('O avatar foi atualizado...');
+      toast.present();
+    })
+    .catch((ex) => {
+      console.log(ex);
+    });
+  }
 
   presentPictureSource() {
     let promise = new Promise((res, rej) => {
@@ -99,10 +115,13 @@ export class RegisterPage {
       .then((data) => {
         this.sended = true;
         this.company = [];
+        this.dataService.setVisitingCompany(this.company);
         this.util.dismissLoading();
         this.presentToast('Pré cadastro efetuado');
+        this.viewCtrl.dismiss();
       }, (err) => {
         this.presentToast(err);
+        this.viewCtrl.dismiss();
       });
   }
   /*if(data.status == 200) {

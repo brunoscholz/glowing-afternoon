@@ -4,13 +4,14 @@ import { NavController, NavParams } from 'ionic-angular'; //reorderArray
 import { ProductDetailPage } from '../product-detail/product-detail';
 import { CompanyDetailPage } from '../company-detail/company-detail';
 import { UserDetailPage } from '../user-detail/user-detail';
+import { ProfilePage } from '../profile/profile';
 
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 import { AuthService } from '../../providers/auth/auth.service';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
-import { IUser } from '../../providers/data/interfaces';
+import { IUser, ISearchItems, ISearchResult } from '../../providers/data/interfaces';
 import { ModelPage } from '../model-page';
 import 'rxjs/add/operator/debounceTime';
 import _ from 'underscore';
@@ -19,11 +20,16 @@ import _ from 'underscore';
   templateUrl: 'search.html'
 })
 export class SearchPage extends ModelPage {
+  searchTerm: string = '';
+  //searchControl: Control; look in sign forms
+  searching: any = false;
+  priceRange: number = 0;
+
   user: any;
   following: any;
-  searchTerm: string = '';
-  items: any = [];
-  //groupedOffers: any = [];
+
+  // accordion test
+  items: ISearchItems;
 
   constructor(public navCtrl: NavController,
               navParams: NavParams,
@@ -32,6 +38,7 @@ export class SearchPage extends ModelPage {
               public util: UtilProvider) {
     super('Busca', dataService, util)
   	this.searchTerm = navParams.get('term') || '';
+    //this.searchControl = new Control();
   }
 
   ionViewDidLoad() {
@@ -39,12 +46,23 @@ export class SearchPage extends ModelPage {
     this.load();
   }
 
+  toggleDetails(data) {
+    if (data.showDetails) {
+      data.showDetails = false;
+      data.icon = 'ios-add-circle-outline';
+    } else {
+      data.showDetails = true;
+      data.icon = 'ios-remove-circle-outline';
+    }
+  }
+
   load() {
     let self = this;
     this.doChangeView(ViewStatusEnum.Loading);
     this.util.presentLoading('Buscando...');
 
-    this.auth.loadUserCredentials().then((usr: IUser) => {
+    this.auth.getUserInfo()
+    .then((usr: IUser) => {
       if(usr) {
         self.user = usr;
         self.following = _.pluck(self.user.buyer.following, 'buyerId');
@@ -60,16 +78,17 @@ export class SearchPage extends ModelPage {
     let self = this;
     // searchFor : {offers} -> offers only
     // searchFor : {offers, users} -> offers and users
-    this.dataService.search({
-      term: this.searchTerm
-    }).then((data) => {
+    self.dataService.search({
+      term: self.searchTerm
+    }).then((data: ISearchItems) => {
         self.items = data;
         self.changeViewState();
         if(self.refresher)
           self.refresher.complete();
       }, (err) => {
-        this.util.notifyError(err);
-        this.util.dismissLoading();
+        self.util.notifyError(err);
+        //this.util.dismissLoading();
+        self.changeViewState();
       });
   }
 
@@ -91,7 +110,8 @@ export class SearchPage extends ModelPage {
     if(this.searchTerm == '')
       return;
 
-    console.log(this.searchTerm);
+    this.util.presentLoading('Buscando...');
+    this.doSearch();
   }
 
   doIFollow(event, id) {
@@ -123,9 +143,10 @@ export class SearchPage extends ModelPage {
   }
 
   userTapped(event, item) {
-    this.navCtrl.push(UserDetailPage, {
-      user: item
-    });
+    if (item.buyerId == this.user.buyer.buyerId)
+      this.navCtrl.setRoot(ProfilePage, { user: item });
+    else
+      this.navCtrl.push(UserDetailPage, { user: item });
   }
 
   tapFollow(event, item) {

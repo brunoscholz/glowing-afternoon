@@ -15,11 +15,12 @@ import { ModelPage } from '../model-page';
 // import { ReviewPage } from '../review/review';
 // import { ReviewDetailPage } from '../review-detail/review-detail';
 import { DataService } from '../../providers/data/data.service';
+import { AuthService } from '../../providers/auth/auth.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 import { UserOptionsPage } from './user-options';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
-import { IBuyer } from '../../providers/data/interfaces';
+import { IBuyer, IUser } from '../../providers/data/interfaces';
 //import _ from 'underscore';
 
 @Component({
@@ -35,6 +36,7 @@ export class UserDetailPage extends ModelPage {
               public modCtrl: ModalController,
               public popoverCtrl: PopoverController,
               public dataService: DataService,
+              public auth: AuthService,
               public util: UtilProvider
   ) {
     super("Buyer Details", dataService, util);
@@ -87,13 +89,21 @@ export class UserDetailPage extends ModelPage {
   }
 
   moreOptions(myEvent) {
-    let popover = this.popoverCtrl.create(UserOptionsPage, { buyer: this.buyer });
-    popover.onDidDismiss(() => {
-      //if(act == 'addReview') {}
-        
-    });
-    popover.present({
-      ev: myEvent
+    let self = this;
+    self.auth.getUserInfo()
+    .then((user: IUser) => {
+      let canFollow = self.buyer.buyerId !== user.buyer.buyerId;
+      // && user.buyer.following does not contains self.buyer.buyerId
+      let popover = self.popoverCtrl.create(UserOptionsPage, { buyer: self.buyer, canFollow: true });
+      popover.onDidDismiss((ret) => {
+        if(ret['err'] != '') {
+          if(ret['err']['userId'])
+            self.util.notifyError(ret['err']['userId']);
+        }
+      });
+      popover.present({
+        ev: myEvent
+      });
     });
   }
 }

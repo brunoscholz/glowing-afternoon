@@ -34,7 +34,7 @@ export class HomePage extends ModelPage {
     public speech : SpeechService,
     private alertCtrl: AlertController
   ) {
-    super('OndeTem?!', dataService, util);
+    super('Onde tem?', dataService, util);
     
     this.speech.onResultText(txt => {
       this.formData.q = txt;
@@ -43,7 +43,7 @@ export class HomePage extends ModelPage {
   }
 
   ionViewDidLoad() {
-    this.doReset('OndeTem?!');
+    this.doReset('Onde tem?');
     //this.online = this.checkNetwork();
   }
 

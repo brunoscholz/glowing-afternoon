@@ -90,6 +90,7 @@ export class MyApp {
     this.auth.loadUserCredentials().then((user: IUser) => {
     }, (err) => {
       console.log(err);
+      //this.util.notifyError(err);
     });
   }
 

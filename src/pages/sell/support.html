@@ -13,7 +13,7 @@
 
     <ion-item>
         <ion-label floating>Email</ion-label>
-        <ion-input type="email" [(ngModel)]="company.email" type="text"></ion-input>
+        <ion-input type="email" [(ngModel)]="company.email" type="email"></ion-input>
       </ion-item>
 
       <ion-item>
@@ -27,8 +27,17 @@
       </ion-item>
 
       <ion-item>
+        <ion-label>Licença</ion-label>
+        <ion-select [(ngModel)]="company.license">
+          <ion-option value="1">12 meses por R$ 300,00</ion-option>
+          <ion-option value="2">6 meses por R$ 180,00</ion-option>
+          <ion-option value="3">3 meses por R$ 105,00</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
         <ion-label floating>Endereço</ion-label>
-        <ion-input [(ngModel)]="company.address"></ion-input>
+        <ion-input [(ngModel)]="company.billingAddress.address"></ion-input>
       </ion-item>
 
       <ion-item>
@@ -43,36 +52,10 @@
 
       <ion-item>
         <ion-label floating>Cidade</ion-label>
-        <ion-input [(ngModel)]="company.city"></ion-input>
+        <ion-input [(ngModel)]="company.billingAddress.city"></ion-input>
       </ion-item>
 
-    <!-- <ion-item>
-      <ion-label><ion-icon name="clock"></ion-icon> Horários</ion-label>
-      <ion-select [(ngModel)]="company.hours">
-        <ion-option value="1">24h</ion-option>
-        <ion-option value="2">das 6h as 18h</ion-option>
-        <ion-option value="3">das 8h as 18h</ion-option>
-        <ion-option value="4">das 8h as 20h</ion-option>
-        <ion-option value="5">das 8h as 22h</ion-option>
-        <ion-option value="6">das 10h as 22h</ion-option>
-        <ion-option value="7">das 14h as 22h</ion-option>
-        <ion-option value="8">das 18h as 24h</ion-option>
-        <ion-option value="9">das 18h a último cliente</ion-option>
-      </ion-select>
-    </ion-item> -->
   </ion-list>
-
-  <!-- <div class="cover-picture">
-	  <button ion-button (click)="takePictureCover()">Tirar Foto de Capa</button>
-	  <p>Foto de Capa:</p>
-	  <img [src]="base64CoverImage" *ngIf="base64CoverImage" />
-	</div>
-
-	<div class="logo-picture">
-	  <button ion-button (click)="takePictureThumb()">Tirar Foto para Logo</button>
-	  <p>Foto Logo:</p>
-	  <img [src]="base64ThumbImage" *ngIf="base64ThumbImage" />
-	</div> -->
 
 	<div class="save">
 	  <button ion-button (click)="save()">Salvar</button>
