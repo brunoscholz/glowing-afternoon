@@ -17,6 +17,7 @@ import { ModelPage } from '../model-page';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 import { CompanyOptionsPage } from './company-options';
+import { CatalogPage } from '../catalog/catalog';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
 import { ISeller, IOffer } from '../../providers/data/interfaces';
@@ -100,6 +101,15 @@ export class CompanyDetailPage extends ModelPage {
     });
 
     modal.present();*/
+  }
+
+  gotoCatalog(e) {
+    let modal = this.modCtrl.create(CatalogPage, { item: this.company, offers: this.offers });
+    modal.onDidDismiss(review => {
+      
+    });
+
+    modal.present();
   }
 
   deleteReview(review) {

@@ -18,9 +18,6 @@ export class APIService {
   }
 
   Init(controller: string) {
-    //apiKey: MLabSettings.APIKEY,
-    //includeKey: "?apiKey=" + MLabSettings.APIKEY
-
     this.config = {
       baseUrl: APISettings.WEBURL + APISettings.APIVERSION + "/",
       controllerUrl: APISettings.WEBURL + APISettings.APIVERSION + "/" + controller,
@@ -127,7 +124,8 @@ export class APIService {
 
     return this.http.get(url, {
       search: params
-    });
+    })
+    .timeout(30000, new Error('timeout exceeded'));
   }
 
   private post(url, body, options = <any>{}, headerType = 'application/x-www-form-urlencoded') {
@@ -136,38 +134,92 @@ export class APIService {
 
     /*let params: URLSearchParams = new URLSearchParams();
     //params.set('apiKey', this.config.apiKey);
-    params.set('version', APISettings.APPVERSION);
-    _.each(options, function(value, key) {
+    _.each(body, function(value, key) {
       if(value) {
         params.set(key+'', (_.isObject(value) ? JSON.stringify(value) : value+''));
       }
-    });*/
-
-    let realBody = this.assembleBody(body).join('&');
-
-    return this.http.post(url, realBody, {
-      headers: headers
     });
+    params.set('v', APISettings.APPVERSION);*/
+
+    // let realBody = encodeURIComponent(body);
+    let params = this.assembleBody(body).join('&');
+    params += '&v=' + APISettings.APPVERSION;
+
+    return this.http.post(url, params, {
+      headers: headers
+    })
+    .timeout(30000, new Error('timeout exceeded'));
   }
 
-  private assembleBody(body) {
-    //joana@casadamaejoana.com
+  /*private assembleBody(body, arrayName = '') {
     let p = [];
     let self = this;
     _.each(body, function(value, key) {
-      if(_.isObject(value)) {
-        let out = self.assembleBody(value);
+      if(_.isObject(value) || _.isArray(value)) {
+        let out = self.assembleBody(value, key+'');
         p = p.concat(out);
-        /*_.each(value, function(v, k) {
-          p.push(k + '=' + v);
-        });*/
+        
       }
-      else
+      else {
+        let name = key;
+        if(arrayName !== '')
+          name = arrayName + '[' + key + ']';
+
         p.push(key + '=' + value);
+      }
     });
 
     p.push('v=' + APISettings.APPVERSION);
 
     return p; //.join('&');
+  }*/
+
+  private assembleBody(obj) {
+    var name, value, fullSubName, subName, subValue, innerObj, i;
+    let self = this;
+    let query = [];
+
+    for(name in obj) {
+      value = obj[name];
+        
+      if(value instanceof Array) {
+        for(i=0; i<value.length; ++i) {
+          subValue = value[i];
+          fullSubName = name + '[' + i + ']';
+          innerObj = {};
+          innerObj[fullSubName] = subValue;
+          //query += self.assembleBody(innerObj) + '&';
+          //query = query.concat(innerObj);
+          query.push(self.assembleBody(innerObj));
+        }
+      }
+      else if(value instanceof Object) {
+        for(subName in value) {
+          subValue = value[subName];
+          fullSubName = name + '[' + subName + ']';
+          innerObj = {};
+          innerObj[fullSubName] = subValue;
+          //query += self.assembleBody(innerObj) + '&';
+          //query = query.concat(innerObj);
+          query.push(self.assembleBody(innerObj));
+        }
+      }
+      else if(value !== undefined && value !== null)
+        //query += encodeURIComponent(name) + '=' + value + '&';
+        query.push(name + '=' + value);
+    }
+
+    return query;
   }
 }
+/*ReviewFact: [{
+  action: 'addReview',
+  offerId: this.product.offerId,
+  buyerId: 'logged',
+  sellerId: '',
+  rating: rate
+}],
+Review: [{
+  title: this.title,
+  body: this.description
+}]*/

@@ -16,11 +16,12 @@ import { ReviewPage } from '../review/review';
 import { CompanyDetailPage } from '../company-detail/company-detail';
 import { ReviewDetailPage } from '../review-detail/review-detail';
 import { DataService } from '../../providers/data/data.service';
+import { AuthService } from '../../providers/auth/auth.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 import { ProductOptionsPage } from './product-options';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
-import { IOffer } from '../../providers/data/interfaces';
+import { IOffer, IUser } from '../../providers/data/interfaces';
 import _ from 'underscore';
 
 @Component({
@@ -36,6 +37,7 @@ export class ProductDetailPage extends ModelPage {
     public modCtrl: ModalController,
     public popoverCtrl: PopoverController,
     public dataService: DataService,
+    public auth: AuthService,
     public util: UtilProvider
   ) {
     super("Product Details", dataService, util);
@@ -99,31 +101,32 @@ export class ProductDetailPage extends ModelPage {
   }
 
   saveReview(review) {
-    this.product.reviews.push(review);
-    this.presentToast();
-    this.dataService.addSocialAction({
-      controller: 'review-facts',
-      data: review
-    })
-    .then(() => {
+    let self = this;
+    self.util.presentLoading('Aguarde..');
 
+    self.auth.getUserInfo()
+    .then((user: IUser) => {
+
+      review.ReviewFact.buyerId = user.buyer.buyerId;
+
+      this.dataService.addSocialAction({
+        controller: 'review-facts',
+        data: review
+      })
+      .then((data) => {
+        if(data['status'] == 200) {
+          let toast = self.util.getToast('Você ganhou '+data['credit']+' moedas pela avaliação. Obrigado!');
+          //self.product.reviews.push(review);
+          //this.dataService.creditUser(10);
+          toast.present();
+          self.util.dismissLoading();
+        }
+      }, (err) => {
+        console.log(err);
+        self.util.notifyError(err);
+        self.util.dismissLoading();
+      });
     });
-  }
-
-  presentToast() {
-    let toast = this.util.getToast('Você ganhou 10 moedas pela avaliação. Obrigado!');
-    //  message: 'Você ganhou 10 moedas pela avaliação. Obrigado!',
-    /*position: 'middle',
-      showCloseButton: true,
-      closeButtonText: "Ok",
-      cssClass: 'coin-toast'
-    });*/
-
-    toast.onDidDismiss(() => {
-      this.dataService.creditUser(10);
-    });
-
-    toast.present();
   }
 
   gotoCompany() {

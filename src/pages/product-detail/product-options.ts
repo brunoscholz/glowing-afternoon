@@ -35,20 +35,31 @@ export class ProductOptionsPage {
   }
 
   favorite() {
+    let self = this;
+    self.util.presentLoading('Aguarde..');
+
     let fav = {
-      actionId: 0,
+      action: 'addToList',
       buyerId: this.user.buyer.buyerId,
       offerId: this.product.offerId
-    };
-    this.dataService.addSocialAction({
+    }
+    self.dataService.addSocialAction({
       controller: 'favorite-facts',
       data: fav
     })
     .then(() => {
-      let toast = this.util.getToast('Adicionado!');
+      let toast = self.util.getToast('Adicionado aos seus favoritos!');
       toast.present();
-      this.viewCtrl.dismiss();
+      self.viewCtrl.dismiss();
+    }, (err) => {
+      console.log(err);
+      self.util.dismissLoading();
+      self.viewCtrl.dismiss({err: err});
     });
+  }
+
+  unfavorite() {
+
   }
 
   addReview() {

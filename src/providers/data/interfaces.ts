@@ -64,7 +64,12 @@ export interface IOffer {
   updatedAt: string;
   status: string;
   reviews: IReviewFact[];
-  avgRating: number;
+  avgRating: IAvgRating;
+}
+
+export interface IAvgRating {
+  qtd: number;
+  avg: number;
 }
 
 export interface IItem {
@@ -139,7 +144,7 @@ export interface IBuyer {
 
 export interface IFollowFact {
   followFactId: string;
-  actionId: number;
+  actionReference: IActionReference;
   user: IBuyer;
   buyer: IBuyer;
   seller: ISeller;
@@ -148,7 +153,7 @@ export interface IFollowFact {
 
 export interface IFavoriteFact {
   favoriteFactId: string;
-  actionId: number;
+  actionReference: IActionReference;
   buyer: IBuyer;
   offer: IOffer;
   status: string;

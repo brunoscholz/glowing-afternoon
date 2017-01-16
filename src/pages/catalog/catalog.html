@@ -1,37 +1,31 @@
 <ion-header>
   <ion-navbar>
     <ion-title>{{title}}</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding class="card-background-page">
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-
-  <div class="empty" *ngIf="status === viewStatus.Empty">
+  <div class="empty" *ngIf="!offers">
     <ion-icon name="thumbs-down"></ion-icon>
-    <p>Não encontramos nenhuma oferta nessa categoria.</p>
+    <p>Não encontramos nenhuma oferta.</p>
   </div>
 
-  <div *ngIf="status === viewStatus.Full">
+  <div *ngIf="offers">
     <ion-list>
-      <ion-item-group *ngFor="let line of groupedOffers">
-        <ion-list-header>
-          {{ line.group.title }}
-        </ion-list-header>
-        <ion-item *ngFor="let item of line.items | orderBy:toOrder" (click)="itemTapped($event, item)">
-          <ion-thumbnail item-left>
-            <img src="assets/{{item.photoSrc}}"/>
-          </ion-thumbnail>
-          <h2>{{item.title}}</h2>
-          <p>{{item.description}}</p>
-          <!-- <button clear item-right>View</button> -->
-        </ion-item>
-      </ion-item-group>
-    </ion-list>
-
-    
+      <ion-item *ngFor="let offer of offers | orderBy:toOrder" (click)="itemTapped($event, offer)">
+        <ion-thumbnail item-left>
+          <img src="{{offer.picture.cover}}"/>
+        </ion-thumbnail>
+        <h2>{{offer.item.title}}</h2>
+        <p>{{offer.description}}</p>
+        <!-- <button clear item-right>View</button> -->
+      </ion-item>
+    </ion-list>    
   </div>
 
 </ion-content>

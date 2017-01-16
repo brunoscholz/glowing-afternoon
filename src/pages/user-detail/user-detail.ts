@@ -21,7 +21,7 @@ import { UserOptionsPage } from './user-options';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
 import { IBuyer, IUser } from '../../providers/data/interfaces';
-//import _ from 'underscore';
+import _ from 'underscore';
 
 @Component({
   templateUrl: 'user-detail.html',
@@ -92,9 +92,13 @@ export class UserDetailPage extends ModelPage {
     let self = this;
     self.auth.getUserInfo()
     .then((user: IUser) => {
+      let ids = _.pluck(user.buyer.following, 'buyerId');
       let canFollow = self.buyer.buyerId !== user.buyer.buyerId;
+      canFollow = canFollow && !_.contains(ids, self.buyer.buyerId);
+
+
       // && user.buyer.following does not contains self.buyer.buyerId
-      let popover = self.popoverCtrl.create(UserOptionsPage, { buyer: self.buyer, canFollow: true });
+      let popover = self.popoverCtrl.create(UserOptionsPage, { buyer: self.buyer, canFollow: canFollow });
       popover.onDidDismiss((ret) => {
         if(ret['err'] != '') {
           if(ret['err']['userId'])

@@ -69,6 +69,10 @@ export class ReviewDetailPage extends ModelPage {
     this.load();
   }
 
+  gotoUser(id) {
+
+  }
+
   dismiss() {
     this.viewCtrl.dismiss();
   }

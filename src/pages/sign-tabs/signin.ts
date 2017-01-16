@@ -34,7 +34,8 @@ export class SignInPage {
         this.util.dismissLoading();
       }, 20000);
       
-      this.auth.authenticate(this.signInForm.value).then(data => {
+      this.auth.authenticate(this.signInForm.value)
+      .then((data) => {
         if(data) {
           this.util.dismissLoading();
           this.navCtrl.setRoot(HomeTabsPage);

@@ -36,9 +36,12 @@ export class UserOptionsPage {
     self.auth.getUserInfo()
     .then((user: IUser) => {
       let fav = {
-        action: 'followUser',
-        userId: user.buyer.buyerId,
-        buyerId: self.buyer.buyerId
+        FollowFact: {
+          action: 'follow',
+          userId: user.buyer.buyerId,
+          buyerId: self.buyer.buyerId,
+          sellerId: ''
+        }
       }
       self.dataService.addSocialAction({
         controller: 'follow-facts',

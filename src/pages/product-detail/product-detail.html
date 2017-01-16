@@ -18,7 +18,8 @@
       <ion-item class="item-title">
         <ion-avatar item-right class="item-rating">
           <i class='otIcon-star-outline'></i>
-          <span> {{product.avgRating}}</span>
+          <span *ngIf="product.avgRating.qtd > 3"> {{product.avgRating.avg}}</span>
+          <span class="not-enough" style="word-wrap: normal;" *ngIf="product.avgRating.qtd <= 3"> sem avaliações suficientes</span>
         </ion-avatar>
         <ion-avatar item-right>
           <img src="{{product.seller.picture.thumbnail}}">
@@ -33,17 +34,17 @@
     </ion-card>
 
     <ion-list no-lines class="info-list">
+      <ion-item>
+        <i class="otIcon-email" item-left></i>
+        <h2>R$ {{product.pricePerUnit}}</h2>
+      </ion-item>
       <ion-item (click)="gotoCompany()">
         <i class="otIcon-map" item-left></i>
         <h2>{{product.seller.name}}</h2>
       </ion-item>
       <ion-item>
-        <i class="otIcon-email" item-left></i>
-        <h2>{{product.seller.email}}</h2>
-      </ion-item>
-      <ion-item>
-        <i class="otIcon-phone" item-left></i>
-        <h2>{{product.seller.phone}}</h2>
+        <i class="otIcon-map" item-left></i>
+        <h2>{{product.seller.billingAddress.address}}</h2>
       </ion-item>
     </ion-list>
 

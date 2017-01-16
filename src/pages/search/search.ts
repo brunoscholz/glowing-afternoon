@@ -11,7 +11,7 @@ import { UtilProvider } from '../../providers/utils/util.provider';
 import { AuthService } from '../../providers/auth/auth.service';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
-import { IUser, ISearchItems, ISearchResult } from '../../providers/data/interfaces';
+import { IUser, ISearchItems } from '../../providers/data/interfaces'; //ISearchResult
 import { ModelPage } from '../model-page';
 import 'rxjs/add/operator/debounceTime';
 import _ from 'underscore';
@@ -21,9 +21,10 @@ import _ from 'underscore';
 })
 export class SearchPage extends ModelPage {
   searchTerm: string = '';
-  //searchControl: Control; look in sign forms
   searching: any = false;
-  priceRange: number = 0;
+  //priceRange: any = { lower: 10, upper: 200 };
+  opt: any = { offers: true, sellers: true, buyers: true, priceRange: 100, lowerThan: true };
+  searchOptions: any;
 
   user: any;
   following: any;
@@ -78,6 +79,18 @@ export class SearchPage extends ModelPage {
     let self = this;
     // searchFor : {offers} -> offers only
     // searchFor : {offers, users} -> offers and users
+    let searchFor = [];
+    if(self.opt.offers)
+      searchFor.push('offers');
+
+    if(self.opt.sellers)
+      searchFor.push('sellers');
+
+    if(self.opt.buyers)
+      searchFor.push('buyers');
+
+    console.log(searchFor);
+
     self.dataService.search({
       term: self.searchTerm
     }).then((data: ISearchItems) => {
@@ -159,5 +172,24 @@ export class SearchPage extends ModelPage {
     this.navCtrl.push(CompanyDetailPage, {
       company: item
     });
+  }
+
+  filterChange(e) {
+    if(!e.target.checked) {
+      // filter / search
+
+    }
+  }
+
+  calculatePrice() {
+    let ret = "";
+    if(this.opt.priceRange == 0)
+      ret = 'grátis';
+    else if (this.opt.priceRange > 1 && this.opt.lowerThan)
+      ret = 'até R$ ' + this.opt.priceRange;
+    else if (this.opt.priceRange > 1 && !this.opt.lowerThan)
+      ret = 'acima de R$ ' + this.opt.priceRange;
+
+    return ret;
   }
 }

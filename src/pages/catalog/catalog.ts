@@ -10,74 +10,33 @@
  */
 
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
+
 import { ProductDetailPage } from '../product-detail/product-detail';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
-
-import { ViewStatusEnum } from '../../providers/utils/enums';
-//import { IProductFact } from '../../providers/interfaces';
-import { ModelPage } from '../model-page';
 
 import _ from 'underscore';
 
 @Component({
   templateUrl: 'catalog.html',
 })
-export class CatalogPage extends ModelPage {
-	products: any = [];
+export class CatalogPage {
+  title: string;
+  company: any;
+	offers: any = [];
   toOrder: string;
 
   constructor(private navCtrl: NavController,
-              navParams: NavParams,
+              public navParams: NavParams,
+              public viewCtrl: ViewController,
               public dataService: DataService,
               public util: UtilProvider
   ) {
-  	super('Ofertas', dataService, util)
-  	this.selectedItem = navParams.get('item');
+  	this.company = navParams.get('item');
+    this.offers = navParams.get('offers');
     this.toOrder = 'name';
-  }
-
-  ngOnInit() {
-  	//var self = this;
-    // get offers by category
-  	/*this.dataService.offers$
-	    .subscribe(
-	      (data) => {
-          self.products = data;
-          this.initializeItems();
-	      	self.changeViewState();
-	        if(self.refresher)
-	          self.refresher.complete();
-	      },
-	      (err) => { console.log(err); },
-	      () => {}
-	    );*/
-  }
-
-  ionViewDidLoad() {
-    this.doReset(this.selectedItem.title);
-    this.load();
-  }
-
-  changeViewState() {
-    if (_.size(this.products) > 0) {
-      this.doChangeView(ViewStatusEnum.Full);
-    }
-    else {
-      this.doChangeView(ViewStatusEnum.Empty);
-    }
-  	//this.doToggleLoading(false);
-  }
-
-  doRefresh(refresher) {
-    this.refresher = refresher;
-    this.load();
-  }
-
-  load() {
-    //this.dataService.findItems({ query: { category: this.selectedItem.id } });
-  	//this.dataService.getProducts({ collectionName: 'factProduct', query: { categoryId: this.selectedItem._id } })
+    this.title = this.company.name;
   }
 
   favThis(event, item) {}
@@ -88,4 +47,7 @@ export class CatalogPage extends ModelPage {
     });
   }
 
+  dismiss(): void {
+    this.viewCtrl.dismiss();
+  }
 }

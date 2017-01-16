@@ -63,15 +63,17 @@ export class ReviewPage {
     let rate = this.rating + this.attendance * 1000 + this.price * 100;
 
     let review = {
-        action: 'addReview',
-        offerId: this.product.offerId,
-        buyerId: 'logged',
-        sellerId: this.product.seller.sellerId,
-        review: {
-          title: this.title,
-          body: this.description  
+        ReviewFact: {
+          action: 'addReview',
+          offerId: this.product.offerId,
+          buyerId: 'logged',
+          sellerId: '',
+          rating: rate
         },
-        rating: rate
+        Review: {
+          title: this.title,
+          body: this.description
+        }
     };
 
     this.viewCtrl.dismiss(review);

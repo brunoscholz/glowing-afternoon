@@ -25,62 +25,72 @@
 
 <ion-content class="search-page">
 
-  <input type="checkbox" name="toggle" id="toggle">
-  <label for="toggle"></label>
-  
-  <ion-list class="container">
+  <!-- <input type="checkbox" name="toggle" id="toggle" (change)="filterChange($event)"> -->
 
-    <ion-item-group *ngIf="items?.offers">
-      <ion-list-header (click)="toggleDetails(items.offers)">
-        <ion-icon color="primary" item-right [name]="items.offers.icon"></ion-icon>
-        {{items.offers.title}} <ion-badge>{{items.offers.list?.length}}</ion-badge>
-      </ion-list-header>
-      <div class="items animated fadeIn" [hidden]="!items.offers.showDetails">
-        <offer-card *ngFor="let feed of items.offers.list" (click)="itemTapped($event, feed)" [feed]="feed"></offer-card>
-      </div>
-    </ion-item-group>
+  <div class="filters">
+    <ion-list>
+      <ion-item>
+        <ion-label> Ofertas</ion-label>
+        <ion-toggle [(ngModel)]="opt.offers" checked="true"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label> Empresas</ion-label>
+        <ion-toggle [(ngModel)]="opt.sellers" checked="true"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label> Usuários</ion-label>
+        <ion-toggle [(ngModel)]="opt.buyers" checked="true"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label> Preço: {{calculatePrice()}}</ion-label>
+        <ion-range [(ngModel)]="opt.priceRange" min="0" max="1000" step="10" snaps="true">
+          <ion-icon range-left small name="remove-circle"></ion-icon>
+          <ion-icon range-right name="add-circle"></ion-icon>
+        </ion-range>
+      </ion-item>
+      <ion-item>
+        <ion-label> Preço (até/acima de)</ion-label>
+        <ion-toggle [(ngModel)]="opt.lowerThan" checked="true"></ion-toggle>
+      </ion-item>
+    </ion-list>
+  </div>
 
-    <ion-item-group *ngIf="items?.sellers">
-      <ion-list-header (click)="toggleDetails(items.sellers)">
-        <ion-icon color="primary" item-right [name]="items.sellers.icon"></ion-icon>
-        {{items.sellers.title}} <ion-badge>{{items.sellers.list?.length}}</ion-badge>
-      </ion-list-header>
-      <div class="items animated fadeIn" [hidden]="!items.sellers.showDetails">
-        <seller-card *ngFor="let seller of items.sellers.list" (click)="companyTapped($event, seller)" [feed]="seller"></seller-card>
-      </div>
-    </ion-item-group>
+  <!-- <div class="toggle-trigger-container">
+    <label for="toggle" class="toggle-trigger"></label>
+  </div> -->
 
-    <ion-item-group *ngIf="items?.buyers">
-      <ion-list-header (click)="toggleDetails(items.buyers)">
-        <ion-icon color="primary" item-right [name]="items.buyers.icon"></ion-icon>
-        {{items.buyers.title}} <ion-badge>{{items.buyers.list?.length}}</ion-badge>
-      </ion-list-header>
-      <div class="items animated fadeIn" [hidden]="!items.buyers.showDetails">
-        <user-card *ngFor="let buyer of items.buyers.list" (click)="userTapped($event, buyer)" [feed]="buyer"></user-card>
-      </div>
-    </ion-item-group>
-  </ion-list>
+  <div class="container">
+    <ion-list>
+      <ion-item-group *ngIf="items?.offers">
+        <ion-list-header (click)="toggleDetails(items.offers)">
+          <ion-icon color="primary" item-right [name]="items.offers.icon"></ion-icon>
+          {{items.offers.title}} ({{items.offers.list?.length}})
+        </ion-list-header>
+        <div class="items animated fadeIn" [hidden]="!items.offers.showDetails">
+          <offer-card *ngFor="let feed of items.offers.list" (click)="itemTapped($event, feed)" [feed]="feed"></offer-card>
+        </div>
+      </ion-item-group>
 
-  <ion-list class="filters">
-    <ion-item>
-      <ion-label> Ofertas</ion-label>
-      <ion-toggle checked="true"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label> Empresas</ion-label>
-      <ion-toggle checked="true"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label> Usuários</ion-label>
-      <ion-toggle checked="true"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label> Preço</ion-label>
-      <ion-range dualKnobs="true" [(ngModel)]="priceRange" min="0" max="10000" step="10" snaps="true">
-        <ion-icon range-left small name="minus"></ion-icon>
-        <ion-icon range-right name="plus"></ion-icon>
-      </ion-range>
-    </ion-item>
-  </ion-list>
+      <ion-item-group *ngIf="items?.sellers">
+        <ion-list-header (click)="toggleDetails(items.sellers)">
+          <ion-icon color="primary" item-right [name]="items.sellers.icon"></ion-icon>
+          {{items.sellers.title}} ({{items.sellers.list?.length}})
+        </ion-list-header>
+        <div class="items animated fadeIn" [hidden]="!items.sellers.showDetails">
+          <seller-card *ngFor="let seller of items.sellers.list" (click)="companyTapped($event, seller)" [feed]="seller"></seller-card>
+        </div>
+      </ion-item-group>
+
+      <ion-item-group *ngIf="items?.buyers">
+        <ion-list-header (click)="toggleDetails(items.buyers)">
+          <ion-icon color="primary" item-right [name]="items.buyers.icon"></ion-icon>
+          {{items.buyers.title}} ({{items.buyers.list?.length}})
+        </ion-list-header>
+        <div class="items animated fadeIn" [hidden]="!items.buyers.showDetails">
+          <user-card *ngFor="let buyer of items.buyers.list" (click)="userTapped($event, buyer)" [feed]="buyer"></user-card>
+        </div>
+      </ion-item-group>
+    </ion-list>
+  </div>
 
 </ion-content>
