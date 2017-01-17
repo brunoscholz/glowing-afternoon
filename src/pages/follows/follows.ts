@@ -70,4 +70,8 @@ export class FollowsPage extends ModelPage {
     }
     this.util.dismissLoading();
   }
+
+  userTapped(ev, buyer) {
+
+  }
 }

@@ -20,7 +20,7 @@
         <img src="assets/img/avatar3.png">
       </div>
     </ion-item>
-    <user-card *ngFor="let flw of follows" (click)="userTapped($event, flw.user.buyer.buyerId)" [feed]="flw.user.buyer"></user-card>
+    <user-card *ngFor="let flw of follows" (click)="userTapped($event, flw.buyer.buyerId)" [feed]="flw.buyer"></user-card>
   </div>
 
 

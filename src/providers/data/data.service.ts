@@ -293,15 +293,20 @@ export class DataService {
     let self = this;
     let promise = new Promise((resolve, reject) => {
       let cp = self.getVisitingCompany();
-      console.log(cp);
       self.getUser()
       .then((usr: IUser) => {
+        let seller = {
+          Seller: cp,
+          BillingAddress: cp.billingAddress,
+          Picture: cp.picture,
+          salesman: usr.userId
+        }
+        delete seller['Seller']['billingAddress'];
+        delete seller['Seller']['picture'];
+        console.log(seller);
         self.api.add({
           controller: 'auth/seller-register',
-          body: { 
-            salesman: usr.userId,
-            company: self.getVisitingCompany()
-          },
+          body: seller,
           query: {}
         })
         .map((res: Response) => res.json())

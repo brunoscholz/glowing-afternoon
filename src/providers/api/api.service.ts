@@ -1,11 +1,12 @@
 //import { Storage, LocalStorage } from 'ionic-angular';
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams, Headers } from '@angular/http';
+import { Http, URLSearchParams, Headers, Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
 import { APISettings } from './api-settings';
+import { UtilProvider } from '../utils/util.provider';
 
 import _ from 'underscore';
 
@@ -13,7 +14,10 @@ import _ from 'underscore';
 export class APIService {
   private config: any;
   
-  constructor(private http: Http) {
+  constructor(
+              private http: Http,
+              public util: UtilProvider
+  ) {
     //this.http = http;
   }
 
@@ -132,47 +136,54 @@ export class APIService {
     let headers = new Headers();
     headers.append('Content-Type', headerType);
 
-    /*let params: URLSearchParams = new URLSearchParams();
-    //params.set('apiKey', this.config.apiKey);
-    _.each(body, function(value, key) {
-      if(value) {
-        params.set(key+'', (_.isObject(value) ? JSON.stringify(value) : value+''));
-      }
-    });
-    params.set('v', APISettings.APPVERSION);*/
-
-    // let realBody = encodeURIComponent(body);
     let params = this.assembleBody(body).join('&');
     params += '&v=' + APISettings.APPVERSION;
 
     return this.http.post(url, params, {
       headers: headers
     })
-    .timeout(30000, new Error('timeout exceeded'));
+      .timeout(30000, new Error('timeout exceeded'))
+      .catch(this.onCatch)
+      .do((res: Response) => {
+          this.onSubscribeSuccess(res);
+      }, (error: any) => {
+          this.onSubscribeError(error);
+      })
+      .finally(() => {
+          this.onFinally();
+      });
   }
 
-  /*private assembleBody(body, arrayName = '') {
-    let p = [];
-    let self = this;
-    _.each(body, function(value, key) {
-      if(_.isObject(value) || _.isArray(value)) {
-        let out = self.assembleBody(value, key+'');
-        p = p.concat(out);
-        
-      }
-      else {
-        let name = key;
-        if(arrayName !== '')
-          name = arrayName + '[' + key + ']';
+  /**
+   * Error handler.
+   * @param error
+   * @param caught
+   * @returns {ErrorObservable}
+   */
+  private onCatch(error: any, caught: Observable<any>): Observable<any> {
+      return Observable.throw(error);
+  }
 
-        p.push(key + '=' + value);
-      }
-    });
+  /**
+   * onSubscribeSuccess
+   * @param res
+   */
+  private onSubscribeSuccess(res: Response): void {
+  }
 
-    p.push('v=' + APISettings.APPVERSION);
+  /**
+   * onSubscribeError
+   * @param error
+   */
+  private onSubscribeError(error: any): void {
+    this.util.notifyError(error);
+  }
 
-    return p; //.join('&');
-  }*/
+  /**
+   * onFinally
+   */
+  private onFinally(): void {
+  }
 
   private assembleBody(obj) {
     var name, value, fullSubName, subName, subValue, innerObj, i;
@@ -212,14 +223,3 @@ export class APIService {
     return query;
   }
 }
-/*ReviewFact: [{
-  action: 'addReview',
-  offerId: this.product.offerId,
-  buyerId: 'logged',
-  sellerId: '',
-  rating: rate
-}],
-Review: [{
-  title: this.title,
-  body: this.description
-}]*/

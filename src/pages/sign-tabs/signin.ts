@@ -30,9 +30,6 @@ export class SignInPage {
       this.util.notifyError('Por favor preencha todos os campos corretamente!');
     } else {
       this.util.presentLoading('Autenticando...');
-      setTimeout(() => {
-        this.util.dismissLoading();
-      }, 20000);
       
       this.auth.authenticate(this.signInForm.value)
       .then((data) => {
