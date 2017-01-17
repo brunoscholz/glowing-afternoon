@@ -16,7 +16,7 @@ import { ProductDetailPage } from '../product-detail/product-detail';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 
-import _ from 'underscore';
+//import _ from 'underscore';
 
 @Component({
   templateUrl: 'catalog.html',

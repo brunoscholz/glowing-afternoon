@@ -39,10 +39,12 @@ export class ProductOptionsPage {
     self.util.presentLoading('Aguarde..');
 
     let fav = {
-      action: 'addToList',
-      buyerId: this.user.buyer.buyerId,
-      offerId: this.product.offerId
-    }
+        FavoriteFact: {
+          action: 'addToList',
+          buyerId: this.user.buyer.buyerId,
+          offerId: this.product.offerId
+        }
+      }
     self.dataService.addSocialAction({
       controller: 'favorite-facts',
       data: fav

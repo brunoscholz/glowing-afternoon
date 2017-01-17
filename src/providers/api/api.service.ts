@@ -176,7 +176,7 @@ export class APIService {
    * @param error
    */
   private onSubscribeError(error: any): void {
-    this.util.notifyError(error);
+    //this.util.notifyError(error);
   }
 
   /**

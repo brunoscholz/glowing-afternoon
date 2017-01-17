@@ -47,7 +47,7 @@ export class FollowsPage extends ModelPage {
         query = {'sellerId':{test:"like binary",value:this.profile.id}};
     }
     else {
-      query = {'userId':{test:"like binary",value:this.profile.id}};
+      query = {'userId':{test:"like binary",value:this.profile.id}, "buyerId":{test:"<>",value:"NULL"}};
     }
 
     self.dataService.findAll({
