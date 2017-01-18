@@ -5,6 +5,8 @@ import { UtilProvider } from '../../providers/utils/util.provider';
 import { Validators, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../validators/validators';
 import { TourPage } from '../tour/tour';
+import { TermsPage } from '../about/terms';
+import { PolicyPage } from '../about/policy';
 
 @Component({
   templateUrl: 'signup.html',
@@ -45,5 +47,13 @@ export class SignUpPage {
         this.util.notifyError(err);
       });
     }
+  }
+
+  openPolicy() {
+    this.navCtrl.push(PolicyPage);
+  }
+
+  openTerms() {
+    this.navCtrl.push(TermsPage);
   }
 }
