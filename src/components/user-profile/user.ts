@@ -16,6 +16,8 @@ import { IProfile } from '../../providers/data/interfaces';
 export class UserProfileCmp {
     @Input('feed') profile: IProfile;
 
+    // change based on profile type
+
     constructor(public navCtrl: NavController) {}
 
     gotoFollowers(event) {

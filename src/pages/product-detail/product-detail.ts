@@ -10,7 +10,7 @@
  *
 */
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, PopoverController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, PopoverController, ActionSheetController } from 'ionic-angular';
 import { ModelPage } from '../model-page';
 import { ReviewPage } from '../review/review';
 import { CompanyDetailPage } from '../company-detail/company-detail';
@@ -30,6 +30,8 @@ import _ from 'underscore';
 export class ProductDetailPage extends ModelPage {
   product: IOffer;
   bgImage: string;
+  user: IUser;
+  canAdd: boolean = true;
 
   constructor(
     public navCtrl: NavController,
@@ -37,6 +39,7 @@ export class ProductDetailPage extends ModelPage {
     public modCtrl: ModalController,
     public popoverCtrl: PopoverController,
     public dataService: DataService,
+    public actionSheet: ActionSheetController,
     public auth: AuthService,
     public util: UtilProvider
   ) {
@@ -49,6 +52,13 @@ export class ProductDetailPage extends ModelPage {
     this.doReset(this.product.item.title);
     this.doToggleLoading(false);
     //this.load();
+    let self = this;
+    self.auth.getUserInfo()
+    .then((user: IUser) => {
+      self.user = user;
+      let ids = _.pluck(user.buyer.favorites, 'offerId');
+      self.canAdd = !_.contains(ids, self.product.offerId);
+    });
   }
 
   load() {
@@ -60,17 +70,6 @@ export class ProductDetailPage extends ModelPage {
 
     }, (err) => {
 
-    });
-  }
-
-  moreOptions(myEvent) {
-    let popover = this.popoverCtrl.create(ProductOptionsPage, { product: this.product });
-    popover.onDidDismiss((act) => {
-      if(act == 'addReview')
-        this.addReview();
-    });
-    popover.present({
-      ev: myEvent
     });
   }
 
@@ -89,6 +88,115 @@ export class ProductDetailPage extends ModelPage {
     this.load();
   }
 
+  moreOptions(myEvent) {
+    let popover = this.popoverCtrl.create(ProductOptionsPage, { canAdd: this.canAdd });
+    popover.onDidDismiss((act) => {
+      if(act == 'addReview')
+        this.addReview();
+      if(act == 'addToList')
+        this.addToList();
+      if(act == 'removeFromList')
+        this.removeFromList();
+      if(act == 'share')
+        this.share();
+    });
+    popover.present({
+      ev: myEvent
+    });
+  }
+
+  addToList() {
+    let self = this;
+    self.util.presentLoading('Aguarde..');
+
+    let fav = {
+      FavoriteFact: {
+        action: 'addToList',
+        buyerId: self.user.buyer.buyerId,
+        offerId: self.product.offerId
+      }
+    }
+    self.dataService.addSocialAction({
+      controller: 'favorite-facts',
+      data: fav
+    })
+    .then(() => {
+      let toast = self.util.getToast('Adicionado aos seus favoritos!');
+      toast.present();
+    }, (err) => {
+      console.log(err);
+      self.util.dismissLoading();
+      self.util.notifyError(err);
+    });
+  }
+
+  removeFromList() {
+    let self = this;
+    self.util.presentLoading('Aguarde..');
+    let fav = {
+      FavoriteFact: {
+        action: 'removeFromList',
+        buyerId: self.user.buyer.buyerId,
+        offerId: self.product.offerId,
+        status: 'REM'
+      }
+    }
+    let ff = _.findWhere(self.user.buyer.favorites, { offerId: self.product.offerId });
+    self.dataService.addSocialAction({
+      controller: 'favorite-facts/' + ff.favoriteFactId,
+      data: fav
+    })
+    .then(() => {
+      let toast = self.util.getToast('Removido de seus favoritos!');
+      toast.present();
+    }, (err) => {
+      console.log(err);
+      self.util.dismissLoading();
+      self.util.notifyError(err);
+    });
+  }
+
+  share() {
+    let action = this.actionSheet.create({
+      /*{
+        text: 'Text',
+        handler: () => {
+          console.log('Text clicked');
+        }
+      },
+      {
+        text: 'Email',
+        handler: () => {
+          console.log('Email clicked');
+        }
+      },
+      {
+        text: 'Twitter',
+        handler: () => {
+          console.log('Twitter clicked');
+        }
+      },
+      */
+      buttons: [
+        {
+          text: 'Facebook',
+          handler: () => {
+            console.log('Facebook clicked');
+          }
+        },
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    action.present();
+  }
+
+
   addReview() {
     let modal = this.modCtrl.create(ReviewPage, { item: this.product });
     modal.onDidDismiss(review => {
@@ -104,28 +212,23 @@ export class ProductDetailPage extends ModelPage {
     let self = this;
     self.util.presentLoading('Aguarde..');
 
-    self.auth.getUserInfo()
-    .then((user: IUser) => {
-
-      review.ReviewFact.buyerId = user.buyer.buyerId;
-
-      this.dataService.addSocialAction({
-        controller: 'review-facts',
-        data: review
-      })
-      .then((data) => {
-        if(data['status'] == 200) {
-          let toast = self.util.getToast('Você ganhou '+data['credit']+' moedas pela avaliação. Obrigado!');
-          //self.product.reviews.push(review);
-          //this.dataService.creditUser(10);
-          toast.present();
-          self.util.dismissLoading();
-        }
-      }, (err) => {
-        console.log(err);
-        self.util.notifyError(err);
+    review.ReviewFact.buyerId = self.user.buyer.buyerId;
+    this.dataService.addSocialAction({
+      controller: 'review-facts',
+      data: review
+    })
+    .then((data) => {
+      if(data['status'] == 200) {
+        let toast = self.util.getToast('Você ganhou '+data['credit']+' moedas pela avaliação. Obrigado!');
+        //self.product.reviews.push(review);
+        //this.dataService.creditUser(10);
+        toast.present();
         self.util.dismissLoading();
-      });
+      }
+    }, (err) => {
+      console.log(err);
+      self.util.notifyError(err);
+      self.util.dismissLoading();
     });
   }
 

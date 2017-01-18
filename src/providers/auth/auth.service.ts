@@ -123,18 +123,16 @@ export class AuthService {
     let promise = new Promise((resolve, reject) => {
       this.api.add({
         controller: 'auth/signup',
-        body: user,
-        query: {}
+        body: user
       })
         .map((res: Response) => res.json())
         .subscribe(data => {
           if(data.status == 200) {
             this.storeUserCredentials(data.token);
-            let res = data.data[0]
-            this.storeUser(res);
-            res['firstLogin'] = true;
-            this._logged.next(res);
+            this.storeUser(data.data[0]);
+            this._logged.next(data.data[0]);
             resolve(true);
+            //res['firstLogin'] = true;
           }
           else {
             this._logged.next(null);

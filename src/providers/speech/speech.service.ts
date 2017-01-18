@@ -4,8 +4,8 @@ import { Observable, Observer } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
 // import { SpeechRecognition } from 'SpeechRecognition';
-//declare var webkitSpeechRecognition: any;
-declare var SpeechRecognition: any;
+declare var webkitSpeechRecognition: any;
+// declare var SpeechRecognition: any;
 
 @Injectable() 
 export class SpeechService {
@@ -25,7 +25,7 @@ export class SpeechService {
 
   // this goes into the app.cmp platform ready
   init() {
-    this.recognition = new SpeechRecognition();
+    this.recognition = new webkitSpeechRecognition();
     //this.recognition.continuous = true;
     this.recognition.lang = 'pt-BR'; //en-US
     

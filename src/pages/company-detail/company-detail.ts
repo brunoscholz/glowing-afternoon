@@ -15,20 +15,23 @@ import { ModelPage } from '../model-page';
 // import { ReviewPage } from '../review/review';
 // import { ReviewDetailPage } from '../review-detail/review-detail';
 import { DataService } from '../../providers/data/data.service';
+import { AuthService } from '../../providers/auth/auth.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 import { CompanyOptionsPage } from './company-options';
 import { CatalogPage } from '../catalog/catalog';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
-import { ISeller, IOffer } from '../../providers/data/interfaces';
-//import _ from 'underscore';
+import { ISeller, IOffer, IUser } from '../../providers/data/interfaces';
+import _ from 'underscore';
 
 @Component({
   templateUrl: 'company-detail.html',
 })
 export class CompanyDetailPage extends ModelPage {
   company: ISeller;
+  user: IUser;
   bgImage: string;
+  canFollow: boolean = true;
   offers: IOffer[];
 
   constructor(public navCtrl: NavController,
@@ -37,6 +40,7 @@ export class CompanyDetailPage extends ModelPage {
               public modCtrl: ModalController,
               public popoverCtrl: PopoverController,
               public dataService: DataService,
+              public auth: AuthService,
               public util: UtilProvider
   ) {
     super("Company Details", dataService, util);
@@ -47,6 +51,16 @@ export class CompanyDetailPage extends ModelPage {
   ionViewDidLoad() {
     this.doReset(this.company.name);
     this.load();
+
+    let self = this;
+    self.auth.getUserInfo()
+    .then((user: IUser) => {
+      self.user = user;
+      let ids = _.pluck(user.buyer.following, 'sellerId');
+      //self.canFollow = self.buyer.buyerId !== user.buyer.buyerId;
+      //self.canFollow = self.canFollow && !_.contains(ids, self.buyer.buyerId);
+      self.canFollow = !_.contains(ids, self.company.sellerId);
+    });
   }
 
   load() {
@@ -81,26 +95,114 @@ export class CompanyDetailPage extends ModelPage {
   }
 
   moreOptions(myEvent) {
-    let popover = this.popoverCtrl.create(CompanyOptionsPage, { company: this.company });
+    let popover = this.popoverCtrl.create(CompanyOptionsPage, { canFollow: this.canFollow });
     popover.onDidDismiss((act) => {
+      if(act == 'follow')
+        this.follow();
+      if(act == 'unfollow')
+        this.unfollow();
       if(act == 'addReview')
         this.addReview();
+      if(act == 'addReviewPlus')
+        this.addReviewPlus();
     });
     popover.present({
       ev: myEvent
     });
   }
 
+  follow() {
+    let self = this;
+    self.util.presentLoading('Aguarde..');
+    let fav = {
+      FollowFact: {
+        action: 'follow',
+        userId: self.user.buyer.buyerId,
+        sellerId: self.company.sellerId,
+        buyerId: ''
+      }
+    }
+    self.dataService.addSocialAction({
+      controller: 'follow-facts',
+      data: fav
+    })
+    .then(() => {
+      let toast = self.util.getToast('Você está seguindo ' + self.company.name);
+      toast.present();
+    }, (err) => {
+      console.log(err);
+      self.util.dismissLoading();
+      self.util.notifyError(err);
+    });
+  }
+
+  unfollow() {
+    let self = this;
+    self.util.presentLoading('Aguarde..');
+    let fav = {
+      FollowFact: {
+        action: 'unfollow',
+        userId: self.user.buyer.buyerId,
+        sellerId: self.company.sellerId,
+        buyerId: '',
+        status: 'REM'
+      }
+    }
+    let ff = _.findWhere(self.user.buyer.following, { sellerId: self.company.sellerId });
+    self.dataService.addSocialAction({
+      controller: 'follow-facts/' + ff.followFactId,
+      data: fav
+    })
+    .then(() => {
+      let toast = self.util.getToast('Você parou de seguir ' + self.company.name);
+      toast.present();
+    }, (err) => {
+      console.log(err);
+      self.util.dismissLoading();
+      self.util.notifyError(err);
+    });
+  }
+
   addReview() {
-    /*let modal = this.modCtrl.create(ReviewPage, { item: this.company });
+    let alert = this.util.doAlert('Avaliação', 'Funcionalidade ainda não disponível para Empresas.', 'OK');
+    alert.present();
+    /*let modal = this.modCtrl.create(ReviewPage, { item: this.product });
     modal.onDidDismiss(review => {
       if(review){
-        this.company.reviews.push(review);
-        this.dataService.addReview(review);
+        this.saveReview(review);
       }
     });
 
     modal.present();*/
+  }
+
+  saveReview(review) {
+    let self = this;
+    self.util.presentLoading('Aguarde..');
+
+    review.ReviewFact.buyerId = self.user.buyer.buyerId;
+    this.dataService.addSocialAction({
+      controller: 'review-facts',
+      data: review
+    })
+    .then((data) => {
+      if(data['status'] == 200) {
+        let toast = self.util.getToast('Você ganhou '+data['credit']+' moedas pela avaliação. Obrigado!');
+        //self.product.reviews.push(review);
+        //this.dataService.creditUser(10);
+        toast.present();
+        self.util.dismissLoading();
+      }
+    }, (err) => {
+      console.log(err);
+      self.util.notifyError(err);
+      self.util.dismissLoading();
+    });
+  }
+
+  addReviewPlus() {
+    let alert = this.util.doAlert('Cliente Oculto', 'Funcionalidade ainda não disponível.', 'OK');
+    alert.present();
   }
 
   gotoCatalog(e) {

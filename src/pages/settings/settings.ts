@@ -42,12 +42,17 @@ export class SettingsPage extends ModelPage {
         this.util.dismissLoading();
       }, 20000);
 
-      let data = {picture: imageData, cover: true};
+      let data = {};
       let t = this.profile.type + "Id";
-      data[t] = this.profile.id;
+      data['form'][t] = this.profile.id;
+      let ot = this.profile.type == 'buyer' ? 'sellerId' : 'buyerId';
+      data['form'][ot] = '';
+
+      let pic = { 'imageCover': imageData };
 
       this.dataService.updateProfile({
-        picture: data
+        form: data,
+        picture: pic
       }).then((res) => {
         if(res) {
           this.util.dismissLoading();
@@ -79,11 +84,17 @@ export class SettingsPage extends ModelPage {
         this.util.dismissLoading();
       }, 20000);
 
-      let data = {picture: imageData, thumbnail: true};
+      let data = {};
       let t = this.profile.type + "Id";
-      data[t] = this.profile.id;
+      data['form'][t] = this.profile.id;
+      let ot = this.profile.type == 'buyer' ? 'sellerId' : 'buyerId';
+      data['form'][ot] = '';
+
+      let pic = { 'imageThumb': imageData };
+
       this.dataService.updateProfile({
-        picture: data
+        form: data,
+        picture: pic
       }).then((res) => {
         if(res) {
           this.util.dismissLoading();
@@ -126,6 +137,8 @@ export class SettingsPage extends ModelPage {
       handler: data => {
         let t = this.profile.type + "Id";
         data[t] = this.profile.id;
+        let ot = this.profile.type == 'buyer' ? 'sellerId' : 'buyerId';
+        data[ot] = '';
         this.updateUsername(data);
       }
     });
@@ -137,19 +150,19 @@ export class SettingsPage extends ModelPage {
     let alert = this.util.doAlert('Alterar Senha', '', 'Cancelar');
     alert.addInput({
       type: 'password',
-      name: 'currentPass',
+      name: 'currentPassword',
       value: '',
       placeholder: 'senha atual'
     });
     alert.addInput({
       type: 'password',
-      name: 'newPass',
+      name: 'newPassword',
       value: '',
       placeholder: 'nova senha'
     });
     alert.addInput({
       type: 'password',
-      name: 'confirmPass',
+      name: 'confirmPassword',
       value: '',
       placeholder: 'confirmar senha'
     });

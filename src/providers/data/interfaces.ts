@@ -127,6 +127,7 @@ export interface IBuyer {
   about: string;
   dob: string;
   name: string;
+  username: string;
   gender: string;
   email: string;
   title: string;

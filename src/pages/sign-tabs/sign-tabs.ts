@@ -14,17 +14,10 @@ import { HomeTabsPage } from '../home-tabs/home-tabs';
 })
 export class SignTabsPage {
 
-  /*tabsign1: any;
-  tabsign2: any;
-  tabsign3: any;*/
-
   constructor(public navCtrl: NavController,
               public auth: AuthService,
               public util: UtilProvider
   ) {
-    /*this.tabsign1 = SignUpPage;
-    this.tabsign2 = SignInPage;
-    this.tabsign3 = ForgotPage;*/
   }
 
   facebookConnect() {

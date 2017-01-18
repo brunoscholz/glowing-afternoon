@@ -4,9 +4,13 @@
     <ion-icon item-left name="create"></ion-icon>
     <h2>Avaliar</h2>
   </ion-item>
-  <ion-item (click)="favorite()">
+  <ion-item *ngIf="canAdd" (click)="favorite()">
     <ion-icon item-left name="heart"></ion-icon>
-    <h2>Favoritos</h2>
+    <h2>+ Favoritos</h2>
+  </ion-item>
+  <ion-item *ngIf="!canAdd" (click)="unfavorite()">
+    <ion-icon item-left name="close-circle"></ion-icon>
+    <h2>- Favoritos</h2>
   </ion-item>
 
 </ion-list>

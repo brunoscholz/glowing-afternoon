@@ -36,29 +36,6 @@ export class ReviewPage {
     };
   }
 
-  book(){
-    /*let newReservation = {
-        _id: this.room._id,
-        from: this.details.from.substring(0,10),
-        to: this.details.from.substring(0,10)
-    }
-
-    let loading = this.loadingCtrl.create({
-        content: "Booking room..."
-    });
-
-    loading.present();
-
-    this.roomsService.reserveRoom(newReservation).then((res) => {
-
-        loading.dismiss();
-        this.nav.popToRoot();
-
-    }, (err) => {
-        console.log(err);
-    });*/
-  }
-
   save(): void {
     let rate = this.rating + this.attendance * 1000 + this.price * 100;
 

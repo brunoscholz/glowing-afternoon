@@ -123,13 +123,15 @@ export class DataService {
       //.then((token) => {
         let body = { token: token }
         if(options.pass)
-          body['pass'] = options.pass;
+          body['UserForm'] = options.pass;
 
         if(options.username)
-          body['username'] = options.username;
+          body['UserForm'] = options.username;
 
-        if(options.picture)
-          body['picture'] = options.picture;
+        if(options.picture) {
+          body['Picture'] = options.pic;
+          body['UserForm'] = options.form;
+        }
 
         this.api.add({
           controller: 'auth/settings',
@@ -142,7 +144,7 @@ export class DataService {
               resolve(data.data);
             }
             else
-              reject(data.error);
+              reject(data.errors);
           });
     });
     return promise;

@@ -18,7 +18,7 @@ export class AboutPage {
 
   constructor(public navCtrl: NavController) {
   	this.appPages = [
-	    { title: 'Sobre o OndeTem?', component: WhyPage, icon: 'home' },
+	    { title: 'Sobre o Onde tem?', component: WhyPage, icon: 'home' },
 	    { title: 'Contato', component: ContactPage, icon: 'grid' },
 	  ];
 

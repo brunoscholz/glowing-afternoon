@@ -140,7 +140,7 @@ export class ProfilePage extends ModelPage {
   }
 
   moreOptions(myEvent) {
-    let userProfiles = { profiles: [{ name: this.user.buyer.name, id: this.user.buyer.buyerId, pic: this.user.buyer.picture.thumbnail, type: 'buyer', index: 0 }] };
+    let userProfiles = { profiles: [{ name: this.user.buyer.username, id: this.user.buyer.buyerId, pic: this.user.buyer.picture.thumbnail, type: 'buyer', index: 0 }] };
     let i = 1;
     this.user.sellers.forEach(function(entry) {
       //console.log(entry);

@@ -6,7 +6,7 @@
 
 <ion-content padding class="signup-page" align="center">
   <ion-list padding class="sign-header">
-    <ion-item class="search-logo" no-lines>
+    <ion-item class="sign-logo" no-lines>
       <img src="assets/img/logo.png">
     </ion-item>
 
@@ -38,6 +38,12 @@
         <ion-input formControlName="confirmPassword" type="password" placeholder="Confirme a senha" [class.invalid]="!signUpForm.controls.confirmPassword.valid && (signUpForm.controls.confirmPassword.dirty)"></ion-input>
       </ion-item>
       <control-messages [control]="signUpForm.controls.confirmPassword"></control-messages>
+
+      <ion-item class="sign-bar">
+        <ion-label>Eu concordo com os <a (click)="openTerms()">Termos de Serviço</a> da Onde tem? e a <a (click)="openPolicy()">Política de Privacidade</a>.</ion-label>
+        <ion-checkbox formControlName="terms" secondary #terms name="terms" value="" checked="false"></ion-checkbox>
+      </ion-item>
+      <control-messages [control]="signUpForm.controls.terms"></control-messages>
 
     </form>
 

@@ -28,7 +28,9 @@ import _ from 'underscore';
 })
 export class UserDetailPage extends ModelPage {
   buyer: IBuyer;
+  user: IUser;
   bgImage: string;
+  canFollow: boolean = true;
 
   constructor(public navCtrl: NavController,
               navParams: NavParams,
@@ -47,6 +49,15 @@ export class UserDetailPage extends ModelPage {
   ionViewDidLoad() {
     this.doReset(this.buyer.name);
     this.load();
+
+    let self = this;
+    self.auth.getUserInfo()
+    .then((user: IUser) => {
+      self.user = user;
+      let ids = _.pluck(user.buyer.following, 'buyerId');
+      self.canFollow = self.buyer.buyerId !== user.buyer.buyerId;
+      self.canFollow = self.canFollow && !_.contains(ids, self.buyer.buyerId);
+    });
   }
 
   load() {
@@ -80,34 +91,68 @@ export class UserDetailPage extends ModelPage {
     this.load();
   }
 
-  follow(event) {
-    /*this.dataService.like(this.company).subscribe(
-        likes => {
-          this.company.likes = likes;
-        }
-    );*/
+  moreOptions(myEvent) {
+    let popover = this.popoverCtrl.create(UserOptionsPage, { canFollow: this.canFollow });
+    popover.onDidDismiss((act) => {
+      if(act == 'follow')
+        this.follow();
+      if(act == 'unfollow')
+        this.unfollow();
+    });
+    popover.present({
+      ev: myEvent
+    });
   }
 
-  moreOptions(myEvent) {
+  follow() {
     let self = this;
-    self.auth.getUserInfo()
-    .then((user: IUser) => {
-      let ids = _.pluck(user.buyer.following, 'buyerId');
-      let canFollow = self.buyer.buyerId !== user.buyer.buyerId;
-      canFollow = canFollow && !_.contains(ids, self.buyer.buyerId);
+    self.util.presentLoading('Aguarde..');
+    let fav = {
+      FollowFact: {
+        action: 'follow',
+        userId: self.user.buyer.buyerId,
+        buyerId: self.buyer.buyerId,
+        sellerId: ''
+      }
+    }
+    self.dataService.addSocialAction({
+      controller: 'follow-facts',
+      data: fav
+    })
+    .then(() => {
+      let toast = self.util.getToast('Você está seguindo ' + self.buyer.name);
+      toast.present();
+    }, (err) => {
+      console.log(err);
+      self.util.dismissLoading();
+      self.util.notifyError(err);
+    });
+  }
 
-
-      // && user.buyer.following does not contains self.buyer.buyerId
-      let popover = self.popoverCtrl.create(UserOptionsPage, { buyer: self.buyer, canFollow: canFollow });
-      popover.onDidDismiss((ret) => {
-        if(ret['err'] != '') {
-          if(ret['err']['userId'])
-            self.util.notifyError(ret['err']['userId']);
-        }
-      });
-      popover.present({
-        ev: myEvent
-      });
+  unfollow() {
+    let self = this;
+    self.util.presentLoading('Aguarde..');
+    let fav = {
+      FollowFact: {
+        action: 'unfollow',
+        userId: self.user.buyer.buyerId,
+        buyerId: self.buyer.buyerId,
+        sellerId: '',
+        status: 'REM'
+      }
+    }
+    let ff = _.findWhere(self.user.buyer.following, { buyerId: self.buyer.buyerId });
+    self.dataService.addSocialAction({
+      controller: 'follow-facts/' + ff.followFactId,
+      data: fav
+    })
+    .then(() => {
+      let toast = self.util.getToast('Você parou de seguir ' + self.buyer.name);
+      toast.present();
+    }, (err) => {
+      console.log(err);
+      self.util.dismissLoading();
+      self.util.notifyError(err);
     });
   }
 }

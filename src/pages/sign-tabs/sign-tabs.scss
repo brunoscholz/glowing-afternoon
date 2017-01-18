@@ -1,5 +1,7 @@
 .sign-tabs-page {
-
+  .paragraph-item {
+    text-align: center;
+  }
 }
 
 .sign-tabs-page .sign-header, .signin-page .sign-header, .signup-page .sign-header {
@@ -15,6 +17,7 @@
     }
     &.sign-logo {
       margin-bottom: 5rem;
+      text-align: center;
     }
     &.sign-btn {
       margin-top: 5px;
@@ -29,10 +32,6 @@
   control-messages {
     color: map-get($colors, danger);
   }
-}
-
-ion-list.sign-header {
-
 }
 
 .sign-btn, .search-btn, .sign-btn-submit {

@@ -22,8 +22,10 @@ export class SignUpPage {
       name: ['', Validators.required],
       username: ['', Validators.compose([Validators.required, ValidationService.emailValidator])],
       password: ['', Validators.compose([Validators.required, ValidationService.passwordValidator])],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', Validators.required],
+      terms: [false, Validators.pattern('true')]
     }, { validator: ValidationService.matchingPasswords('password', 'confirmPassword')});
+
   }
 
   signup() {
@@ -31,13 +33,10 @@ export class SignUpPage {
       this.util.notifyError('Por favor preencha todos os campos corretamente!');
     } else {
       this.util.presentLoading('Aguarde...');
-      setTimeout(() => {
-        this.util.dismissLoading();
-      }, 20000);
 
-      this.auth.register(this.signUpForm.value).then(data => {
+      this.auth.register(this.signUpForm.value)
+      .then((data) => {
         if(data) {
-          console.log(data);
           this.util.dismissLoading();
           this.navCtrl.setRoot(TourPage);
         }
