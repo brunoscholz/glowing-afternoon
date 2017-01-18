@@ -5,6 +5,7 @@
 *.sw[mnpcod]
 *.log
 *.tmp
+*.apk
 *.tmp.*
 log.txt
 *.sublime-project
@@ -24,8 +25,10 @@ temp/
 hooks/
 platforms/
 plugins/
+res/
 plugins/android.json
 plugins/ios.json
+typings/
 www/
 $RECYCLE.BIN/
 
