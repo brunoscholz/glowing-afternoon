@@ -16,4 +16,8 @@ ion-content.tour-page {
       @include gradient(map-get($colors, primary), #178c97, -15deg);
     }
   }
+
+  .swiper-slide img {
+    max-width: 70%;
+  }
 }
