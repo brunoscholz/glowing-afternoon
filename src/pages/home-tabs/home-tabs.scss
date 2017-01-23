@@ -64,19 +64,19 @@ div.light-theme, div.night-theme {
   &.ion-md-person {
     &:before {
       font-family: 'ondetem' !important;
-      content:'\004e';
+      content:'\0071';
     }
   }
   &.ion-md-grid {
     &:before {
       font-family: 'ondetem' !important;
-      content:'\0049';
+      content:'\0030';
     }
   }
   &.ion-md-home {
     &:before {
       font-family: 'ondetem' !important;
-      content:'\0042';
+      content:'\006e';
     }
   }
 }
@@ -85,7 +85,7 @@ div.light-theme, div.night-theme {
   & .ion-md-menu {
     &:before {
       font-family: 'ondetem' !important;
-      content:'\004b';
+      content:'\007a';
       font-size: 2rem;
     }
   }
@@ -95,7 +95,7 @@ div.light-theme, div.night-theme {
   &.ion-md-arrow-back {
     &:before {
       font-family: 'ondetem' !important;
-      content:'\0048';
+      content:'\0079';
       font-size: 2rem;
     }
   }

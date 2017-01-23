@@ -30,16 +30,26 @@ export class SignInPage {
       this.util.notifyError('Por favor preencha todos os campos corretamente!');
     } else {
       this.util.presentLoading('Autenticando...');
-      
-      this.auth.authenticate(this.signInForm.value)
+
+      let auth = {
+        'AuthModel[username]': this.signInForm.value.username,
+        'AuthModel[password]': this.signInForm.value.password
+      };
+
+      let self = this;
+      self.auth.authenticate(auth)
       .then((data) => {
         if(data) {
-          this.util.dismissLoading();
-          this.navCtrl.setRoot(HomeTabsPage);
+          setTimeout(() => {
+            self.util.dismissLoading();
+            self.navCtrl.setRoot(HomeTabsPage);
+          });
         }
       }, (err) => {
-        this.util.dismissLoading();
-        this.util.notifyError(err);
+        setTimeout(() => {
+          self.util.dismissLoading();
+          self.util.notifyError(err);
+        });
       });
     }
   }

@@ -89,3 +89,50 @@ ion-label {
   font-size: 2rem;
   color: map-get($colors, midtone);
 }
+
+ion-action-sheet {
+  margin: 0;
+  .action-sheet-wrapper {
+    .action-sheet-container {
+      .action-sheet-group {
+        background-color: map-get($colors, primary);
+
+        button {
+          color: white;
+        }
+
+        button.share-facebook {
+          ion-icon {
+            color: #00f;
+          }
+        }
+      }
+    }
+  }
+}
+
+ion-action-sheet .action-sheet-title, .action-sheet .button {
+  text-align: left;
+  border-color: transparent;
+  font-size: 16px;
+  color: inherit;
+}
+ion-action-sheet .action-sheet-title {
+  font-size: 14px;
+  padding: 16px;
+  color: #666;
+}
+ion-action-sheet .button.active, .action-sheet .button.activated {
+  background: #e8e8e8;
+}
+.action-sheet-group {
+  margin: 0;
+  border-radius: 0;
+  background-color: #fafafa;
+}
+.action-sheet-cancel {
+  display: none;
+}
+.action-sheet-has-icons .button {
+  padding-left: 56px;
+}

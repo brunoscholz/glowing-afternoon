@@ -5,6 +5,8 @@ import { APIService } from '../api/api.service';
 import { DataService } from '../data/data.service';
 import { Facebook } from 'ionic-native';
 import { Subject } from 'rxjs/Rx';
+import { UtilProvider } from '../utils/util.provider';
+import { IShare, IUser } from '../data/interfaces';
 import 'rxjs/Rx';
 
 @Injectable() 
@@ -18,73 +20,132 @@ export class AuthService {
 
   constructor(public platform: Platform,
               public api: APIService,
-              public dataService: DataService
+              public dataService: DataService,
+              public util: UtilProvider
   ) {
     this.isLoggedin = false;
     this._logged = new Subject();
     this.AuthToken = null;
     this.api.Init("auth");
     //console.log(this.AuthToken);
+  }
 
+  Init() {
     this.platform.ready().then(() => {
-      Facebook.browserInit(this.FB_APP_ID, "v2.8");
+      
     });
+
+    let self = this;
+    let promise = new Promise((resolve, reject) => {
+      return self.checkAuthentication();
+      /*Facebook.getLoginStatus()
+      .then((response) => {
+        // if connected save userFB
+        // if token isnt found, but userFB is authenticate with it
+        
+      }, (error) => {
+        reject(error);
+      });*/
+    });
+    return promise;
   }
 
   connectWithFacebook() {
-    return this.doFbAuthenticate();
+    return this.chainConnect();
   }
 
-  doFbAuthenticate() {
+  chainConnect() {
     let self = this;
-    return Facebook.getLoginStatus()
-    .then((response) => {
-      if (response.status === 'connected') {
-        return self.doFbGetInfo(response.authResponse);
-      } else {
-        return self.doFbLogin();
-      }
-    }, (err) => {
-      console.log(err);
-      return null;
+    let promise = new Promise((resolve, reject) => {
+      Facebook.getLoginStatus()
+      .then((response) => {
+        return self.chainFbAuthenticate(response);
+      })
+      .then((response) => {
+        return self.chainFbGetInfo(response);
+      })
+      .then((usr) => {
+        return self.authenticate(usr);
+      })
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((err) => {
+        reject(err);
+      });
     });
+    return promise;
   }
 
-  doFbGetInfo(response) {
+  chainFbAuthenticate(response) {
+    console.log('chainFbAuthenticate');
+    let self = this;
+    let promise = new Promise((resolve, reject) => {
+      if (response.status === 'connected') {
+        resolve(response.authResponse);
+      } else {
+        return self.chainFbLogin();
+      }
+    });
+    return promise;
+  }
+
+  chainFbGetInfo(response) {
+    console.log('chainFbGetInfo');
     let self = this;
     let params = ['email'];
     let userId = response.userID;
-    return Facebook.api("/me?fields=id,name,email", params)
-    .then(function(user) {
-      user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
-      let usr = {
-        name: user.name,
-        email: user.email,
-        gender: user.gender,
-        picture: user.picture,
-        fbId: userId
-      };
-      return self.authenticate(usr);
-    }, function(error) {
-      console.log(error);
-      return null;
+    let promise = new Promise((resolve, reject) => {
+    
+      Facebook.api("/me?fields=id,name,email", params)
+      .then((user) => {
+        user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
+        let usr = {
+          name: user.name,
+          email: user.email,
+          gender: user.gender,
+          picture: user.picture,
+          fbId: userId
+        };
+        self.storeUser(usr, 'userFB');
+        resolve(usr);
+      }, (error) => {
+        reject(error);
+      });
+
     });
+    return promise;
   }
 
-  doFbLogin() {
-    let self = this;
-    //the permissions your facebook app needs from the user
-    //{scope: 'email,read_stream,publish_actions'}
-    let permissions = ["public_profile", "email", "user_friends"];
+  chainFbLogin() {
+    console.log('chainFbLogin');
+    let promise = new Promise((resolve, reject) => {
+      let permissions = ["public_profile", "email", "user_friends"];
 
-    return Facebook.login(permissions)
-    .then((response) => {
-      //if (response.status == 'connected') 
-      return self.doFbGetInfo(response.authResponse);
-    }, function(error) {
-      console.log(error);
-      return null;
+      Facebook.login(permissions)
+      .then((response) => {
+        if (response.status === 'connected') {
+          resolve(response.authResponse);
+        } else {
+          reject(new Error('Não foi possível fazer o login.'));
+        }
+      }, (error) => {
+        reject(error);
+      });
     });
+    return promise;
+  }
+
+  chainAuthenticate(usr) {
+    console.log('chainAuthenticate');
+    let promise = new Promise((resolve, reject) => {
+      console.log(usr);
+      if(usr)
+        resolve(true);
+      else
+        reject(new Error('dont know what happened!'));
+    });
+    return promise;
   }
 
   doFbLogout() {
@@ -94,53 +155,6 @@ export class AuthService {
       this.logout();
       this._logged.next(false);
     });
-  }
-
-  authenticate(user) {
-    let promise = new Promise((resolve, reject) => {
-      this.api.add({
-        controller: 'auth/signin',
-        body: user
-      })
-        .map((res: Response) => res.json())
-        .subscribe(data => {
-          if(data.status == 200) {
-            this.storeUserCredentials(data.token)
-            this.storeUser(data.data[0]);
-            this._logged.next(data.data[0]);
-            resolve(true);
-          }
-          else {
-            this._logged.next(null);
-            reject(data.error);
-          }
-        });
-    });
-    return promise;
-  }
-
-  register(user) {
-    let promise = new Promise((resolve, reject) => {
-      this.api.add({
-        controller: 'auth/signup',
-        body: user
-      })
-        .map((res: Response) => res.json())
-        .subscribe(data => {
-          if(data.status == 200) {
-            this.storeUserCredentials(data.token);
-            this.storeUser(data.data[0]);
-            this._logged.next(data.data[0]);
-            resolve(true);
-            //res['firstLogin'] = true;
-          }
-          else {
-            this._logged.next(null);
-            reject(data.error);
-          }
-        });
-    });
-    return promise;
   }
 
   forgotPassword(user) {
@@ -161,14 +175,34 @@ export class AuthService {
     return promise;
   }
 
-  shareWithFacebook() {
+  shareWithFacebook(data: IShare) {
     //var options = { method:"feed" };
-    /*Facebook.showDialog(options,
-      function (result) {
-        alert("Posted. " + JSON.stringify(result));             },
-      function (e) {
-        alert("Failed: " + e);
-    });*/
+    let promise = new Promise((resolve, reject) => {
+      Facebook.getLoginStatus()
+      .then((response) => {
+        if (response.status == 'connected') {
+          Facebook.showDialog({
+            method: "share",
+            href: "http://ondetem-gn.com.br/site/story/" + data.id,
+            caption: data.caption,
+            description: data.description,
+            quote: data.quote,
+            picture: data.picture,
+            hashtag: '#ondetem'
+          })
+          .then((result) => {
+            resolve(true);
+          }, (error) => {
+            reject(error);
+          });
+        }
+        reject(new Error('Não conectado ao Facebook'));
+      })
+      .catch((err) => {
+        this.util.notifyError(err);
+      });
+    });
+    return promise;
   }
 
   /*
@@ -188,8 +222,20 @@ export class AuthService {
   }
 
   {
+    method: "send",
+    caption: "Check this out.",
+    link: "http://example.com",
+    description: "The site I told you about",
+    picture: "http://example.com/image.png"
+  }
+
+  {
     method: "apprequests",
-    message: "Come on man, check out my application."
+    message: "Come on man, check out my application.",
+    data: data,
+    title: title,
+    actionType: 'askfor',
+    filters: 'app_non_users'
   }
 
   facebookConnectPlugin.showDialog( 
@@ -205,53 +251,107 @@ export class AuthService {
     function (response) { alert(JSON.stringify(response)) });
   */
 
-  loadUserCredentials() {
+  checkAuthentication() {
     let self = this;
-    let token = this.dataService.lstorageLoad('ondetemTK');
+    return new Promise((resolve, reject) => {
+      //Load token if exists
+      self.dataService.storageLoad('ondetemTK')
+      .then((tk: string) => {
+        let body = { 'AuthModel[token]': encodeURIComponent(tk) };
+        return self.authenticate(body);
+      })
+      .then((res) => {
+        return self.dataService.storageLoad('user');
+      })
+      .then((usr: string) => {
+        resolve(<IUser>JSON.parse(usr));
+      })
+      .catch((err) => {
+        reject(err);
+      });
+    });
+  }
 
+  authenticate(user) {
+    console.log('authenticate');
     let promise = new Promise((resolve, reject) => {
-      if(!token || token == undefined) {
-        self._logged.next(false);
-        reject('usuário não logado - token não encontrado');
-      } else {
-        self.authenticate({ token: encodeURIComponent(token) })
-        .then((res) => {
-          if(res) {
-            let usr = JSON.parse(self.dataService.lstorageLoad('user'));
-            resolve(usr);
+      this.api.add({
+        controller: 'auth/signin',
+        body: user
+      })
+        .map((res: Response) => res.json())
+        .subscribe(data => {
+          if(data.status == 200) {
+            this.storeUserCredentials(data.token)
+            this.storeUser(data.data[0]);
+            //this._logged.next(data.data[0]);
+            resolve(true);
           }
-          else
-            reject('autenticação falhou');
+          else {
+            //this._logged.next(null);
+            reject(data.error);
+          }
         }, (err) => {
-          console.log(err);
+          reject(err);
         });
-      }
     });
     return promise;
   }
 
-  setUserInfo(data: any) {
-    this.dataService.lstorageSave('user', JSON.stringify(data));
+  register(user) {
+    let promise = new Promise((resolve, reject) => {
+      this.api.add({
+        controller: 'auth/signup',
+        body: user
+      })
+        .map((res: Response) => res.json())
+        .subscribe(data => {
+          if(data.status == 200) {
+            this.storeUserCredentials(data.token);
+            this.storeUser(data.data[0]);
+            //this._logged.next(data.data[0]);
+            resolve(true);
+          }
+          else {
+            //this._logged.next(null);
+            reject(data.error);
+          }
+        }, (err) => {
+          reject(err);
+        });
+    });
+    return promise;
+  }
+
+  setUserInfo(data: any, name: string) {
+    this.dataService.storageSave(name, JSON.stringify(data))
+    .then(() => {
+
+    });
   }
 
   getUserInfo() {
     let promise = new Promise((resolve, reject) => {
-      let data = JSON.parse(this.dataService.lstorageLoad('user'));
-      if(data)
-        resolve(data);
-      else
-        return this.loadUserCredentials();
+      this.dataService.storageLoad('user')
+      .then((u: string) => {
+        let usr = <IUser>JSON.parse(u);
+        resolve(usr);
+      }, (err) => {
+        return this.checkAuthentication();
+      });
     });
     return promise;
   }
 
-  storeUser(data) {
-    this.setUserInfo(data);
+  storeUser(data, name='user') {
+    this.setUserInfo(data, name);
   }
 
   storeUserCredentials(token) {
-    this.dataService.lstorageSave('ondetemTK', token);
-    this.useCredentials(token);
+    this.dataService.storageSave('ondetemTK', token)
+    .then(() => {
+      this.useCredentials(token);
+    });
   }    
 
   useCredentials(token) {
@@ -263,11 +363,11 @@ export class AuthService {
     this.isLoggedin = false;
     //this._logged.next(false);
     this.AuthToken = null;
-    this.dataService.lstorageClear();
+    this.dataService.storageClear();
   }
 
   removeUserCredentials(item) {
-    this.dataService.lstorageRemove(item);
+    this.dataService.storageRemove(item);
   }
 
   getinfo() {

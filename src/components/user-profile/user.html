@@ -8,7 +8,11 @@
 
   <div class="profile-menu">
 		<ion-list>
-			<button ion-item (click)="gotoBank($event)">
+		  <button ion-item (click)="gotoSettings($event)">
+		    Minhas Informações
+		    <ion-icon item-right name="arrow-forward"></ion-icon>
+		  </button>
+		  <button ion-item (click)="gotoBank($event)">
 		    Moedas
 		    <ion-icon item-right name="arrow-forward"></ion-icon>
 		  </button>
@@ -26,10 +30,6 @@
 		  </button>
 		  <button ion-item (click)="gotoReviews($event)">
 		    Avaliações
-		    <ion-icon item-right name="arrow-forward"></ion-icon>
-		  </button>
-		  <button ion-item (click)="gotoSettings($event)">
-		    Configurações
 		    <ion-icon item-right name="arrow-forward"></ion-icon>
 		  </button>
 		</ion-list>

@@ -5,14 +5,14 @@ import { UtilProvider } from '../../providers/utils/util.provider';
 import { ModelPage } from '../model-page';
 import { RegisterPage } from './register';
 
-import { IOffer } from '../../providers/data/interfaces';
+import { IOffer, ISeller } from '../../providers/data/interfaces';
 //import _ from 'underscore';
 
 @Component({
   templateUrl: 'preview.html',
 })
 export class PreviewPage extends ModelPage {
-  company: any;
+  company: ISeller;
   bgImage: string;
   avImage: string;
   offers: IOffer[];

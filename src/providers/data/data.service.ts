@@ -5,7 +5,7 @@ import { Response } from '@angular/http';
 import { Observable, Observer } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
-import { IUser } from './interfaces';
+import { IUser, ISeller } from './interfaces';
 import { APIService } from '../api/api.service';
 import { UtilProvider } from '../utils/util.provider';
 
@@ -55,7 +55,7 @@ export class DataService {
   private _cached$: any;
   private _toStorage: any = ['loggedUser', 'categories', 'visitingCompany'];
   balance$: Observable<any>;
-
+  visitingCompany: ISeller;
 
   constructor(public api: APIService, public util: UtilProvider) {
     this.api.Init("offers");
@@ -71,7 +71,7 @@ export class DataService {
       visitingCompany: null
     };
 
-    this.setVisitingCompany({
+    this.setVisitingCompany(<ISeller>{
       name: "",
       about: "",
       email: "",
@@ -109,18 +109,19 @@ export class DataService {
     console.log(coins);
   }
 
-  setVisitingCompany(cp: any) {
-    this.lstorageSave('visitingCompany', JSON.stringify(cp));
+  setVisitingCompany(cp: ISeller) {
+    //this.storageSave('visitingCompany', JSON.stringify(cp));
+    this.visitingCompany = cp;
   }
 
   getVisitingCompany() {
-    return JSON.parse(this.lstorageLoad('visitingCompany'));
+    return this.visitingCompany;
   }
 
   updateProfile(options) {
     let promise = new Promise((resolve, reject) => {
-      let token = this.lstorageLoad('ondetemTK')
-      //.then((token) => {
+      this.storageLoad('ondetemTK')
+      .then((token) => {
         let body = { token: token }
         if(options.pass)
           body['UserForm'] = options.pass;
@@ -144,50 +145,39 @@ export class DataService {
               resolve(data.data);
             }
             else
-              reject(data.errors);
+              reject(data.error);
           });
+      });
     });
     return promise;
   }
 
   getUser() {
     return new Promise(resolve => {
-      let usr = JSON.parse(this.lstorageLoad('user'));
-      if(usr)
+      this.storageLoad('user')
+      .then((u: string) => {
+        let usr = <IUser>JSON.parse(u);
         resolve(usr);
-      else
+      }, (err) => {
         resolve(null);
+      });
     });
   }
 
   setPreferredProfile(prefs) {
     return new Promise(resolve => {
-      let usr = JSON.parse(this.lstorageLoad('user'));
-      if(usr) {
+      this.storageLoad('user')
+      .then((u: string) => {
+        let usr = <IUser>JSON.parse(u);
         usr.preferred = prefs;
-        this.lstorageSave('user', JSON.stringify(usr));
+        this.storageSave('user', JSON.stringify(usr));
         resolve(usr);
-      }
-      else
+      }, (err) => {
         resolve(null);
-    });
-    //this.lstorageSave('profile', JSON.stringify(prefs));
-  }
-
-  fetchUser(usr) {
-    if(usr == {} || usr == null)
-      usr = JSON.parse(this.lstorageLoad('user'));
-
-    this.api.findAll({
-      controller: 'buyers',
-      query: { 'userId': { test: "like binary", value: usr.userId } }
-    })
-      .map((res: Response) => res.json())
-      .subscribe((data) => {
-        let u = data.data[0];
-        this.lstorageSave('user', JSON.stringify(u));
-        this._subjects$['user'].next(u);
+        
       });
+    });
+    //this.storageSave('profile', JSON.stringify(prefs));
   }
 
   findAll(options: any) {
@@ -293,9 +283,13 @@ export class DataService {
 
   addPreRegisterSeller() {
     let self = this;
+    let cp: ISeller;
     let promise = new Promise((resolve, reject) => {
-      let cp = self.getVisitingCompany();
-      self.getUser()
+      self.storageLoad('visitingCompany')
+      .then((co: string) => {
+        cp = <ISeller>JSON.parse(co);
+        return self.getUser();
+      })
       .then((usr: IUser) => {
         let seller = {
           Seller: cp,
@@ -305,7 +299,6 @@ export class DataService {
         }
         delete seller['Seller']['billingAddress'];
         delete seller['Seller']['picture'];
-        console.log(seller);
         self.api.add({
           controller: 'auth/seller-register',
           body: seller,
@@ -331,7 +324,7 @@ export class DataService {
     observer.complete();
   });*/
 
-  storageLoad(name) {
+  nstorageLoad(name) {
     return NativeStorage.getItem(name)
       .then((data) => {
         return data;
@@ -341,7 +334,7 @@ export class DataService {
       });
   }
 
-  storageSave(name, data) {
+  nstorageSave(name, data) {
     return NativeStorage.setItem(name, data)
       .then(() => {
         return true;
@@ -351,7 +344,7 @@ export class DataService {
       })
   }
 
-  storageClear() {
+  nstorageClear() {
     return NativeStorage.clear()
       .then(() => {
         return true;
@@ -361,7 +354,7 @@ export class DataService {
       });
   }
 
-  storageRemove(item) {
+  nstorageRemove(item) {
     return NativeStorage.remove(item)
     .then(() => {
       return true;
@@ -372,29 +365,60 @@ export class DataService {
   }
 
   /* temporary */
-  lstorageLoad(name) {
-    let value = window.localStorage.getItem(name);
-    if(value)
-      return value;
-
-    return null;
+  storageLoad(name) {
+    let promise = new Promise((resolve, reject) => {
+      try {
+        let value = window.localStorage.getItem(name);
+        if(value)
+          resolve(value);
+        else
+          throw new Error(name + ' não encontrado no db');
+      }
+      catch(e) {
+        reject(e);
+      }
+    });
+    return promise;
   }
 
-  lstorageSave(name, data) {
-    window.localStorage.setItem(name, data);
-    return true;
+  storageSave(name, data) {
+    let promise = new Promise((resolve, reject) => {
+      try {
+        window.localStorage.setItem(name, data);
+        resolve(true);
+      }
+      catch(e) {
+        reject(e);
+      }
+    });
+    return promise;
   }
 
-  lstorageClear() {
-    //window.localStorage.clear();
-    this.lstorageRemove('ondetemTK');
-    this.lstorageRemove('user');
-    return true;
+  storageClear() {
+    let promise = new Promise((resolve, reject) => {
+      try {
+        window.localStorage.removeItem('ondetemTK');
+        window.localStorage.removeItem('user');
+        resolve(true);
+      }
+      catch(e) {
+        reject(e);
+      }
+    });
+    return promise;
   }
 
-  lstorageRemove(item) {
-    window.localStorage.removeItem(item);
-    return true;
+  storageRemove(item) {
+    let promise = new Promise((resolve, reject) => {
+      try {
+        window.localStorage.removeItem(item);
+        resolve(true);
+      }
+      catch(e) {
+        reject(e);
+      }
+    });
+    return promise;
   }
 
   /*filterResults(list, query: any) {

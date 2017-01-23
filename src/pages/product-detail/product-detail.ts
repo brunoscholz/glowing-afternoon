@@ -157,6 +157,7 @@ export class ProductDetailPage extends ModelPage {
   }
 
   share() {
+    let self = this;
     let action = this.actionSheet.create({
       /*{
         text: 'Text',
@@ -180,12 +181,26 @@ export class ProductDetailPage extends ModelPage {
       buttons: [
         {
           text: 'Facebook',
+          icon: 'facebook',
+          cssClass: 'share-facebook',
           handler: () => {
-            console.log('Facebook clicked');
+            let price = self.product.pricePerUnit;
+            price.toFixed(2).replace(/./g, function(c, i, a) {
+              return i && c !== "," && ((a.length - i) % 3 === 0) ? '.' + c : c;
+            });
+            self.auth.shareWithFacebook({
+              id: self.product.offerId,
+              name: self.product.item.title,
+              caption: 'Oferta da ' + self.product.seller.name,
+              description: 'Achei no Onde tem?' + "\n" + 'R$ ' + price + '',
+              picture: self.product.picture.cover,
+              quote: 'Sensacional app de buscas!',
+            });
           }
         },
         {
           text: 'Cancel',
+          icon: 'close',
           style: 'cancel',
           handler: () => {
             console.log('Cancel clicked');

@@ -36,7 +36,15 @@ export class SignUpPage {
     } else {
       this.util.presentLoading('Aguarde...');
 
-      this.auth.register(this.signUpForm.value)
+      let auth = {
+        'AuthModel[name]': this.signUpForm.value.name,
+        'AuthModel[username]': this.signUpForm.value.username,
+        'AuthModel[password]': this.signUpForm.value.password,
+        'AuthModel[confirmPassword]': this.signUpForm.value.confirmPassword,
+        'AuthModel[terms]': this.signUpForm.value.terms
+      };
+
+      this.auth.register(auth)
       .then((data) => {
         if(data) {
           this.util.dismissLoading();

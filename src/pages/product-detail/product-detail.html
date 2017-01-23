@@ -36,7 +36,7 @@
     <ion-list no-lines class="info-list">
       <ion-item>
         <i class="otIcon-email" item-left></i>
-        <h2>R$ {{product.pricePerUnit}}</h2>
+        <h2>{{product.pricePerUnit | moneyFormat:[]}}</h2>
       </ion-item>
       <ion-item (click)="gotoCompany()">
         <i class="otIcon-map" item-left></i>

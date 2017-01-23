@@ -14,7 +14,7 @@ export class SupportPage {
               public dataService: DataService,
               private actionSheet: ActionSheetController,
               public util: UtilProvider) {
-  	this.company = dataService.getVisitingCompany();
+    this.company = dataService.getVisitingCompany();
   	this.title = 'Apoio de Vendas';
   }
 

@@ -30,6 +30,15 @@ export interface IProfile {
   picture: IPicture;
 }
 
+export interface IShare {
+  id: string;
+  name: string;
+  quote: string;
+  caption: string;
+  description: string;
+  picture: string;
+}
+
 export interface ICategory {
   categoryId: string;
   parentId: string;

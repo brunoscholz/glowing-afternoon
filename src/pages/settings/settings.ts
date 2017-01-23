@@ -58,7 +58,7 @@ export class SettingsPage extends ModelPage {
           this.util.dismissLoading();
           let toast = this.util.getToast("Foto Alterada com Sucesso");
           toast.present();
-          return this.auth.loadUserCredentials();
+          return this.auth.checkAuthentication();
         }
       }, (err) => {
         this.util.dismissLoading();
@@ -100,7 +100,7 @@ export class SettingsPage extends ModelPage {
           this.util.dismissLoading();
           let toast = this.util.getToast("Foto Alterada com Sucesso");
           toast.present();
-          return this.auth.loadUserCredentials();
+          return this.auth.checkAuthentication();
         }
       }, (err) => {
         this.util.dismissLoading();
@@ -197,7 +197,7 @@ export class SettingsPage extends ModelPage {
         this.util.dismissLoading();
         let toast = this.util.getToast("Nome Alterado com Sucesso");
         toast.present();
-        return this.auth.loadUserCredentials();
+        return this.auth.checkAuthentication();
       }
     }, (err) => {
       this.util.dismissLoading();
@@ -219,7 +219,7 @@ export class SettingsPage extends ModelPage {
         this.util.dismissLoading();
         let toast = this.util.getToast("Senha Alterada com Sucesso");
         toast.present();
-        return this.auth.loadUserCredentials();
+        return this.auth.checkAuthentication();
       }
     }, (err) => {
       this.util.dismissLoading();

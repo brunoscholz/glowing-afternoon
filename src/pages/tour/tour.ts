@@ -18,7 +18,7 @@ export class TourPage {
     this.slides = [
       {
         title: "Bem Vindo ao Onde tem?!",
-        description: "Ficamos alegres em poder ajudar você a realizar buscar mais eficientes no seu dia a dia e assim otimizar seu tempo.",
+        description: "Ficamos alegres em poder ajudar você a realizar buscas mais eficientes no seu dia a dia e assim otimizar seu tempo.",
         image: "assets/img/splash/time.svg",
         class: 'first-intro-slide',
       },

@@ -37,6 +37,7 @@ export class MyApp {
   isLoading: boolean = false;
   loggedUser: string = 'none';
   chosenTheme: string = 'night-theme';
+  user: IUser;
 
   appPages: IPage[] = [
     { title: 'Início', component: HomeTabsPage, icon: 'home' },
@@ -82,60 +83,71 @@ export class MyApp {
         this.chosenTheme = val;
       });
 
-    this.getUser();
+    //this.getUser();
     this.authenticate();
   }
 
   authenticate() {
-    this.auth.loadUserCredentials().then((user: IUser) => {
+    let self = this;
+    self.auth.checkAuthentication()
+    .then((res: IUser) => {
+      console.log("Already authorized");
+      self.prepareUser(res);
     }, (err) => {
-      console.log(err);
-      //this.util.notifyError(err);
+      console.log("Not already authorized");
+      setTimeout(() => {
+        // dismiss loading
+        self.nav.setRoot(SignTabsPage);
+      });
     });
   }
 
   getUser() { 
     let self = this;
-    this.auth.loggedIn$
+    self.auth.loggedIn$
     .subscribe((usr) => {
-      let logged = false;
-      let changed = false;
-      let first = false;
-      if(usr) {
-        self.isSalesPerson = (usr.role === 'salesman' || usr.role === 'administrator');
-        logged = true;
-        first = usr['firstLogin'];
-
-        if(usr.userId !== self.loggedUser || self.loggedUser == 'none') {
-          self.loggedUser = usr.userId;
-          changed = true;
-        }
-      }
-      else {
-        self.isSalesPerson = false;
-        changed = true;
-      }
-      
-      self.enableMenu(logged);
-      if(changed && !first)
-        self.gotoMainPage(logged);
+      self.prepareUser(usr);
     });
   }
 
   gotoMainPage(logged) {
     if(logged) {
-        let view = this.nav.getActive();
-        console.log(view.name);
-        //if(!this.nav.isActive('HomeTabsPage'))
-          setTimeout(() => {
-            this.nav.setRoot(HomeTabsPage);
-          }, 2000);
+        setTimeout(() => {
+          // dismiss loading
+          this.nav.setRoot(HomeTabsPage);
+        });
       }
       else {
         setTimeout(() => {
+          // dismiss loading
           this.nav.setRoot(SignTabsPage);
-        }, 2000);
+        });
       }
+  }
+
+  prepareUser(usr) {
+    let self = this;
+    let logged = false;
+    let changed = false;
+    let first = false;
+    if(usr) {
+      self.isSalesPerson = (usr.role === 'salesman' || usr.role === 'administrator');
+      logged = true;
+      first = usr['firstLogin'];
+
+      if(usr.userId !== self.loggedUser || self.loggedUser == 'none') {
+        self.loggedUser = usr.userId;
+        changed = true;
+      }
+    }
+    else {
+      self.isSalesPerson = false;
+      changed = true;
+    }
+    
+    self.enableMenu(logged);
+    if(changed && !first)
+      self.gotoMainPage(logged);
   }
 
   /*checkConnection() {

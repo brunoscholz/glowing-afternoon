@@ -30,7 +30,7 @@ export class ProductOptionsPage {
     this.viewCtrl.dismiss('addReview');
   }
 
-  share(event) {
+  share() {
     this.viewCtrl.dismiss('share');
   }
 }
