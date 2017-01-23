@@ -65,7 +65,7 @@ export class AuthService {
         return self.chainFbGetInfo(response);
       })
       .then((usr) => {
-        return self.authenticate(usr);
+        return self.register(usr);
       })
       .then((res) => {
         resolve(res);
@@ -78,20 +78,28 @@ export class AuthService {
   }
 
   chainFbAuthenticate(response) {
-    console.log('chainFbAuthenticate');
+    //console.log('chainFbAuthenticate');
     let self = this;
     let promise = new Promise((resolve, reject) => {
       if (response.status === 'connected') {
         resolve(response.authResponse);
       } else {
-        return self.chainFbLogin();
+        self.chainFbLogin()
+        .then((response) => {
+          resolve(response);
+        }, (error) => {
+          if(error.errorMessage)
+            reject(error.errorMessage);
+          else
+            reject(error);
+        });
       }
     });
     return promise;
   }
 
   chainFbGetInfo(response) {
-    console.log('chainFbGetInfo');
+    //console.log('chainFbGetInfo');
     let self = this;
     let params = ['email'];
     let userId = response.userID;
@@ -100,17 +108,29 @@ export class AuthService {
       Facebook.api("/me?fields=id,name,email", params)
       .then((user) => {
         user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
-        let usr = {
+        /*let usr = {
           name: user.name,
           email: user.email,
           gender: user.gender,
           picture: user.picture,
-          fbId: userId
-        };
+          socialId: userId,
+          socialName: 'facebook'
+        };*/
+        let usr = {
+          'AuthModel[socialId]': userId,
+          'AuthModel[socialName]': 'facebook',
+          'AuthModel[email]': user.email,
+          'AuthModel[name]': user.name,
+          'AuthModel[picture]': user.picture,
+          'AuthModel[gender]': user.gender
+        }
         self.storeUser(usr, 'userFB');
         resolve(usr);
       }, (error) => {
-        reject(error);
+        if(error.errorMessage)
+          reject(error.errorMessage);
+        else
+          reject(error);
       });
 
     });
@@ -118,7 +138,7 @@ export class AuthService {
   }
 
   chainFbLogin() {
-    console.log('chainFbLogin');
+    //console.log('chainFbLogin');
     let promise = new Promise((resolve, reject) => {
       let permissions = ["public_profile", "email", "user_friends"];
 
@@ -130,16 +150,18 @@ export class AuthService {
           reject(new Error('Não foi possível fazer o login.'));
         }
       }, (error) => {
-        reject(error);
+        if(error.errorMessage)
+          reject(error.errorMessage);
+        else
+          reject(error);
       });
     });
     return promise;
   }
 
   chainAuthenticate(usr) {
-    console.log('chainAuthenticate');
+    //console.log('chainAuthenticate');
     let promise = new Promise((resolve, reject) => {
-      console.log(usr);
       if(usr)
         resolve(true);
       else
@@ -273,7 +295,7 @@ export class AuthService {
   }
 
   authenticate(user) {
-    console.log('authenticate');
+    //console.log('authenticate');
     let promise = new Promise((resolve, reject) => {
       this.api.add({
         controller: 'auth/signin',
@@ -284,11 +306,11 @@ export class AuthService {
           if(data.status == 200) {
             this.storeUserCredentials(data.token)
             this.storeUser(data.data[0]);
-            //this._logged.next(data.data[0]);
+            this._logged.next(data.data[0]);
             resolve(true);
           }
           else {
-            //this._logged.next(null);
+            this._logged.next(null);
             reject(data.error);
           }
         }, (err) => {
@@ -309,11 +331,11 @@ export class AuthService {
           if(data.status == 200) {
             this.storeUserCredentials(data.token);
             this.storeUser(data.data[0]);
-            //this._logged.next(data.data[0]);
+            this._logged.next(data.data[0]);
             resolve(true);
           }
           else {
-            //this._logged.next(null);
+            this._logged.next(null);
             reject(data.error);
           }
         }, (err) => {

@@ -83,7 +83,7 @@ export class MyApp {
         this.chosenTheme = val;
       });
 
-    //this.getUser();
+    this.getUser();
     this.authenticate();
   }
 
@@ -92,12 +92,16 @@ export class MyApp {
     self.auth.checkAuthentication()
     .then((res: IUser) => {
       console.log("Already authorized");
-      self.prepareUser(res);
+      setTimeout(() => {
+        // dismiss loading
+        self.prepareUser(res);
+        this.nav.setRoot(HomeTabsPage);
+      });
     }, (err) => {
       console.log("Not already authorized");
       setTimeout(() => {
         // dismiss loading
-        self.nav.setRoot(SignTabsPage);
+        this.nav.setRoot(SignTabsPage);
       });
     });
   }
@@ -110,44 +114,19 @@ export class MyApp {
     });
   }
 
-  gotoMainPage(logged) {
-    if(logged) {
-        setTimeout(() => {
-          // dismiss loading
-          this.nav.setRoot(HomeTabsPage);
-        });
-      }
-      else {
-        setTimeout(() => {
-          // dismiss loading
-          this.nav.setRoot(SignTabsPage);
-        });
-      }
-  }
-
   prepareUser(usr) {
     let self = this;
     let logged = false;
-    let changed = false;
-    let first = false;
+
     if(usr) {
       self.isSalesPerson = (usr.role === 'salesman' || usr.role === 'administrator');
       logged = true;
-      first = usr['firstLogin'];
-
-      if(usr.userId !== self.loggedUser || self.loggedUser == 'none') {
-        self.loggedUser = usr.userId;
-        changed = true;
-      }
     }
     else {
       self.isSalesPerson = false;
-      changed = true;
     }
     
     self.enableMenu(logged);
-    if(changed && !first)
-      self.gotoMainPage(logged);
   }
 
   /*checkConnection() {
@@ -221,7 +200,7 @@ export class MyApp {
     setTimeout(() => {
       this.auth.logout();
       this.enableMenu(false);
+      this.nav.setRoot(SignTabsPage);
     }, 1000);
-    //this.nav.setRoot(SignTabsPage);
   }
 }
