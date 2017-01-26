@@ -3,6 +3,7 @@ import { NavController, ViewController, NavParams, ActionSheetController } from 
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 
+import { IUser } from '../../providers/data/interfaces';
 //import { ViewStatusEnum } from '../../providers/enums';
 
 /*
@@ -111,7 +112,37 @@ export class RegisterPage {
 
     this.util.presentLoading('Registrando...')
     this.dataService.setVisitingCompany(this.company);
-    this.dataService.addPreRegisterSeller()
+
+    this.dataService.getUser()
+    .then((usr: IUser) => {
+      let seller = {
+        Seller: {
+          name: this.company.name,
+          about: this.company.about,
+          email: this.company.email,
+          website: this.company.website,
+          phone: this.company.phone,
+          cellphone: this.company.cellphone,
+          hours: this.company.hours,
+          status: "PAY",
+          license: this.company.license
+        },
+        BillingAddress: {
+          address: this.company.billingAddress.address,
+          city: this.company.billingAddress.city,
+          neighborhood: "",
+          state: "PR",
+          postCode: "",
+          country: "Brasil (BRA)"
+        },
+        Picture: {
+          cover: this.company.picture.cover,
+          thumbnail: this.company.picture.thumbnail
+        },
+        salesman: usr.userId
+      }
+
+      this.dataService.addPreRegisterSeller(seller)
       .then((data) => {
         this.sended = true;
         this.company = [];
@@ -123,6 +154,7 @@ export class RegisterPage {
         this.presentToast(err);
         this.viewCtrl.dismiss();
       });
+    });
   }
   /*if(data.status == 200) {
     this.sended = true;

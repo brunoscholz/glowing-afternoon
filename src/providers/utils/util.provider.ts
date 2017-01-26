@@ -27,8 +27,8 @@ export class UtilProvider {
     ];
   }
 
-  notifyError(error:any) {
-    this.errorObserver.next(error);
+  notifyError(error:Error) {
+    this.errorObserver.next(error.message);
   }
 
   onError(callback:(err:any) => void) {

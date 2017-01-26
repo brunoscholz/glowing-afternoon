@@ -32,7 +32,7 @@ export class SignUpPage {
 
   signup() {
     if(!this.signUpForm.valid) {
-      this.util.notifyError('Por favor preencha todos os campos corretamente!');
+      this.util.notifyError(new Error('Por favor preencha todos os campos corretamente!'));
     } else {
       this.util.presentLoading('Aguarde...');
 

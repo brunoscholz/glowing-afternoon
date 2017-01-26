@@ -27,7 +27,7 @@ export class SignInPage {
 
   signin() {
     if(!this.signInForm.valid) {
-      this.util.notifyError('Por favor preencha todos os campos corretamente!');
+      this.util.notifyError(new Error('Por favor preencha todos os campos corretamente!'));
     } else {
       this.util.presentLoading('Autenticando...');
 

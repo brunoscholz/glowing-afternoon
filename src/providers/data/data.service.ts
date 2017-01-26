@@ -109,35 +109,27 @@ export class DataService {
     console.log(coins);
   }
 
-  setVisitingCompany(cp: ISeller) {
+  setVisitingCompany(cp) {
     //this.storageSave('visitingCompany', JSON.stringify(cp));
     this.visitingCompany = cp;
+    //window.localStorage.setItem('visitingCompany', JSON.stringify(cp));
   }
 
   getVisitingCompany() {
     return this.visitingCompany;
+    //return JSON.parse(window.localStorage.getItem('visitingCompany'));
   }
 
   updateProfile(options) {
     let promise = new Promise((resolve, reject) => {
       this.storageLoad('ondetemTK')
       .then((token) => {
-        let body = { token: token }
-        if(options.pass)
-          body['UserForm'] = options.pass;
-
-        if(options.username)
-          body['UserForm'] = options.username;
-
-        if(options.picture) {
-          body['Picture'] = options.pic;
-          body['UserForm'] = options.form;
-        }
+        let data = options.data;
+        data['token'] = token;
 
         this.api.add({
-          controller: 'auth/settings',
-          body: body,
-          query: {}
+          controller: options.controller,
+          body: data,
         })
           .map((res: Response) => res.json())
           .subscribe(data => {
@@ -145,7 +137,7 @@ export class DataService {
               resolve(data.data);
             }
             else
-              reject(data.error);
+              reject(new Error(data.error));
           });
       });
     });
@@ -159,7 +151,7 @@ export class DataService {
         let usr = <IUser>JSON.parse(u);
         resolve(usr);
       }, (err) => {
-        resolve(null);
+        resolve(err);
       });
     });
   }
@@ -173,7 +165,7 @@ export class DataService {
         this.storageSave('user', JSON.stringify(usr));
         resolve(usr);
       }, (err) => {
-        resolve(null);
+        resolve(err);
         
       });
     });
@@ -281,39 +273,21 @@ export class DataService {
     return promise;
   }
 
-  addPreRegisterSeller() {
+  addPreRegisterSeller(body) {
     let self = this;
-    let cp: ISeller;
     let promise = new Promise((resolve, reject) => {
-      self.storageLoad('visitingCompany')
-      .then((co: string) => {
-        cp = <ISeller>JSON.parse(co);
-        return self.getUser();
+      self.api.add({
+        controller: 'auth/seller-register',
+        body: body
       })
-      .then((usr: IUser) => {
-        let seller = {
-          Seller: cp,
-          BillingAddress: cp.billingAddress,
-          Picture: cp.picture,
-          salesman: usr.userId
+      .map((res: Response) => res.json())
+      .subscribe((data) => {
+        if(data.status == 200) {
+          resolve(data.data);
         }
-        delete seller['Seller']['billingAddress'];
-        delete seller['Seller']['picture'];
-        self.api.add({
-          controller: 'auth/seller-register',
-          body: seller,
-          query: {}
-        })
-        .map((res: Response) => res.json())
-        .subscribe((data) => {
-          if(data.status == 200) {
-            resolve(data.data);
-          }
-          else {
-            reject(data.error);
-          }
-        });
-
+        else {
+          reject(data.error);
+        }
       });
     });
     return promise;

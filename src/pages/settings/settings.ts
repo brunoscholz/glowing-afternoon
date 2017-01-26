@@ -29,95 +29,101 @@ export class SettingsPage extends ModelPage {
   }
 
   updatePicture() {
+    let self = this;
     this.presentPictureSource()
-    .then(source => {
-      let sourceType:number = Number(source);
-      return this.util.getPicture(sourceType);
+    .then((source: number) => {
+      let sourceType:number = source;
+      return self.util.getPicture(sourceType);
     })
     .then((imageData) => {
       //var blobImage = this.util.dataURItoBlob(imageData);
       //this.profile.picture.thumbnail = imageData;
-      this.util.presentLoading('Atualizando...');
-      setTimeout(() => {
-        this.util.dismissLoading();
-      }, 20000);
-
-      let data = {};
-      let t = this.profile.type + "Id";
-      data['form'][t] = this.profile.id;
-      let ot = this.profile.type == 'buyer' ? 'sellerId' : 'buyerId';
-      data['form'][ot] = '';
-
-      let pic = { 'imageCover': imageData };
-
-      this.dataService.updateProfile({
-        form: data,
-        picture: pic
-      }).then((res) => {
-        if(res) {
-          this.util.dismissLoading();
-          let toast = this.util.getToast("Foto Alterada com Sucesso");
-          toast.present();
-          return this.auth.checkAuthentication();
-        }
-      }, (err) => {
-        this.util.dismissLoading();
-        this.util.notifyError(err);
+      self.util.presentLoading('Atualizando...');
+      return self.formUserModel(imageData, 'imageCover');
+    })
+    .then((body) => {
+      return self.dataService.updateProfile({
+        controller: 'auth/settings',
+        data: body
       });
     })
-    .then((usr) => {});
+    .then((res) => {
+      return self.finishUpdate(res);
+    })
+    .then((usr) => {
+      self.util.dismissLoading();
+    })
+    .catch((err) => {
+      self.util.dismissLoading();
+      if(err.message != 'Camera cancelled.')
+        self.util.notifyError(err);
+    });
   }
 
   updateAvatar() {
+    let self = this;
     this.presentPictureSource()
-    .then(source => {
+    .then((source: number) => {
       let sourceType:number = Number(source);
-      return this.util.getPicture(sourceType, true, { width: 256, height: 256 });
+      return self.util.getPicture(sourceType, true, { width: 256, height: 256 });
     })
     .then((imageData) => {
-      //var blobImage = this.util.dataURItoBlob(imageData);
-      //this.profile.picture.thumbnail = imageData;
-      //return this.userProvider.uploadPicture(blobImage);
-      
-      this.util.presentLoading('Atualizando...');
-      setTimeout(() => {
-        this.util.dismissLoading();
-      }, 20000);
-
-      let data = {};
-      let t = this.profile.type + "Id";
-      data['form'][t] = this.profile.id;
-      let ot = this.profile.type == 'buyer' ? 'sellerId' : 'buyerId';
-      data['form'][ot] = '';
-
-      let pic = { 'imageThumb': imageData };
-
-      this.dataService.updateProfile({
-        form: data,
-        picture: pic
-      }).then((res) => {
-        if(res) {
-          this.util.dismissLoading();
-          let toast = this.util.getToast("Foto Alterada com Sucesso");
-          toast.present();
-          return this.auth.checkAuthentication();
-        }
-      }, (err) => {
-        this.util.dismissLoading();
-        this.util.notifyError(err);
+      self.util.presentLoading('Atualizando...');
+      return self.formUserModel(imageData, 'imageThumb');
+    })
+    .then((body) => {
+      return self.dataService.updateProfile({
+        controller: 'auth/settings',
+        data: body
       });
     })
-    .then((usr) => {});
+    .then((res) => {
+      return self.finishUpdate(res);
+    })
+    .then((usr) => {
+      self.util.dismissLoading();
+    })
+    .catch((err) => {
+      self.util.dismissLoading();
+      if(err.message != 'Camera cancelled.')
+        self.util.notifyError(err);
+    });
+  }
+
+  formUserModel(imageData, imgType = 'imageCover') {
+    let self = this;
+    let promise = new Promise((resolve, reject) => {
+      let body = { UserForm: {}, Picture: {} };
+
+      let prefer = self.profile.type + "Id";
+      let other = self.profile.type == 'buyer' ? 'sellerId' : 'buyerId';
+
+      body['UserForm'][prefer] = self.profile.id;
+      body['UserForm'][other] = '';
+      body['Picture'][imgType] = imageData;
+      resolve(body);
+    });
+    return promise;
+  }
+
+  finishUpdate(response) {
+    let self = this;
+    let promise = new Promise((resolve, reject) => {
+      let toast = self.util.getToast(response);
+      toast.present();
+      return self.auth.checkAuthentication();
+    });
+    return promise;
   }
 
   presentPictureSource() {
-    let promise = new Promise((res, rej) => {
+    let promise = new Promise((resolve, reject) => {
       let ac = this.actionSheet.create({
         title: 'Selecione a fonte da Imagem',
         buttons: [
-          { text: 'Camera', handler: () => { res(1); } },
-          { text: 'Galeria', handler: () => { res(0); } },
-          { text: 'Cancelar', role: 'cancel', handler: () => { rej('cancel'); } }
+          { text: 'Camera', handler: () => { resolve(1); } },
+          { text: 'Galeria', handler: () => { resolve(0); } },
+          { text: 'Cancelar', role: 'cancel', handler: () => { reject(new Error('cameraCancelled')); } }
         ]
       });
       ac.present();
@@ -134,12 +140,17 @@ export class SettingsPage extends ModelPage {
     });
     alert.addButton({
       text: 'Ok',
-      handler: data => {
-        let t = this.profile.type + "Id";
-        data[t] = this.profile.id;
-        let ot = this.profile.type == 'buyer' ? 'sellerId' : 'buyerId';
-        data[ot] = '';
-        this.updateUsername(data);
+      handler: (data) => {
+        let prefer = this.profile.type + "Id";
+        let other = this.profile.type == 'buyer' ? 'sellerId' : 'buyerId';
+        let body = {
+          UserForm: {
+            username: data.username,
+          }
+        };
+        body['UserForm'][prefer] = this.profile.id;
+        body['UserForm'][other] = '';
+        this.updateUsername(body);
       }
     });
 
@@ -169,7 +180,14 @@ export class SettingsPage extends ModelPage {
     alert.addButton({
       text: 'Ok',
       handler: data => {
-        this.updatePassword(data);
+        let body = {
+          UserForm: {
+            currentPassword: data.currentPassword,
+            newPassword: data.newPassword,
+            confirmPassword: data.confirmPassword
+          }
+        }
+        this.updatePassword(body);
       }
     });
 
@@ -181,50 +199,43 @@ export class SettingsPage extends ModelPage {
   }
 
   logout() {
-    console.log('Clicked logout');
+    this.auth.logout();
   }
 
-  updateUsername(data) {
-    this.util.presentLoading('Atualizando...');
-    setTimeout(() => {
-      this.util.dismissLoading();
-    }, 20000);
-      
-    this.dataService.updateProfile({
-      username: data
-    }).then((res) => {
-      if(res) {
-        this.util.dismissLoading();
-        let toast = this.util.getToast("Nome Alterado com Sucesso");
-        toast.present();
-        return this.auth.checkAuthentication();
-      }
-    }, (err) => {
-      this.util.dismissLoading();
-      this.util.notifyError(err);
+  updateUsername(body) {
+    let self = this;
+    self.util.presentLoading('Atualizando...');
+    self.dataService.updateProfile({
+      controller: 'auth/settings',
+      data: body
     })
-    .then((usr) => {});
+    .then((res) => {
+      return self.finishUpdate(res);
+    })
+    .then((usr) => {
+      self.util.dismissLoading();
+    })
+    .catch((err) => {
+      self.util.dismissLoading();
+      self.util.notifyError(err);
+    });
   }
 
-  updatePassword(data) {
-    this.util.presentLoading('Atualizando...');
-    setTimeout(() => {
-      this.util.dismissLoading();
-    }, 20000);
-      
-    this.dataService.updateProfile({
-      pass: data
+  updatePassword(body) {
+    let self = this;
+    self.util.presentLoading('Atualizando...');
+    self.dataService.updateProfile({
+      controller: 'auth/settings',
+      data: body
     }).then((res) => {
-      if(res) {
-        this.util.dismissLoading();
-        let toast = this.util.getToast("Senha Alterada com Sucesso");
-        toast.present();
-        return this.auth.checkAuthentication();
-      }
-    }, (err) => {
-      this.util.dismissLoading();
-      this.util.notifyError(err);
+      return self.finishUpdate(res);
     })
-    .then((usr) => {});
+    .then((usr) => {
+      self.util.dismissLoading();
+    })
+    .catch((err) => {
+      self.util.dismissLoading();
+      self.util.notifyError(err);
+    });
   }
 }

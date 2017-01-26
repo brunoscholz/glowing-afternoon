@@ -23,7 +23,7 @@ export class ForgotPage {
 
   sendEmail() {
     if(!this.forgotForm.valid) {
-      this.util.notifyError('Por favor preencha todos os campos corretamente!');
+      this.util.notifyError(new Error('Por favor preencha todos os campos corretamente!'));
     } else {
       this.util.presentLoading('Verificando...');
       setTimeout(() => {

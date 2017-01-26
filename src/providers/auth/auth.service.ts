@@ -34,20 +34,6 @@ export class AuthService {
     this.platform.ready().then(() => {
       
     });
-
-    let self = this;
-    let promise = new Promise((resolve, reject) => {
-      return self.checkAuthentication();
-      /*Facebook.getLoginStatus()
-      .then((response) => {
-        // if connected save userFB
-        // if token isnt found, but userFB is authenticate with it
-        
-      }, (error) => {
-        reject(error);
-      });*/
-    });
-    return promise;
   }
 
   connectWithFacebook() {
@@ -89,7 +75,7 @@ export class AuthService {
           resolve(response);
         }, (error) => {
           if(error.errorMessage)
-            reject(error.errorMessage);
+            reject(new Error(error.errorMessage));
           else
             reject(error);
         });
@@ -128,7 +114,7 @@ export class AuthService {
         resolve(usr);
       }, (error) => {
         if(error.errorMessage)
-          reject(error.errorMessage);
+          reject(new Error(error.errorMessage));
         else
           reject(error);
       });
@@ -151,7 +137,7 @@ export class AuthService {
         }
       }, (error) => {
         if(error.errorMessage)
-          reject(error.errorMessage);
+          reject(new Error(error.errorMessage));
         else
           reject(error);
       });
@@ -191,7 +177,7 @@ export class AuthService {
             resolve(true);
           }
           else
-            reject(data.error);
+            reject(new Error(data.error));
         });
     });
     return promise;
@@ -311,7 +297,7 @@ export class AuthService {
           }
           else {
             this._logged.next(null);
-            reject(data.error);
+            reject(new Error(data.error));
           }
         }, (err) => {
           reject(err);
@@ -336,7 +322,7 @@ export class AuthService {
           }
           else {
             this._logged.next(null);
-            reject(data.error);
+            reject(new Error(data.error));
           }
         }, (err) => {
           reject(err);
