@@ -1,6 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
+
+import { AppErrorHandler } from '../providers/error.handler';
 
 // Main generic Pages
 import { WelcomePage } from '../pages/welcome/welcome';
@@ -32,6 +34,7 @@ import { SellPage } from '../pages/sell/sell';
 import { RegisterPage } from '../pages/sell/register';
 import { SupportPage } from '../pages/sell/support';
 import { PreviewPage } from '../pages/sell/preview';
+import { SetAddressModal } from '../pages/sell/address';
 
 // Company related Pages
 import { CompanyPage } from '../pages/company/company';
@@ -82,10 +85,11 @@ import { SpeechService } from '../providers/speech/speech.service';
 //import { ValidationService } from '../validators/validators';
 
 // Map related
-// import { MapService } from '../providers/map/map.service';
-// import { GeocoderService } from '../providers/map/geocoder.service';
-// import { MapComponent } from '../components/map/map';
-// import { MapPage } from '../pages/map/map';
+import { MapService } from '../providers/map/map.service';
+import { GeocoderService } from '../providers/map/geocoder.service';
+import { MapCmp } from '../components/map/map';
+import { MapPage } from '../pages/map/map';
+import { MapSearch } from '../components/map-search/map-search';
 
 @NgModule({
   declarations: [
@@ -113,6 +117,7 @@ import { SpeechService } from '../providers/speech/speech.service';
     RegisterPage,
     SupportPage,
     PreviewPage,
+    SetAddressModal,
     CompanyPage,
     CompanyDetailPage,
     CompanyOptionsPage,
@@ -135,6 +140,9 @@ import { SpeechService } from '../providers/speech/speech.service';
     PolicyPage,
     TermsPage,
     LicencePage,
+    MapPage,
+    MapCmp,
+    MapSearch,
     ArrayFilterPipe,
     OrderByPipe,
     TxFilterPipe,
@@ -172,6 +180,7 @@ import { SpeechService } from '../providers/speech/speech.service';
     RegisterPage,
     SupportPage,
     PreviewPage,
+    SetAddressModal,
     CompanyPage,
     CompanyDetailPage,
     CompanyOptionsPage,
@@ -186,15 +195,20 @@ import { SpeechService } from '../providers/speech/speech.service';
     ContactPage,
     PolicyPage,
     TermsPage,
-    LicencePage
+    LicencePage,
+    MapPage,
+    MapSearch,
   ],
   providers: [
+    {provide: ErrorHandler, useClass: AppErrorHandler},
     DataService,
     APIService,
     APISettings,
     AuthService,
     UtilProvider,
-    SpeechService
+    SpeechService,
+    MapService,
+    GeocoderService
   ]
 })
 export class AppModule {}

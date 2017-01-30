@@ -190,8 +190,12 @@ export interface IShippingAddress {
   address: string;
   city: string;
   state: string;
+  neighborhood: string;
   postCode: string;
   country: string;
+  latitude: number;
+  longitude: number;
+  status: string;
 }
 
 export interface IBillingAddress {
@@ -199,8 +203,12 @@ export interface IBillingAddress {
   address: string;
   city: string;
   state: string;
+  neighborhood: string;
   postCode: string;
   country: string;
+  latitude: number;
+  longitude: number;
+  status: string;
 }
 
 export interface IReviewFact {

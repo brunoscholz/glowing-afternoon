@@ -12,6 +12,8 @@ import { SellPage } from '../pages/sell/sell';
 import { TourPage } from '../pages/tour/tour';
 import { AboutPage } from '../pages/about/about';
 
+import { MapPage } from '../pages/map/map';
+
 import { DataService } from '../providers/data/data.service';
 import { AuthService } from '../providers/auth/auth.service';
 import { UtilProvider } from '../providers/utils/util.provider';
@@ -186,6 +188,10 @@ export class MyApp {
 
   openTutorial(isLogged) {
     this.nav.setRoot(TourPage, { logged: isLogged});
+  }
+
+  openMap() {
+    this.nav.push(MapPage);
   }
 
   openAbout() {

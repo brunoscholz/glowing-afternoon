@@ -84,8 +84,12 @@ export class DataService {
         address: "",
         city: "Curitiba",
         state: "PR",
+        neighborhood: '',
         postCode: "",
-        country: "Brasil (BRA)"
+        country: "Brasil (BRA)",
+        latitude: 0,
+        longitude: 0,
+        status: 'ACT'
       },
       picture: {
         cover: "assets/img/generic-cover.jpg",
