@@ -33,7 +33,7 @@
             <h2>{{company.phone}}</h2>
             <p>aberto {{company.hours}}</p>
           </ion-item>
-          <ion-item>
+          <ion-item (click)="gotoMap()">
             <i class="otIcon-location" item-left></i>
             <h2>{{company.billingAddress.address}}</h2>
             <p>{{company.billingAddress.city}} {{company.billingAddress.state}}</p>

@@ -26,6 +26,7 @@
     "@ionic/app-scripts": "0.0.46",
     "@ionic/cloud-angular": "^0.8.0",
     "@ionic/storage": "1.0.3",
+    "@types/google-maps": "^3.2.0",
     "@types/underscore": "^1.7.36",
     "ionic-angular": "2.0.0-rc.1",
     "ionic-native": "2.2.3",

@@ -128,6 +128,8 @@ export interface ISeller {
   billingAddress: IBillingAddress;
   reviews: IReviewFact[];
   followers: IFollowFact[];
+  license: number;
+  distance: number;
 }
 
 export interface IBuyer {
@@ -188,6 +190,8 @@ export interface IShipping {
 export interface IShippingAddress {
   shippingAddressId: string;
   address: string;
+  streetNumber: string;
+  formattedAddress: string;
   city: string;
   state: string;
   neighborhood: string;
@@ -201,6 +205,8 @@ export interface IShippingAddress {
 export interface IBillingAddress {
   billingAddressId: string;
   address: string;
+  streetNumber: string;
+  formattedAddress: string;
   city: string;
   state: string;
   neighborhood: string;

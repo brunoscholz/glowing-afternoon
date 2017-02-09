@@ -12,7 +12,7 @@ import { MapSearch } from '../../components/map-search/map-search';
   templateUrl: './map.html'
 })
 export class MapPage {
-  private localized: boolean = false;
+  localized: boolean = false;
   address;
 
   constructor(private platform: Platform,

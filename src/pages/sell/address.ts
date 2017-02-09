@@ -7,8 +7,6 @@ import { MapService } from '../../providers/map/map.service';
 import { GeocoderService } from '../../providers/map/geocoder.service';
 import { Vibration } from 'ionic-native';
 
-import { ISeller } from '../../providers/data/interfaces';
-
 @Component({
   templateUrl: 'address.html',
 })
@@ -18,7 +16,7 @@ export class SetAddressModal implements AfterViewInit {
   autocomplete;
   private addressElement: HTMLInputElement = null;
   
-  private localized: boolean = false;
+  localized: boolean = false;
   address;
 
   constructor(public platform: Platform,

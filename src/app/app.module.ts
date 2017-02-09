@@ -41,6 +41,7 @@ import { CompanyPage } from '../pages/company/company';
 import { CompanyDetailPage } from '../pages/company-detail/company-detail';
 import { CompanyOptionsPage } from '../pages/company-detail/company-options';
 import { CatalogPage } from '../pages/catalog/catalog';
+import { SellerMapPage } from '../pages/company-detail/map-page';
 
 // Item related Pages
 import { ProductPage } from '../pages/product/product';
@@ -75,7 +76,7 @@ import { MoneyPipe } from '../pipes/money';
 import { ElasticHeader } from '../directives/elastic-header/elastic-header';
 
 // Services and Providers
-//import { ConnectivityService } from '../providers/utils/connectivity.service';
+import { ConnectivityService } from '../providers/utils/connectivity.service';
 import { AuthService } from '../providers/auth/auth.service';
 import { DataService } from '../providers/data/data.service';
 import { APIService } from '../providers/api/api.service';
@@ -121,6 +122,7 @@ import { MapSearch } from '../components/map-search/map-search';
     CompanyPage,
     CompanyDetailPage,
     CompanyOptionsPage,
+    SellerMapPage,
     CatalogPage,
     ProductPage,
     ProductDetailPage,
@@ -184,6 +186,7 @@ import { MapSearch } from '../components/map-search/map-search';
     CompanyPage,
     CompanyDetailPage,
     CompanyOptionsPage,
+    SellerMapPage,
     CatalogPage,
     ProductPage,
     ProductDetailPage,
@@ -204,6 +207,7 @@ import { MapSearch } from '../components/map-search/map-search';
     DataService,
     APIService,
     APISettings,
+    ConnectivityService,
     AuthService,
     UtilProvider,
     SpeechService,

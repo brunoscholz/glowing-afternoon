@@ -36,8 +36,9 @@ export class ConnectivityService {
   }
 
   isOnline(): boolean {
-  	if(this.onDevice && Network.connection){
-      return Network.connection !== Connection.NONE;
+  	if(this.onDevice && Network.connection) {
+      //unknown, ethernet, wifi, 2g, 3g, 4g, cellular, none
+      return Network.connection !== 'none';
     } else {
       return navigator.onLine; 
     }
@@ -45,7 +46,7 @@ export class ConnectivityService {
 
   isOffline(): boolean {
   	if(this.onDevice && Network.connection){
-      return Network.connection === Connection.NONE;
+      return Network.connection === 'none'; //Connection.NONE;
     } else {
       return !navigator.onLine;   
     }

@@ -12,13 +12,16 @@ import { SellPage } from '../pages/sell/sell';
 import { TourPage } from '../pages/tour/tour';
 import { AboutPage } from '../pages/about/about';
 
-import { MapPage } from '../pages/map/map';
 
 import { DataService } from '../providers/data/data.service';
 import { AuthService } from '../providers/auth/auth.service';
 import { UtilProvider } from '../providers/utils/util.provider';
 import { SpeechService } from '../providers/speech/speech.service';
 import { IUser, IPage } from '../providers/data/interfaces';
+
+//import { MapPage } from '../pages/map/map';
+import { MapService } from '../providers/map/map.service';
+//import { Geolocation } from 'ionic-native';
 
 @Component({
   templateUrl: 'app.html',
@@ -63,14 +66,16 @@ export class MyApp {
               public dataService: DataService,
               public auth: AuthService,
               public util: UtilProvider,
-              public speech: SpeechService) {
+              public speech: SpeechService,
+              public mapService: MapService) {
     this.initializeApp();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       StatusBar.styleDefault();
-      Splashscreen.hide();
+      this.hideSplashScreen();
+
       this.loadIndicator();
       this.util.onError(err => {
         //this.error = err;
@@ -163,6 +168,14 @@ export class MyApp {
     });
   }
 
+  hideSplashScreen() {
+    if (Splashscreen) {
+      setTimeout(() => {
+        Splashscreen.hide();
+      }, 100);
+    }
+  }
+
   openPage(page: IPage) {
     // close the menu when clicking a link from the menu
     this.menu.close();
@@ -188,10 +201,6 @@ export class MyApp {
 
   openTutorial(isLogged) {
     this.nav.setRoot(TourPage, { logged: isLogged});
-  }
-
-  openMap() {
-    this.nav.push(MapPage);
   }
 
   openAbout() {

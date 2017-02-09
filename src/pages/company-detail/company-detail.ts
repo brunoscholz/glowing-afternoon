@@ -19,6 +19,7 @@ import { AuthService } from '../../providers/auth/auth.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 import { CompanyOptionsPage } from './company-options';
 import { CatalogPage } from '../catalog/catalog';
+import { SellerMapPage } from './map-page';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
 import { ISeller, IOffer, IUser } from '../../providers/data/interfaces';
@@ -109,6 +110,15 @@ export class CompanyDetailPage extends ModelPage {
     popover.present({
       ev: myEvent
     });
+  }
+
+  gotoMap() {
+    let modal = this.modCtrl.create(SellerMapPage, {company: this.company});
+    modal.onDidDismiss(() => {
+      
+    });
+
+    modal.present();
   }
 
   follow() {

@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Geolocation, Geoposition } from 'ionic-native';
 import { MapConst } from './map.constants';
+import { ConnectivityService } from '../utils/connectivity.service';
 
 declare var google;
 
@@ -24,17 +25,27 @@ export class MapService {
   private infoWindow: google.maps.InfoWindow = null;
   private apiKey: string = "AIzaSyDE-9XwfZIu0eNCJoxmEizYlREkCHrj7_4";
   private markers: any = [];
+  mapInitialised: boolean = false;
+  devPosition: google.maps.LatLng;
 
-  constructor() {}
+  constructor(public conn: ConnectivityService) {
+    this.loadGoogleBackground();
+  }
 
   initMap() {
     console.log('Init MAP');
+    this.mapInitialised = true; 
+    Geolocation.getCurrentPosition().then((position) => {
+      console.log(position);
+      //this.devPosition = position;
+      this.devPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    });
   }
 
-  public createMap(mapEl: Element, opts: IMapOptions = {
+  public createMap(mapEl: Element, opts = {
     lat: MapConst.DEFAULT_LAT,
     lon: MapConst.DEFAULT_LNG,
-    zoom: MapConst.DEFAULT_ZOOM
+    zoom: MapConst.MIN_ZOOM
   }): Promise<google.maps.Map> {
 
     return this.loadMap().then(() => {
@@ -367,6 +378,7 @@ export class MapService {
 
   public set mapCenter(location: google.maps.LatLng) {
     this.map.setCenter(location);
+    this.map.setZoom(MapConst.DEFAULT_ZOOM);
   }
 
   /***
@@ -457,22 +469,31 @@ export class MapService {
     return this.getCurrentPosition();
   }
 
-  public addMarker(lat: number, lng: number): void {
-    //let customMarker = "www/assets/img/logo.svg";
+  public addMarker(latLng: google.maps.LatLng,  icon: string): void {
+    //lat: number, lng: number,
+    //let customMarker = icon;
     /*let markerOptions: GoogleMapsMarkerOptions = {
-      position: this.latLng,
-      title: 'Mi posicion',
+      position: new google.maps.LatLng(lat, lng),
+      title: 'Empresa',
       icon: customMarker
-    };*/
-    /*this.map.addMarker(markerOptions)
+    };
+    this.map.addMarker(markerOptions)
       .then((marker: GoogleMapsMarker) => {
-        marker.showInfoWindow();
+        //marker.showInfoWindow();
     });*/
-    let latLng = new google.maps.LatLng(lat, lng);
+    let customMarker = {
+      url: icon,
+      size: new google.maps.Size(256, 256),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(15, 15),
+      scaledSize: new google.maps.Size(30, 30)
+    };
+    //let latLng = new google.maps.LatLng(lat, lng);
     let marker = new google.maps.Marker({
       map: this.map,
       animation: google.maps.Animation.DROP,
-      position: latLng
+      position: latLng,
+      icon: customMarker
     });
 
     this.markers.push(marker);
@@ -485,6 +506,29 @@ export class MapService {
     if (this.map) {
       google.maps.event.trigger(this.map, 'resize');
     }
+  }
+
+  public getRoute(latLng: google.maps.LatLng) {
+    let self = this;
+    const directionsService = new google.maps.DirectionsService;
+    const directionsDisplay = new google.maps.DirectionsRenderer({
+      suppressMarkers: true
+    });
+    directionsDisplay.setMap(this.map);
+    directionsService.route({
+      origin: this.devPosition,
+      destination: latLng,
+      waypoints: [],
+      travelMode: google.maps.TravelMode.DRIVING,
+      avoidTolls: true
+    }, function(response, status) {
+      if (status === google.maps.DirectionsStatus.OK) {
+        directionsDisplay.setDirections(response);
+        self.map.setZoom(MapConst.MIN_ZOOM);
+      } else {
+        console.log('Could not display directions due to: ' + status);
+      }
+    });
   }
 
   /***
@@ -562,11 +606,9 @@ export class MapService {
   private loadGoogleMapApi(): Promise<any> {
     const _loadScript = () => {
       const script = document.createElement('script');
-
       script.id = "googleMaps";
 
-      // tslint:disable-next-line
-      if(this.apiKey){
+      if(this.apiKey) {
         script.src = 'http://maps.google.com/maps/api/js?key=' + this.apiKey + '&callback=initMap&libraries=geometry,places';
       } else {
         script.src = 'http://maps.google.com/maps/api/js?callback=initMap';       
@@ -583,6 +625,57 @@ export class MapService {
         return resolve();
       };
       _loadScript();
+      this.initMap();
     });
+  }
+
+  loadGoogleBackground() {
+    this.addConnectivityListeners();
+    if(typeof google == "undefined" || typeof google.maps == "undefined") {
+      console.log("Google maps JavaScript needs to be loaded.");
+      this.disableMap();
+
+      if(this.conn.isOnline()) {
+        console.log("online, loading map");
+        this.loadGoogleMapApi()
+        .then(() => {
+
+        });
+      }
+    } else {
+      if(this.conn.isOnline()) {
+        this.initMap();
+      }
+    }
+  }
+
+  disableMap() {
+    console.log("disable map");
+  }
+ 
+  enableMap() {
+    console.log("enable map");
+  }
+
+  addConnectivityListeners(){
+    let onOnline = () => {
+      setTimeout(() => {
+        if(typeof google == "undefined" || typeof google.maps == "undefined") {
+          this.loadGoogleBackground();
+        } else {
+          if(!this.mapInitialised) {
+            this.initMap();
+          }
+          this.enableMap();
+        }
+      }, 2000);
+    };
+
+    let onOffline = () => {
+      this.disableMap();
+    };
+
+    document.addEventListener('online', onOnline, false);
+    document.addEventListener('offline', onOffline, false);
   }
 }

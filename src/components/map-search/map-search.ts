@@ -2,6 +2,7 @@ import { Component, ViewChild, AfterViewInit, ElementRef, NgZone } from '@angula
 import { ViewController } from 'ionic-angular';
 import { MapService } from '../../providers/map/map.service';
 import { DataService } from '../../providers/data/data.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
 
 import { ISeller } from '../../providers/data/interfaces';
 
@@ -12,13 +13,14 @@ export class MapSearch implements AfterViewInit {
   @ViewChild('searchbar', {read: ElementRef}) searchbar: ElementRef;
   autocompleteItems;
   autocomplete;
-  private addressElement: HTMLInputElement = null;
-  private nearbyPlaces: Array<any> = [];
+  addressElement: HTMLInputElement = null;
+  nearbyPlaces: Array<any> = [];
 
   constructor (public viewCtrl: ViewController,
                private zone: NgZone,
                private mapService: MapService,
-               private dataService: DataService,)
+               private dataService: DataService,
+               public util: UtilProvider)
   {
     this.autocompleteItems = [];
     this.autocomplete = {
@@ -92,7 +94,7 @@ export class MapSearch implements AfterViewInit {
             longitude: data[i].billingAddress.longitude
           });
         }
-        _places = this.applyHaversine(_places);
+        _places = this.util.applyHaversine(_places);
         _places.sort((locationA, locationB) => {
             return locationA.distance - locationB.distance;
         });
@@ -106,7 +108,7 @@ export class MapSearch implements AfterViewInit {
     });
   }
 
-  private loadNearbyPlaces(): void {
+  /*private loadNearbyPlaces(): void {
     this.nearbyPlaces = [];
     this.mapService.loadNearbyPlaces().subscribe((_nearbyPlaces) => {
       // force NgZone to detect changes
@@ -117,55 +119,5 @@ export class MapSearch implements AfterViewInit {
       //this.displayErrorAlert();
       console.error(error);
     });
-  }
-
-  applyHaversine(locations) {
-    let usersLocation = {
-      lat: -25.4289541, 
-      lng: -49.267137
-    };
- 
-    locations.map((location) => {
-      let placeLocation = {
-        lat: location.latitude,
-        lng: location.longitude
-      };
-
-      location.distance = this.getDistanceBetweenPoints(
-        usersLocation,
-        placeLocation,
-        'km'
-      ).toFixed(2);
-    });
- 
-        return locations;
-    }
- 
-    getDistanceBetweenPoints(start, end, units) {
-      let earthRadius = {
-        miles: 3958.8,
-        km: 6371
-      };
-
-      let R = earthRadius[units || 'miles'];
-      let lat1 = start.lat;
-      let lon1 = start.lng;
-      let lat2 = end.lat;
-      let lon2 = end.lng;
-
-      let dLat = this.toRad((lat2 - lat1));
-      let dLon = this.toRad((lon2 - lon1));
-      let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(this.toRad(lat1)) * Math.cos(this.toRad(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
-      let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      let d = R * c;
-
-      return d;
-    }
-
-    toRad(x){
-      return x * Math.PI / 180;
-    }
+  }*/
 }

@@ -80,13 +80,16 @@ export class DataService {
       cellphone: "",
       hours: "",
       status: "PAY",
+      license: 1,
       billingAddress: {
         address: "",
+        formattedAddress: "",
+        streetNumber: "",
         city: "Curitiba",
         state: "PR",
         neighborhood: '',
         postCode: "",
-        country: "Brasil (BRA)",
+        country: "Brasil (BR)",
         latitude: 0,
         longitude: 0,
         status: 'ACT'

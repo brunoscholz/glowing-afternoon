@@ -129,11 +129,15 @@ export class RegisterPage {
         },
         BillingAddress: {
           address: this.company.billingAddress.address,
+          formattedAddress: this.company.billingAddress.formattedAddress,
+          streetNumber: this.company.billingAddress.streetNumber,
           city: this.company.billingAddress.city,
-          neighborhood: "",
-          state: "PR",
+          neighborhood: this.company.billingAddress.neighborhood,
+          state: this.company.billingAddress.state,
           postCode: "",
-          country: "Brasil (BRA)"
+          country: this.company.billingAddress.country,
+          latitude: this.company.billingAddress.latitude,
+          longitude: this.company.billingAddress.longitude
         },
         Picture: {
           cover: this.company.picture.cover,

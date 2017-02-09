@@ -10,6 +10,10 @@ import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 import { AuthService } from '../../providers/auth/auth.service';
 
+import { Geolocation, Geoposition } from 'ionic-native';
+import { MapService } from '../../providers/map/map.service';
+import { GeocoderService } from '../../providers/map/geocoder.service';
+
 import { ViewStatusEnum } from '../../providers/utils/enums';
 import { IUser, ISearchItems } from '../../providers/data/interfaces'; //ISearchResult
 import { ModelPage } from '../model-page';
@@ -23,20 +27,23 @@ export class SearchPage extends ModelPage {
   searchTerm: string = '';
   searching: any = false;
   //priceRange: any = { lower: 10, upper: 200 };
-  opt: any = { offers: true, sellers: true, buyers: true, priceRange: 100, lowerThan: true };
+  opt: any = { offers: true, sellers: true, buyers: true, priceRange: 100, lowerThan: true, distance: 25 };
   searchOptions: any;
 
   user: any;
   following: any;
 
-  // accordion test
   items: ISearchItems;
+  allItems: ISearchItems;
 
   constructor(public navCtrl: NavController,
               navParams: NavParams,
               public dataService: DataService,
               public auth: AuthService,
-              public util: UtilProvider) {
+              public util: UtilProvider,
+              public geocoderService: GeocoderService,
+              public mapService: MapService)
+  {
     super('Busca', dataService, util)
   	this.searchTerm = navParams.get('term') || '';
     //this.searchControl = new Control();
@@ -67,11 +74,53 @@ export class SearchPage extends ModelPage {
       if(usr) {
         self.user = usr;
         self.following = _.pluck(self.user.buyer.following, 'buyerId');
+        self.prepareFilter();
         self.doSearch();
       }
     }, (err) => {
       this.util.notifyError(err);
       this.util.dismissLoading();
+    });
+  }
+
+  prepareFilter() {
+    let self = this;
+    self.getCurrentPosition()
+    .then((coord) => {
+      self.geocoderService.fullAddressForlatLng(coord.latitude, coord.longitude)
+      .subscribe((address) => {
+        let latlng = {
+          city: "",
+          latitude: address.geometry.location.lat(),
+          longitude: address.geometry.location.lng()
+        };
+        _.each(address.address_components, (component, key) => {
+          if (component.types[0] === 'locality') {
+            latlng.city = component.long_name;
+          }
+        });
+
+        console.log(latlng);
+      }, (error) => {
+        //self.displayErrorAlert();
+        console.error(error);
+      });
+    });
+  }
+
+  /***
+   * get the current location using Geolocation cordova plugin
+   * @param maximumAge
+   * @returns {Promise<Coordinates>}
+   */
+  getCurrentPosition(maximumAge: number = 10000): Promise<Coordinates> {
+    const options = {
+      timeout: 10000,
+      enableHighAccuracy: true
+    };
+    return Geolocation.getCurrentPosition(options)
+    .then((pos: Geoposition) => {
+      return pos.coords;
     });
   }
 
@@ -94,7 +143,13 @@ export class SearchPage extends ModelPage {
     self.dataService.search({
       term: self.searchTerm
     }).then((data: ISearchItems) => {
-        self.items = data;
+        self.allItems = data;
+        let latlng = { lat: -25.4709161, lng:-49.24417260000001 };
+        self.allItems.sellers.list = this.util.applyHaversineSeller(self.allItems.sellers.list, latlng);
+        self.allItems.sellers.list.sort((locationA, locationB) => {
+            return locationA.distance - locationB.distance;
+        });
+        self.filterItems();
         self.changeViewState();
         if(self.refresher)
           self.refresher.complete();
@@ -136,6 +191,27 @@ export class SearchPage extends ModelPage {
 
   onCancel() {
 
+  }
+
+  filterItems() {
+    // if the value is an empty string don't filter the items
+    this.items = this.allItems;
+    this.items.sellers.list = this.allItems.sellers.list.filter((item) => {
+      return (item.distance <= this.opt.distance);
+    });
+  }
+
+  initializeItems() {
+    //let test = _.groupBy(this.items, 'category');
+
+    this.doChangeView(ViewStatusEnum.Empty);
+    /*this.groupedOffers = [];
+    for (var key in test) {
+      let cat = this.dataService.getCategory({ id: Number(key) });
+      let entry = { category: cat, items: test[key] };
+      this.groupedOffers.push(entry);
+    }*/
+    this.changeViewState();
   }
 
   getItems(ev: any) {
