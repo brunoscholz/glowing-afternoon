@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Tour</ion-title>
+    <ion-buttons end>
+      <button ion-button color="light" outline (click)="openPage($event)">Skip</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="tour-page">
+  <ion-slides pager>
+    <ion-slide *ngFor="let slide of slides" [ngClass]="slide.class">
+      <img [src]="slide.image" class="slide-image"/>
+      <h2 class="slide-title" [innerHTML]="slide.title"></h2>
+      <p [innerHTML]="slide.description"></p>
+    </ion-slide>
+    <ion-slide class="fifth-intro-slide">
+      <img src="assets/img/splash/search.svg" class="slide-image"/>
+      <h2 class="slide-title">Pronto? Comece a buscar agora mesmo!</h2>
+      <button ion-button color="light" outline (click)="openPage($event)">
+        Continue
+      </button>
+    </ion-slide>
+  </ion-slides>
+
+</ion-content>

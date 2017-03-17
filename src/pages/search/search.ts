@@ -85,7 +85,7 @@ export class SearchPage extends ModelPage {
 
   prepareFilter() {
     let self = this;
-    self.getCurrentPosition()
+    self.mapService.getCurrentPosition()
     .then((coord) => {
       self.geocoderService.fullAddressForlatLng(coord.latitude, coord.longitude)
       .subscribe((address) => {
@@ -105,22 +105,6 @@ export class SearchPage extends ModelPage {
         //self.displayErrorAlert();
         console.error(error);
       });
-    });
-  }
-
-  /***
-   * get the current location using Geolocation cordova plugin
-   * @param maximumAge
-   * @returns {Promise<Coordinates>}
-   */
-  getCurrentPosition(maximumAge: number = 10000): Promise<Coordinates> {
-    const options = {
-      timeout: 10000,
-      enableHighAccuracy: true
-    };
-    return Geolocation.getCurrentPosition(options)
-    .then((pos: Geoposition) => {
-      return pos.coords;
     });
   }
 

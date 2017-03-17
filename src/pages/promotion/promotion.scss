@@ -1,0 +1,23 @@
+ion-content.tour-page {
+  ion-slide {
+    &.first-intro-slide {
+      @include gradient(#178c97, #34b483, -15deg);
+    }
+    &.second-intro-slide {
+      @include gradient(#34b483, map-get($colors, secondary), -15deg);
+    }
+    &.third-intro-slide {
+      @include gradient(map-get($colors, secondary), map-get($colors, terciary), -15deg);
+    }
+    &.forth-intro-slide {
+      @include gradient(map-get($colors, terciary), map-get($colors, primary), -15deg);
+    }
+    &.fifth-intro-slide {
+      @include gradient(map-get($colors, primary), #178c97, -15deg);
+    }
+  }
+
+  .swiper-slide img {
+    max-width: 70%;
+  }
+}

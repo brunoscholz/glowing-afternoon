@@ -9,9 +9,12 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
 import { HomePage } from '../pages/home/home';
 import { CategoryPage } from '../pages/category/category';
-import { ProfilePage } from '../pages/profile/profile';
 import { SearchPage } from '../pages/search/search';
 import { TourPage } from '../pages/tour/tour';
+import { StorePage } from '../pages/store/store';
+import { PromotionPage } from '../pages/promotion/promotion';
+
+import { ProfilePage } from '../pages/profile/profile';
 
 // Sign related pages
 import { SignTabsPage } from '../pages/sign-tabs/sign-tabs';
@@ -102,6 +105,8 @@ import { MapSearch } from '../components/map-search/map-search';
     ProfilePage,
     SearchPage,
     TourPage,
+    StorePage,
+    PromotionPage,
     SignTabsPage,
     SignInPage,
     SignUpPage,
@@ -166,6 +171,8 @@ import { MapSearch } from '../components/map-search/map-search';
     ProfilePage,
     SearchPage,
     TourPage,
+    StorePage,
+    PromotionPage,
     SignTabsPage,
     SignInPage,
     SignUpPage,
@@ -200,7 +207,7 @@ import { MapSearch } from '../components/map-search/map-search';
     TermsPage,
     LicencePage,
     MapPage,
-    MapSearch,
+    MapSearch
   ],
   providers: [
     {provide: ErrorHandler, useClass: AppErrorHandler},

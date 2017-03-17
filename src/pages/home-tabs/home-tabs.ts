@@ -12,7 +12,8 @@ export class HomeTabsPage {
 	
   tab1Root: any = HomePage;
   tab2Root: any = CategoryPage;
-  tab3Root: any = ProfilePage;
+  tab3Root: any = PromotionPage;
+  tab4Root: any = StorePage;
   mySelectedIndex: number;
 
   constructor(navParams: NavParams) {

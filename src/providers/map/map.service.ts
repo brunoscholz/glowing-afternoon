@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { Geolocation, Geoposition } from 'ionic-native';
 import { MapConst } from './map.constants';
 import { ConnectivityService } from '../utils/connectivity.service';
+import { Data } from './data';
 
 declare var google;
 
@@ -26,20 +27,54 @@ export class MapService {
   private apiKey: string = "AIzaSyDE-9XwfZIu0eNCJoxmEizYlREkCHrj7_4";
   private markers: any = [];
   mapInitialised: boolean = false;
+  currentPosition: Data = null;
   devPosition: google.maps.LatLng;
 
   constructor(public conn: ConnectivityService) {
     this.loadGoogleBackground();
+    this.currentPosition = new Data();
   }
 
   initMap() {
     console.log('Init MAP');
-    this.mapInitialised = true; 
-    Geolocation.getCurrentPosition().then((position) => {
-      console.log(position);
-      //this.devPosition = position;
-      this.devPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    this.mapInitialised = true;
+
+    this.getCurrentPosition()
+      .then((position) => {
+        this.devPosition = new google.maps.LatLng(position.latitude, position.longitude);
+      });
+  }
+
+  /***
+   * get the current location using Geolocation cordova plugin
+   * @param maximumAge
+   * @returns {Promise<Coordinates>}
+   */
+  public getCurrentPosition(maximumAge: number = 10000): Promise<Coordinates> {
+    let self = this;
+
+    let promise = new Promise<Coordinates>((resolve, reject) => {
+      if(self.currentPosition == null)
+        self.currentPosition = new Data();
+
+      if(!self.currentPosition.isUpToDate()) {
+        resolve(<Coordinates>self.currentPosition.value);
+      }
+      else {
+        const options = {
+          timeout: 10000,
+          enableHighAccuracy: true
+        };
+        Geolocation.getCurrentPosition(options)
+        .then((pos: Geoposition) => {
+          self.currentPosition.set(pos.coords);
+          resolve(pos.coords);
+        }, (err) => {
+          reject(new Error('Something terrible happened.'));
+        });
+      }
     });
+    return promise;
   }
 
   public createMap(mapEl: Element, opts = {
@@ -581,22 +616,6 @@ export class MapService {
       }
     });
   }
-
-  /***
-   * get the current location using Geolocation cordova plugin
-   * @param maximumAge
-   * @returns {Promise<Coordinates>}
-   */
-  private getCurrentPosition(maximumAge: number = 10000): Promise<Coordinates> {
-    const options = {
-      timeout: 10000,
-      enableHighAccuracy: true
-    };
-    return Geolocation.getCurrentPosition(options).then((pos: Geoposition) => {
-      return pos.coords;
-    });
-  }
-
 
   /***
    * Create a script element to insert into the page
