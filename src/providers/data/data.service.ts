@@ -57,6 +57,8 @@ export class DataService {
   balance$: Observable<any>;
   visitingCompany: ISeller;
 
+  get randomProduct() { return "ex.: " + this._cached$["randomProduct"]; }
+
   constructor(public api: APIService, public util: UtilProvider) {
     this.api.Init("offers");
 
@@ -68,7 +70,8 @@ export class DataService {
 
     this._cached$ = {
       categories: null,
-      visitingCompany: null
+      visitingCompany: null,
+      randomProduct: null
     };
 
     this.setVisitingCompany(<ISeller>{
@@ -194,6 +197,9 @@ export class DataService {
         .subscribe((data) => {
           if(data.status == 200) {
             //this._subjects$[options.controller].next(ret);
+            if (options.controller == 'categories')
+              this._cached$['randomProduct'] = data['randCat'];
+
             if(_.contains(this._toStorage, options.controller))
               this._cached$[options.controller] = data.data;
 

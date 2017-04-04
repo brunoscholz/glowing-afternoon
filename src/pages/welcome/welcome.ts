@@ -28,7 +28,7 @@ export class WelcomePage extends ModelPage implements OnInit {
     public auth: AuthService,
     public util: UtilProvider
   ) {
-    super('OndeTem?!', dataService, util);
+    super('Onde tem?', dataService, util);
     console.log('WelcomePage');
   }
 
@@ -37,7 +37,7 @@ export class WelcomePage extends ModelPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.doReset('OndeTem?!');
+    this.doReset('Onde tem?');
   }
 
   changeViewState() {

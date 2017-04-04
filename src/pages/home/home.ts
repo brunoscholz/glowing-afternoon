@@ -24,6 +24,7 @@ export class HomePage extends ModelPage {
   ready: boolean = false;
   recognizedText: string = "";
   formData: any = {q:''};
+  randomCat: string = "ex.: encanador..";
   alert: any;
 
   constructor(
@@ -44,6 +45,7 @@ export class HomePage extends ModelPage {
 
   ionViewDidLoad() {
     this.doReset('Onde tem?');
+    this.randomCat = this.dataService.randomProduct;
     //this.online = this.checkNetwork();
   }
 

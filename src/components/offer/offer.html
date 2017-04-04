@@ -19,7 +19,7 @@
     <ion-item-divider>
       <ion-avatar item-left class="item-rating">
         <ion-icon name='star-outline'></ion-icon>
-        <span *ngIf="post.avgRating.qtd > 3"> {{post.avgRating.avg}}</span>
+        <span *ngIf="post.avgRating.qtd > 3"> {{post.avgRating.avg | number : '1.1-1'}}</span>
         <span class="not-enough" *ngIf="post.avgRating.qtd <= 3"> sem avaliações suficientes</span>
       </ion-avatar>
       {{post.createdAt | emTimeAgo}}

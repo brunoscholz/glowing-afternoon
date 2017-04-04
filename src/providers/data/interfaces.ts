@@ -130,6 +130,7 @@ export interface ISeller {
   followers: IFollowFact[];
   license: number;
   distance: number;
+  rating: IAvgRating;
 }
 
 export interface IBuyer {
@@ -154,6 +155,7 @@ export interface IBuyer {
   favorites: IFavoriteFact[];
 }
 
+// can follow a business or another user
 export interface IFollowFact {
   followFactId: string;
   actionReference: IActionReference;
@@ -163,12 +165,31 @@ export interface IFollowFact {
   status: string;
 }
 
+// can add a product into favs list
 export interface IFavoriteFact {
   favoriteFactId: string;
   actionReference: IActionReference;
   buyer: IBuyer;
   offer: IOffer;
   status: string;
+}
+
+// can review a business or an offer
+export interface IReviewFact {
+  reviewFactId: string;
+  actionReference: IActionReference;
+  buyer: IBuyer;
+  review: IReview;
+  offer: IOffer;
+  seller: ISeller;
+  date: string;
+  rating: IRating;
+}
+
+export interface IReview {
+  reviewId: string;
+  title: string;
+  body: string;
 }
 
 export interface IPolicy {
@@ -215,23 +236,6 @@ export interface IBillingAddress {
   latitude: number;
   longitude: number;
   status: string;
-}
-
-export interface IReviewFact {
-  reviewFactId: string;
-  action: IAction;
-  offer: IOffer;
-  buyer: IBuyer;
-  seller: ISeller;
-  review: IReview;
-  date: string;
-  rating: IRating;
-}
-
-export interface IReview {
-  reviewId: string;
-  title: string;
-  body: string;
 }
 
 export interface IRating {

@@ -17,7 +17,7 @@
     </ion-item>
     <form (submit)="onInput()">
       <ion-item class="search-bar">
-        <ion-input [(ngModel)]="formData.q" name="search" type="search" placeholder="ex.: encanador.."></ion-input>
+        <ion-input [(ngModel)]="formData.q" name="search" type="search" placeholder={{randomCat}}></ion-input>
       </ion-item>
       <ion-item class="search-btn" no-lines>
         <button ion-button round outline type="submit">Buscar</button>

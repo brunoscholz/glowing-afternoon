@@ -3,7 +3,8 @@ import { NavParams } from 'ionic-angular';
 
 import { HomePage } from '../home/home';
 import { CategoryPage } from '../category/category';
-import { ProfilePage } from '../profile/profile';
+import { PromotionPage } from '../promotion/promotion';
+import { StorePage } from '../store/store';
 
 @Component({
   templateUrl: 'home-tabs.html',
