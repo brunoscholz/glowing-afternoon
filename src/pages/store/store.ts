@@ -1,3 +1,8 @@
+/***
+ * Store page that show all gifts available
+ * v1.5.7 ready
+ */
+
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
@@ -10,7 +15,6 @@ import { IOffer } from '../../providers/data/interfaces';
 import { ModelPage } from '../model-page';
 
 import _ from 'underscore';
-
 
 @Component({
   templateUrl: 'store.html',

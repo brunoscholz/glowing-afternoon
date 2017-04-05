@@ -1,3 +1,8 @@
+/***
+ * Promotion page that show all offers with discount
+ * v1.5.7 ready
+ */
+
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
