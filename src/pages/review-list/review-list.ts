@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
-import { IProfile, IReviewFact } from '../../providers/data/interfaces';
+import { IOffer, IProfile, IReviewFact } from '../../providers/data/interfaces';
 import { ModelPage } from '../model-page';
 import { ViewStatusEnum } from '../../providers/utils/enums';
 import _ from 'underscore';
@@ -16,6 +16,7 @@ export class ReviewListPage extends ModelPage {
 	//user: IUser;
 	reviews: IReviewFact[];
 	profile: IProfile;
+  offer: IOffer;
 
   constructor(public navCtrl: NavController,
   						navParams: NavParams,
@@ -25,6 +26,7 @@ export class ReviewListPage extends ModelPage {
 	) {
   	super('Avaliações', dataService, util);
   	this.profile = navParams.get('profile');
+    this.offer = navParams.get('offer');
   }
 
   ionViewDidLoad() {
@@ -36,9 +38,15 @@ export class ReviewListPage extends ModelPage {
     this.doChangeView(ViewStatusEnum.Loading);
     this.util.presentLoading('Buscando...');
 
+    var q = {};
+    if(this.profile == null)
+      q = {'offerId':{ test:"like binary", value:this.offer.offerId}};
+    else
+      q = {'buyerId':{ test:"like binary", value:this.profile.id}};
+
   	self.dataService.findAll({
       controller: 'review-facts',
-      query: {'buyerId':{test:"like binary",value:this.profile.id}}
+      query: q
     }).then((fws: IReviewFact[]) => {
     	self.reviews = fws;
       this.changeViewState();

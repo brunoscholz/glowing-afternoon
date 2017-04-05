@@ -67,7 +67,7 @@
           {{items.offers.title}} ({{items.offers.list?.length}})
         </ion-list-header>
         <div class="items animated fadeIn" [hidden]="!items.offers.showDetails">
-          <offer-card *ngFor="let feed of items.offers.list" (click)="itemTapped($event, feed)" [feed]="feed"></offer-card>
+          <offer-list *ngFor="let feed of items.offers.list" (click)="itemTapped($event, feed)" [feed]="feed"></offer-list>
         </div>
       </ion-item-group>
 

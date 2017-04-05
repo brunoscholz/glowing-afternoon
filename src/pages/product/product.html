@@ -14,8 +14,11 @@
     <p>Não encontramos nenhuma oferta nessa categoria.</p>
   </div>
 
+  
   <div *ngIf="status === viewStatus.Full">
-    <offer-card *ngFor="let feed of products | orderBy:toOrder" (click)="itemTapped($event, feed)" [feed]="feed"></offer-card>
+    <ion-list class="reviews">
+      <offer-list *ngFor="let feed of products | orderBy:toOrder" (click)="itemTapped($event, feed)" [feed]="feed"></offer-list>
+    </ion-list>
   </div>
 
 </ion-content>

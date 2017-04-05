@@ -1,26 +1,30 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-title>Tour</ion-title>
-    <ion-buttons end>
-      <button ion-button color="light" outline (click)="openPage($event)">Skip</button>
-    </ion-buttons>
+  <ion-navbar>
+    <button ion-button menuToggle left>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{title}}</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content class="tour-page">
-  <ion-slides pager>
-    <ion-slide *ngFor="let slide of slides" [ngClass]="slide.class">
-      <img [src]="slide.image" class="slide-image"/>
-      <h2 class="slide-title" [innerHTML]="slide.title"></h2>
-      <p [innerHTML]="slide.description"></p>
-    </ion-slide>
-    <ion-slide class="fifth-intro-slide">
-      <img src="assets/img/splash/search.svg" class="slide-image"/>
-      <h2 class="slide-title">Pronto? Comece a buscar agora mesmo!</h2>
-      <button ion-button color="light" outline (click)="openPage($event)">
-        Continue
-      </button>
-    </ion-slide>
-  </ion-slides>
+<ion-content padding class="card-background-page">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="empty" *ngIf="status === viewStatus.Empty">
+    <ion-icon name="thumbs-down"></ion-icon>
+    <p>Nenhuma promoção cadastrada!</p>
+  </div>
+
+  <div *ngIf="status === viewStatus.Full">
+    <ion-row *ngFor="let i of rows">
+      <ion-col *ngFor="let feed of products | orderBy:toOrder | slice:(i*2):(i+1)*2" width-50>
+        <offer-promo (click)="itemTapped($event, feed)" [feed]="feed"></offer-promo>
+      </ion-col>
+    </ion-row>
+    
+    <!-- <offer-list *ngFor="let feed of products | orderBy:toOrder" (click)="itemTapped($event, feed)" [feed]="feed"></offer-list> -->
+  </div>
 
 </ion-content>

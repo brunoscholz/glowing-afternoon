@@ -15,10 +15,19 @@
     <ion-card>
       <div id="elastic-header" [style.backgroundImage]="'url(' + bgImage + ')'">
       </div>
+      <div id="offer-actions">
+        <div class="table">
+          <ul id="horizontal-list">
+            <li><button ion-button round outline class="offer-action"><ion-icon name="facebook"></ion-icon></button></li>
+            <li><button ion-button round outline class="offer-action"><ion-icon name="heart"></ion-icon></button></li>
+            <li><button ion-button round outline class="offer-action"><ion-icon name="create"></ion-icon></button></li>
+          </ul>
+        </div>
+      </div>
       <ion-item class="item-title">
         <ion-avatar item-right class="item-rating">
           <i class='otIcon-star-outline'></i>
-          <span *ngIf="product.avgRating.qtd > 3"> {{product.avgRating.avg}}</span>
+          <span *ngIf="product.avgRating.qtd > 3"> {{product.avgRating.avg | number : '1.1-1'}}</span>
           <span class="not-enough" style="word-wrap: normal;" *ngIf="product.avgRating.qtd <= 3"> sem avaliações suficientes</span>
         </ion-avatar>
         <ion-avatar item-right>
@@ -46,39 +55,10 @@
         <i class="otIcon-map" item-left></i>
         <h2>{{product.seller.billingAddress.address}}</h2>
       </ion-item>
-    </ion-list>
 
-    <h4 class="content padding double-padding-x" style="text-align: center;">Avaliações</h4>
-
-    <ion-list class="reviews" *ngIf="hasField(product.reviews)">
-      <ion-item-sliding *ngFor="let item of product.reviews">
-        <ion-item (click)="reviewTapped($event, item)">
-          <ion-avatar item-left>
-            <img src="{{item.buyer.picture.thumbnail}}">
-          </ion-avatar>
-          <p>{{item.buyer.name}}</p>
-          <h2>{{item.review.title}}</h2>
-
-          <ion-avatar class="item-rating" item-right>
-            <div class="rating-round"><h3 [ngClass]="getRating(item.rating.grade)">{{item.rating.grade}}.0</h3></div>
-          </ion-avatar>
-
-        </ion-item>
-        <!-- <ion-item-options side="right">
-          <button primary>
-            <ion-icon name="text"></ion-icon>
-            View
-          </button>
-          <button secondary>
-            <ion-icon name="call"></ion-icon>
-            Like
-          </button>
-          <button danger>
-            <ion-icon name="trash"></ion-icon>
-            Delete
-          </button>
-        </ion-item-options> -->
-      </ion-item-sliding>
+      <ion-item class="search-btn" no-lines>
+        <button ion-button round outline (click)="gotoReviews($event)">Ver Avaliações</button>
+      </ion-item>
     </ion-list>
 
     <ion-list class="reviews" *ngIf="!hasField(product.reviews)">

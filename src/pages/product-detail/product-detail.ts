@@ -12,6 +12,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController, PopoverController, ActionSheetController } from 'ionic-angular';
 import { ModelPage } from '../model-page';
+import { ReviewListPage } from '../review-list/review-list';
 import { ReviewPage } from '../review/review';
 import { CompanyDetailPage } from '../company-detail/company-detail';
 import { ReviewDetailPage } from '../review-detail/review-detail';
@@ -250,6 +251,12 @@ export class ProductDetailPage extends ModelPage {
   gotoCompany() {
     this.navCtrl.push(CompanyDetailPage, {
       company: this.product.seller
+    });
+  }
+
+  gotoReviews(event) {
+    this.navCtrl.push(ReviewListPage, {
+      offer: this.product
     });
   }
 

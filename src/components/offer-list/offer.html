@@ -1,0 +1,15 @@
+<ion-item>
+  <ion-thumbnail item-left>
+    <img src="{{post.picture.cover}}" style="padding-top: 1rem;">
+  </ion-thumbnail>
+  <h2>{{post.item.title}}</h2>
+  <h3>{{post.seller.name}}</h3>
+  <p>{{post.pricePerUnit | moneyFormat:[]}}</p>
+
+  <ion-avatar class="item-rating" item-right>
+    <div class="rating-round">
+      <h3 *ngIf="post.avgRating.qtd > 3">{{post.avgRating.avg | number : '1.1-1'}}</h3>
+      <h3 *ngIf="post.avgRating.qtd <= 3"> - </h3>
+    </div>
+  </ion-avatar>
+</ion-item>

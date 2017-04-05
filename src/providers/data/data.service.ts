@@ -71,7 +71,7 @@ export class DataService {
     this._cached$ = {
       categories: null,
       visitingCompany: null,
-      randomProduct: null
+      randomProduct: 'encanador'
     };
 
     this.setVisitingCompany(<ISeller>{
@@ -197,8 +197,10 @@ export class DataService {
         .subscribe((data) => {
           if(data.status == 200) {
             //this._subjects$[options.controller].next(ret);
-            if (options.controller == 'categories')
+            if (data['randCat'] != null) {
               this._cached$['randomProduct'] = data['randCat'];
+              console.log(data['randCat']);
+            }
 
             if(_.contains(this._toStorage, options.controller))
               this._cached$[options.controller] = data.data;

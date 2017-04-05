@@ -63,6 +63,9 @@ import { LicencePage } from '../pages/about/licence';
 // directives
 import { EmptyListCmp } from '../components/empty/empty';
 import { OfferPostCmp } from '../components/offer/offer';
+import { OfferListCmp } from '../components/offer-list/offer';
+import { OfferGiftCmp } from '../components/offer-gift/offer';
+import { OfferPromoCmp } from '../components/offer-promo/offer';
 import { UserProfileCmp } from '../components/user-profile/user';
 import { UserCardCmp } from '../components/user-card/user';
 import { SellerCardCmp } from '../components/seller-card/seller';
@@ -136,6 +139,9 @@ import { MapSearch } from '../components/map-search/map-search';
     ReviewDetailPage,
     EmptyListCmp,
     OfferPostCmp,
+    OfferListCmp,
+    OfferGiftCmp,
+    OfferPromoCmp,
     TransactionCmp,
     UserProfileCmp,
     UserCardCmp,

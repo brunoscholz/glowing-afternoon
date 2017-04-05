@@ -16,7 +16,35 @@
 			padding-left: 20px;
 		}
 	}
+
+	#offer-actions {
+		div.table {
+			display: table;   /* Allow the centering to work */
+			margin: 0 auto;
+			ul#horizontal-list {
+				width: 100%;
+			    list-style: none;
+			    padding-top: 10px;
+			    -webkit-padding-start: 0;
+			    -webkit-margin-before: 0;
+			    -webkit-margin-after: 0;
+			    -webkit-margin-start: 0px;
+			    -webkit-margin-end: 0px;
+				li {
+					display: inline;
+					padding-right: 15px;
+					button.offer-action {
+						background-color: white;
+						width: 64px;
+						height: 64px;
+						font-size: 2.3rem;
+					}
+				}
+			}
+		}
+	}
 }
+
 
 ion-avatar.item-rating {
 	color: map-get($colors, primary);

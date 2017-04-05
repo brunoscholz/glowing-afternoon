@@ -45,11 +45,11 @@ export class HomePage extends ModelPage {
 
   ionViewDidLoad() {
     this.doReset('Onde tem?');
-    this.randomCat = this.dataService.randomProduct;
     //this.online = this.checkNetwork();
   }
 
   ionViewWillEnter() {
+    this.randomCat = this.dataService.randomProduct;
     this.formData.q = "";
   }
 

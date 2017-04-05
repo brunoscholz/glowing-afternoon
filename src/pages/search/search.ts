@@ -10,7 +10,7 @@ import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 import { AuthService } from '../../providers/auth/auth.service';
 
-import { Geolocation, Geoposition } from 'ionic-native';
+//import { Geolocation, Geoposition } from 'ionic-native';
 import { MapService } from '../../providers/map/map.service';
 import { GeocoderService } from '../../providers/map/geocoder.service';
 

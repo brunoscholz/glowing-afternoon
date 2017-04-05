@@ -33,7 +33,7 @@ export class ProductPage extends ModelPage {
               navParams: NavParams,
               public dataService: DataService,
               public util: UtilProvider) {
-  	super('Ofertas', dataService, util)
+  	super('Produtos', dataService, util)
   	this.category = this.selectedItem = navParams.get('category');
     this.toOrder = 'name';
   }
@@ -46,7 +46,7 @@ export class ProductPage extends ModelPage {
   load() {
     var self = this;
     this.doChangeView(ViewStatusEnum.Empty);
-    this.util.presentLoading('Carregando Ofertas!');
+    this.util.presentLoading('Carregando Produtos!');
 
     this.dataService.findAll({
       controller: 'offers',
