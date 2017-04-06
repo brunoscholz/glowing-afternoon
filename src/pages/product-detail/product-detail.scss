@@ -1,8 +1,9 @@
 .product-detail-page {
-	ion-card {
+	ion-card.product-card {
 		margin: unset;
 		width: 100%;
 		background-color: unset;
+		box-shadow: unset;
 
 		#elastic-header {
 		    height: 30vh;
@@ -37,7 +38,10 @@
 						background-color: white;
 						width: 64px;
 						height: 64px;
-						font-size: 2.3rem;
+						font-size: 3rem;
+						i {
+							padding-top: 0.8rem;
+						}
 					}
 				}
 			}
@@ -45,6 +49,27 @@
 	}
 }
 
+ion-card.gift-card {
+	background-color: map-get($colors, primary);
+	margin-top: 1rem;
+
+	ion-item {
+		background-color: transparent;
+	}
+
+	.color1 {
+		color: orange;
+	}
+
+	.price {
+		color: white;
+	}
+
+	button {
+		color: white;
+		border: 1px solid white;
+	}
+}
 
 ion-avatar.item-rating {
 	color: map-get($colors, primary);

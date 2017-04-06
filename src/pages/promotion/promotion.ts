@@ -43,7 +43,23 @@ export class PromotionPage extends ModelPage {
     this.doChangeView(ViewStatusEnum.Empty);
     this.util.presentLoading('Carregando Promoções!');
 
-    this.dataService.findAll({
+    // order by profitability
+    // order by some other metric: most viewers...
+    // order in a way that a minor always get a pair
+    /*
+    <div class="row responsive-md">
+	  <div class="col card">Whale</div>
+	  <div class="col card">
+	    <div class="row">
+	      <div class="col col-50 card">Minor</div>
+	      <div class="col card">Minor</div>
+	    </div>
+	  </div>
+	</div>
+    */
+
+    // for tests
+    /*this.dataService.findAll({
       controller: 'offers',
       query: { 'item.categoryId': {"test":"like binary","value":""} }
     }).then((data: Array<IOffer>) => {
@@ -54,19 +70,20 @@ export class PromotionPage extends ModelPage {
           self.refresher.complete();
       }, (err) => {
         console.log(err);
-      });
+      });*/
 
-    /*this.dataService.getPretty({
+    this.dataService.getPretty({
 	  controller: 'sale',
       url: 'offers/sale'
   	}).then((data: Array<IOffer>) => {
         self.products = data;
+        self.rows = Array.from(Array(Math.ceil(self.products.length / 2)).keys());
         self.changeViewState();
         if(self.refresher)
           self.refresher.complete();
       }, (err) => {
         console.log(err);
-      });*/
+      });
   }
 
   changeViewState() {

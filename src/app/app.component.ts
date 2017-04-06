@@ -7,6 +7,8 @@ import { SignTabsPage } from '../pages/sign-tabs/sign-tabs';
 import { SignUpPage } from '../pages/sign-tabs/signup';
 import { SignInPage } from '../pages/sign-tabs/signin';
 
+import { ProfilePage } from '../pages/profile/profile';
+
 import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
 import { SellPage } from '../pages/sell/sell';
 import { TourPage } from '../pages/tour/tour';
@@ -45,12 +47,14 @@ export class MyApp {
   user: IUser;
 
   appPages: IPage[] = [
-    { title: 'Início', component: HomeTabsPage, icon: 'home' },
-    { title: 'Categorias', component: HomeTabsPage, index: 1, icon: 'grid' },
+    { title: 'Busca', component: HomeTabsPage, icon: 'home' },
+    { title: 'Produtos', component: HomeTabsPage, index: 1, icon: 'grid' },
+    { title: 'Promoções', component: HomeTabsPage, index: 2, icon: 'cut' },
+    { title: 'Loja', component: HomeTabsPage, index: 3, icon: 'cart' },
   ];
 
   loggedInPages: IPage[] = [
-    { title: 'Perfil', component: HomeTabsPage, index: 2, icon: 'person' },
+    { title: 'Perfil', component: ProfilePage, icon: 'person' },
     { title: 'Sair', component: SignTabsPage, icon: 'log-out', logsOut: true }
   ];
   //{ title: 'Configurações', component: SettingsPage, icon: 'settings', passRoot: true },

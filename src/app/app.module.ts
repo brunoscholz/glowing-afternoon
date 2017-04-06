@@ -11,8 +11,11 @@ import { HomePage } from '../pages/home/home';
 import { CategoryPage } from '../pages/category/category';
 import { SearchPage } from '../pages/search/search';
 import { TourPage } from '../pages/tour/tour';
-import { StorePage } from '../pages/store/store';
 import { PromotionPage } from '../pages/promotion/promotion';
+import { StorePage } from '../pages/store/store';
+
+import { GiftConfirmPage } from '../pages/gift/gift-confirm';
+import { GiftRedeemPage } from '../pages/gift/gift-redeem';
 
 import { ProfilePage } from '../pages/profile/profile';
 
@@ -49,7 +52,6 @@ import { SellerMapPage } from '../pages/company-detail/map-page';
 // Item related Pages
 import { ProductPage } from '../pages/product/product';
 import { ProductDetailPage } from '../pages/product-detail/product-detail';
-import { ProductOptionsPage } from '../pages/product-detail/product-options';
 import { ReviewPage } from '../pages/review/review';
 import { ReviewDetailPage } from '../pages/review-detail/review-detail';
 
@@ -109,6 +111,8 @@ import { MapSearch } from '../components/map-search/map-search';
     SearchPage,
     TourPage,
     StorePage,
+    GiftConfirmPage,
+    GiftRedeemPage,
     PromotionPage,
     SignTabsPage,
     SignInPage,
@@ -134,7 +138,6 @@ import { MapSearch } from '../components/map-search/map-search';
     CatalogPage,
     ProductPage,
     ProductDetailPage,
-    ProductOptionsPage,
     ReviewPage,
     ReviewDetailPage,
     EmptyListCmp,
@@ -178,6 +181,8 @@ import { MapSearch } from '../components/map-search/map-search';
     SearchPage,
     TourPage,
     StorePage,
+    GiftConfirmPage,
+    GiftRedeemPage,
     PromotionPage,
     SignTabsPage,
     SignInPage,
@@ -203,7 +208,6 @@ import { MapSearch } from '../components/map-search/map-search';
     CatalogPage,
     ProductPage,
     ProductDetailPage,
-    ProductOptionsPage,
     ReviewPage,
     ReviewDetailPage,
     AboutPage,

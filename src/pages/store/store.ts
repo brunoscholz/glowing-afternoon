@@ -43,6 +43,7 @@ export class StorePage extends ModelPage {
     this.doChangeView(ViewStatusEnum.Empty);
     this.util.presentLoading('Carregando Brindes!');
 
+    // for tests
     this.dataService.findAll({
       controller: 'offers',
       query: { 'item.categoryId': {"test":"like binary","value":""} }
@@ -61,6 +62,7 @@ export class StorePage extends ModelPage {
       url: 'offers/gifts'
     }).then((data: Array<IOffer>) => {
         self.products = data;
+        self.rows = Array.from(Array(Math.ceil(self.products.length / 2)).keys());
         self.changeViewState();
         if(self.refresher)
           self.refresher.complete();
@@ -84,7 +86,9 @@ export class StorePage extends ModelPage {
     this.load();
   }
 
-  openPage(event) {
-    
+  itemTapped(event, item) {
+    this.navCtrl.push(ProductDetailPage, {
+      offer: item
+    });
   }
 }

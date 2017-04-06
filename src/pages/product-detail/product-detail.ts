@@ -10,16 +10,16 @@
  *
 */
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, PopoverController, ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, ActionSheetController } from 'ionic-angular';
 import { ModelPage } from '../model-page';
 import { ReviewListPage } from '../review-list/review-list';
 import { ReviewPage } from '../review/review';
+import { GiftConfirmPage } from '../gift/gift-confirm';
 import { CompanyDetailPage } from '../company-detail/company-detail';
 import { ReviewDetailPage } from '../review-detail/review-detail';
 import { DataService } from '../../providers/data/data.service';
 import { AuthService } from '../../providers/auth/auth.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
-import { ProductOptionsPage } from './product-options';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
 import { IOffer, IUser } from '../../providers/data/interfaces';
@@ -38,7 +38,6 @@ export class ProductDetailPage extends ModelPage {
     public navCtrl: NavController,
     navParams: NavParams,
     public modCtrl: ModalController,
-    public popoverCtrl: PopoverController,
     public dataService: DataService,
     public actionSheet: ActionSheetController,
     public auth: AuthService,
@@ -89,21 +88,12 @@ export class ProductDetailPage extends ModelPage {
     this.load();
   }
 
-  moreOptions(myEvent) {
-    let popover = this.popoverCtrl.create(ProductOptionsPage, { canAdd: this.canAdd });
-    popover.onDidDismiss((act) => {
-      if(act == 'addReview')
-        this.addReview();
-      if(act == 'addToList')
-        this.addToList();
-      if(act == 'removeFromList')
-        this.removeFromList();
-      if(act == 'share')
-        this.share();
-    });
-    popover.present({
-      ev: myEvent
-    });
+  // toggles the favorite on the offer
+  favorite() {
+    if (this.canAdd)
+      this.addToList();
+    else
+      this.removeFromList();
   }
 
   addToList() {
@@ -268,6 +258,17 @@ export class ProductDetailPage extends ModelPage {
     }*/
     //Remove from database
     //this.reviewService.deleteReview(review._id);
+  }
+
+  confirmGiftBuy() {
+    let modal = this.modCtrl.create(GiftConfirmPage, { offer: this.product });
+    modal.onDidDismiss(review => {
+      /*if(review){
+        this.saveReview(review);
+      }*/
+    });
+
+    modal.present();
   }
 
   reviewTapped(event, item) {

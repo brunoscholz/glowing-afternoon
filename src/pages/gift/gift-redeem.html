@@ -7,7 +7,7 @@
 <ion-content class="product-detail-page">
 
   <div *ngIf="product">
-    <ion-card class="product-card">
+    <ion-card>
       <div id="elastic-header" [style.backgroundImage]="'url(' + bgImage + ')'">
       </div>
       <div id="offer-actions">
@@ -21,11 +21,11 @@
       </div>
       <ion-item class="item-title">
         <ion-avatar item-right class="item-rating">
-          <i class="otIcon-star-off" style="font-size: 2rem;"></i>
+          <i class='otIcon-star-outline'></i>
           <span *ngIf="product.avgRating.qtd > 3"> {{product.avgRating.avg | number : '1.1-1'}}</span>
           <span class="not-enough" style="word-wrap: normal;" *ngIf="product.avgRating.qtd <= 3"> sem avaliações suficientes</span>
         </ion-avatar>
-        <ion-avatar item-left>
+        <ion-avatar item-right>
           <img src="{{product.seller.picture.thumbnail}}">
         </ion-avatar>
         <h2>{{product.item.title}}</h2>
@@ -34,30 +34,13 @@
       <ion-card-content>
         <p>{{product.description}}</p>
       </ion-card-content>
-    </ion-card>
 
-    <ion-card round inset class="gift-card" *ngIf="product.isGift == 1">
-      <ion-item>
-        <ion-row>
-          <ion-col><i class="otIcon-wallet color1" item-right></i>
-            <b>Comprar com COINs</b>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-item class="price">
-            {{product.coinPrice | moneyFormat:['OTK']}}
-            <button ion-button outline item-right (click)="confirmGiftBuy()">comprar</button>
-          </ion-item>
-        </ion-row>
-
-      </ion-item>
     </ion-card>
 
     <ion-list no-lines class="info-list">
       <ion-item>
         <i class="otIcon-money" item-left></i>
-        <h2>{{product.pricePerUnit - (product.pricePerUnit * product.discountPerUnit) | moneyFormat:[]}}</h2>
+        <h2>{{product.pricePerUnit | moneyFormat:[]}}</h2>
       </ion-item>
       <ion-item (click)="gotoCompany()">
         <i class="otIcon-store" item-left></i>
@@ -65,7 +48,7 @@
       </ion-item>
       <ion-item>
         <i class="otIcon-location" item-left></i>
-        <h2>{{product.seller.billingAddress.formattedAddress}}</h2>
+        <h2>{{product.seller.billingAddress.address}}</h2>
       </ion-item>
 
       <ion-item class="search-btn" no-lines>

@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{title}}</ion-title>
+    <ion-buttons end>
+      <button ion-button color="royal" (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="product-detail-page">
+
+  <div *ngIf="product">
+    <ion-card class="product-card">
+      <div id="elastic-header" [style.backgroundImage]="'url(' + bgImage + ')'">
+      </div>
+      <ion-item class="item-title">
+        <ion-avatar item-right class="item-rating">
+          <i class='otIcon-wallet'></i>
+          <span>{{product.coinPrice | moneyFormat:['OTK']}}</span>
+        </ion-avatar>
+        <h2>{{product.item.title}}</h2>
+        <p>{{product.seller.name}}</p>
+      </ion-item>
+      <ion-card-content>
+        <p>Um QRCode será gerado e guardado em seu perfil. Você terá até 5 dias para ir até a a prestadora e retirar seu produto</p>
+      </ion-card-content>
+
+    </ion-card>
+
+    <ion-list no-lines class="info-list" *ngIf="balance != null">
+      <ion-item>
+        <i class="otIcon-money" item-left></i>
+        <p>Seu saldo:</p>
+        <h2>{{balance.COIN | moneyFormat:['OTK']}}</h2>
+      </ion-item>
+      <ion-item class="search-btn" no-lines>
+        <button ion-button round outline (click)="confirm($event)">Comprar</button>
+      </ion-item>
+
+    </ion-list>
+
+  </div>
+
+</ion-content>

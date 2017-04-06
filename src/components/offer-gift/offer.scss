@@ -3,9 +3,10 @@ offer-gift {
   ion-card {
     position: relative;
     text-align: center;
+    max-height: 18vh;
     
     img {
-      max-height: 18vh;
+      height: auto;
     }
   }
 
@@ -14,6 +15,8 @@ offer-gift {
     top: 36%;
     width: 100%;
     background-color: rgba(0,0,0,0.5);
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .card-title {
