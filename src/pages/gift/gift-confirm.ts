@@ -81,7 +81,7 @@ export class GiftConfirmPage {
   }
 
   confirm(): void {
-    this.viewCtrl.dismiss(review);
+    this.viewCtrl.dismiss();
   }
 
   dismiss(): void {

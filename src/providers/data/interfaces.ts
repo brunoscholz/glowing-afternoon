@@ -69,6 +69,8 @@ export interface IOffer {
   imageHashes: string;
   keywords: string;
   itemCondition: string;
+  isGift: number;
+  coinPrice: number;
   createdAt: string;
   updatedAt: string;
   status: string;

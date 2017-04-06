@@ -6,64 +6,6 @@
 
 <ion-content class="product-detail-page">
 
-  <div *ngIf="product">
-    <ion-card>
-      <div id="elastic-header" [style.backgroundImage]="'url(' + bgImage + ')'">
-      </div>
-      <div id="offer-actions">
-        <div class="table">
-          <ul id="horizontal-list">
-            <li><button ion-button round outline class="offer-action" (click)="share()"><i class="otIcon-cloud"></i></button></li>
-            <li><button ion-button round outline class="offer-action" (click)="favorite()"><i class="otIcon-heart"></i></button></li>
-            <li><button ion-button round outline class="offer-action" (click)="addReview()"><i class="otIcon-star-off"></i></button></li>
-          </ul>
-        </div>
-      </div>
-      <ion-item class="item-title">
-        <ion-avatar item-right class="item-rating">
-          <i class='otIcon-star-outline'></i>
-          <span *ngIf="product.avgRating.qtd > 3"> {{product.avgRating.avg | number : '1.1-1'}}</span>
-          <span class="not-enough" style="word-wrap: normal;" *ngIf="product.avgRating.qtd <= 3"> sem avaliações suficientes</span>
-        </ion-avatar>
-        <ion-avatar item-right>
-          <img src="{{product.seller.picture.thumbnail}}">
-        </ion-avatar>
-        <h2>{{product.item.title}}</h2>
-        <p>{{product.seller.name}}</p>
-      </ion-item>
-      <ion-card-content>
-        <p>{{product.description}}</p>
-      </ion-card-content>
-
-    </ion-card>
-
-    <ion-list no-lines class="info-list">
-      <ion-item>
-        <i class="otIcon-money" item-left></i>
-        <h2>{{product.pricePerUnit | moneyFormat:[]}}</h2>
-      </ion-item>
-      <ion-item (click)="gotoCompany()">
-        <i class="otIcon-store" item-left></i>
-        <h2>{{product.seller.name}}</h2>
-      </ion-item>
-      <ion-item>
-        <i class="otIcon-location" item-left></i>
-        <h2>{{product.seller.billingAddress.address}}</h2>
-      </ion-item>
-
-      <ion-item class="search-btn" no-lines>
-        <button ion-button round outline (click)="gotoReviews($event)">Ver Avaliações</button>
-      </ion-item>
-    </ion-list>
-
-    <ion-list class="reviews" *ngIf="!hasField(product.reviews)">
-      <ion-item style="text-align: center;">
-        <ion-icon name="thumbs-down"></ion-icon>
-        <p>Nenhuma avaliação encontrada... </p>
-        <p>Seja o primeiro!</p>
-      </ion-item>
-    </ion-list>
-
-  </div>
+  
 
 </ion-content>
