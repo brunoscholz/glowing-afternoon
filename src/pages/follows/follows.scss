@@ -1,43 +1,43 @@
 follows-page {
 }
 
-ion-grid.social-list {
-  ion-row {
-    ion-col {
-      ion-item {
-        &.item-md {
-          padding: 0 !important;
-        }
-        ion-label {
-          div.avatar {
-            img {
-              width: 45px;
-              float: left;
-            }
-          }
-          p {
-            line-height: 45px;
-          }
-        }
+ion-list.social-list {
+  ion-item.social-counter {
+    ion-label {
+      h2 {font-size: 6rem !important;}
+      color: map-get($colors, midtone);
+    }
+    .avatar {
+      position: absolute;
+      top: 16px;
+
+      img {
+        width: 100px;
+        border-radius: 50%;
+        float: left;
       }
     }
-  }
-}
 
-ion-item.social-counter {
+    &.ing {
+      ion-label {
+        h2, p {
+          text-align: right;
+        }
+      }
+      .avatar {
+        left: 16px;
+      }
+    }
 
-  ion-label {
-    h2 {font-size: 6rem !important;}
-    color: map-get($colors, midtone);
-  }
-  .avatar {
-    position: absolute;
-    right: 16px;
-    top: 16px;
-
-    img {
-      width: 100px;
-      border-radius: 50%;
+    &.ers{
+      ion-label {
+        h2, p {
+          text-align: left;
+        }
+      }
+      .avatar {
+        right: 16px;
+      }
     }
   }
 }

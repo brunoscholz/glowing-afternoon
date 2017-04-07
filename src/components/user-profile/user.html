@@ -1,37 +1,60 @@
-<div class="background-image" [style.backgroundImage]="'url(' + profile.bgImage + ')'"></div>
+<div class="background-image" [style.backgroundImage]="'url(' + profile.bgImage + ')'">
+  <!-- <button ion-button class="cover-edit" (click)="gotoSettings($event)">
+    <ion-icon item-right name="create"></ion-icon>
+  </button> -->
+</div>
 <ion-card>
   <ion-card-content>
     <img class="animated wobble" src="{{profile.picture.thumbnail}}">
-    <h2>{{profile.name}}</h2>
-    <h3>{{profile.username}}</h3>
+    <!-- <button ion-button class="thumb-edit" (click)="gotoSettings($event)">
+      <ion-icon item-right name="create"></ion-icon>
+    </button> -->
   </ion-card-content>
 
   <div class="profile-menu">
-		<ion-list>
-		  <button ion-item (click)="gotoSettings($event)">
-		    Minhas Informações
-		    <ion-icon item-right name="arrow-forward"></ion-icon>
-		  </button>
-		  <button ion-item (click)="gotoBank($event)">
-		    Moedas
-		    <ion-icon item-right name="arrow-forward"></ion-icon>
-		  </button>
-		  <button ion-item (click)="gotoFollowers($event)">
-		    Seguidores
-		    <ion-icon item-right name="arrow-forward"></ion-icon>
-		  </button>
-		  <button ion-item (click)="gotoFollows($event)">
-		    Seguindo
-		    <ion-icon item-right name="arrow-forward"></ion-icon>
-		  </button>
-		  <button ion-item (click)="gotoFavorites($event)">
-		    Minha Lista
-		    <ion-icon item-right name="arrow-forward"></ion-icon>
-		  </button>
-		  <button ion-item (click)="gotoReviews($event)">
-		    Avaliações
-		    <ion-icon item-right name="arrow-forward"></ion-icon>
-		  </button>
-		</ion-list>
+    <ion-grid>
+      <ion-row no-padding>
+        <ion-col (click)="showRadio()">
+          <div class="slot">
+            <ion-icon name='refresh'></ion-icon>
+            <h3 class="cat-title">Trocar Perfil</h3>
+          </div>
+        </ion-col>
+        <ion-col text-center>
+          
+        </ion-col>
+        <ion-col>
+          <div class="slot">
+            <i class='otIcon-money'></i>
+            <h3 class="cat-title">{{balance.COIN | moneyFormat:['OTK']}}</h3>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row no-padding>
+        <ion-col (click)="gotoFollows($event)">
+          <div class="slot">
+            <i class='otIcon-puzzle'></i>
+            <h3 class="cat-title">Seguidores</h3>
+          </div>
+        </ion-col>
+        <ion-col (click)="gotoFavorites($event)">
+          <div class="slot">
+            <i class='otIcon-heart'></i>
+            <h3 class="cat-title">Favoritos</h3>
+          </div>
+        </ion-col>
+        <ion-col (click)="gotoReviews($event)">
+          <div class="slot">
+            <i class='otIcon-pencil'></i>
+            <h3 class="cat-title">Avaliações</h3>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-item class="search-btn" no-lines>
+      <button ion-button round outline (click)="gotoSettings($event)">Configurações</button>
+    </ion-item>
+
   </div>
 </ion-card>

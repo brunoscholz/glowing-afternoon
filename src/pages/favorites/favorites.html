@@ -5,31 +5,38 @@
 </ion-header>
 
 
-<ion-content padding>
-	<div *ngIf="status === viewStatus.Empty">
-	  <empty-list [msg]="'Nenhum favorito na lista!!'"></empty-list>
-	</div>
+<ion-content page-favorites padding>
+  <div *ngIf="status === viewStatus.Empty">
+    <empty-list [msg]="'Nenhum favorito na lista!!'"></empty-list>
+  </div>
 
-	<div *ngIf="status === viewStatus.Full">
-		<ion-list>
-			<ion-item *ngFor="let item of favorites">
-				<span class="value">{{item?.offer.item.title}}</span>
-				<p>{{item?.offer.description}}</p>
-			</ion-item>
-			<ion-item class="search-btn" *ngIf="hasMore">
-	        	<button ion-button round (click)="loadMore()">Mais</button>
-	      	</ion-item>
-		</ion-list>
-	</div>
-	<!-- <div *ngIf="authTk">
-		<ion-list>
-			<ion-item *ngFor="let item of authTk">
-				<span class="value">{{item?.selector}}</span>
-				<p>{{item?.user.buyer.name}}</p>
-			</ion-item>
-			<ion-item class="search-btn" *ngIf="hasMore">
-	        	<button ion-button round (click)="loadMore()">Mais</button>
-	      	</ion-item>
-		</ion-list>
-	</div> -->
+  <div *ngIf="status === viewStatus.Full">
+    <ion-list>
+
+      <ion-item *ngFor="let feed of favorites">
+        <ion-thumbnail item-left>
+          <img src="{{feed.offer.picture.cover}}" style="padding-top: 1rem;">
+        </ion-thumbnail>
+        <h2>{{feed.offer.item.title}}</h2>
+        <h3>{{feed.offer.seller.name}}</h3>
+        <p>{{(feed.offer.pricePerUnit - (feed.offer.pricePerUnit*feed.offer.discountPerUnit)) | moneyFormat:[]}}</p>
+
+        <div class="ribbon-wrapper offer-promo" *ngIf="feed.offer.discountPerUnit > 0">
+          <div class="ribbon-tag">{{feed.offer.discountPerUnit}}%</div>
+        </div>
+
+        <div class="gift-container offer-gift" *ngIf="feed.offer.isGift">
+          <div class="gift">
+            <span class="number">{{feed.offer.coinPrice}}</span>
+          </div>
+        </div>
+
+      </ion-item>
+
+      <ion-item class="search-btn" *ngIf="hasMore">
+        <button ion-button round (click)="loadMore()">Mais</button>
+      </ion-item>
+    </ion-list>
+  </div>
+
 </ion-content>

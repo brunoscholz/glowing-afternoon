@@ -24,6 +24,9 @@
       </ion-col>
     </ion-row>
     
+    <ion-col col-12 [attr.col-md-6]="someCondition ? '' : null">
+      Content 1
+    </ion-col>
     <!-- <offer-list *ngFor="let feed of products | orderBy:toOrder" (click)="itemTapped($event, feed)" [feed]="feed"></offer-list> -->
   </div>
 

@@ -41,7 +41,7 @@ export class ReviewListPage extends ModelPage {
     var q = {};
     if(this.profile == null)
       q = {'offerId':{ test:"like binary", value:this.offer.offerId}};
-    else
+    else if (this.offer == null)
       q = {'buyerId':{ test:"like binary", value:this.profile.id}};
 
   	self.dataService.findAll({

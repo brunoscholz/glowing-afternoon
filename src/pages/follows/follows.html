@@ -1,9 +1,17 @@
 <ion-header>
-
   <ion-navbar>
     <ion-title>{{title}}</ion-title>
   </ion-navbar>
-
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="followtabs" color="secondary">
+      <ion-segment-button value="followers">
+        Seguidores
+      </ion-segment-button>
+      <ion-segment-button value="following">
+        Seguindo
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="follows-page">
@@ -13,14 +21,33 @@
   </div>
 
   <div *ngIf="status === viewStatus.Full">
-    <ion-item padding class="social-counter">
-      <h2>90</h2>
-      <p>Seguidores</p>
-      <div class="avatar">
-        <img src="assets/img/avatar3.png">
-      </div>
-    </ion-item>
-    <user-card *ngFor="let flw of follows" (click)="userTapped($event, flw.buyer.buyerId)" [feed]="flw.buyer"></user-card>
+    <div [ngSwitch]="followtabs">
+      <ion-list class="social-list" *ngSwitchCase="'followers'">
+        <ion-item padding class="social-counter ers">
+          <h2>{{followers.length}}</h2>
+          <p>{{(followers.length == 1 ? "Seguidor" : "Seguidores") }}</p>
+          <div class="avatar">
+            <img src="{{profile.picture.thumbnail}}">
+          </div>
+        </ion-item>
+
+        <follow-card *ngFor="let feed of followers" [feed]="feed" (click)="userTapped($event, 'flw')"></follow-card>
+      </ion-list>
+
+      <ion-list class="social-list" *ngSwitchCase="'following'">
+        <ion-item padding class="social-counter ing">
+          <p>Seguindo</p>
+          <h2>{{following.length}}</h2>
+          <div class="avatar">
+            <img src="{{profile.picture.thumbnail}}">
+          </div>
+        </ion-item>
+
+        <follow-card *ngFor="let feed of following" [feed]="feed" (click)="userTapped($event, 'flw')"></follow-card>
+      </ion-list>
+
+    </div>
+    
   </div>
 
 

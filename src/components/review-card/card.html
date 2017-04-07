@@ -1,0 +1,25 @@
+<ion-card>
+  <ion-item>
+    <ion-avatar item-left>
+      <img src="{{fact.buyer.picture.thumbnail}}">
+    </ion-avatar>
+    <h2>{{fact.buyer.name}}</h2>
+    <p>em {{fact.date | emTimeAgo}}, escreveu:</p>
+  </ion-item>
+  <ion-card-content>
+    <div class="background-image" [style.backgroundImage]="'url(' + target.picture.cover + ')'">
+      <div class="rating-round"><h3>{{fact.rating.grade}}.0</h3></div>
+    </div>
+    <div>
+      <h2>{{fact.review.title}}</h2>
+      <p>Geral: {{fact.rating.grade}}</p>
+      <p>Atendimento: {{fact.rating.attendance}}</p>
+      <p>Preço: {{fact.rating.price}}</p>
+    </div>
+  </ion-card-content>
+  <ion-list class="review-body">
+    <ion-item>
+      <p>{{fact.review.body}}</p>
+    </ion-item>
+  </ion-list>
+</ion-card>

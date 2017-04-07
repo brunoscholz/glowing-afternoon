@@ -23,6 +23,27 @@
           {{buyer.about}}
         </p>
 
+        <ion-row no-padding>
+          <ion-col>
+            <button ion-button clear small color="danger" icon-left (click)="addReview()">
+              <ion-icon name='star'></ion-icon>
+              Seguir
+            </button>
+          </ion-col>
+          <ion-col text-center>
+            <button ion-button clear small color="danger" icon-left (click)="like($event)">
+              <ion-icon name='navigate'></ion-icon>
+              Mensagem
+            </button>
+          </ion-col>
+          <ion-col text-right>
+            <button ion-button clear small color="danger" icon-left (click)="share($event)">
+              <ion-icon name='share-alt'></ion-icon>
+              Sobre
+            </button>
+          </ion-col>
+        </ion-row>
+
         <ion-list no-lines class="info-list">
           <ion-item>
             <i class="otIcon-chat2" item-left></i>

@@ -27,19 +27,19 @@
       <ion-list-header>
         Saldo
       </ion-list-header>
-      <ion-item class="value">0 COINs</ion-item>
+      <ion-item class="value">{{balance.COIN | moneyFormat:['OTK']}}</ion-item>
       <ion-list-header>
         Últimas Transações
       </ion-list-header>
-      <transaction-card *ngFor="let feed of (tx | txFilter:['all',tk])" [feed]="feed"></transaction-card>
+      <transaction-card *ngFor="let feed of (tx | txFilter:['all',tk,user.userId])" [feed]="feed" [user]="user.userId"></transaction-card>
     </ion-list>
 
     <ion-list *ngSwitchCase="'intx'">
-      <transaction-card *ngFor="let feed of (tx | txFilter:['pos',tk])" [feed]="feed"></transaction-card>
+      <transaction-card *ngFor="let feed of (tx | txFilter:['pos',tk,user.userId])" [feed]="feed" [user]="user.userId"></transaction-card>
     </ion-list>
 
     <ion-list *ngSwitchCase="'outtx'">
-      <transaction-card *ngFor="let feed of (tx | txFilter:['neg',tk])" [feed]="feed"></transaction-card>
+      <transaction-card *ngFor="let feed of (tx | txFilter:['neg',tk,user.userId])" [feed]="feed" [user]="user.userId"></transaction-card>
     </ion-list>
   </div>
 </div>

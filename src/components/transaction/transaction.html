@@ -1,6 +1,6 @@
 <ion-card class="animated fadeIn" [ngClass]="posNeg()">
   <ion-item class="date">
-    {{tr.transaction.timestamp | emTimeAgo }}
+    {{tr.timestamp | emTimeAgo }}
   </ion-item>
 
   <ion-card-content>
@@ -10,9 +10,9 @@
       </ion-avatar>
       <ion-label>
         <h2>{{ name }}</h2>
-        <p>{{ tr.ruleId }}</p>
+        <p>tr.ruleId</p>
       </ion-label>
-      <span item-right class="value">{{tr.transaction.amount}} {{tr.transaction.token.name}}</span>
+      <span item-right class="value">{{tr.amount}} {{tr.token.name}}</span>
     </ion-item>
   </ion-card-content>
 </ion-card>

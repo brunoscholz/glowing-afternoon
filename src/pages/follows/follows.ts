@@ -13,9 +13,11 @@ import _ from 'underscore';
 })
 export class FollowsPage extends ModelPage {
 	//user: IUser;
-	follows: IFollowFact[];
-	me: boolean;
+  followers: IFollowFact[];
+  following: IFollowFact[];
+
 	profile: IProfile;
+  followtabs:string = 'followers';
 
   constructor(public navCtrl: NavController,
   						navParams: NavParams,
@@ -24,12 +26,11 @@ export class FollowsPage extends ModelPage {
 							public util: UtilProvider
 	) {
   	super('Follow', dataService, util);
-  	this.me = navParams.get('me');
   	this.profile = navParams.get('profile');
   }
 
   ionViewDidLoad() {
-  	let t = this.me ? 'Seguidores' : 'Seguindo';
+  	let t = this.followtabs == 'followers' ? 'Seguidores' : 'Seguindo';
   	this.doChangeTitle(t);
     this.load();
   }
@@ -40,21 +41,20 @@ export class FollowsPage extends ModelPage {
     this.util.presentLoading('Buscando...');
 
     let query = {};
-    if(this.me) {
-      if(this.profile.type == 'buyer')
-        query = {'buyerId':{test:"like binary",value:this.profile.id}};
-      else
-        query = {'sellerId':{test:"like binary",value:this.profile.id}};
-    }
-    else {
-      query = {'userId':{test:"like binary",value:this.profile.id}, "buyerId":{test:"<>",value:"NULL"}};
-    }
+    
+    if(this.profile.type == 'buyer')
+      query = {'userId':{test:"like binary",value:this.profile.id}};
+    else
+      query = {'userId':{test:"like binary",value:this.profile.id},profile:"seller"};
 
     self.dataService.findAll({
       controller: 'follow-facts',
       query: query
-    }).then((fws: IFollowFact[]) => {
-      self.follows = fws;
+    }).then((fws: any[]) => {
+      self.followers = <IFollowFact[]>fws['followers'];
+      self.following = <IFollowFact[]>fws['following'];
+      console.log(self.followers);
+      console.log(self.following);
       this.changeViewState();
     }, (err) => {
       console.log(err);
@@ -62,7 +62,7 @@ export class FollowsPage extends ModelPage {
   }
 
   changeViewState() {
-    if (_.size(this.follows) > 0) {
+    if (_.size(this.followers) > 0 || _.size(this.following) > 0) {
       this.doChangeView(ViewStatusEnum.Full);
     }
     else {

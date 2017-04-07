@@ -12,6 +12,16 @@
       text-align: center;
       padding-bottom: 28px;
 
+      button {
+        padding: 0 0.5rem;
+        height: unset;
+        &.thumb-edit {
+          position: absolute;
+          margin-left: -48px;
+          margin-top: -75px;
+        }
+      }
+
       img {
         height: 160px;
         width: 160px;
@@ -89,6 +99,15 @@ ion-list-header {
   border-bottom: solid 2px map-get($colors, light);
   background-size: cover;
   background-position: center;
+
+  button {
+    &.cover-edit {
+      position: absolute;
+      right: 0;
+      padding: 0 0.5rem;
+      height: unset;
+    }
+  }
 }
 
 div.profile-menu {
@@ -102,6 +121,7 @@ div.profile-menu {
         padding: 0;
         display: block;
         text-align: center;
+        color: map-get($colors, primary);
         /*text-shadow: 0px 2px 3px rgba(0,0,0,0.3);
         -webkit-background-clip: text;
            -moz-background-clip: text;
@@ -131,6 +151,7 @@ div.profile-menu {
         text-transform: none;
         line-height: 1;
         -webkit-font-smoothing: antialiased;
+        color: map-get($colors, primary);
       }
 
       div.slot {
@@ -141,8 +162,8 @@ div.profile-menu {
         padding-top: 12px;
         background-color: transparent;
         color: rgba(255,255,255,0.6);
-        text-shadow: 2px 2px 3px rgba(0,0,0,0.3);
-        border: 1px solid map-get($colors, light);
+        /*text-shadow: 2px 2px 3px rgba(0,0,0,0.3);*/
+        border: 1px solid map-get($colors, primary);
         border-radius: 3px;
       }
 
@@ -150,7 +171,7 @@ div.profile-menu {
         margin: 2px 0 3px 0;
         padding: 2px 0 0 0;
         font-size: 1em;
-        color: white;
+        color: map-get($colors, primary);
         text-align: center;
         position: relative;
         -webkit-transition: -webkit-transform 0.2s;

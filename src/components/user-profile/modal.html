@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar>
+  <ion-title>Selecione um perfil</ion-title>
+  <ion-buttons end>
+    <button ion-button color="royal" (click)="dismiss()">
+    <ion-icon name="close"></ion-icon>
+    </button>
+  </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="list">
+
+  <ion-list radio-group [(ngModel)]="selected">
+    <ion-list-header>
+      Perfis
+    </ion-list-header>
+
+    <ion-item *ngFor="let profile of userProfiles">
+      <ion-avatar item-left>
+        <img src="{{profile.pic}}">
+      </ion-avatar>
+      <ion-label>{{profile.name}}</ion-label>
+      <ion-radio checked="false" value="{{profile.id}}"></ion-radio>
+    </ion-item>
+
+    <ion-item class="search-btn" no-lines>
+      <button ion-button round outline (click)="save()">OK</button>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

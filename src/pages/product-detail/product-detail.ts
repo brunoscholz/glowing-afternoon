@@ -246,6 +246,7 @@ export class ProductDetailPage extends ModelPage {
 
   gotoReviews(event) {
     this.navCtrl.push(ReviewListPage, {
+      profile: null,
       offer: this.product
     });
   }

@@ -69,6 +69,10 @@ import { OfferListCmp } from '../components/offer-list/offer';
 import { OfferGiftCmp } from '../components/offer-gift/offer';
 import { OfferPromoCmp } from '../components/offer-promo/offer';
 import { UserProfileCmp } from '../components/user-profile/user';
+import { ProfileModalPage } from '../components/user-profile/modal';
+
+import { FollowCardCmp } from '../components/follow-card/card';
+import { ReviewCardCmp } from '../components/review-card/card';
 import { UserCardCmp } from '../components/user-card/user';
 import { SellerCardCmp } from '../components/seller-card/seller';
 import { TransactionCmp } from '../components/transaction/transaction';
@@ -139,6 +143,7 @@ import { MapSearch } from '../components/map-search/map-search';
     ProductPage,
     ProductDetailPage,
     ReviewPage,
+    ProfileModalPage,
     ReviewDetailPage,
     EmptyListCmp,
     OfferPostCmp,
@@ -147,6 +152,8 @@ import { MapSearch } from '../components/map-search/map-search';
     OfferPromoCmp,
     TransactionCmp,
     UserProfileCmp,
+    FollowCardCmp,
+    ReviewCardCmp,
     UserCardCmp,
     SellerCardCmp,
     ControlMessages,
@@ -209,6 +216,7 @@ import { MapSearch } from '../components/map-search/map-search';
     ProductPage,
     ProductDetailPage,
     ReviewPage,
+    ProfileModalPage,
     ReviewDetailPage,
     AboutPage,
     WhyPage,
@@ -220,7 +228,6 @@ import { MapSearch } from '../components/map-search/map-search';
     MapSearch
   ],
   providers: [
-    {provide: ErrorHandler, useClass: AppErrorHandler},
     DataService,
     APIService,
     APISettings,
@@ -229,7 +236,10 @@ import { MapSearch } from '../components/map-search/map-search';
     UtilProvider,
     SpeechService,
     MapService,
-    GeocoderService
+    GeocoderService,
+    {
+        provide: ErrorHandler, useClass: AppErrorHandler
+    },
   ]
 })
 export class AppModule {}

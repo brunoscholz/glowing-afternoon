@@ -11,13 +11,51 @@
     <h2>{{user.name}}</h2>
   </div>
 
-    <ion-list inset>
-      <button ion-item (click)="updatePicture()">Alterar Foto de Capa</button>
-      <button ion-item (click)="updateAvatar()">Alterar Avatar</button>
-      <button ion-item (click)="changeUsername()">Alterar Nome</button>
-      <button ion-item (click)="changePassword()">Alterar Senha</button>
-      <button ion-item (click)="connectFacebook()">Conectar com Facebook</button>
-      <button ion-item (click)="logout()">Sair</button>
-    </ion-list>
+  <ion-list>
+    <ion-list-header>
+      Fotos
+    </ion-list-header>
+    <ion-item>
+      <ion-thumbnail item-left>
+        <img src="{{profile.picture.cover}}">
+      </ion-thumbnail>
+      <h2>Trocar capa...</h2>
+      <p>A capa aparece quando alguém vê seu perfil</p>
+      <button ion-button clear item-right (click)="updatePicture()">Trocar</button>
+    </ion-item>
+
+    <ion-item>
+      <ion-avatar item-left style="margin-right: 2.2em;">
+        <img src="{{profile.picture.thumbnail}}">
+      </ion-avatar>
+      <h2>Mudar avatar...</h2>
+      <p>Seu avatar aparece em tudo o que você faz!</p>
+      <button ion-button clear item-right (click)="updateAvatar()">Mudar</button>
+    </ion-item>
+
+    <ion-list-header>
+      Geral
+    </ion-list-header>
+    <ion-item>
+      <i class="otIcon-profile" item-left></i>
+      <h2>{{profile.name}}</h2>
+      <p>Seu nome não é esse?</p>
+      <button ion-button clear item-right (click)="changeUsername()">Alterar</button>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="lock" item-left></ion-icon>
+      Cansou da senha?
+      <button ion-button clear item-right (click)="changePassword()">Mudar</button>
+    </ion-item>
+    
+    <ion-item>
+      <ion-icon name="power" item-left></ion-icon>
+      Sair da conta?
+      <button ion-button clear item-right (click)="logout()">Sim</button>
+    </ion-item>
+
+    <!-- <button ion-item (click)="connectFacebook()">Conectar com Facebook</button> -->
+  </ion-list>
 
 </ion-content>

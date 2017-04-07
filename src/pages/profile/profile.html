@@ -4,34 +4,12 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>{{title}}</ion-title>
-
-    <ion-buttons end>
-      <button ion-button icon-only (click)="moreOptions($event)">
-        <ion-icon name="more"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="profile-page">
   <div *ngIf="status === viewStatus.Full">
-    <user-profile [feed]="user.preferred"></user-profile>
+    <user-profile [feed]="user.preferred" [coins]="balance" [uProfiles]="userProfiles" (notify)="onNotify($event)"></user-profile>
   </div>
-
-    <!-- <h4 class="content padding double-padding-x" style="text-align: center;">Avaliações</h4>
-    <ion-grid class="reviews" *ngIf="hasField(user.buyer.reviews)">
-      <ion-row *ngFor="let i of rows" (click)="itemTapped($event, item)">
-        <ion-col width-50 *ngFor="let item of user.buyer.reviews | slice:(i*2):(i+1)*2;">
-          <ion-card>
-            <img src="assets/img/generic-product.png"/>
-            <div class="card-title">{{item.title}}</div>
-            <div class="card-subtitle">{{item.rating}}</div>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    <div class="missing-item" *ngIf="!hasField(user.buyer.reviews)">
-      Nenhuma revisão encontrada!
-    </div> -->
 
 </ion-content>
