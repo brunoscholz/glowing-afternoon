@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
-
+import { IProfile } from '../../providers/data/interfaces';
+import _ from 'underscore';
 @Component({
   templateUrl: 'modal.html',
 })
 export class ProfileModalPage {
-  userProfiles: any;
-  selected;
+  userProfiles: IProfile[];
+  selected: IProfile;
 
   constructor(
   	private navCtrl: NavController,
@@ -18,8 +19,8 @@ export class ProfileModalPage {
 
   save() {
     if(this.selected != null || this.selected != undefined) {
-      //send back the chosen entire profile
-      this.viewCtrl.dismiss(this.selected);
+      let ret = _.findWhere(this.userProfiles, {id: this.selected});
+      this.viewCtrl.dismiss(ret);
     }
   }
 

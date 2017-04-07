@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ProfileOptionsPage } from './options';
 
 import { AuthService } from '../../providers/auth/auth.service';
 import { DataService } from '../../providers/data/data.service';
@@ -21,7 +20,7 @@ export class ProfilePage extends ModelPage {
   loginInfo: any;
 	bgImage: string;
 	rows: any;
-  userProfiles;
+  userProfiles: IProfile[];
 
   constructor(public navCtrl: NavController,
               navParams: NavParams,
@@ -57,10 +56,27 @@ export class ProfilePage extends ModelPage {
     self.load()
     .then((res) => {
 
-      self.userProfiles = { profiles: [{ name: self.user.buyer.username, id: self.user.buyer.buyerId, pic: self.user.buyer.picture.thumbnail, type: 'buyer', index: 0 }] };
-      let i = 1;
+      let profile: IProfile = {
+        id: this.user.buyer.buyerId,
+        type: 'buyer',
+        bgImage: this.user.buyer.picture.cover,
+        name: this.user.buyer.name,
+        username: this.user.buyer.email,
+        picture: this.user.buyer.picture
+      };
+
+      self.userProfiles = [];
+      self.userProfiles.push(profile);
       self.user.sellers.forEach(function(entry) {
-        self.userProfiles.profiles.push({ name: entry.name, id: entry.sellerId, pic: entry.picture.thumbnail, type: 'seller', index: i++ });
+        let prof: IProfile = {
+          id: entry.sellerId,
+          type: 'seller',
+          bgImage: entry.picture.cover,
+          name: entry.name,
+          username: entry.email,
+          picture: entry.picture
+        };
+        self.userProfiles.push(prof);
       });
 
       self.changeViewState();
@@ -177,7 +193,6 @@ export class ProfilePage extends ModelPage {
   }
 
   onNotify(pref):void {
-    //alert(message);
     if(pref) {
       if(pref.type == 'seller')
         this.setProfile(this.getSellerProfile(pref.id));

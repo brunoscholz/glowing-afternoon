@@ -17,8 +17,8 @@ import { IProfile, IBalance } from '../../providers/data/interfaces';
 export class UserProfileCmp {
   @Input('feed') profile: IProfile;
   @Input('coins') balance: IBalance;
-  @Input('uProfiles') userProfiles;
-  @Output('notify') notify: EventEmitter<string> = new EventEmitter<string>();
+  @Input('uProfiles') userProfiles: IProfile[];
+  @Output('notify') notify: EventEmitter<IProfile> = new EventEmitter<IProfile>();
 
   // change based on profile type
 
@@ -67,7 +67,7 @@ export class UserProfileCmp {
 
   showRadio() {
     // modal...
-    let modal = this.modalCtrl.create(ProfileModalPage, { userProfiles: this.userProfiles.profiles });
+    let modal = this.modalCtrl.create(ProfileModalPage, { userProfiles: this.userProfiles });
     modal.onDidDismiss((profile) => {
       if(profile) {
         this.notify.emit(profile);
