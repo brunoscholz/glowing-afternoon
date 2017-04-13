@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 
 @Component({
-  templateUrl: 'review.html',
+  templateUrl: 'review-company.html',
 })
-export class ReviewPage {
+export class ReviewCompanyPage {
   product: any;
 
   title: any;

@@ -6,6 +6,6 @@
 
 <ion-content class="company-detail-page">
   <div *ngIf="status === viewStatus.Full">
-    <seller-profile [feed]="profile"></seller-profile>
+    <seller-profile [feed]="company" [user]="user"></seller-profile>
   </div>
 </ion-content>

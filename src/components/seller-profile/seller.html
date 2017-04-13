@@ -1,11 +1,11 @@
-<div class="background-image" [style.backgroundImage]="'url(' + profile.bgImage + ')'">
+<div class="background-image" [style.backgroundImage]="'url(' + bgImage + ')'">
   <!-- <button ion-button class="cover-edit" (click)="gotoSettings($event)">
     <ion-icon item-right name="create"></ion-icon>
   </button> -->
 </div>
 <ion-card>
   <ion-card-content>
-    <img class="animated wobble" src="{{profile.picture.thumbnail}}">
+    <img class="animated wobble" src="{{company.picture.thumbnail}}">
     <!-- <button ion-button class="thumb-edit" (click)="gotoSettings($event)">
       <ion-icon item-right name="create"></ion-icon>
     </button> -->
@@ -14,19 +14,19 @@
   <div class="profile-menu">
     <ion-grid>
       <ion-row no-padding>
-        <ion-col (click)="gotoFollows($event)">
+        <ion-col (click)="follow($event)">
           <div class="slot">
             <i class='otIcon-puzzle'></i>
             <h3 class="cat-title">Seguir</h3>
           </div>
         </ion-col>
-        <ion-col (click)="gotoFavorites($event)">
+        <ion-col (click)="gotoMap($event)">
           <div class="slot">
             <i class='otIcon-logo'></i>
             <h3 class="cat-title">Mapa</h3>
           </div>
         </ion-col>
-        <ion-col (click)="gotoReviews($event)">
+        <ion-col (click)="addReview($event)">
           <div class="slot">
             <i class='otIcon-pencil'></i>
             <h3 class="cat-title">Avaliar</h3>
@@ -34,19 +34,19 @@
         </ion-col>
       </ion-row>
       <ion-row no-padding>
-        <ion-col (click)="gotoFollows($event)">
+        <ion-col (click)="gotoCatalog($event)">
           <div class="slot">
             <i class='otIcon-puzzle'></i>
             <h3 class="cat-title">Catálogo</h3>
           </div>
         </ion-col>
-        <ion-col (click)="gotoFavorites($event)">
+        <ion-col (click)="gotoContact($event)">
           <div class="slot">
             <i class='otIcon-logo'></i>
             <h3 class="cat-title">Contato</h3>
           </div>
         </ion-col>
-        <ion-col (click)="gotoReviews($event)">
+        <ion-col (click)="gotoInfo($event)">
           <div class="slot">
             <i class='otIcon-pencil'></i>
             <h3 class="cat-title">Sobre</h3>

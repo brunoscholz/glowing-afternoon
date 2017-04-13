@@ -1,86 +1,149 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavController, AlertController, ModalController } from 'ionic-angular';
 
-import { IProfile } from '../../providers/data/interfaces';
+import { DataService } from '../../providers/data/data.service';
+import { UtilProvider } from '../../providers/utils/util.provider';
+
+import { CatalogPage } from '../../pages/catalog/catalog';
+import { SellerMapPage } from '../../pages/company-detail/map-page';
+import { ReviewCompanyPage } from '../../pages/review/review-company';
+
+import { IUser, ISeller } from '../../providers/data/interfaces';
+import _ from 'underscore';
 
 @Component({
   selector: 'seller-profile',
   templateUrl: 'seller.html'
 })
-export class SellerProfileCmp {
-  @Input('feed') profile: IProfile;
+export class SellerProfileCmp implements OnInit {
+  @Input('feed') company: ISeller;
+  @Input('user') user: IUser;
+  bgImage: string;
   //@Output('notify') notify: EventEmitter<IProfile> = new EventEmitter<IProfile>();
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public modalCtrl: ModalController) {}
+  constructor(public navCtrl: NavController,
+              public alertCtrl: AlertController,
+              public modalCtrl: ModalController,
+              public util: UtilProvider,
+              public dataService: DataService)
+  {}
 
-  gotoFollowers(event) {
-    
+  ngOnInit() {
+    this.bgImage = this.company.picture.cover;
   }
 
-  gotoFollows(event) {
-    /*this.navCtrl.push(FollowsPage, {
-      me: false,
-      profile: this.profile
-    });*/
+  gotoMap() {
+    let modal = this.modalCtrl.create(SellerMapPage, {company: this.company});
+    modal.onDidDismiss(() => {
+      
+    });
+
+    modal.present();
   }
 
-  gotoFavorites(event) {
-    /*this.navCtrl.push(FavoritesPage, {
-      profile: this.profile
-    });*/
+  follow() {
+    let self = this;
+    self.util.presentLoading('Aguarde..');
+    let fav = {
+      FollowFact: {
+        action: 'follow',
+        userId: self.user.buyer.buyerId,
+        sellerId: self.company.sellerId,
+        buyerId: ''
+      }
+    }
+    self.dataService.addSocialAction({
+      controller: 'follow-facts',
+      data: fav
+    })
+    .then(() => {
+      let toast = self.util.getToast('Você está seguindo ' + self.company.name);
+      toast.present();
+    }, (err) => {
+      console.log(err);
+      self.util.dismissLoading();
+      self.util.notifyError(err);
+    });
   }
 
-  gotoReviews(event) {
-    /*this.navCtrl.push(ReviewListPage, {
-      profile: this.profile,
-      offer: null
-    });*/
+  unfollow() {
+    let self = this;
+    self.util.presentLoading('Aguarde..');
+    let fav = {
+      FollowFact: {
+        action: 'unfollow',
+        userId: self.user.buyer.buyerId,
+        sellerId: self.company.sellerId,
+        buyerId: '',
+        status: 'REM'
+      }
+    }
+    let ff = _.findWhere(self.user.buyer.following, { sellerId: self.company.sellerId });
+    self.dataService.addSocialAction({
+      controller: 'follow-facts/' + ff.followFactId,
+      data: fav
+    })
+    .then(() => {
+      let toast = self.util.getToast('Você parou de seguir ' + self.company.name);
+      toast.present();
+    }, (err) => {
+      console.log(err);
+      self.util.dismissLoading();
+      self.util.notifyError(err);
+    });
   }
 
-  gotoSettings(event) {
-    
-  }
-
-  gotoBank(event) {
-    
-  }
-
-  /*changeProfile() {
-    this.notify.emit('Click from nested component');
-  }*/
-
-  showRadio() {
-    // modal...
-    /*let modal = this.modalCtrl.create(ProfileModalPage, { userProfiles: this.userProfiles });
-    modal.onDidDismiss((profile) => {
-      if(profile) {
-        this.notify.emit(profile);
+  addReview() {
+    let alert = this.util.doAlert('Avaliação', 'Funcionalidade ainda não disponível para Empresas.', 'OK');
+    alert.present();
+    let modal = this.modalCtrl.create(ReviewCompanyPage, { item: this.company });
+    modal.onDidDismiss(review => {
+      if(review){
+        this.saveReview(review);
       }
     });
 
-    modal.present();*/
-
-    /*let alert = this.alertCtrl.create();
-    alert.setTitle('Selecione um perfil');
-
-    console.log(this.userProfiles.profiles);
-    this.userProfiles.profiles.forEach((item, index) => {
-      alert.addInput({
-        type: 'radio',
-        label: item.name,
-        value: item.id,
-        checked: false
-      });
-    });
-
-    alert.addButton('Cancel');
-    alert.addButton({
-      text: 'OK',
-      handler: data => {
-        // this.testRadioOpen = false;
-        // this.testRadioResult = data;
-      }
-    });
-    alert.present();*/
+    modal.present();
   }
+
+  saveReview(review) {
+    let self = this;
+    self.util.presentLoading('Aguarde..');
+
+    review.ReviewFact.buyerId = self.user.buyer.buyerId;
+    this.dataService.addSocialAction({
+      controller: 'review-facts',
+      data: review
+    })
+    .then((data) => {
+      if(data['status'] == 200) {
+        let toast = self.util.getToast('Você ganhou '+data['credit']+' moedas pela avaliação. Obrigado!');
+        //self.product.reviews.push(review);
+        //this.dataService.creditUser(10);
+        toast.present();
+        self.util.dismissLoading();
+      }
+    }, (err) => {
+      console.log(err);
+      self.util.notifyError(err);
+      self.util.dismissLoading();
+    });
+  }
+
+  addReviewPlus() {
+    let alert = this.util.doAlert('Cliente Oculto', 'Funcionalidade ainda não disponível.', 'OK');
+    alert.present();
+  }
+
+  gotoCatalog(e) {
+    let modal = this.modalCtrl.create(CatalogPage, { item: this.company });
+    modal.onDidDismiss(res => {
+      
+    });
+
+    modal.present();
+  }
+
+  gotoContact(e) {}
+  gotoInfo(e) {}
 }
