@@ -1,0 +1,63 @@
+<div class="background-image" [style.backgroundImage]="'url(' + profile.bgImage + ')'">
+  <!-- <button ion-button class="cover-edit" (click)="gotoSettings($event)">
+    <ion-icon item-right name="create"></ion-icon>
+  </button> -->
+</div>
+<ion-card>
+  <ion-card-content>
+    <img class="animated wobble" src="{{profile.picture.thumbnail}}">
+    <!-- <button ion-button class="thumb-edit" (click)="gotoSettings($event)">
+      <ion-icon item-right name="create"></ion-icon>
+    </button> -->
+  </ion-card-content>
+
+  <div class="profile-menu">
+    <ion-grid>
+      <ion-row no-padding>
+        <ion-col (click)="gotoFollows($event)">
+          <div class="slot">
+            <i class='otIcon-puzzle'></i>
+            <h3 class="cat-title">Seguir</h3>
+          </div>
+        </ion-col>
+        <ion-col (click)="gotoFavorites($event)">
+          <div class="slot">
+            <i class='otIcon-logo'></i>
+            <h3 class="cat-title">Mapa</h3>
+          </div>
+        </ion-col>
+        <ion-col (click)="gotoReviews($event)">
+          <div class="slot">
+            <i class='otIcon-pencil'></i>
+            <h3 class="cat-title">Avaliar</h3>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row no-padding>
+        <ion-col (click)="gotoFollows($event)">
+          <div class="slot">
+            <i class='otIcon-puzzle'></i>
+            <h3 class="cat-title">Catálogo</h3>
+          </div>
+        </ion-col>
+        <ion-col (click)="gotoFavorites($event)">
+          <div class="slot">
+            <i class='otIcon-logo'></i>
+            <h3 class="cat-title">Contato</h3>
+          </div>
+        </ion-col>
+        <ion-col (click)="gotoReviews($event)">
+          <div class="slot">
+            <i class='otIcon-pencil'></i>
+            <h3 class="cat-title">Sobre</h3>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- <ion-item class="search-btn" no-lines>
+      <button ion-button round outline (click)="gotoSettings($event)">Configurações</button>
+    </ion-item> -->
+
+  </div>
+</ion-card>

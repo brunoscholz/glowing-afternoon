@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Nova Avaliação</ion-title>
+    <ion-buttons end>
+      <button ion-button color="royal" (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="add-review">
+
+  <ion-list no-lines>
+
+    <ion-list-header>
+      Nota <ion-badge item-right>{{rating}}</ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <ion-range min="{{ratingRange.lower}}" max="{{ratingRange.upper}}" pin="true" [(ngModel)]="rating">
+        <ion-icon range-left name="sad"></ion-icon>
+        <ion-icon range-right name="happy"></ion-icon>
+      </ion-range>
+    </ion-item>
+
+    <ion-list-header>
+      Atendimento <ion-badge item-right>{{attendance}}</ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <ion-range min="1" max="5" pin="true" [(ngModel)]="attendance">
+        <ion-icon range-left name="sad"></ion-icon>
+        <ion-icon range-right name="happy"></ion-icon>
+      </ion-range>
+    </ion-item>
+
+    <ion-list-header>
+      Preço <ion-badge item-right>{{price}}</ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <ion-range min="1" max="5" pin="true" [(ngModel)]="price">
+        <ion-icon range-left name="sad"></ion-icon>
+        <ion-icon range-right name="happy"></ion-icon>
+      </ion-range>
+    </ion-item>
+
+    <ion-list-header>
+      Descreva sua experiência
+    </ion-list-header>
+    <ion-item>
+      <ion-label floating>Título</ion-label>
+      <ion-input [(ngModel)]="title" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Conteúdo</ion-label>
+      <ion-textarea [(ngModel)]="description"></ion-textarea>
+    </ion-item>
+
+  </ion-list>
+
+  <div style="text-align: center">
+    <button ion-button round (click)="save()">Salvar</button>
+  </div>
+
+</ion-content>

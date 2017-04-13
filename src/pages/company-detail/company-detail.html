@@ -1,57 +1,11 @@
 <ion-header>
   <ion-navbar>
     <ion-title>{{title}}</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="moreOptions($event)">
-        <ion-icon name="more"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="company-detail-page">
-  <div *ngIf="company">
-    <div id="elastic-header" [style.backgroundImage]="'url(' + bgImage + ')'">
-    </div>
-    <div class="profile-info">
-      <ion-card>
-        <ion-card-content>
-          <img src="{{company.picture.thumbnail}}">
-          <h2>{{company.name}}</h2>
-        </ion-card-content>
-        <p class="company-about">
-          {{company.about}}
-        </p>
-
-        <ion-list no-lines class="info-list">
-          <ion-item>
-            <i class="otIcon-chat2" item-left></i>
-            <h2>{{company.email}}</h2>
-          </ion-item>
-          <ion-item>
-            <i class="otIcon-phone" item-left></i>
-            <h2>{{company.phone}}</h2>
-            <p>aberto {{company.hours}}</p>
-          </ion-item>
-          <ion-item (click)="gotoMap()">
-            <i class="otIcon-location" item-left></i>
-            <h2>{{company.billingAddress.address}}</h2>
-            <p>{{company.billingAddress.city}} {{company.billingAddress.state}}</p>
-          </ion-item>
-        </ion-list>
-
-        <div class="profile-menu">
-          <ion-list>
-            <button ion-item (click)="gotoCatalog($event)">
-              Catálogo
-              <ion-icon item-right name="arrow-forward"></ion-icon>
-            </button>
-          </ion-list>
-        </div>
-
-      </ion-card>
-    </div>
-
+  <div *ngIf="status === viewStatus.Full">
+    <seller-profile [feed]="profile"></seller-profile>
   </div>
-
 </ion-content>

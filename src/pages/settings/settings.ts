@@ -55,7 +55,7 @@ export class SettingsPage extends ModelPage {
     })
     .catch((err) => {
       self.util.dismissLoading();
-      if(err.message != 'Camera cancelled.')
+      if(err.message != 'cameraCancelled')
         self.util.notifyError(err);
     });
   }
@@ -85,7 +85,7 @@ export class SettingsPage extends ModelPage {
     })
     .catch((err) => {
       self.util.dismissLoading();
-      if(err.message != 'Camera cancelled.')
+      if(err.message != 'cameraCancelled')
         self.util.notifyError(err);
     });
   }

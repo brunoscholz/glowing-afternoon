@@ -10,19 +10,18 @@
  *
 */
 import { Component } from '@angular/core';
-import { NavController, NavParams, ActionSheetController, ModalController, PopoverController } from 'ionic-angular';
+import { NavController, NavParams, ActionSheetController, ModalController } from 'ionic-angular';
 import { ModelPage } from '../model-page';
 // import { ReviewPage } from '../review/review';
 // import { ReviewDetailPage } from '../review-detail/review-detail';
 import { DataService } from '../../providers/data/data.service';
 import { AuthService } from '../../providers/auth/auth.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
-import { CompanyOptionsPage } from './company-options';
 import { CatalogPage } from '../catalog/catalog';
 import { SellerMapPage } from './map-page';
 
 import { ViewStatusEnum } from '../../providers/utils/enums';
-import { ISeller, IOffer, IUser } from '../../providers/data/interfaces';
+import { ISeller, IOffer, IUser, IProfile } from '../../providers/data/interfaces';
 import _ from 'underscore';
 
 @Component({
@@ -34,12 +33,12 @@ export class CompanyDetailPage extends ModelPage {
   bgImage: string;
   canFollow: boolean = true;
   offers: IOffer[];
+  profile: IProfile;
 
   constructor(public navCtrl: NavController,
               navParams: NavParams,
               public acCtrl: ActionSheetController,
               public modCtrl: ModalController,
-              public popoverCtrl: PopoverController,
               public dataService: DataService,
               public auth: AuthService,
               public util: UtilProvider
@@ -47,11 +46,14 @@ export class CompanyDetailPage extends ModelPage {
     super("Company Details", dataService, util);
     this.company = navParams.get('company');
     this.bgImage = this.company.picture.cover;
+    this.profile = this.getSellerProfile();
   }
 
   ionViewDidLoad() {
     this.doReset(this.company.name);
     this.load();
+
+
 
     let self = this;
     self.auth.getUserInfo()
@@ -62,6 +64,21 @@ export class CompanyDetailPage extends ModelPage {
       //self.canFollow = self.canFollow && !_.contains(ids, self.buyer.buyerId);
       self.canFollow = !_.contains(ids, self.company.sellerId);
     });
+  }
+
+  getSellerProfile() {
+    let seller = this.company;
+    //seller[0].picture = this.util.fixPictureUrl(seller[0].picture);
+
+    let profile: IProfile = {
+      id: seller.sellerId,
+      type: 'seller',
+      bgImage: seller.picture.cover,
+      name: seller.name,
+      username: seller.email,
+      picture: seller.picture
+    };
+    return profile;
   }
 
   load() {
@@ -96,7 +113,7 @@ export class CompanyDetailPage extends ModelPage {
   }
 
   moreOptions(myEvent) {
-    let popover = this.popoverCtrl.create(CompanyOptionsPage, { canFollow: this.canFollow });
+    /*let popover = this.popoverCtrl.create(CompanyOptionsPage, { canFollow: this.canFollow });
     popover.onDidDismiss((act) => {
       if(act == 'follow')
         this.follow();
@@ -109,7 +126,7 @@ export class CompanyDetailPage extends ModelPage {
     });
     popover.present({
       ev: myEvent
-    });
+    });*/
   }
 
   gotoMap() {

@@ -35,6 +35,9 @@ import { BalancePage } from '../pages/balance/balance';
 import { UserDetailPage } from '../pages/user-detail/user-detail';
 import { UserOptionsPage } from '../pages/user-detail/user-options';
 
+import { UserProfileCmp } from '../components/user-profile/user';
+import { ProfileModalPage } from '../components/user-profile/modal';
+
 // sale support tabs & pages
 import { SellPage } from '../pages/sell/sell';
 import { RegisterPage } from '../pages/sell/register';
@@ -48,6 +51,9 @@ import { CompanyDetailPage } from '../pages/company-detail/company-detail';
 import { CompanyOptionsPage } from '../pages/company-detail/company-options';
 import { CatalogPage } from '../pages/catalog/catalog';
 import { SellerMapPage } from '../pages/company-detail/map-page';
+
+import { SellerProfileCmp } from '../components/seller-profile/seller';
+//import { ProfileModalPage } from '../components/user-profile/modal';
 
 // Item related Pages
 import { ProductPage } from '../pages/product/product';
@@ -68,8 +74,6 @@ import { OfferPostCmp } from '../components/offer/offer';
 import { OfferListCmp } from '../components/offer-list/offer';
 import { OfferGiftCmp } from '../components/offer-gift/offer';
 import { OfferPromoCmp } from '../components/offer-promo/offer';
-import { UserProfileCmp } from '../components/user-profile/user';
-import { ProfileModalPage } from '../components/user-profile/modal';
 
 import { FollowCardCmp } from '../components/follow-card/card';
 import { ReviewCardCmp } from '../components/review-card/card';
@@ -152,6 +156,7 @@ import { MapSearch } from '../components/map-search/map-search';
     OfferPromoCmp,
     TransactionCmp,
     UserProfileCmp,
+    SellerProfileCmp,
     FollowCardCmp,
     ReviewCardCmp,
     UserCardCmp,
