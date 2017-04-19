@@ -166,7 +166,8 @@ export class MyApp {
         this.isLoading = true;
       }
       else {
-        this.loading.dismiss();
+        if(this.loading)
+          this.loading.dismiss();
         this.isLoading = false;
       }
     });

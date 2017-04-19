@@ -33,8 +33,7 @@ export class CategoryPage extends ModelPage {
 
   load() {
     var self = this;
-    this.util.presentLoading('Buscando...');
-
+    //self.util.presentLoading('Buscando...');
     self.dataService.findAll({
       controller: 'categories',
       query: { parentId: 0 }

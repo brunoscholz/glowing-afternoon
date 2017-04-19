@@ -19,7 +19,7 @@ export class CustomHttp extends Http {
           return Observable.empty();
         })
         .retryWhen(error => error.delay(1000))
-        .timeout(4000, new Error('delay exceeded'))
+        .timeout(4000)
         .finally(() => {
           console.log('After the request...');
         });
@@ -37,7 +37,7 @@ export class CustomHttp extends Http {
           }
         })
         .retryWhen(error => error.delay(1000))
-        .timeout(4000, new Error('delay exceeded'))
+        .timeout(4000)
         .finally(() => {
           console.log('After the request...');
         });

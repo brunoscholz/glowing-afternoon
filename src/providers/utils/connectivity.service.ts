@@ -23,7 +23,7 @@ export class ConnectivityService {
 
     Network.onConnect().subscribe(() => {
       console.log('Network is connected ;-) ');
-      if (Network.connection === 'wifi') {
+      if (Network.type === 'wifi') {
         console.log('we got a wifi connection, woohoo!');
       }
       this.conn$.next(true);
@@ -36,17 +36,17 @@ export class ConnectivityService {
   }
 
   isOnline(): boolean {
-  	if(this.onDevice && Network.connection) {
+  	if(this.onDevice && Network.type) {
       //unknown, ethernet, wifi, 2g, 3g, 4g, cellular, none
-      return Network.connection !== 'none';
+      return Network.type !== 'none';
     } else {
       return navigator.onLine; 
     }
   }
 
   isOffline(): boolean {
-  	if(this.onDevice && Network.connection){
-      return Network.connection === 'none'; //Connection.NONE;
+  	if(this.onDevice && Network.type){
+      return Network.type === 'none'; //Connection.NONE;
     } else {
       return !navigator.onLine;   
     }

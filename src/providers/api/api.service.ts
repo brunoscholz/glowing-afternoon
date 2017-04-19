@@ -16,8 +16,8 @@ export class APIService {
   
   constructor(
               private http: Http,
-              public util: UtilProvider
-  ) {
+              public util: UtilProvider)
+  {
     //this.http = http;
   }
 
@@ -25,7 +25,7 @@ export class APIService {
     this.config = {
       baseUrl: APISettings.WEBURL + APISettings.APIVERSION + "/",
       controllerUrl: APISettings.WEBURL + APISettings.APIVERSION + "/" + controller,
-    }
+    };
   }
 
   Change(controller: string) {
@@ -129,7 +129,7 @@ export class APIService {
     return this.http.get(url, {
       search: params
     })
-    .timeout(30000, new Error('timeout exceeded'));
+    .timeout(30000);
   }
 
   private post(url, body, options = <any>{}, headerType = 'application/x-www-form-urlencoded') {
@@ -142,7 +142,7 @@ export class APIService {
     return this.http.post(url, params, {
       headers: headers
     })
-      .timeout(30000, new Error('timeout exceeded'))
+      .timeout(30000)
       .catch(this.onCatch)
       .do((res: Response) => {
           this.onSubscribeSuccess(res);

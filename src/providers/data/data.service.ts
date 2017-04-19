@@ -192,9 +192,11 @@ export class DataService {
         resolve(this._cached$[options.controller]);
       }
       else {
-        this.api.findAll(options)
+        return this.api.findAll(options)
         .map((res: Response) => res.json())
-        .subscribe((data) => {
+        .toPromise()
+        .then((data) => {
+          console.log(data);
           if(data.status == 200) {
             //this._subjects$[options.controller].next(ret);
             if (data['randCat'] != null) {
@@ -211,9 +213,11 @@ export class DataService {
             resolve(data.data);
           }
           else {
+            console.log(data);
             reject(data.error);
           }
-        });
+        })
+       .catch(error => { console.log(error) });
       }
     });
     return promise;

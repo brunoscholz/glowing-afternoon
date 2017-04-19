@@ -47,7 +47,8 @@ export class UtilProvider {
   
   getLoading(content): Loading {
     let loading = this.loadCtrl.create({
-      content: content
+      content: content,
+      dismissOnPageChange: false
     });
     return loading;
   }
