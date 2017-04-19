@@ -5,7 +5,7 @@ import { NavController, NavParams, ViewController } from 'ionic-angular';
   templateUrl: 'review-company.html',
 })
 export class ReviewCompanyPage {
-  product: any;
+  company: any;
 
   title: any;
   description: any;
@@ -19,11 +19,13 @@ export class ReviewCompanyPage {
   	public navParams: NavParams,
   	public viewCtrl: ViewController
   ) {
-    this.product = navParams.get("item");
+    this.company = navParams.get("item");
 
     //let today = new Date();
+    // prepare for review plus - cliente oculto
 
-    this.rating = 0;
+
+    this.rating = 1;
     this.attendance = 1;
     this.price = 1;
 
@@ -32,7 +34,7 @@ export class ReviewCompanyPage {
 
     this.ratingRange = {
         lower: 0,
-        upper: 10
+        upper: 5
     };
   }
 
@@ -42,9 +44,9 @@ export class ReviewCompanyPage {
     let review = {
         ReviewFact: {
           action: 'addReview',
-          offerId: this.product.offerId,
+          offerId: '',
           buyerId: 'logged',
-          sellerId: '',
+          sellerId: this.company.sellerId,
           rating: rate
         },
         Review: {
@@ -58,5 +60,17 @@ export class ReviewCompanyPage {
 
   dismiss(): void {
     this.viewCtrl.dismiss();
+  }
+
+  onRate(grade, type) {
+    if (type == 'general') {
+      this.rating = grade;
+    }
+    else if (type == 'attendance') {
+      this.attendance = grade;
+    }
+    else if (type == 'price') {
+      this.price = grade;
+    }
   }
 }

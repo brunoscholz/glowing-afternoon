@@ -61,6 +61,7 @@ import { SellerProfileCmp } from '../components/seller-profile/seller';
 import { ProductPage } from '../pages/product/product';
 import { ProductDetailPage } from '../pages/product-detail/product-detail';
 import { ReviewPage } from '../pages/review/review';
+import { ReviewCompanyPage } from '../pages/review/review-company';
 import { ReviewDetailPage } from '../pages/review-detail/review-detail';
 
 import { AboutPage } from '../pages/about/about';
@@ -71,6 +72,7 @@ import { TermsPage } from '../pages/about/terms';
 import { LicencePage } from '../pages/about/licence';
 
 // directives
+import { RatingCmp } from '../components/star-rating/rating';
 import { EmptyListCmp } from '../components/empty/empty';
 import { OfferPostCmp } from '../components/offer/offer';
 import { OfferListCmp } from '../components/offer-list/offer';
@@ -149,8 +151,10 @@ import { MapSearch } from '../components/map-search/map-search';
     ProductPage,
     ProductDetailPage,
     ReviewPage,
+    ReviewCompanyPage,
     ProfileModalPage,
     ReviewDetailPage,
+    RatingCmp,
     EmptyListCmp,
     OfferPostCmp,
     OfferListCmp,
@@ -225,6 +229,7 @@ import { MapSearch } from '../components/map-search/map-search';
     ProductPage,
     ProductDetailPage,
     ReviewPage,
+    ReviewCompanyPage,
     ProfileModalPage,
     ReviewDetailPage,
     AboutPage,

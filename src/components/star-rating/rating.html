@@ -1,0 +1,6 @@
+<ul class="rating">
+  <li *ngFor="let starIndex of starIndexes" (click)="rateThis(starIndex + 1)">
+    <ion-icon [name]="getStarIconName(starIndex)">
+    </ion-icon>
+  </li>
+</ul>

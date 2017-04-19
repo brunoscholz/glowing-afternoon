@@ -35,7 +35,7 @@
         <p>Seu saldo:</p>
         <h2>{{balance.COIN | moneyFormat:['OTK']}}</h2>
       </ion-item>
-      <ion-item class="search-btn" no-lines>
+      <ion-item class="search-btn" no-lines *ngIf="balance.COIN >= product.coinPrice">
         <button ion-button round outline (click)="confirm($event)">Comprar</button>
       </ion-item>
 

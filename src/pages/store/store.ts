@@ -44,7 +44,7 @@ export class StorePage extends ModelPage {
     this.util.presentLoading('Carregando Brindes!');
 
     // for tests
-    this.dataService.findAll({
+    /*this.dataService.findAll({
       controller: 'offers',
       query: { 'item.categoryId': {"test":"like binary","value":""} }
     }).then((data: Array<IOffer>) => {
@@ -55,9 +55,9 @@ export class StorePage extends ModelPage {
           self.refresher.complete();
       }, (err) => {
         console.log(err);
-      });
+      });*/
 
-    /*this.dataService.getPretty({
+    this.dataService.getPretty({
     controller: 'gifts',
       url: 'offers/gifts'
     }).then((data: Array<IOffer>) => {
@@ -68,7 +68,7 @@ export class StorePage extends ModelPage {
           self.refresher.complete();
       }, (err) => {
         console.log(err);
-      });*/
+      });
   }
 
   changeViewState() {

@@ -94,8 +94,8 @@ export class SellerProfileCmp implements OnInit {
   }
 
   addReview() {
-    let alert = this.util.doAlert('Avaliação', 'Funcionalidade ainda não disponível para Empresas.', 'OK');
-    alert.present();
+    /*let alert = this.util.doAlert('Avaliação', 'Funcionalidade ainda não disponível para Empresas.', 'OK');
+    alert.present();*/
     let modal = this.modalCtrl.create(ReviewCompanyPage, { item: this.company });
     modal.onDidDismiss(review => {
       if(review){

@@ -1,7 +1,11 @@
 <ion-card class="offer-promo-card">
   <img src="{{post.picture.cover}}"/>
   <div class="card-text">
-    <div class="card-title">{{post.discountPerUnit}}% Off</div>
-    <div class="card-subtitle">{{(post.pricePerUnit-(post.pricePerUnit*post.discountPerUnit)) | moneyFormat:[]}}</div>
+    <h2 class="card-title">{{post.item.title}}</h2>
+    <p class="card-subtitle">{{(post.pricePerUnit-(post.pricePerUnit*post.discountPerUnit/100)) | moneyFormat:[]}}</p>
+    <!-- {{post.discountPerUnit}}% Off -->
+  </div>
+  <div class="ribbon-wrapper offer-promo">
+    <div class="ribbon-tag">{{post.discountPerUnit}}% Off</div>
   </div>
 </ion-card>

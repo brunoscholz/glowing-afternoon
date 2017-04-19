@@ -12,35 +12,32 @@
 <ion-content padding class="add-review">
 
   <ion-list no-lines>
+      <!-- <rating [rate]="rate"
+        max="5"
+        emptyStarIconName="star-outline"
+        halfStarIconName="star-half"
+        starIconName="star"
+        (notify)="onRate($event, 'general')"></rating> -->
 
     <ion-list-header>
       Nota <ion-badge item-right>{{rating}}</ion-badge>
     </ion-list-header>
     <ion-item>
-      <ion-range min="{{ratingRange.lower}}" max="{{ratingRange.upper}}" pin="true" [(ngModel)]="rating">
-        <ion-icon range-left name="sad"></ion-icon>
-        <ion-icon range-right name="happy"></ion-icon>
-      </ion-range>
+      <rating [rate]="0" max="5" (notify)="onRate($event, 'general')"></rating>
     </ion-item>
 
     <ion-list-header>
       Atendimento <ion-badge item-right>{{attendance}}</ion-badge>
     </ion-list-header>
     <ion-item>
-      <ion-range min="1" max="5" pin="true" [(ngModel)]="attendance">
-        <ion-icon range-left name="sad"></ion-icon>
-        <ion-icon range-right name="happy"></ion-icon>
-      </ion-range>
+      <rating [rate]="0" max="5" (notify)="onRate($event, 'attendance')"></rating>
     </ion-item>
 
     <ion-list-header>
       Preço <ion-badge item-right>{{price}}</ion-badge>
     </ion-list-header>
     <ion-item>
-      <ion-range min="1" max="5" pin="true" [(ngModel)]="price">
-        <ion-icon range-left name="sad"></ion-icon>
-        <ion-icon range-right name="happy"></ion-icon>
-      </ion-range>
+      <rating [rate]="0" max="5" (notify)="onRate($event, 'price')"></rating>
     </ion-item>
 
     <ion-list-header>

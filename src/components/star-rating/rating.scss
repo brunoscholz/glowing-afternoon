@@ -1,0 +1,15 @@
+ul.rating {
+  padding: 0px;
+
+  li {
+    display: inline;
+    border: 0px;
+    padding: 5px 10px !important;
+    background: none;
+    color: #ffb400;
+
+    ion-icon {
+      font-size: 30px;
+    }
+  }
+}

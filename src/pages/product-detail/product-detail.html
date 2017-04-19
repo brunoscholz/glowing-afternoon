@@ -57,7 +57,7 @@
     <ion-list no-lines class="info-list">
       <ion-item>
         <i class="otIcon-money" item-left></i>
-        <h2>{{product.pricePerUnit - (product.pricePerUnit * product.discountPerUnit) | moneyFormat:[]}}</h2>
+        <h2>{{product.pricePerUnit - (product.pricePerUnit * product.discountPerUnit/100) | moneyFormat:[]}}</h2>
       </ion-item>
       <ion-item (click)="gotoCompany()">
         <i class="otIcon-store" item-left></i>
@@ -70,14 +70,6 @@
 
       <ion-item class="search-btn" no-lines>
         <button ion-button round outline (click)="gotoReviews($event)">Ver Avaliações</button>
-      </ion-item>
-    </ion-list>
-
-    <ion-list class="reviews" *ngIf="!hasField(product.reviews)">
-      <ion-item style="text-align: center;">
-        <ion-icon name="thumbs-down"></ion-icon>
-        <p>Nenhuma avaliação encontrada... </p>
-        <p>Seja o primeiro!</p>
       </ion-item>
     </ion-list>
 

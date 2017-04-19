@@ -17,7 +17,7 @@ import { AuthService } from '../../providers/auth/auth.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 
 import { IOffer, IUser, IBalance } from '../../providers/data/interfaces';
-import _ from 'underscore';
+//import _ from 'underscore';
 
 @Component({
   templateUrl: 'gift-confirm.html',
@@ -43,37 +43,66 @@ export class GiftConfirmPage {
   }
 
   ionViewDidLoad() {
-    this.load();
+    this.loadAll();
+  }
+
+  loadAll() {
+    let self = this;
+    self.util.presentLoading('Carregando Saldos!');
+    self.load()
+    .then((res) => {
+      self.changeViewState();
+    }, (err) => {
+      self.util.dismissLoading();
+      self.util.notifyError(err);
+    });
   }
 
   load() {
     let self = this;
-    self.util.presentLoading('Carregando Saldo!');
-    self.auth.checkAuthentication()
+
+    let promise = new Promise((resolve, reject) => {
+      self.auth.getUserInfo()
+      .then((usr: IUser) => {
+        if(usr) {
+          self.user = usr;
+          return self.loadBalance(usr);
+        }
+      })
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+    });
+    return promise;
+
+    /*self.auth.checkAuthentication()
     .then((usr: IUser) => {
       if(usr) {
         self.user = usr;
         self.loadBalance();
       }
-    }, (err) => {
-      console.log(err);
-      self.changeViewState();
-    });
+    }*/
   }
 
-  loadBalance() {
-    let self = this;
-    self.dataService.getBalance({
-      controller: 'loyalty',
-      query: { 'userId': { test: "like binary", value: self.user.userId } }
-    }).then((loyal: any) => {
-      //self.tx = <ILoyalty[]>loyal['loyalties'];
-      self.balance = <IBalance>loyal['balance'];
-      self.changeViewState();
-    }, (err) => {
-      console.log(err);
-      self.changeViewState();
+  loadBalance (usr: IUser) {
+    var self = this;
+    let promise = new Promise((resolve, reject) => {
+      // get balance
+      self.dataService.getBalance({
+        controller: 'transaction',
+        query: { 'userId': { test: "like binary", value: usr.userId } },
+        asset: 'coin'
+      }).then((bal) => {
+        self.balance = <IBalance>bal['balance'];
+        resolve(true);
+      }, (err) => {
+        reject(err);
+      });
     });
+    return promise;
   }
 
   changeViewState() {
@@ -81,6 +110,7 @@ export class GiftConfirmPage {
   }
 
   confirm(): void {
+    // generate qrcode...
     this.viewCtrl.dismiss();
   }
 
