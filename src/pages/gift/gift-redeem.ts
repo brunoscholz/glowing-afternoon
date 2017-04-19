@@ -7,15 +7,15 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 //import { ProductDetailPage } from '../product-detail/product-detail';
-import { GiftConfirmPage } from '../gift/gift-confirm';
+//import { GiftConfirmPage } from '../gift/gift-confirm';
 import { DataService } from '../../providers/data/data.service';
 import { UtilProvider } from '../../providers/utils/util.provider';
 
-import { ViewStatusEnum } from '../../providers/utils/enums';
-import { IOffer } from '../../providers/data/interfaces';
+//import { ViewStatusEnum } from '../../providers/utils/enums';
+//import { IOffer } from '../../providers/data/interfaces';
 import { ModelPage } from '../model-page';
 
-import _ from 'underscore';
+//import _ from 'underscore';
 
 @Component({
   templateUrl: 'gift-redeem.html',
