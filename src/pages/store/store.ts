@@ -2,17 +2,17 @@
  * Store page that show all gifts available
  * v1.5.7 ready
  */
-
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { ProductDetailPage } from '../product-detail/product-detail';
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
 
-import { ViewStatusEnum } from '../../providers/utils/enums';
-import { IOffer } from '../../providers/data/interfaces';
-import { ModelPage } from '../model-page';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+
+import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { IOffer } from '../../modules/common/models/interfaces';
+import { ModelPage } from '../../modules/common/models/model-page';
 
 import _ from 'underscore';
 
@@ -24,12 +24,13 @@ export class StorePage extends ModelPage {
   toOrder: string;
   rows = [];
 
-  constructor(public navCtrl: NavController,
-              navParams: NavParams,
-              public dataService: DataService,
-              public util: UtilProvider
+  constructor(
+    public navCtrl: NavController,
+    navParams: NavParams,
+    public theApp: AppService,
+    public dataService: DataService
   ) {
-    super('Loja', dataService, util);
+    super('Loja');
     this.toOrder = 'price';
   }
 
@@ -41,7 +42,7 @@ export class StorePage extends ModelPage {
   load() {
     var self = this;
     this.doChangeView(ViewStatusEnum.Empty);
-    this.util.presentLoading('Carregando Brindes!');
+    this.theApp.util.presentLoading('Carregando Brindes!');
 
     // for tests
     /*this.dataService.findAll({
@@ -58,12 +59,12 @@ export class StorePage extends ModelPage {
       });*/
 
     this.dataService.getPretty({
-    controller: 'gifts',
+      controller: 'gifts',
       url: 'offers/gifts'
     }).then((data: Array<IOffer>) => {
         self.products = data;
         self.rows = Array.from(Array(Math.ceil(self.products.length / 2)).keys());
-        self.changeViewState();
+        self.changeViewState(_size(self.products) > 0);
         if(self.refresher)
           self.refresher.complete();
       }, (err) => {
@@ -71,14 +72,9 @@ export class StorePage extends ModelPage {
       });
   }
 
-  changeViewState() {
-    if (_.size(this.products) > 0) {
-      this.doChangeView(ViewStatusEnum.Full);
-    }
-    else {
-      this.doChangeView(ViewStatusEnum.Empty);
-    }
-    this.util.dismissLoading();
+  changeViewState(b: boolean) {
+    this.doChangeViewState(b);
+    this.theApp.util.dismissLoading();
   }
 
   doRefresh(refresher) {

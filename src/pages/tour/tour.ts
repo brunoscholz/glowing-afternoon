@@ -11,8 +11,9 @@ export class TourPage {
   slides: any;
   logged: boolean = false;
 
-  constructor(public navCtrl: Nav,
-              navParams: NavParams
+  constructor(
+    public navCtrl: Nav,
+    navParams: NavParams
   ) {
     this.logged = navParams.get('logged');
     this.slides = [

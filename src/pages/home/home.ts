@@ -1,19 +1,15 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
 import { SearchPage } from '../search/search';
 
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
-import { SpeechService } from '../../providers/speech/speech.service';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+import { SpeechService } from '../../modules/common/services/speech.service';
 
 //import { ViewStatusEnum } from '../../providers/enums';
 //import { IBuyer } from '../../providers/interfaces';
-import { ModelPage } from '../model-page';
-
-// import { SpeechRecognition } from 'SpeechRecognition';
-//declare var SpeechRecognition: any;
-//declare var webkitSpeechRecognition: any;
+import { ModelPage } from '../../modules/common/pages/model-page';
 
 @Component({
   selector: 'home-page',
@@ -30,12 +26,11 @@ export class HomePage extends ModelPage {
   constructor(
     public navCtrl: NavController,
     navParams: NavParams,
+    public theApp: AppService,
     public dataService: DataService,
-    public util: UtilProvider,
-    public speech : SpeechService,
-    private alertCtrl: AlertController
+    public speech : SpeechService
   ) {
-    super('Onde tem?', dataService, util);
+    super('Onde tem?');
     
     this.speech.onResultText(txt => {
       this.formData.q = txt;
@@ -53,10 +48,6 @@ export class HomePage extends ModelPage {
     this.formData.q = "";
   }
 
-  /*checkNetwork() {
-    return this.connService.isOnline();
-  }*/
-
   changeViewState() {
     this.doToggleLoading(false);
   }
@@ -69,7 +60,7 @@ export class HomePage extends ModelPage {
   load() {}
 
   presentAlert(msg: string) {
-    this.alert = this.alertCtrl.create({
+    this.alert = this.theApp.util.alertCtrl.create({
       title: "Busca",
       message: msg,
       buttons: [

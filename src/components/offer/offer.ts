@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { IOffer } from '../../providers/data/interfaces';
+
+import { IOffer } from '../../modules/common/models/interfaces';
 
 @Component({
     selector: 'offer-card',

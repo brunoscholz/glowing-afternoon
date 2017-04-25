@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { AuthService } from '../../providers/auth/auth.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
+
 import { SignUpPage } from './signup';
 import { SignInPage } from './signin';
 import { ForgotPage } from './forgot';
@@ -9,28 +8,30 @@ import { TermsPage } from '../about/terms';
 import { PolicyPage } from '../about/policy';
 import { HomeTabsPage } from '../home-tabs/home-tabs';
 
+import { AppService } from '../../modules/common/services/app.service';
+
 @Component({
   templateUrl: 'sign-tabs.html',
 })
 export class SignTabsPage {
 
-  constructor(public navCtrl: NavController,
-              public auth: AuthService,
-              public util: UtilProvider
+  constructor(
+    public navCtrl: NavController,
+    public theApp: AppService
   ) {
   }
 
   facebookConnect() {
-    this.util.presentLoading('Autenticando...');
-    this.auth.connectWithFacebook()
+    this.theApp.util.presentLoading('Autenticando...');
+    this.theApp.authService.connectWithFacebook()
     .then(data => {
       if(data) {
-        this.util.dismissLoading();
+        this.theApp.util.dismissLoading();
         this.navCtrl.setRoot(HomeTabsPage);
       }
     }, (err) => {
-      this.util.dismissLoading();
-      this.util.notifyError(err);
+      this.theApp.util.dismissLoading();
+      this.theApp.notifyError(err);
     });
   }
 

@@ -1,14 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController, AlertController, ModalController } from 'ionic-angular';
 
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
-
 import { CatalogPage } from '../../pages/catalog/catalog';
 import { SellerMapPage } from '../../pages/company-detail/map-page';
 import { ReviewCompanyPage } from '../../pages/review/review-company';
 
-import { IUser, ISeller } from '../../providers/data/interfaces';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+
+import { IUser, ISeller } from '../../modules/common/models/interfaces';
+
 import _ from 'underscore';
 
 @Component({
@@ -21,12 +22,15 @@ export class SellerProfileCmp implements OnInit {
   bgImage: string;
   //@Output('notify') notify: EventEmitter<IProfile> = new EventEmitter<IProfile>();
 
-  constructor(public navCtrl: NavController,
-              public alertCtrl: AlertController,
-              public modalCtrl: ModalController,
-              public util: UtilProvider,
-              public dataService: DataService)
-  {}
+  constructor(
+    public navCtrl: NavController,
+    public alertCtrl: AlertController,
+    public modalCtrl: ModalController,
+    public theApp: AppService,
+    public dataService: DataService
+  ) {
+
+  }
 
   ngOnInit() {
     this.bgImage = this.company.picture.cover;
@@ -43,7 +47,7 @@ export class SellerProfileCmp implements OnInit {
 
   follow() {
     let self = this;
-    self.util.presentLoading('Aguarde..');
+    self.theApp.util.presentLoading('Aguarde..');
     let fav = {
       FollowFact: {
         action: 'follow',
@@ -57,18 +61,17 @@ export class SellerProfileCmp implements OnInit {
       data: fav
     })
     .then(() => {
-      let toast = self.util.getToast('Você está seguindo ' + self.company.name);
-      toast.present();
+      self.theApp.util.presentToast('Você está seguindo ' + self.company.name);
     }, (err) => {
       console.log(err);
-      self.util.dismissLoading();
-      self.util.notifyError(err);
+      self.theApp.util.dismissLoading();
+      self.theApp.notifyError(err);
     });
   }
 
   unfollow() {
     let self = this;
-    self.util.presentLoading('Aguarde..');
+    self.theApp.util.presentLoading('Aguarde..');
     let fav = {
       FollowFact: {
         action: 'unfollow',
@@ -84,12 +87,11 @@ export class SellerProfileCmp implements OnInit {
       data: fav
     })
     .then(() => {
-      let toast = self.util.getToast('Você parou de seguir ' + self.company.name);
-      toast.present();
+      self.theApp.util.presentToast('Você parou de seguir ' + self.company.name);
     }, (err) => {
       console.log(err);
-      self.util.dismissLoading();
-      self.util.notifyError(err);
+      self.theApp.util.dismissLoading();
+      self.theApp.notifyError(err);
     });
   }
 
@@ -108,7 +110,7 @@ export class SellerProfileCmp implements OnInit {
 
   saveReview(review) {
     let self = this;
-    self.util.presentLoading('Aguarde..');
+    self.theApp.util.presentLoading('Aguarde..');
 
     review.ReviewFact.buyerId = self.user.buyer.buyerId;
     this.dataService.addSocialAction({
@@ -117,21 +119,20 @@ export class SellerProfileCmp implements OnInit {
     })
     .then((data) => {
       if(data['status'] == 200) {
-        let toast = self.util.getToast('Você ganhou '+data['credit']+' moedas pela avaliação. Obrigado!');
+        self.theApp.util.presentToast('Você ganhou '+data['credit']+' moedas pela avaliação. Obrigado!');
         //self.product.reviews.push(review);
         //this.dataService.creditUser(10);
-        toast.present();
-        self.util.dismissLoading();
+        self.theApp.util.dismissLoading();
       }
     }, (err) => {
       console.log(err);
-      self.util.notifyError(err);
-      self.util.dismissLoading();
+      self.theApp.notifyError(err);
+      self.theApp.util.dismissLoading();
     });
   }
 
   addReviewPlus() {
-    let alert = this.util.doAlert('Cliente Oculto', 'Funcionalidade ainda não disponível.', 'OK');
+    let alert = this.theApp.util.doAlert('Cliente Oculto', 'Funcionalidade ainda não disponível.', 'OK');
     alert.present();
   }
 

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ITransaction } from '../../providers/data/interfaces';
+
+import { ITransaction } from '../../modules/common/models/interfaces';
 
 @Component({
   selector: 'transaction-card',

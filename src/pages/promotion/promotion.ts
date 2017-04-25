@@ -7,12 +7,13 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { ProductDetailPage } from '../product-detail/product-detail';
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
 
-import { ViewStatusEnum } from '../../providers/utils/enums';
-import { IOffer } from '../../providers/data/interfaces';
-import { ModelPage } from '../model-page';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+
+import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { IOffer } from '../../modules/common/models/interfaces';
+import { ModelPage } from '../../modules/common/models/model-page';
 
 import _ from 'underscore';
 
@@ -24,12 +25,13 @@ export class PromotionPage extends ModelPage {
   toOrder: string;
   rows = [];
 
-  constructor(public navCtrl: NavController,
-              navParams: NavParams,
-              public dataService: DataService,
-              public util: UtilProvider
+  constructor(
+    public navCtrl: NavController,
+    navParams: NavParams,
+    public theApp: AppService,
+    public dataService: DataService
   ) {
-    super('Promoções', dataService, util);
+    super('Promoções');
     this.toOrder = 'price';
   }
 
@@ -41,22 +43,11 @@ export class PromotionPage extends ModelPage {
   load() {
     var self = this;
     this.doChangeView(ViewStatusEnum.Empty);
-    this.util.presentLoading('Carregando Promoções!');
+    this.theApp.util.presentLoading('Carregando Promoções!');
 
     // order by profitability
     // order by some other metric: most viewers...
     // order in a way that a minor always get a pair
-    /*
-    <div class="row responsive-md">
-	  <div class="col card">Whale</div>
-	  <div class="col card">
-	    <div class="row">
-	      <div class="col col-50 card">Minor</div>
-	      <div class="col card">Minor</div>
-	    </div>
-	  </div>
-	</div>
-    */
 
     // for tests
     /*this.dataService.findAll({
@@ -78,7 +69,7 @@ export class PromotionPage extends ModelPage {
   	}).then((data: Array<IOffer>) => {
         self.products = data;
         self.rows = Array.from(Array(Math.ceil(self.products.length / 2)).keys());
-        self.changeViewState();
+        self.changeViewState(_size(self.products) > 0);
         if(self.refresher)
           self.refresher.complete();
       }, (err) => {
@@ -86,14 +77,9 @@ export class PromotionPage extends ModelPage {
       });
   }
 
-  changeViewState() {
-    if (_.size(this.products) > 0) {
-      this.doChangeView(ViewStatusEnum.Full);
-    }
-    else {
-      this.doChangeView(ViewStatusEnum.Empty);
-    }
-  	this.util.dismissLoading();
+  changeViewState(b: boolean) {
+    this.doChangeViewState(b);
+    this.theApp.util.dismissLoading();
   }
 
   doRefresh(refresher) {

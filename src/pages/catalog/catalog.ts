@@ -13,8 +13,9 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { ProductDetailPage } from '../product-detail/product-detail';
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
+
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
 
 //import _ from 'underscore';
 
@@ -31,7 +32,7 @@ export class CatalogPage {
               public navParams: NavParams,
               public viewCtrl: ViewController,
               public dataService: DataService,
-              public util: UtilProvider
+              public theApp: AppService
   ) {
   	this.company = navParams.get('item');
     this.offers = navParams.get('offers');

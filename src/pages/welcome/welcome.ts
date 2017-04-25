@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-//import {Observable} from 'rxjs/Observable';
-//import 'rxjs/add/observable/fromEvent';
 
-import { AuthService } from '../../providers/auth/auth.service';
+import { AppService } from '../../modules/common/services/app.service';
 import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
 
-import { ModelPage } from '../model-page';
+import { ModelPage } from '../../modules/common/pages/model-page';
 
 //import { ICategory } from '../../providers/interfaces';
 //import _ from 'underscore';
@@ -24,11 +21,10 @@ export class WelcomePage extends ModelPage implements OnInit {
   constructor(
     navParams: NavParams,
     public navCtrl: NavController,
+    public theApp: AppService,
     public dataService: DataService,
-    public auth: AuthService,
-    public util: UtilProvider
   ) {
-    super('Onde tem?', dataService, util);
+    super('Onde tem?');
     console.log('WelcomePage');
   }
 
@@ -40,39 +36,15 @@ export class WelcomePage extends ModelPage implements OnInit {
     this.doReset('Onde tem?');
   }
 
-  changeViewState() {
-    //this.util.dismissLoading();
-  }
-
-  doRefresh(refresher) {
-    //this.refresher = refresher;
-    //this.load();
-  }
-
   load() {
     var self = this;
-    //this.util.presentLoading('Carregando...');
-    
-    /*if(!self.connService.isOnline()) {
-      self.retryConnection(false);
-      return;
-    }*/
-
-    self.dataService.findAll({
-      controller: 'categories',
+    //self.theApp.util.presentLoading();
+    self.dataService.getCategories({
       query: { parentId: 0 }
-    }).then((cats) => {
+    })
+    .then((res) => {
       self.loaded();
     });
-
-    /*var source = Observable.combineLatest(
-      this.dataService.categories$,
-      this.dataService.user$,
-      function (s1, s2) { return (_.size(s1) > 0) && (_.size(s2) > 0) }
-    )
-    .distinctUntilChanged()
-    .startWith(false);*/
-    //this.dataService.loadMinimum();
   }
 
   loaded() {

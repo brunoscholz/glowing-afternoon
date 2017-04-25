@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { AuthService } from '../../providers/auth/auth.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
+
 import { Validators, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../validators/validators';
 
@@ -11,10 +10,10 @@ import { ValidationService } from '../../validators/validators';
 export class ForgotPage {
   forgotForm: any;
 
-  constructor(private navCtrl: NavController,
-              public formBuilder: FormBuilder,
-              public auth: AuthService,
-              public util: UtilProvider
+  constructor(
+    private navCtrl: NavController,
+    public formBuilder: FormBuilder,
+    public theApp: AppService
   ) {
     this.forgotForm = formBuilder.group({
       username: ['', Validators.compose([Validators.required, ValidationService.emailValidator])],
@@ -23,23 +22,23 @@ export class ForgotPage {
 
   sendEmail() {
     if(!this.forgotForm.valid) {
-      this.util.notifyError(new Error('Por favor preencha todos os campos corretamente!'));
+      this.theApp.notifyError(new Error('Por favor preencha todos os campos corretamente!'));
     } else {
-      this.util.presentLoading('Verificando...');
+      this.theApp.util.presentLoading('Verificando...');
       setTimeout(() => {
         this.util.dismissLoading();
       }, 20000);
 
       this.auth.forgotPassword(this.forgotForm.value).then(data => {
         if(data) {
-          this.util.dismissLoading();
+          this.theApp.util.dismissLoading();
           let toast = this.util.getToast('Email enviado');
           toast.present();
         }
       },
       (err) => {
-      	this.util.dismissLoading();
-        this.util.notifyError(err);
+      	this.theApp.util.dismissLoading();
+        this.theApp.notifyError(err);
       });
     }
   }

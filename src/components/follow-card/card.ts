@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IFollowFact, IPicture } from '../../providers/data/interfaces';
+
+import { IFollowFact, IPicture } from '../../modules/common/models/interfaces';
 
 import _ from 'underscore';
 

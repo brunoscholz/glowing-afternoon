@@ -1,10 +1,11 @@
 import { Component, ViewChild, AfterViewInit, ElementRef, NgZone } from '@angular/core';
 import { ViewController } from 'ionic-angular';
-import { MapService } from '../../providers/map/map.service';
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
 
-import { ISeller } from '../../providers/data/interfaces';
+import { MapService } from '../../modules/maps/services/map.service';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+
+import { ISeller } from '../../modules/common/models/interfaces';
 
 @Component({
   templateUrl: 'map-search.html',
@@ -16,12 +17,13 @@ export class MapSearch implements AfterViewInit {
   addressElement: HTMLInputElement = null;
   nearbyPlaces: Array<any> = [];
 
-  constructor (public viewCtrl: ViewController,
-               private zone: NgZone,
-               private mapService: MapService,
-               private dataService: DataService,
-               public util: UtilProvider)
-  {
+  constructor (
+    public viewCtrl: ViewController,
+    private zone: NgZone,
+    private mapService: MapService,
+    private dataService: DataService,
+    public theApp: AppService
+  ) {
     this.autocompleteItems = [];
     this.autocomplete = {
       query: ''
@@ -94,7 +96,7 @@ export class MapSearch implements AfterViewInit {
             longitude: data[i].billingAddress.longitude
           });
         }
-        _places = this.util.applyHaversine(_places);
+        _places = this.mapService.applyHaversine(_places);
         _places.sort((locationA, locationB) => {
             return locationA.distance - locationB.distance;
         });

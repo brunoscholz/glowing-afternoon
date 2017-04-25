@@ -2,20 +2,19 @@
  * CompanyPage class
  *
  * List of all companies
- * 
- *
 */
 
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+
 import { CompanyDetailPage } from '../company-detail/company-detail';
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
 
-import { ViewStatusEnum } from '../../providers/utils/enums';
-import { ModelPage } from '../model-page';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
 
-import { ISeller } from '../../providers/data/interfaces';
+import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { IUser, IProfile, IBalance } from '../../modules/common/models/interfaces';
+import { ModelPage } from '../../modules/common/models/model-page';
 
 import _ from 'underscore';
 
@@ -25,12 +24,13 @@ import _ from 'underscore';
 export class CompanyPage extends ModelPage {
   companies: any = [];
 
-  constructor(public navCtrl: NavController,
-              navParams: NavParams,
-              public dataService: DataService,
-              public util: UtilProvider
+  constructor(
+    public navCtrl: NavController,
+    navParams: NavParams,
+    public dataService: DataService,
+    public theApp: AppService
   ) {
-    super('Empresas', dataService, util);
+    super('Empresas');
     this.selectedItem = navParams.get('item');
   }
 
@@ -42,14 +42,14 @@ export class CompanyPage extends ModelPage {
   load() {
     var self = this;
     this.doChangeView(ViewStatusEnum.Empty);
-    this.util.presentLoading('Buscando...');
+    this.theApp.util.presentLoading('Buscando...');
 
     this.dataService.findAll({
       controller: 'sellers',
       query: { }
     }).then((companies: Array<ISeller>) => {
       self.companies = companies;
-      self.changeViewState();
+      self.changeViewState(true);
       if(self.refresher)
         self.refresher.complete();
     }, (err) => {
@@ -57,14 +57,9 @@ export class CompanyPage extends ModelPage {
     });
   }
 
-  changeViewState() {
-    if (_.size(this.companies) > 0) {
-      this.doChangeView(ViewStatusEnum.Full);
-    }
-    else {
-      this.doChangeView(ViewStatusEnum.Empty);
-    }
-    this.util.dismissLoading();
+  changeViewState(b: boolean) {
+    this.doChangeViewState(b);
+    this.theApp.util.dismissLoading();
   }
 
   doRefresh(refresher) {

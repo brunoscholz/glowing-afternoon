@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { AuthService } from '../../providers/auth/auth.service';
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
-import { IProfile, IFollowFact } from '../../providers/data/interfaces';
-import { ModelPage } from '../model-page';
-import { ViewStatusEnum } from '../../providers/utils/enums';
+
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+
+import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { IProfile, IFollowFact } from '../../modules/common/models/interfaces';
+import { ModelPage } from '../../modules/common/models/model-page';
+
 import _ from 'underscore';
 
 @Component({
@@ -19,13 +21,13 @@ export class FollowsPage extends ModelPage {
 	profile: IProfile;
   followtabs:string = 'followers';
 
-  constructor(public navCtrl: NavController,
-  						navParams: NavParams,
-							public dataService: DataService,
-							public auth: AuthService,
-							public util: UtilProvider
+  constructor(
+    public navCtrl: NavController,
+		navParams: NavParams,
+		public dataService: DataService,
+		public theApp: AppService
 	) {
-  	super('Follow', dataService, util);
+  	super('Follow');
   	this.profile = navParams.get('profile');
   }
 
@@ -38,7 +40,7 @@ export class FollowsPage extends ModelPage {
   load() {
     var self = this;
     this.doChangeView(ViewStatusEnum.Loading);
-    this.util.presentLoading('Buscando...');
+    this.theApp.util.presentLoading('Buscando...');
 
     let query = {};
     
@@ -55,20 +57,15 @@ export class FollowsPage extends ModelPage {
       self.following = <IFollowFact[]>fws['following'];
       console.log(self.followers);
       console.log(self.following);
-      this.changeViewState();
+      this.changeViewState(true);
     }, (err) => {
       console.log(err);
     });
   }
 
-  changeViewState() {
-    if (_.size(this.followers) > 0 || _.size(this.following) > 0) {
-      this.doChangeView(ViewStatusEnum.Full);
-    }
-    else {
-      this.doChangeView(ViewStatusEnum.Empty);
-    }
-    this.util.dismissLoading();
+  changeViewState(b: boolean) {
+    this.doChangeViewState(b);
+    this.theApp.util.dismissLoading();
   }
 
   userTapped(ev, buyer) {

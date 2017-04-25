@@ -11,15 +11,14 @@
 */
 import { Component } from '@angular/core';
 import { NavController, NavParams, ActionSheetController, ModalController } from 'ionic-angular';
-import { ModelPage } from '../model-page';
-// import { ReviewPage } from '../review/review';
-// import { ReviewDetailPage } from '../review-detail/review-detail';
-import { DataService } from '../../providers/data/data.service';
-import { AuthService } from '../../providers/auth/auth.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
 
-import { ViewStatusEnum } from '../../providers/utils/enums';
-import { ISeller, IOffer, IUser, IProfile } from '../../providers/data/interfaces';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+
+import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { ISeller, IOffer, IUser, IProfile } from '../../modules/common/models/interfaces';
+import { ModelPage } from '../../modules/common/models/model-page';
+
 import _ from 'underscore';
 
 @Component({
@@ -33,26 +32,26 @@ export class CompanyDetailPage extends ModelPage {
   offers: IOffer[];
   profile: IProfile;
 
-  constructor(public navCtrl: NavController,
-              navParams: NavParams,
-              public acCtrl: ActionSheetController,
-              public modCtrl: ModalController,
-              public dataService: DataService,
-              public auth: AuthService,
-              public util: UtilProvider
+  constructor(
+    public navCtrl: NavController,
+    navParams: NavParams,
+    public acCtrl: ActionSheetController,
+    public modCtrl: ModalController,
+    public dataService: DataService,
+    public theApp: AppService
   ) {
-    super("Company Details", dataService, util);
+    super("Company Details");
     this.company = navParams.get('company');
     this.bgImage = this.company.picture.cover;
     //this.profile = this.getSellerProfile();
   }
 
   ionViewDidLoad() {
-    this.doReset(this.company.name);
+    super.doReset(this.company.name);
     this.load();
 
     let self = this;
-    self.auth.getUserInfo()
+    self.theApp.authService.getUser()
     .then((user: IUser) => {
       self.user = user;
       let ids = _.pluck(user.buyer.following, 'sellerId');
@@ -80,27 +79,24 @@ export class CompanyDetailPage extends ModelPage {
   load() {
     var self = this;
     this.doChangeView(ViewStatusEnum.Empty);
-    this.util.presentLoading('Buscando...');
+    this.theApp.util.presentLoading('Buscando...');
 
     this.dataService.getPretty({
       controller: 'catalog',
       url: 'sellers/catalog/' + self.company.sellerId
     }).then((data: Array<IOffer>) => {
       self.offers = data;
-      self.changeViewState();
-      if(self.refresher)
-        self.refresher.complete();
+      self.changeViewState(true);
+      /*if(self.refresher)
+        self.refresher.complete();*/
     }, (err) => {
       console.log(err);
     });
   }
 
-  changeViewState() {
-    if(this.company) // && this.offers
-      this.doChangeView(ViewStatusEnum.Full);
-    else
-      this.doChangeView(ViewStatusEnum.Empty);
-    this.util.dismissLoading();
+  changeViewState(b: boolean) {
+    this.doChangeViewState(b);
+    this.theApp.util.dismissLoading();
   }
 
   doRefresh(refresher) {

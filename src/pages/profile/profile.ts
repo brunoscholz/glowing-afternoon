@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { AuthService } from '../../providers/auth/auth.service';
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
-import { ViewStatusEnum } from '../../providers/utils/enums';
-import { IUser, IProfile, IBalance } from '../../providers/data/interfaces';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
 
-import { ModelPage } from '../model-page';
+import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { IUser, IProfile, IBalance } from '../../modules/common/models/interfaces';
+import { ModelPage } from '../../modules/common/models/model-page';
+
 import _ from 'underscore';
 
 @Component({
@@ -22,14 +22,14 @@ export class ProfilePage extends ModelPage {
 	rows: any;
   userProfiles: IProfile[];
 
-  constructor(public navCtrl: NavController,
-              navParams: NavParams,
-              public sanitizer: DomSanitizer,
-              public dataService: DataService,
-              public auth: AuthService,
-              public util: UtilProvider
+  constructor(
+    public navCtrl: NavController,
+    navParams: NavParams,
+    public sanitizer: DomSanitizer,
+    public theApp: AppService,
+    public dataService: DataService
   ) {
-  	super('Perfil', dataService, util);
+  	super('Perfil');
     this.color = 'primary';
   }
 
@@ -38,12 +38,9 @@ export class ProfilePage extends ModelPage {
     this.loadAll();
   }
 
-  changeViewState() {
-    if(this.user && this.balance)
-      this.doChangeView(ViewStatusEnum.Full);
-    else
-      this.doChangeView(ViewStatusEnum.Empty);
-    this.util.dismissLoading();
+  changeViewState(b: boolean) {
+    this.doChangeViewState(b);
+    this.theApp.util.dismissLoading();
   }
 
   doRefresh(refresher) {
@@ -52,7 +49,7 @@ export class ProfilePage extends ModelPage {
 
   loadAll() {
     let self = this;
-    self.util.presentLoading('Carregando usuário!');
+    self.theApp.util.presentLoading('Carregando usuário!');
     self.load()
     .then((res) => {
 
@@ -83,8 +80,8 @@ export class ProfilePage extends ModelPage {
       if(self.refresher)
         self.refresher.complete();
     }, (err) => {
-      self.util.dismissLoading();
-      self.util.notifyError(err);
+      self.theApp.util.dismissLoading();
+      self.theApp.notifyError(err);
     });
   }
 
@@ -93,7 +90,7 @@ export class ProfilePage extends ModelPage {
     self.doChangeView(ViewStatusEnum.Loading);
 
     let promise = new Promise((resolve, reject) => {
-      self.auth.getUserInfo()
+      self.auth.getUser()
       .then((usr: IUser) => {
         if(usr) {
           self.user = usr;

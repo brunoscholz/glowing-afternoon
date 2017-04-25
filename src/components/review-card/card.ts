@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IReviewFact, IPicture } from '../../providers/data/interfaces';
+
+import { IReviewFact, IPicture } from '../../modules/common/models/interfaces';
 
 import _ from 'underscore';
 

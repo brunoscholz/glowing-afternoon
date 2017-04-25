@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { AuthService } from '../../providers/auth/auth.service';
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
-import { IUser, ITransaction, IBalance } from '../../providers/data/interfaces';
-import { ViewStatusEnum } from '../../providers/utils/enums';
-import { ModelPage } from '../model-page';
+
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+
+import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { IUser, ITransaction, IBalance } from '../../modules/common/models/interfaces';
+import { ModelPage } from '../../modules/common/models/model-page';
 
 @Component({
   selector: 'page-balance',
@@ -18,12 +19,12 @@ export class BalancePage extends ModelPage {
   txtabs:string = 'alltx';
   tk: string = 'all';
 
-  constructor(public navCtrl: NavController,
-							public dataService: DataService,
-							public auth: AuthService,
-							public util: UtilProvider
+  constructor(
+    public navCtrl: NavController,
+		public dataService: DataService,
+		public theApp: AppService
 	) {
-  	super('Saldos', dataService, util);
+  	super('Saldos');
   }
 
   ionViewDidLoad() {
@@ -32,15 +33,15 @@ export class BalancePage extends ModelPage {
 
   loadAll() {
     let self = this;
-    this.util.presentLoading('Carregando Saldos!');
+    this.theApp.util.presentLoading('Carregando Saldos!');
     this.load()
     .then((res) => {
-      self.changeViewState();
-      if(self.refresher)
-        self.refresher.complete();
+      self.changeViewState(true);
+      /*if(self.refresher)
+        self.refresher.complete();*/
     }, (err) => {
-      self.util.dismissLoading();
-      self.util.notifyError(err);
+      self.theApp.util.dismissLoading();
+      self.theApp.notifyError(err);
     });
   }
 
@@ -49,7 +50,7 @@ export class BalancePage extends ModelPage {
     self.doChangeView(ViewStatusEnum.Loading);
 
     let promise = new Promise((resolve, reject) => {
-      self.auth.getUserInfo()
+      self.theApp.authService.getUser()
       .then((usr: IUser) => {
         if(usr) {
           self.user = usr;
@@ -85,11 +86,8 @@ export class BalancePage extends ModelPage {
     return promise;
   }
 
-  changeViewState() {
-    if(this.balance)
-      this.doChangeView(ViewStatusEnum.Full);
-    else
-      this.doChangeView(ViewStatusEnum.Empty);
-    this.util.dismissLoading();
+  changeViewState(b: boolean) {
+    this.doChangeViewState(b);
+    this.theApp.util.dismissLoading();
   }
 }

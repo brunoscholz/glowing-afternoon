@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 //import { SubCategoryPage } from '../sub-category/sub-category';
-import { ProductPage } from '../product/product';
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
 
-import { ViewStatusEnum } from '../../providers/utils/enums';
-import { ICategory } from '../../providers/data/interfaces';
-import { ModelPage } from '../model-page';
+import { ProductPage } from '../product/product';
+
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+
+import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { ICategory } from '../../modules/common/models/interfaces';
+import { ModelPage } from '../../modules/common/models/model-page';
 
 import _ from 'underscore';
 
@@ -18,12 +20,13 @@ export class CategoryPage extends ModelPage {
   categories: ICategory[] = [];
   rows: any;
 
-  constructor(public navCtrl: NavController,
-              navParams: NavParams,
-              public dataService: DataService,
-              public util: UtilProvider
+  constructor(
+    public navCtrl: NavController,
+    navParams: NavParams,
+    public dataService: DataService,
+    public theApp: AppService
   ) {
-    super('Categorias', dataService, util);
+    super('Categorias');
   }
 
   ionViewDidLoad() {
@@ -44,14 +47,9 @@ export class CategoryPage extends ModelPage {
     });
   }
 
-  changeViewState() {
-    if (_.size(this.categories) > 0) {
-      this.doChangeView(ViewStatusEnum.Full);
-    }
-    else {
-      this.doChangeView(ViewStatusEnum.Empty);
-    }
-    this.util.dismissLoading();
+  changeViewState(b: boolean) {
+    this.doChangeViewState(b);
+    this.theApp.util.dismissLoading();
   }
 
   doRefresh(refresher) {

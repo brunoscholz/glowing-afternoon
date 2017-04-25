@@ -11,12 +11,13 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ProductDetailPage } from '../product-detail/product-detail';
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
 
-import { ViewStatusEnum } from '../../providers/utils/enums';
-import { ICategory, IOffer } from '../../providers/data/interfaces';
-import { ModelPage } from '../model-page';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+
+import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { ICategory, IOffer } from '../../modules/common/models/interfaces';
+import { ModelPage } from '../../modules/common/models/model-page';
 
 import _ from 'underscore';
 
@@ -29,11 +30,13 @@ export class ProductPage extends ModelPage {
   //groupedOffers: any = [];
   toOrder: string;
 
-  constructor(private navCtrl: NavController,
-              navParams: NavParams,
-              public dataService: DataService,
-              public util: UtilProvider) {
-  	super('Produtos', dataService, util)
+  constructor(
+    private navCtrl: NavController,
+    navParams: NavParams,
+    public theApp: AppService,
+    public dataService: DataService
+  ) {
+  	super('Produtos');
   	this.category = this.selectedItem = navParams.get('category');
     this.toOrder = 'name';
   }
@@ -46,14 +49,14 @@ export class ProductPage extends ModelPage {
   load() {
     var self = this;
     this.doChangeView(ViewStatusEnum.Empty);
-    this.util.presentLoading('Carregando Produtos!');
+    this.theApp.util.presentLoading('Carregando Produtos!');
 
     this.dataService.findAll({
       controller: 'offers',
       query: { 'item.categoryId': { test: "like binary", value: this.category.categoryId } }
     }).then((data: Array<IOffer>) => {
         self.products = data;
-        self.changeViewState();
+        self.changeViewState(_size(self.products) > 0);
         if(self.refresher)
           self.refresher.complete();
       }, (err) => {
@@ -61,14 +64,9 @@ export class ProductPage extends ModelPage {
       });
   }
 
-  changeViewState() {
-    if (_.size(this.products) > 0) {
-      this.doChangeView(ViewStatusEnum.Full);
-    }
-    else {
-      this.doChangeView(ViewStatusEnum.Empty);
-    }
-  	this.util.dismissLoading();
+  changeViewState(b: boolean) {
+    this.doChangeViewState(b);
+    this.theApp.util.dismissLoading();
   }
 
   doRefresh(refresher) {

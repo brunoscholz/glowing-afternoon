@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ISeller } from '../../providers/data/interfaces';
+import { ISeller } from '../../modules/common/models/interfaces';
 
 @Component({
     selector: 'seller-card',

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ActionSheetController } from 'ionic-angular';
-import { AuthService } from '../../providers/auth/auth.service';
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
 
-import { IUser, IProfile } from '../../providers/data/interfaces';
-import { ModelPage } from '../model-page';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+
+//import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { IUser, IProfile } from '../../modules/common/models/interfaces';
+import { ModelPage } from '../../modules/common/models/model-page';
 
 //import {Camera} from 'ionic-native';
 
@@ -18,13 +19,14 @@ export class SettingsPage extends ModelPage {
   preferred: any;
   profile: IProfile = null;
 
-  constructor(private navCtrl: NavController,
-              navParams: NavParams,
-              public actionSheet: ActionSheetController,
-              public dataService: DataService,
-              public auth: AuthService,
-              public util: UtilProvider) {
-  	super('Configurações', dataService, util)
+  constructor(
+    private navCtrl: NavController,
+    navParams: NavParams,
+    public actionSheet: ActionSheetController,
+    public dataService: DataService,
+    public theApp: AppService
+  ) {
+  	super('Configurações');
     this.profile = navParams.get('profile');
   }
 
@@ -33,12 +35,10 @@ export class SettingsPage extends ModelPage {
     this.presentPictureSource()
     .then((source: number) => {
       let sourceType:number = source;
-      return self.util.getPicture(sourceType);
+      return self.theApp.helper.getPicture(sourceType);
     })
     .then((imageData) => {
-      //var blobImage = this.util.dataURItoBlob(imageData);
-      //this.profile.picture.thumbnail = imageData;
-      self.util.presentLoading('Atualizando...');
+      self.theApp.util.presentLoading('Atualizando...');
       return self.formUserModel(imageData, 'imageCover');
     })
     .then((body) => {
@@ -51,12 +51,12 @@ export class SettingsPage extends ModelPage {
       return self.finishUpdate(res);
     })
     .then((usr) => {
-      self.util.dismissLoading();
+      self.theApp.util.dismissLoading();
     })
     .catch((err) => {
-      self.util.dismissLoading();
+      self.theApp.util.dismissLoading();
       if(err.message != 'cameraCancelled')
-        self.util.notifyError(err);
+        self.theApp.notifyError(err);
     });
   }
 
@@ -65,10 +65,10 @@ export class SettingsPage extends ModelPage {
     this.presentPictureSource()
     .then((source: number) => {
       let sourceType:number = Number(source);
-      return self.util.getPicture(sourceType, true, { width: 256, height: 256 });
+      return self.theApp.helper.getPicture(sourceType, true, { width: 256, height: 256 });
     })
     .then((imageData) => {
-      self.util.presentLoading('Atualizando...');
+      self.theApp.util.presentLoading('Atualizando...');
       return self.formUserModel(imageData, 'imageThumb');
     })
     .then((body) => {
@@ -81,12 +81,12 @@ export class SettingsPage extends ModelPage {
       return self.finishUpdate(res);
     })
     .then((usr) => {
-      self.util.dismissLoading();
+      self.theApp.util.dismissLoading();
     })
     .catch((err) => {
-      self.util.dismissLoading();
+      self.theApp.util.dismissLoading();
       if(err.message != 'cameraCancelled')
-        self.util.notifyError(err);
+        self.theApp.notifyError(err);
     });
   }
 
@@ -109,9 +109,8 @@ export class SettingsPage extends ModelPage {
   finishUpdate(response) {
     let self = this;
     let promise = new Promise((resolve, reject) => {
-      let toast = self.util.getToast(response);
-      toast.present();
-      return self.auth.checkAuthentication();
+      let toast = self.theApp.util.presentToast(response);
+      return self.auth.getIsAuth();
     });
     return promise;
   }
@@ -132,7 +131,7 @@ export class SettingsPage extends ModelPage {
   }
 
   changeUsername() {
-    let alert = this.util.doAlert('Alterar Nome', '', 'Cancelar');
+    let alert = this.theApp.util.doAlert('Alterar Nome', '', 'Cancelar');
     alert.addInput({
       name: 'username',
       value: this.profile.name,
@@ -158,7 +157,7 @@ export class SettingsPage extends ModelPage {
   }
 
   changePassword() {
-    let alert = this.util.doAlert('Alterar Senha', '', 'Cancelar');
+    let alert = this.theApp.util.doAlert('Alterar Senha', '', 'Cancelar');
     alert.addInput({
       type: 'password',
       name: 'currentPassword',
@@ -199,12 +198,12 @@ export class SettingsPage extends ModelPage {
   }
 
   logout() {
-    this.auth.logout();
+    this.auth.logOut();
   }
 
   updateUsername(body) {
     let self = this;
-    self.util.presentLoading('Atualizando...');
+    self.theApp.util.presentLoading('Atualizando...');
     self.dataService.updateProfile({
       controller: 'auth/settings',
       data: body
@@ -213,17 +212,17 @@ export class SettingsPage extends ModelPage {
       return self.finishUpdate(res);
     })
     .then((usr) => {
-      self.util.dismissLoading();
+      self.theApp.util.dismissLoading();
     })
     .catch((err) => {
-      self.util.dismissLoading();
-      self.util.notifyError(err);
+      self.theApp.util.dismissLoading();
+      self.theApp.notifyError(err);
     });
   }
 
   updatePassword(body) {
     let self = this;
-    self.util.presentLoading('Atualizando...');
+    self.theApp.util.presentLoading('Atualizando...');
     self.dataService.updateProfile({
       controller: 'auth/settings',
       data: body
@@ -231,11 +230,11 @@ export class SettingsPage extends ModelPage {
       return self.finishUpdate(res);
     })
     .then((usr) => {
-      self.util.dismissLoading();
+      self.theApp.util.dismissLoading();
     })
     .catch((err) => {
-      self.util.dismissLoading();
-      self.util.notifyError(err);
+      self.theApp.util.dismissLoading();
+      self.theApp.notifyError(err);
     });
   }
 }

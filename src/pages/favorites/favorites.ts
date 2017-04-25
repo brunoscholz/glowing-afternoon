@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { AuthService } from '../../providers/auth/auth.service';
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
-import { IProfile, IFavoriteFact } from '../../providers/data/interfaces';
-import { ModelPage } from '../model-page';
-import { ViewStatusEnum } from '../../providers/utils/enums';
+
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+
+import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { IProfile, IFavoriteFact } from '../../modules/common/models/interfaces';
+import { ModelPage } from '../../modules/common/models/model-page';
+
 import _ from 'underscore';
 
 @Component({
@@ -16,13 +18,13 @@ export class FavoritesPage extends ModelPage {
 	profile: IProfile;
   authTk: Array<any> = new Array<any>();
 
-  constructor(public navCtrl: NavController,
-  						navParams: NavParams,
-							public dataService: DataService,
-							public auth: AuthService,
-							public util: UtilProvider
+  constructor(
+    public navCtrl: NavController,
+		navParams: NavParams,
+		public dataService: DataService,
+		public theApp: AppService
 	) {
-  	super('Favoritos', dataService, util);
+  	super('Favoritos');
     //this.color = 'primary';
   	this.profile = navParams.get('profile');
   }
@@ -38,7 +40,7 @@ export class FavoritesPage extends ModelPage {
 
   query(dontClear = false) {
     this.doChangeView(ViewStatusEnum.Loading);
-    this.util.presentLoading('Buscando...');
+    this.theApp.util.presentLoading('Buscando...');
     var self = this;
     self.dataService.findAll({
       controller: 'favorite-facts',
@@ -57,7 +59,7 @@ export class FavoritesPage extends ModelPage {
         self.favorites = fws;
       }
 
-      self.changeViewState();
+      self.changeViewState(true);
     }, (err) => {
       console.log(err);
     });
@@ -65,7 +67,7 @@ export class FavoritesPage extends ModelPage {
 
   doQuery(dontClear = false) {
     var self = this;
-    this.util.presentLoading('Buscando...');
+    this.theApp.util.presentLoading('Buscando...');
     self.dataService.findAll({
       controller: 'auth-token',
       page: this.pageNum,
@@ -80,20 +82,15 @@ export class FavoritesPage extends ModelPage {
         self.authTk = tks;
       }
       
-      self.changeViewState();
+      self.changeViewState(true);
     }, (err) => {
       console.log(err);
     });
   }
 
-  changeViewState() {
-    if (_.size(this.favorites) > 0) {
-      this.doChangeView(ViewStatusEnum.Full);
-    }
-    else {
-      this.doChangeView(ViewStatusEnum.Empty);
-    }
-    this.util.dismissLoading();
+  changeViewState(b: boolean) {
+    this.doChangeViewState(b);
+    this.theApp.util.dismissLoading();
   }
 
   loadMore() {

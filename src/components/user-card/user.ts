@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { IBuyer } from '../../providers/data/interfaces';
+
+import { IBuyer } from '../../modules/common/models/interfaces';
 
 @Component({
     selector: 'user-card',

@@ -12,13 +12,12 @@
 
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
 
-import { ViewStatusEnum } from '../../providers/utils/enums';
-import { ModelPage } from '../model-page';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
 
-//import { IReview, IComment } from '../../providers/interfaces';
+import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { ModelPage } from '../../modules/common/models/model-page';
 
 //import _ from 'underscore';
 
@@ -29,20 +28,21 @@ export class ReviewDetailPage extends ModelPage {
 	product: any;
   fact: any;
 
-  constructor(public navCtrl: NavController, 
-            	navParams: NavParams,
-            	public viewCtrl: ViewController,
-              public dataService: DataService, 
-              public util: UtilProvider
+  constructor(
+    public navCtrl: NavController, 
+    navParams: NavParams,
+    public viewCtrl: ViewController,
+    public theApp: AppService,
+    public dataService: DataService
   ) {
-  	super('Review', dataService, util)
+  	super('Review');
   	this.fact = navParams.get('review');
   	this.product = navParams.get('product');
   }
 
   ionViewWillEnter() {
     this.doReset('Review');
-    this.changeViewState();
+    this.changeViewState(false);
     this.load();
   }
 
@@ -54,14 +54,9 @@ export class ReviewDetailPage extends ModelPage {
     //this.dataService.findAllComments({ query: { reviewId: this.review.id } });
   }
 
-  changeViewState() {
-    if (this.fact) {
-      this.doChangeView(ViewStatusEnum.Full);
-    }
-    else {
-      this.doChangeView(ViewStatusEnum.Empty);
-    }
-    this.util.dismissLoading();
+  changeViewState(b: boolean) {
+    this.doChangeViewState(b);
+    //this.theApp.util.dismissLoading();
   }
 
   doRefresh(refresher) {

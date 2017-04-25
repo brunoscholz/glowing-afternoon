@@ -6,6 +6,14 @@ import { MyApp } from './app.component';
 
 import { AppErrorHandler } from '../providers/error.handler';
 
+import { CommonModule } from '../modules/common/common.module';
+//import { UserModule } from '../modules/user/user.module';
+import { MapsModule } from '../modules/maps/maps.module';
+
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+//import { InAppBrowser } from  "@ionic-native/in-app-browser";
+
 // Main generic Pages
 import { WelcomePage } from '../pages/welcome/welcome';
 import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
@@ -40,12 +48,7 @@ import { UserOptionsPage } from '../pages/user-detail/user-options';
 import { UserProfileCmp } from '../components/user-profile/user';
 import { ProfileModalPage } from '../components/user-profile/modal';
 
-// sale support tabs & pages
-import { SellPage } from '../pages/sell/sell';
-import { RegisterPage } from '../pages/sell/register';
-import { SupportPage } from '../pages/sell/support';
-import { PreviewPage } from '../pages/sell/preview';
-import { SetAddressModal } from '../pages/sell/address';
+//import { SetAddressModal } from '../pages/sell/address';
 
 // Company related Pages
 import { CompanyPage } from '../pages/company/company';
@@ -86,31 +89,13 @@ import { SellerCardCmp } from '../components/seller-card/seller';
 import { TransactionCmp } from '../components/transaction/transaction';
 import { ControlMessages } from '../components/control-messages/control-messages';
 
-// Pipes and Directives
-import { ArrayFilterPipe } from '../pipes/array-filter';
-import { TimeAgoPipe } from '../pipes/time-ago';
-import { OrderByPipe } from '../pipes/order-by';
-import { TxFilterPipe } from '../pipes/tx-filter';
-import { CounterPipe } from '../pipes/counter';
-import { MoneyPipe } from '../pipes/money';
-import { ElasticHeader } from '../directives/elastic-header/elastic-header';
+//import { ElasticHeader } from '../directives/elastic-header/elastic-header';
 
 // Services and Providers
-import { ConnectivityService } from '../providers/utils/connectivity.service';
-import { AuthService } from '../providers/auth/auth.service';
-import { DataService } from '../providers/data/data.service';
-import { APIService } from '../providers/api/api.service';
-import { APISettings } from '../providers/api/api-settings';
-import { UtilProvider } from '../providers/utils/util.provider';
-import { SpeechService } from '../providers/speech/speech.service';
+
 //import { ValidationService } from '../validators/validators';
 
 // Map related
-import { MapService } from '../providers/map/map.service';
-import { GeocoderService } from '../providers/map/geocoder.service';
-import { MapCmp } from '../components/map/map';
-import { MapPage } from '../pages/map/map';
-import { MapSearch } from '../components/map-search/map-search';
 
 @NgModule({
   declarations: [
@@ -138,11 +123,6 @@ import { MapSearch } from '../components/map-search/map-search';
     BalancePage,
     UserDetailPage,
     UserOptionsPage,
-    SellPage,
-    RegisterPage,
-    SupportPage,
-    PreviewPage,
-    SetAddressModal,
     CompanyPage,
     CompanyDetailPage,
     CompanyOptionsPage,
@@ -173,22 +153,14 @@ import { MapSearch } from '../components/map-search/map-search';
     ContactPage,
     PolicyPage,
     TermsPage,
-    LicencePage,
-    MapPage,
-    MapCmp,
-    MapSearch,
-    ArrayFilterPipe,
-    OrderByPipe,
-    TxFilterPipe,
-    TimeAgoPipe,
-    CounterPipe,
-    MoneyPipe,
-    ElasticHeader
+    LicencePage
   ],
   imports: [
-    IonicModule.forRoot(MyApp),
     BrowserModule,
-    HttpModule
+    HttpModule,
+    IonicModule.forRoot(MyApp),
+    CommonModule,
+    MapsModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -216,11 +188,6 @@ import { MapSearch } from '../components/map-search/map-search';
     BalancePage,
     UserDetailPage,
     UserOptionsPage,
-    SellPage,
-    RegisterPage,
-    SupportPage,
-    PreviewPage,
-    SetAddressModal,
     CompanyPage,
     CompanyDetailPage,
     CompanyOptionsPage,
@@ -238,19 +205,10 @@ import { MapSearch } from '../components/map-search/map-search';
     PolicyPage,
     TermsPage,
     LicencePage,
-    MapPage,
-    MapSearch
   ],
   providers: [
-    DataService,
-    APIService,
-    APISettings,
-    ConnectivityService,
-    AuthService,
-    UtilProvider,
-    SpeechService,
-    MapService,
-    GeocoderService,
+    StatusBar,
+    SplashScreen,
     {
         provide: ErrorHandler, useClass: AppErrorHandler
     },

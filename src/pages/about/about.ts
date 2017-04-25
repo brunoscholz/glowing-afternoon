@@ -6,7 +6,8 @@ import { ContactPage } from './contact';
 import { PolicyPage } from './policy';
 import { TermsPage } from './terms';
 import { LicencePage } from './licence';
-import { IPage } from '../../providers/data/interfaces';
+
+import { IPage } from '../../modules/common/models/interfaces';
 
 @Component({
   selector: 'page-about',

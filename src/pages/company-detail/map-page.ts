@@ -1,11 +1,12 @@
 import { Component, NgZone } from '@angular/core';
 import { Platform, NavParams, ViewController } from 'ionic-angular';
-import { MapService } from '../../providers/map/map.service';
-import { GeocoderService } from '../../providers/map/geocoder.service';
-//import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
 
-import { ISeller } from '../../providers/data/interfaces';
+import { MapService } from '../../modules/maps/services/map.service';
+import { GeocoderService } from '../../modules/maps/services/geocoder.service';
+import { AppService } from '../../modules/common/services/app.service';
+
+//import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { ISeller } from '../../modules/common/models/interfaces';
 
 @Component({
   templateUrl: 'map-page.html',
@@ -16,14 +17,15 @@ export class SellerMapPage {
   company: ISeller;
   companyPosition: google.maps.LatLng;
 
-  constructor(private platform: Platform,
-              public viewCtrl: ViewController,
-              navParams: NavParams,
-              private zone: NgZone,
-              private mapService: MapService,
-              private geocoderService: GeocoderService,
-              public util: UtilProvider)
-  {
+  constructor(
+    private platform: Platform,
+    public viewCtrl: ViewController,
+    navParams: NavParams,
+    private zone: NgZone,
+    private mapService: MapService,
+    private geocoderService: GeocoderService,
+    public theApp: AppService
+  ) {
     this.company = navParams.get('company') || {};
   }
 
@@ -72,11 +74,11 @@ export class SellerMapPage {
   private locate(): Promise<any> {
     let self = this;
     let promise = new Promise((resolve, reject) => {
-      self.util.presentLoading('Aguarde...');
+      self.theApp.util.presentLoading('Aguarde...');
       self.companyPosition = new google.maps.LatLng(Number(self.company.billingAddress['latitude']), Number(self.company.billingAddress['longitude']));
       self.mapService.mapCenter = self.companyPosition;
       setTimeout(() => {
-        self.util.dismissLoading();
+        self.theApp.util.dismissLoading();
         self.localized = true;
         resolve(true);
       }, 1000);

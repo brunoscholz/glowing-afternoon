@@ -8,7 +8,7 @@ import { ReviewListPage } from '../../pages/review-list/review-list';
 import { SettingsPage } from '../../pages/settings/settings';
 import { BalancePage } from '../../pages/balance/balance';
 
-import { IProfile, IBalance } from '../../providers/data/interfaces';
+import { IProfile, IBalance } from '../../modules/common/models/interfaces';
 
 @Component({
   selector: 'user-profile',

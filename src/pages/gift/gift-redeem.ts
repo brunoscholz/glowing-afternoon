@@ -8,12 +8,13 @@ import { NavController, NavParams } from 'ionic-angular';
 
 //import { ProductDetailPage } from '../product-detail/product-detail';
 //import { GiftConfirmPage } from '../gift/gift-confirm';
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
 
-//import { ViewStatusEnum } from '../../providers/utils/enums';
-//import { IOffer } from '../../providers/data/interfaces';
-import { ModelPage } from '../model-page';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+
+// import { ViewStatusEnum } from '../../modules/common/models/enums';
+// import { IUser, IProfile, IBalance } from '../../modules/common/models/interfaces';
+import { ModelPage } from '../../modules/common/models/model-page';
 
 //import _ from 'underscore';
 
@@ -22,12 +23,13 @@ import { ModelPage } from '../model-page';
 })
 export class GiftRedeemPage extends ModelPage {
 
-  constructor(public navCtrl: NavController,
-              navParams: NavParams,
-              public dataService: DataService,
-              public util: UtilProvider
+  constructor(
+    public navCtrl: NavController,
+    navParams: NavParams,
+    public dataService: DataService,
+    public theApp: AppService
   ) {
-    super('Loja', dataService, util);
+    super('Loja');
   }
 
   ionViewDidLoad() {

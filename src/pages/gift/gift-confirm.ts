@@ -12,12 +12,10 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 
-import { DataService } from '../../providers/data/data.service';
-import { AuthService } from '../../providers/auth/auth.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
 
-import { IOffer, IUser, IBalance } from '../../providers/data/interfaces';
-//import _ from 'underscore';
+import { IOffer, IUser, IBalance } from '../../modules/common/models/interfaces';
 
 @Component({
   templateUrl: 'gift-confirm.html',
@@ -34,8 +32,7 @@ export class GiftConfirmPage {
     navParams: NavParams,
     public viewCtrl: ViewController,
     public dataService: DataService,
-    public auth: AuthService,
-    public util: UtilProvider
+    public theApp: AppService
   ) {
     this.product = navParams.get('offer');
     this.bgImage = this.product.picture.cover;
@@ -48,13 +45,13 @@ export class GiftConfirmPage {
 
   loadAll() {
     let self = this;
-    self.util.presentLoading('Carregando Saldos!');
+    self.theApp.util.presentLoading('Carregando Saldos!');
     self.load()
     .then((res) => {
       self.changeViewState();
     }, (err) => {
-      self.util.dismissLoading();
-      self.util.notifyError(err);
+      self.theApp.util.dismissLoading();
+      self.theApp.notifyError(err);
     });
   }
 
@@ -62,7 +59,7 @@ export class GiftConfirmPage {
     let self = this;
 
     let promise = new Promise((resolve, reject) => {
-      self.auth.getUserInfo()
+      self.theApp.authService.getUser()
       .then((usr: IUser) => {
         if(usr) {
           self.user = usr;

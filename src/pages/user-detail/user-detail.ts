@@ -11,16 +11,14 @@
 */
 import { Component } from '@angular/core';
 import { NavController, NavParams, ActionSheetController, ModalController, PopoverController } from 'ionic-angular';
-import { ModelPage } from '../model-page';
-// import { ReviewPage } from '../review/review';
-// import { ReviewDetailPage } from '../review-detail/review-detail';
-import { DataService } from '../../providers/data/data.service';
-import { AuthService } from '../../providers/auth/auth.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
-import { UserOptionsPage } from './user-options';
 
-import { ViewStatusEnum } from '../../providers/utils/enums';
-import { IBuyer, IUser } from '../../providers/data/interfaces';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+
+import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { IBuyer, IUser } from '../../modules/common/models/interfaces'; //ISearchResult
+import { ModelPage } from '../../modules/common/models/model-page';
+
 import _ from 'underscore';
 
 @Component({
@@ -32,16 +30,16 @@ export class UserDetailPage extends ModelPage {
   bgImage: string;
   canFollow: boolean = true;
 
-  constructor(public navCtrl: NavController,
-              navParams: NavParams,
-              public acCtrl: ActionSheetController,
-              public modCtrl: ModalController,
-              public popoverCtrl: PopoverController,
-              public dataService: DataService,
-              public auth: AuthService,
-              public util: UtilProvider
+  constructor(
+    public navCtrl: NavController,
+    navParams: NavParams,
+    public acCtrl: ActionSheetController,
+    public modCtrl: ModalController,
+    public popoverCtrl: PopoverController,
+    public theApp: AppService,
+    public dataService: DataService
   ) {
-    super("Buyer Details", dataService, util);
+    super("Perfil");
     this.buyer = navParams.get('user');
     this.bgImage = this.buyer.picture.cover;
   }
@@ -49,41 +47,25 @@ export class UserDetailPage extends ModelPage {
   ionViewDidLoad() {
     this.doReset(this.buyer.name);
     this.load();
+  }
 
+  load() {
     let self = this;
-    self.auth.getUserInfo()
+    self.doChangeView(ViewStatusEnum.Empty);
+    self.theApp.util.presentLoading();
+    self.theApp.authService.getUser()
     .then((user: IUser) => {
       self.user = user;
       let ids = _.pluck(user.buyer.following, 'buyerId');
       self.canFollow = self.buyer.buyerId !== user.buyer.buyerId;
       self.canFollow = self.canFollow && !_.contains(ids, self.buyer.buyerId);
+      self.changeViewState(true);
     });
   }
 
-  load() {
-    //var self = this;
-    this.doChangeView(ViewStatusEnum.Empty);
-    this.util.presentLoading('Buscando...');
-
-    /*this.dataService.getPretty({
-      controller: 'catalog',
-      url: 'sellers/catalog/' + self.company.sellerId
-    }).then((data: Array<IOffer>) => {
-      self.offers = data;
-      self.changeViewState();
-      if(self.refresher)
-        self.refresher.complete();
-    }, (err) => {
-      console.log(err);
-    });*/
-  }
-
-  changeViewState() {
-    if(this.buyer) // && this.offers
-      this.doChangeView(ViewStatusEnum.Full);
-    else
-      this.doChangeView(ViewStatusEnum.Empty);
-    this.util.dismissLoading();
+  changeViewState(b: boolean) {
+    this.doChangeViewState(b);
+    this.theApp.util.dismissLoading();
   }
 
   doRefresh(refresher) {
@@ -91,22 +73,9 @@ export class UserDetailPage extends ModelPage {
     this.load();
   }
 
-  moreOptions(myEvent) {
-    let popover = this.popoverCtrl.create(UserOptionsPage, { canFollow: this.canFollow });
-    popover.onDidDismiss((act) => {
-      if(act == 'follow')
-        this.follow();
-      if(act == 'unfollow')
-        this.unfollow();
-    });
-    popover.present({
-      ev: myEvent
-    });
-  }
-
   follow() {
     let self = this;
-    self.util.presentLoading('Aguarde..');
+    self.theApp.util.presentLoading('Aguarde..');
     let fav = {
       FollowFact: {
         action: 'follow',
@@ -120,18 +89,17 @@ export class UserDetailPage extends ModelPage {
       data: fav
     })
     .then(() => {
-      let toast = self.util.getToast('Você está seguindo ' + self.buyer.name);
-      toast.present();
+      self.theApp.util.presentToast('Você está seguindo ' + self.buyer.name);
     }, (err) => {
       console.log(err);
-      self.util.dismissLoading();
-      self.util.notifyError(err);
+      self.theApp.util.dismissLoading();
+      self.theApp.notifyError(err);
     });
   }
 
   unfollow() {
     let self = this;
-    self.util.presentLoading('Aguarde..');
+    self.theApp.util.presentLoading('Aguarde..');
     let fav = {
       FollowFact: {
         action: 'unfollow',
@@ -147,12 +115,11 @@ export class UserDetailPage extends ModelPage {
       data: fav
     })
     .then(() => {
-      let toast = self.util.getToast('Você parou de seguir ' + self.buyer.name);
-      toast.present();
+      self.util.presentToast('Você parou de seguir ' + self.buyer.name);
     }, (err) => {
       console.log(err);
-      self.util.dismissLoading();
-      self.util.notifyError(err);
+      self.theApp.util.dismissLoading();
+      self.theApp.notifyError(err);
     });
   }
 }

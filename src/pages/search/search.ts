@@ -6,17 +6,15 @@ import { CompanyDetailPage } from '../company-detail/company-detail';
 import { UserDetailPage } from '../user-detail/user-detail';
 import { ProfilePage } from '../profile/profile';
 
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
-import { AuthService } from '../../providers/auth/auth.service';
+import { MapService } from '../../modules/maps/services/map.service';
+import { GeocoderService } from '../../modules/maps/services/geocoder.service';
 
-//import { Geolocation, Geoposition } from 'ionic-native';
-import { MapService } from '../../providers/map/map.service';
-import { GeocoderService } from '../../providers/map/geocoder.service';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
 
-import { ViewStatusEnum } from '../../providers/utils/enums';
-import { IUser, ISearchItems } from '../../providers/data/interfaces'; //ISearchResult
-import { ModelPage } from '../model-page';
+import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { IUser, ISearchItems } from '../../modules/common/models/interfaces'; //ISearchResult
+import { ModelPage } from '../../modules/common/models/model-page';
 import 'rxjs/add/operator/debounceTime';
 import _ from 'underscore';
 
@@ -36,21 +34,20 @@ export class SearchPage extends ModelPage {
   items: ISearchItems;
   allItems: ISearchItems;
 
-  constructor(public navCtrl: NavController,
-              navParams: NavParams,
-              public dataService: DataService,
-              public auth: AuthService,
-              public util: UtilProvider,
-              public geocoderService: GeocoderService,
-              public mapService: MapService)
-  {
-    super('Busca', dataService, util)
+  constructor(
+    public navCtrl: NavController,
+    navParams: NavParams,
+    public theApp: AppService,
+    public dataService: DataService,
+    public geocoderService: GeocoderService,
+    public mapService: MapService
+  ) {
+    super('Busca')
   	this.searchTerm = navParams.get('term') || '';
     //this.searchControl = new Control();
   }
 
   ionViewDidLoad() {
-    this.doReset('Busca');
     this.load();
   }
 
@@ -66,10 +63,9 @@ export class SearchPage extends ModelPage {
 
   load() {
     let self = this;
-    this.doChangeView(ViewStatusEnum.Loading);
-    this.util.presentLoading('Buscando...');
+    self.theApp.util.presentLoading();
 
-    this.auth.getUserInfo()
+    this.theApp.authService.getUser()
     .then((usr: IUser) => {
       if(usr) {
         self.user = usr;
@@ -78,8 +74,8 @@ export class SearchPage extends ModelPage {
         self.doSearch();
       }
     }, (err) => {
-      this.util.notifyError(err);
-      this.util.dismissLoading();
+      this.theApp.notifyError(err);
+      self.changeViewState(false);
     });
   }
 
@@ -122,36 +118,29 @@ export class SearchPage extends ModelPage {
     if(self.opt.buyers)
       searchFor.push('buyers');
 
-    console.log(searchFor);
-
     self.dataService.search({
-      term: self.searchTerm
+      query: self.searchTerm
     }).then((data: ISearchItems) => {
         self.allItems = data;
         let latlng = { lat: -25.4709161, lng:-49.24417260000001 };
-        self.allItems.sellers.list = this.util.applyHaversineSeller(self.allItems.sellers.list, latlng);
+        self.allItems.sellers.list = this.mapService.applyHaversineSeller(self.allItems.sellers.list, latlng);
         self.allItems.sellers.list.sort((locationA, locationB) => {
             return locationA.distance - locationB.distance;
         });
         self.filterItems();
-        self.changeViewState();
-        if(self.refresher)
-          self.refresher.complete();
+        self.changeViewState(_size(self.allItems) > 0);
+        /*if(self.refresher)
+          self.refresher.complete();*/
       }, (err) => {
-        self.util.notifyError(err);
-        //this.util.dismissLoading();
-        self.changeViewState();
+        self.theApp.util.notifyError(err);
+        self.theApp.util.dismissLoading();
+        self.changeViewState(false);
       });
   }
 
-  changeViewState() {
-    if (_.size(this.items) > 0) {
-      this.doChangeView(ViewStatusEnum.Full);
-    }
-    else {
-      this.doChangeView(ViewStatusEnum.Empty);
-    }
-    this.util.dismissLoading();
+  changeViewState(b: boolean) {
+    this.doChangeViewState(b);
+    this.theApp.util.dismissLoading();
   }
 
   doRefresh(refresher) {
@@ -162,7 +151,7 @@ export class SearchPage extends ModelPage {
     if(this.searchTerm == '')
       return;
 
-    this.util.presentLoading('Buscando...');
+    self.theApp.util.presentLoading();
     this.doSearch();
   }
 
@@ -195,7 +184,7 @@ export class SearchPage extends ModelPage {
       let entry = { category: cat, items: test[key] };
       this.groupedOffers.push(entry);
     }*/
-    this.changeViewState();
+    this.changeViewState(false);
   }
 
   getItems(ev: any) {

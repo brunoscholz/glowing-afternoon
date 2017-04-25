@@ -14,25 +14,21 @@ import { SellPage } from '../pages/sell/sell';
 import { TourPage } from '../pages/tour/tour';
 import { AboutPage } from '../pages/about/about';
 
+import { AppService } from '../modules/common/services/app.service';
+import { DataService } from '../modules/common/services/data.service';
+import { SpeechService } from '../modules/common/services/speech.service';
+import { MapService } from '../modules/maps/services/map.service';
 
-import { DataService } from '../providers/data/data.service';
-import { AuthService } from '../providers/auth/auth.service';
-import { UtilProvider } from '../providers/utils/util.provider';
-import { SpeechService } from '../providers/speech/speech.service';
-import { IUser, IPage } from '../providers/data/interfaces';
+import { IUser, IPage } from '../modules/common/models/interfaces';
 
-//import { MapPage } from '../pages/map/map';
-import { MapService } from '../providers/map/map.service';
-//import { Geolocation } from 'ionic-native';
-
+/*providers: [
+  AuthService,
+  DataService,
+  UtilProvider,
+  SpeechService
+]*/
 @Component({
   templateUrl: 'app.html',
-  providers: [
-    AuthService,
-    DataService,
-    UtilProvider,
-    SpeechService
-  ]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -65,13 +61,14 @@ export class MyApp {
     { title: 'Cadastrar', component: SignUpPage, icon: 'person-add', passRoot: true }
   ];
 
-  constructor(public platform: Platform,
-              public menu: MenuController,
-              public dataService: DataService,
-              public auth: AuthService,
-              public util: UtilProvider,
-              public speech: SpeechService,
-              public mapService: MapService) {
+  constructor(
+    public platform: Platform,
+    public menu: MenuController,
+    public dataService: DataService,
+    public theApp: AppService,
+    public speech: SpeechService,
+    public mapService: MapService
+  ) {
     this.initializeApp();
   }
 
@@ -81,26 +78,26 @@ export class MyApp {
       this.hideSplashScreen();
 
       this.loadIndicator();
-      this.util.onError(err => {
+      this.theApp.onError(err => {
         //this.error = err;
-        let alert = this.util.doAlert('Erro!', err, 'Ok');
+        let alert = this.theApp.util.doAlert('Erro!', err, 'Ok');
         alert.present();
       });
       this.speech.init();
     });
 
-    this.util.getTheme()
+    this.theApp.getTheme()
       .subscribe((val) => {
         this.chosenTheme = val;
       });
 
-    this.getUser();
+    //this.getUser();
     this.authenticate();
   }
 
   authenticate() {
     let self = this;
-    self.auth.checkAuthentication()
+    self.theApp.authService.getUser()
     .then((res: IUser) => {
       console.log("Already authorized");
       setTimeout(() => {
@@ -117,13 +114,13 @@ export class MyApp {
     });
   }
 
-  getUser() { 
+  /*getUser() { 
     let self = this;
     self.auth.loggedIn$
     .subscribe((usr) => {
       self.prepareUser(usr);
     });
-  }
+  }*/
 
   prepareUser(usr) {
     let self = this;
@@ -156,7 +153,7 @@ export class MyApp {
   }*/
 
   loadIndicator() {
-    this.util.load$
+    /*this.util.load$
     .subscribe((result) => {
       if(result) {
         if(this.isLoading)
@@ -170,7 +167,7 @@ export class MyApp {
           this.loading.dismiss();
         this.isLoading = false;
       }
-    });
+    });*/
   }
 
   hideSplashScreen() {
@@ -218,7 +215,7 @@ export class MyApp {
 
   logout() {
     setTimeout(() => {
-      this.auth.logout();
+      //this.auth.logout();
       this.enableMenu(false);
       this.nav.setRoot(SignTabsPage);
     }, 1000);

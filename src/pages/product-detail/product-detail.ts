@@ -11,18 +11,20 @@
 */
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController, ActionSheetController } from 'ionic-angular';
-import { ModelPage } from '../model-page';
+
 import { ReviewListPage } from '../review-list/review-list';
 import { ReviewPage } from '../review/review';
 import { GiftConfirmPage } from '../gift/gift-confirm';
 import { CompanyDetailPage } from '../company-detail/company-detail';
 import { ReviewDetailPage } from '../review-detail/review-detail';
-import { DataService } from '../../providers/data/data.service';
-import { AuthService } from '../../providers/auth/auth.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
 
-import { ViewStatusEnum } from '../../providers/utils/enums';
-import { IOffer, IUser } from '../../providers/data/interfaces';
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+
+import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { IOffer, IUser } from '../../modules/common/models/interfaces';
+import { ModelPage } from '../../modules/common/models/model-page';
+
 import _ from 'underscore';
 
 @Component({
@@ -38,22 +40,21 @@ export class ProductDetailPage extends ModelPage {
     public navCtrl: NavController,
     navParams: NavParams,
     public modCtrl: ModalController,
-    public dataService: DataService,
     public actionSheet: ActionSheetController,
-    public auth: AuthService,
-    public util: UtilProvider
+    public theApp: AppService,
+    public dataService: DataService
   ) {
-    super("Product Details", dataService, util);
+    super("Product Details");
     this.product = navParams.get('offer');
     this.bgImage = this.product.picture.cover;
   }
 
   ionViewWillEnter() {
     this.doReset(this.product.item.title);
-    this.doToggleLoading(false);
+    this.doChangeView(ViewStatusEnum.Loading);
     //this.load();
     let self = this;
-    self.auth.getUserInfo()
+    self.auth.getUser()
     .then((user: IUser) => {
       self.user = user;
       let ids = _.pluck(user.buyer.favorites, 'offerId');
@@ -73,14 +74,9 @@ export class ProductDetailPage extends ModelPage {
     });
   }
 
-  changeViewState() {
-    if (_.size(this.product.reviews) > 0) {
-      this.doChangeView(ViewStatusEnum.Full);
-    }
-    else {
-      this.doChangeView(ViewStatusEnum.Empty);
-    }
-    this.util.dismissLoading();
+  changeViewState(b: boolean) {
+    this.doChangeViewState(b);
+    this.theApp.util.dismissLoading();
   }
 
   doRefresh(refresher) {
@@ -98,7 +94,7 @@ export class ProductDetailPage extends ModelPage {
 
   addToList() {
     let self = this;
-    self.util.presentLoading('Aguarde..');
+    self.theApp.util.presentLoading('Aguarde..');
 
     let fav = {
       FavoriteFact: {
@@ -112,18 +108,17 @@ export class ProductDetailPage extends ModelPage {
       data: fav
     })
     .then(() => {
-      let toast = self.util.getToast('Adicionado aos seus favoritos!');
-      toast.present();
+      self.theApp.util.presentToast('Adicionado aos seus favoritos!');
     }, (err) => {
       console.log(err);
-      self.util.dismissLoading();
-      self.util.notifyError(err);
+      self.theApp.util.dismissLoading();
+      self.theApp.notifyError(err);
     });
   }
 
   removeFromList() {
     let self = this;
-    self.util.presentLoading('Aguarde..');
+    self.theApp.util.presentLoading('Aguarde..');
     let fav = {
       FavoriteFact: {
         action: 'removeFromList',
@@ -138,12 +133,11 @@ export class ProductDetailPage extends ModelPage {
       data: fav
     })
     .then(() => {
-      let toast = self.util.getToast('Removido de seus favoritos!');
-      toast.present();
+      self.theApp.util.presentToast('Removido de seus favoritos!');
     }, (err) => {
       console.log(err);
-      self.util.dismissLoading();
-      self.util.notifyError(err);
+      self.theApp.util.dismissLoading();
+      self.theApp.notifyError(err);
     });
   }
 
@@ -216,7 +210,7 @@ export class ProductDetailPage extends ModelPage {
 
   saveReview(review) {
     let self = this;
-    self.util.presentLoading('Aguarde..');
+    self.theApp.util.presentLoading('Aguarde..');
 
     review.ReviewFact.buyerId = self.user.buyer.buyerId;
     this.dataService.addSocialAction({
@@ -225,16 +219,15 @@ export class ProductDetailPage extends ModelPage {
     })
     .then((data) => {
       if(data['status'] == 200) {
-        let toast = self.util.getToast('Você ganhou '+data['credit']+' moedas pela avaliação. Obrigado!');
+        self.util.presentToast('Você ganhou '+data['credit']+' moedas pela avaliação. Obrigado!');
         //self.product.reviews.push(review);
         //this.dataService.creditUser(10);
-        toast.present();
-        self.util.dismissLoading();
+        self.theApp.util.dismissLoading();
       }
     }, (err) => {
       console.log(err);
-      self.util.notifyError(err);
-      self.util.dismissLoading();
+      self.theApp.notifyError(err);
+      self.theApp.util.dismissLoading();
     });
   }
 

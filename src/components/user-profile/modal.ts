@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
-import { IProfile } from '../../providers/data/interfaces';
+
+import { IProfile } from '../../modules/common/models/interfaces';
+
 import _ from 'underscore';
+
 @Component({
   templateUrl: 'modal.html',
 })

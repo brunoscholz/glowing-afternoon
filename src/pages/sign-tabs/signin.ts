@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Nav } from 'ionic-angular';
-import { AuthService } from '../../providers/auth/auth.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
+
 import { Validators, FormBuilder } from '@angular/forms';
 import { ValidationService } from '../../validators/validators';
-
 import { HomeTabsPage } from '../home-tabs/home-tabs';
+
+import { AppService } from '../../modules/common/services/app.service';
 
 @Component({
   templateUrl: 'signin.html',
@@ -14,10 +14,10 @@ export class SignInPage {
   signInForm: any;
   userInfo: { email: string, pass: string } = { email: '', pass: '' };
 
-  constructor(private navCtrl: Nav,
-              public formBuilder: FormBuilder,
-              public auth: AuthService,
-              public util: UtilProvider
+  constructor(
+    private navCtrl: Nav,
+    public formBuilder: FormBuilder,
+    public theApp: AppService
   ) {
     this.signInForm = formBuilder.group({
       username: ['', Validators.compose([Validators.required, ValidationService.emailValidator])],
@@ -27,9 +27,9 @@ export class SignInPage {
 
   signin() {
     if(!this.signInForm.valid) {
-      this.util.notifyError(new Error('Por favor preencha todos os campos corretamente!'));
+      this.theApp.notifyError(new Error('Por favor preencha todos os campos corretamente!'));
     } else {
-      this.util.presentLoading('Autenticando...');
+      this.theApp.util.presentLoading('Autenticando...');
 
       let auth = {
         'AuthModel[username]': this.signInForm.value.username,
@@ -41,14 +41,14 @@ export class SignInPage {
       .then((data) => {
         if(data) {
           setTimeout(() => {
-            self.util.dismissLoading();
+            self.theApp.util.dismissLoading();
             self.navCtrl.setRoot(HomeTabsPage);
           });
         }
       }, (err) => {
         setTimeout(() => {
-          self.util.dismissLoading();
-          self.util.notifyError(err);
+          self.theApp.util.dismissLoading();
+          self.theApp.notifyError(err);
         });
       });
     }

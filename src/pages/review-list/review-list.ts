@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { AuthService } from '../../providers/auth/auth.service';
-import { DataService } from '../../providers/data/data.service';
-import { UtilProvider } from '../../providers/utils/util.provider';
-import { IOffer, IProfile, IReviewFact } from '../../providers/data/interfaces';
-import { ModelPage } from '../model-page';
-import { ViewStatusEnum } from '../../providers/utils/enums';
+
+import { AppService } from '../../modules/common/services/app.service';
+import { DataService } from '../../modules/common/services/data.service';
+
+import { ViewStatusEnum } from '../../modules/common/models/enums';
+import { IOffer, IProfile, IReviewFact } from '../../modules/common/models/interfaces';
+import { ModelPage } from '../../modules/common/models/model-page';
+
 import _ from 'underscore';
 
 @Component({
@@ -18,13 +20,13 @@ export class ReviewListPage extends ModelPage {
 	profile: IProfile;
   offer: IOffer;
 
-  constructor(public navCtrl: NavController,
-  						navParams: NavParams,
-							public dataService: DataService,
-							public auth: AuthService,
-							public util: UtilProvider
+  constructor(
+    public navCtrl: NavController,
+    navParams: NavParams,
+    public theApp: AppService,
+    public dataService: DataService
 	) {
-  	super('Avaliações', dataService, util);
+  	super('Avaliações');
   	this.profile = navParams.get('profile');
     this.offer = navParams.get('offer');
   }
@@ -36,7 +38,7 @@ export class ReviewListPage extends ModelPage {
   load() {
   	var self = this;
     this.doChangeView(ViewStatusEnum.Loading);
-    this.util.presentLoading('Buscando...');
+    this.theApp.util.presentLoading('Buscando...');
 
     var q = {};
     if(this.profile == null)
@@ -49,19 +51,14 @@ export class ReviewListPage extends ModelPage {
       query: q
     }).then((fws: IReviewFact[]) => {
     	self.reviews = fws;
-      this.changeViewState();
+      this.changeViewState(_size(self.reviews) > 0);
     }, (err) => {
     	console.log(err);
     });
   }
 
-  changeViewState() {
-    if (_.size(this.reviews) > 0) {
-      this.doChangeView(ViewStatusEnum.Full);
-    }
-    else {
-      this.doChangeView(ViewStatusEnum.Empty);
-    }
-    this.util.dismissLoading();
+  changeViewState(b: boolean) {
+    this.doChangeViewState(b);
+    this.theApp.util.dismissLoading();
   }
 }
