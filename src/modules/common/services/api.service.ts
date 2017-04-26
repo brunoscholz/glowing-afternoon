@@ -15,7 +15,7 @@ export class ApiService {
   }
 
   treatOptions(options) {
-    var OPTIONAL_PARAMS = <any> {
+    let OPTIONAL_PARAMS = <any> {
       q: options.query || null,
       f: options.setOfFields || null,
       fo: options.findOne || null,
@@ -23,6 +23,8 @@ export class ApiService {
       pg: options.page || null,
       l: options.limit || null,
       ft: options.fromto || null,
+      asset: options.asset || null,
+      token: options.auth || null
     };
     //v: APISettings.APPVERSION,
     return OPTIONAL_PARAMS;

@@ -8,7 +8,7 @@ import { Facebook } from 'ionic-native';
 
 import { Subject } from 'rxjs/Rx';
 
-import { AppService } from './app.service';
+import { AppService } from '../services/app.service';
 //import { DataService } from './data.service';
 
 import { IShare, IUser } from '../models/interfaces';
@@ -28,8 +28,7 @@ export class AuthService {
   constructor(
     public http: Http,
     public events: Events,
-    public storage: Storage,
-    public theApp: AppService
+    public storage: Storage
   ) {
   }
 
@@ -289,13 +288,20 @@ export class AuthService {
         reject(new Error('Não conectado ao Facebook'));
       })
       .catch((err) => {
-        this.theApp.notifyError(err);
+        //this.theApp.notifyError(err);
       });
     });
     return promise;
   }
 
   /* NORMAL STUFF */
+
+  authenticate(user) {
+    let promise = new Promise((resolve, reject) => {
+    });
+    return promise;
+  }
+
   register(user) {
     let promise = new Promise((resolve, reject) => {
       /*this.api.add({

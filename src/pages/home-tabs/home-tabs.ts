@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { NavParams } from 'ionic-angular';
 
 import { HomePage } from '../home/home';
-import { CategoryPage } from '../category/category';
-import { PromotionPage } from '../promotion/promotion';
-import { StorePage } from '../store/store';
+import { CategoryPage } from '../../modules/offer/pages/category/category';
+import { PromotionPage } from '../../modules/offer/pages/promotion/promotion';
+import { StorePage } from '../../modules/offer/pages/store/store';
 
 @Component({
   templateUrl: 'home-tabs.html',

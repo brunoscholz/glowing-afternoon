@@ -24,6 +24,11 @@ import { SpeechService } from './services/speech.service';
 
 import { UtilityComponent } from './pages/utilityComponent';
 
+import { TransactionCmp } from './components/transaction/transaction';
+import { EmptyListCmp } from './components/empty/empty';
+import { RatingCmp } from './components/star-rating/rating';
+import { ControlMessages } from './components/control-messages/control-messages';
+
 @NgModule({
   imports: [
     IonicModule,
@@ -37,6 +42,10 @@ import { UtilityComponent } from './pages/utilityComponent';
     CounterPipe,
     ArrayFilterPipe,
     UtilityComponent,
+    TransactionCmp,
+    EmptyListCmp,
+    RatingCmp,
+    ControlMessages,
   ],
   entryComponents: [
   ],
@@ -61,7 +70,11 @@ import { UtilityComponent } from './pages/utilityComponent';
     TxFilterPipe,
     MoneyPipe,
     CounterPipe,
-    ArrayFilterPipe
+    ArrayFilterPipe,
+    TransactionCmp,
+    EmptyListCmp,
+    RatingCmp,
+    ControlMessages,
   ]
 })
 

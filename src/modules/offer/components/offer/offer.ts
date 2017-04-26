@@ -1,0 +1,20 @@
+import { Component, Input } from '@angular/core';
+
+import { IOffer } from '../../../common/models/interfaces';
+
+@Component({
+    selector: 'offer-card',
+    templateUrl: 'offer.html'
+})
+export class OfferPostCmp {
+    @Input('feed') post: IOffer;
+
+    constructor() {}
+
+    /*let postID = this.feed.$key;
+    this.post = this.socialProvider.getPost(postID);
+    this.post
+    .subscribe(value => {
+        this.offer = this.socialProvider.getUser(value.from);
+    });*/
+}

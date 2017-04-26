@@ -1,10 +1,12 @@
 import { FormControl, FormGroup } from '@angular/forms';
-import { AuthService } from '../providers/auth/auth.service';
+import { AppService } from '../modules/common/services/app.service';
 import 'rxjs/add/operator/debounceTime';
 
 export class ValidationService {
 
-  constructor(public auth: AuthService) {}
+  constructor(
+    public theApp: AppService
+  ) {}
 
   static getValidatorErrorMessage(validatorName: string, validatorValue?: any) {
     let config = {

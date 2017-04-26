@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { AppService } from '../../modules/common/services/app.service';
-import { DataService } from '../../providers/data/data.service';
+import { DataService } from '../../modules/common/services/data.service';
 
 import { ModelPage } from '../../modules/common/pages/model-page';
 
@@ -22,7 +22,7 @@ export class WelcomePage extends ModelPage implements OnInit {
     navParams: NavParams,
     public navCtrl: NavController,
     public theApp: AppService,
-    public dataService: DataService,
+    public dataService: DataService
   ) {
     super('Onde tem?');
     console.log('WelcomePage');

@@ -3,14 +3,14 @@ import { Platform, MenuController, Nav } from 'ionic-angular';
 import { Splashscreen, StatusBar } from 'ionic-native';
 
 import { WelcomePage } from '../pages/welcome/welcome';
-import { SignTabsPage } from '../pages/sign-tabs/sign-tabs';
-import { SignUpPage } from '../pages/sign-tabs/signup';
-import { SignInPage } from '../pages/sign-tabs/signin';
+import { SignTabsPage } from '../modules/user/pages/sign-tabs/sign-tabs';
+import { SignUpPage } from '../modules/user/pages/sign-tabs/signup';
+import { SignInPage } from '../modules/user/pages/sign-tabs/signin';
 
-import { ProfilePage } from '../pages/profile/profile';
+import { ProfilePage } from '../modules/user/pages/profile/profile';
 
 import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
-import { SellPage } from '../pages/sell/sell';
+
 import { TourPage } from '../pages/tour/tour';
 import { AboutPage } from '../pages/about/about';
 
@@ -28,7 +28,7 @@ import { IUser, IPage } from '../modules/common/models/interfaces';
   SpeechService
 ]*/
 @Component({
-  templateUrl: 'app.html',
+  templateUrl: 'app.html'
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -207,10 +207,6 @@ export class MyApp {
 
   openAbout() {
     this.nav.push(AboutPage);
-  }
-
-  openSales() {
-    this.nav.setRoot(SellPage);
   }
 
   logout() {

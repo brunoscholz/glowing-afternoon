@@ -88,37 +88,26 @@ export class DataService {
     console.log(coins);
   }
 
-  setVisitingCompany(cp) {
-    //this.storageSave('visitingCompany', JSON.stringify(cp));
-    this.visitingCompany = cp;
-    //window.localStorage.setItem('visitingCompany', JSON.stringify(cp));
-  }
-
-  getVisitingCompany() {
-    return this.visitingCompany;
-    //return JSON.parse(window.localStorage.getItem('visitingCompany'));
-  }
-
   updateProfile(options) {
     let promise = new Promise((resolve, reject) => {
+      let url: string = this.helper.getAPI(options.controller);
+
       this.storageLoad('ondetemTK')
       .then((token) => {
         let data = options.data;
         data['token'] = token;
 
-        /*this.api.add({
-          controller: options.controller,
-          body: data,
-        })
+        this.api.post(url, data)
           .map((res: Response) => res.json())
-          .subscribe(data => {
-            if(data.status == 200) {
-              resolve(data.data);
+          .toPromise()
+          .then((response) => {
+            if(response.status == 200) {
+              resolve(response.data);
             }
-            else
-              reject(new Error(data.error));
-          });*/
-          reject(null);
+            else {
+              reject(response.error);
+            }
+          });
       });
     });
     return promise;
@@ -157,12 +146,13 @@ export class DataService {
       if(!options) //throw new Error('invalid options');
         reject(new Error('invalid options'));
 
+      let url: string = this.helper.getAPI(options.controller);
       if(this._cached$[options.controller] && this._cached$[options.controller] !== null && this._cached$[options.controller] !== []) {
         //this._subjects$[options.controller].next(this._cached$[options.controller]);
         resolve(this._cached$[options.controller]);
       }
-      /*else {
-        return this.api.findAll(options)
+      else {
+        return this.api.get(url, options)
         .map((res: Response) => res.json())
         .toPromise()
         .then((data) => {
@@ -188,8 +178,7 @@ export class DataService {
           }
         })
        .catch(error => { console.log(error) });
-      }*/
-      reject(null);
+      }
     });
     return promise;
   }
@@ -229,15 +218,18 @@ export class DataService {
 
   getBalance(options: any) {
     let promise = new Promise((resolve, reject) => {
-      /*this.api.findAll(options)
+      let url: string = this.helper.getAPI(options.controller);
+      this.api.get(url, options)
       .map((res: Response) => res.json())
-      .subscribe((data) => {
-        if(data.status == 200)
-          resolve(data.data);
-        else
-          reject(data.error);
-      });*/
-      reject(null);
+      .toPromise()
+      .then((response) => {
+        if(response.status == 200) {
+          resolve(response.data);
+        }
+        else {
+          reject(response.error);
+        }
+      });
     });
     return promise;
   }
@@ -246,18 +238,20 @@ export class DataService {
     let promise = new Promise((resolve, reject) => {
       if(!options) //throw new Error('invalid options');
         reject(new Error('invalid options'));
-      
-      /*this.api.getPretty(options)
+
+      let url: string = this.helper.getAPI(options.controller);
+
+      this.api.get(url, options)
         .map((res: Response) => res.json())
-        .subscribe((data) => {
-          if(data.status == 200) {
-            resolve(data.data);
+        .toPromise()
+        .then((response) => {
+          if(response.status == 200) {
+            resolve(response.data);
           }
           else {
-            reject(data.error);
+            reject(response.error);
           }
-        });*/
-        reject(null);
+        });
     });
     return promise;
   }
@@ -288,43 +282,38 @@ export class DataService {
   }
 
   addSocialAction(options) {
+    let url: string = this.helper.getAPI(options.controller);
     let promise = new Promise((resolve, reject) => {
-      /*this.api.add({
-        controller: options.controller,
-        body: options.data,
-        query: {}
-      })
+      this.api.post(url, options.data)
         .map((res: Response) => res.json())
-        .subscribe((data) => {
-          if(data.status == 200) {
-            resolve(data.data);
+        .toPromise()
+        .then((response) => {
+          if(response.status == 200) {
+            resolve(response.data);
           }
           else {
-            reject(data.error);
+            reject(response.error);
           }
-        });*/
-        reject(null);
+        });
     });
     return promise;
   }
 
   addPreRegisterSeller(body) {
     let self = this;
+    let url: string = this.helper.getAPI('auth/seller-register');
     let promise = new Promise((resolve, reject) => {
-      /*self.api.add({
-        controller: 'auth/seller-register',
-        body: body
-      })
+      self.api.post(url, body)
       .map((res: Response) => res.json())
-      .subscribe((data) => {
-        if(data.status == 200) {
-          resolve(data.data);
+      .toPromise()
+      .then((response) => {
+        if(response.status == 200) {
+          resolve(response.data);
         }
         else {
-          reject(data.error);
+          reject(response.error);
         }
-      });*/
-      reject(null);
+      });
     });
     return promise;
   }

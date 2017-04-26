@@ -1,10 +1,10 @@
 import { Component } from '@angular/core'; // NgZone
 import { NavController, NavParams } from 'ionic-angular'; //reorderArray
 
-import { ProductDetailPage } from '../product-detail/product-detail';
-import { CompanyDetailPage } from '../company-detail/company-detail';
-import { UserDetailPage } from '../user-detail/user-detail';
-import { ProfilePage } from '../profile/profile';
+import { ProductDetailPage } from '../../modules/offer/pages/product-detail/product-detail';
+import { CompanyDetailPage } from '../../modules/user/pages/company-detail/company-detail';
+import { UserDetailPage } from '../../modules/user/pages/user-detail/user-detail';
+import { ProfilePage } from '../../modules/user/pages/profile/profile';
 
 import { MapService } from '../../modules/maps/services/map.service';
 import { GeocoderService } from '../../modules/maps/services/geocoder.service';
@@ -14,7 +14,8 @@ import { DataService } from '../../modules/common/services/data.service';
 
 import { ViewStatusEnum } from '../../modules/common/models/enums';
 import { IUser, ISearchItems } from '../../modules/common/models/interfaces'; //ISearchResult
-import { ModelPage } from '../../modules/common/models/model-page';
+import { ModelPage } from '../../modules/common/pages/model-page';
+
 import 'rxjs/add/operator/debounceTime';
 import _ from 'underscore';
 
@@ -128,11 +129,11 @@ export class SearchPage extends ModelPage {
             return locationA.distance - locationB.distance;
         });
         self.filterItems();
-        self.changeViewState(_size(self.allItems) > 0);
+        self.changeViewState(_.size(self.allItems) > 0);
         /*if(self.refresher)
           self.refresher.complete();*/
       }, (err) => {
-        self.theApp.util.notifyError(err);
+        self.theApp.notifyError(err);
         self.theApp.util.dismissLoading();
         self.changeViewState(false);
       });
@@ -151,7 +152,7 @@ export class SearchPage extends ModelPage {
     if(this.searchTerm == '')
       return;
 
-    self.theApp.util.presentLoading();
+    this.theApp.util.presentLoading();
     this.doSearch();
   }
 

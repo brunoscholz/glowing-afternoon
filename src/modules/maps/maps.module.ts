@@ -9,7 +9,8 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { MapService } from './services/map.service';
 import { GeocoderService } from './services/geocoder.service';
 
-import { MapPage } from './pages/map';
+import { MapPage } from './pages/map/map';
+import { SellerMapPage } from './pages/seller-map/map-page';
 
 import { MapCmp } from './components/map';
 
@@ -20,9 +21,11 @@ import { MapCmp } from './components/map';
   declarations: [
     MapCmp,
     MapPage,
+    SellerMapPage,
   ],
   entryComponents: [
     MapPage,
+    SellerMapPage,
   ],
   providers: [
     Geolocation,

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Nav, NavParams } from 'ionic-angular';
 
 import { HomeTabsPage } from '../home-tabs/home-tabs';
-import { SignTabsPage } from '../sign-tabs/sign-tabs';
+import { SignTabsPage } from '../../modules/user/pages/sign-tabs/sign-tabs';
 
 @Component({
   templateUrl: 'tour.html',
