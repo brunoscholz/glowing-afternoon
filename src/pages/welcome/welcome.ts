@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { AppService } from '../../modules/common/services/app.service';
-import { DataService } from '../../modules/common/services/data.service';
+import { OfferService } from '../../modules/offer/services/offer.service';
 
 import { ModelPage } from '../../modules/common/pages/model-page';
 
@@ -22,7 +22,7 @@ export class WelcomePage extends ModelPage implements OnInit {
     navParams: NavParams,
     public navCtrl: NavController,
     public theApp: AppService,
-    public dataService: DataService
+    public offerService: OfferService
   ) {
     super('Onde tem?');
     console.log('WelcomePage');
@@ -39,7 +39,7 @@ export class WelcomePage extends ModelPage implements OnInit {
   load() {
     var self = this;
     //self.theApp.util.presentLoading();
-    self.dataService.getCategories({
+    self.offerService.getCategories({
       query: { parentId: 0 }
     })
     .then((res) => {

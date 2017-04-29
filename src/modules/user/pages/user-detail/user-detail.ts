@@ -13,7 +13,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ActionSheetController, ModalController, PopoverController } from 'ionic-angular';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
+import { SocialService } from '../../../social/services/social.service';
 import { UserService } from '../../services/user.service';
 
 import { ViewStatusEnum } from '../../../common/models/enums';
@@ -38,7 +38,8 @@ export class UserDetailPage extends ModelPage {
     public modCtrl: ModalController,
     public popoverCtrl: PopoverController,
     public theApp: AppService,
-    public dataService: DataService
+    public userService: UserService,
+    public socialService: SocialService
   ) {
     super("Perfil");
     this.buyer = navParams.get('user');
@@ -85,7 +86,7 @@ export class UserDetailPage extends ModelPage {
         sellerId: ''
       }
     }
-    self.dataService.addSocialAction({
+    self.socialService.addSocialAction({
       controller: 'follow-facts',
       data: fav
     })
@@ -111,7 +112,7 @@ export class UserDetailPage extends ModelPage {
       }
     }
     let ff = _.findWhere(self.user.buyer.following, { buyerId: self.buyer.buyerId });
-    self.dataService.addSocialAction({
+    self.socialService.addSocialAction({
       controller: 'follow-facts/' + ff.followFactId,
       data: fav
     })

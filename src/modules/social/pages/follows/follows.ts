@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
-import { UserService } from '../../services/user.service';
+import { SocialService } from '../../services/social.service';
+//import { UserService } from '../../services/user.service';
 
 import { ViewStatusEnum } from '../../../common/models/enums';
 import { IProfile, IFollowFact } from '../../../common/models/interfaces';
@@ -25,7 +25,7 @@ export class FollowsPage extends ModelPage {
   constructor(
     public navCtrl: NavController,
 		navParams: NavParams,
-		public dataService: DataService,
+		public socialService: SocialService,
 		public theApp: AppService
 	) {
   	super('Follow');
@@ -50,8 +50,7 @@ export class FollowsPage extends ModelPage {
     else
       query = {'userId':{test:"like binary",value:this.profile.id},profile:"seller"};
 
-    self.dataService.findAll({
-      controller: 'follow-facts',
+    self.socialService.getFollows({
       query: query
     }).then((fws: any[]) => {
       self.followers = <IFollowFact[]>fws['followers'];

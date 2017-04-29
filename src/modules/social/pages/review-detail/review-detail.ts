@@ -3,10 +3,6 @@
  *
  * Detail information about one review of a product or a company
  * with all it's commentaries
- * 
- * It subscribes to dataService.reviews$ and on change
- * it loads the results into the @property review based on the query
- * in the load method
  *
 */
 
@@ -14,7 +10,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
+import { SocialService } from '../../services/social.service';
 
 import { ViewStatusEnum } from '../../../common/models/enums';
 import { ModelPage } from '../../../common/pages/model-page';
@@ -33,7 +29,7 @@ export class ReviewDetailPage extends ModelPage {
     navParams: NavParams,
     public viewCtrl: ViewController,
     public theApp: AppService,
-    public dataService: DataService
+    public socialService: SocialService
   ) {
   	super('Review');
   	this.fact = navParams.get('review');

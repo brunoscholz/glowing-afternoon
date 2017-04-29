@@ -12,7 +12,8 @@ import { GeocoderService } from './services/geocoder.service';
 import { MapPage } from './pages/map/map';
 import { SellerMapPage } from './pages/seller-map/map-page';
 
-import { MapCmp } from './components/map';
+import { MapCmp } from './components/map/map';
+import { MapSearch } from './components/map-search/map-search';
 
 @NgModule({
   imports: [

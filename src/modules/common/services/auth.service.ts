@@ -3,13 +3,10 @@ import { Http } from '@angular/http';
 import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
-import { Response } from '@angular/http';
+//import { Response } from '@angular/http';
+//import { Subject } from 'rxjs/Rx';
+//import { AppService } from '../services/app.service';
 import { Facebook } from 'ionic-native';
-
-import { Subject } from 'rxjs/Rx';
-
-import { AppService } from '../services/app.service';
-//import { DataService } from './data.service';
 
 import { IShare, IUser } from '../models/interfaces';
 
@@ -17,11 +14,12 @@ import { IShare, IUser } from '../models/interfaces';
 export class AuthService {
   IS_AUTH: string = 'is_auth';
   USER_INFO: string = 'user_info';
+  AUTH_TOKEN: string = 'ondetemTK';
 
   isAuth: boolean = false;
-  userInfo: any;
+  userInfo: IUser;
+  AuthToken: string = '';
 
-  AuthToken: string = 'auth_token';
   FB_APP_ID: number = 806581699497571;
 
   // constructor
@@ -44,35 +42,107 @@ export class AuthService {
 
   // get is auth
   getIsAuth() {
-    return this.storage.get(this.IS_AUTH).then(value => {
-      this.isAuth = value ? true : false;
+    let self = this;
+    let promise = new Promise((resolve, reject) => {
+      self.storage.get(self.AUTH_TOKEN)
+      .then((value: string) => {
+        let tk = JSON.parse(value);
 
-      if (this.isAuth) {
-        this.userInfo = this.getUser();
-      }
-
-      return this.isAuth;
+        if(tk['token'] != null && tk['token'] != undefined && tk['token'] != "") {
+          console.log(tk);
+          self.AuthToken = tk['token'];
+          //this.useCredentials(token);
+          return self.getStorageAuth();
+        } else {
+          resolve(false);
+        }
+      })
+      .then((isauth) => {
+        self.isAuth = isauth ? true : false;
+        return self.getUser();
+      })
+      .then((usr: IUser) => {
+        self.userInfo = usr;
+        resolve(self.isAuth);
+      })
+      .catch(this.handleError);
     });
+    return promise;
+  }
+
+  getStorageAuth() {
+    let self = this;
+    let promise = new Promise((resolve, reject) => {
+      self.storage.get(self.IS_AUTH)
+      .then((value) => {
+        resolve(value);
+      }, (error) => {
+        if(error.errorMessage)
+          reject(new Error(error.errorMessage));
+        else
+          reject(error);
+      });
+    });
+    return promise;
   }
 
   // get user
   getUser() {
-    return this.storage.get(this.USER_INFO).then(value => {
-      this.userInfo = JSON.parse(value);
-      return this.userInfo;
-    })
+    let self = this;
+    let promise = new Promise((resolve, reject) => {
+      self.storage.get(self.USER_INFO)
+      .then((value: string) => {
+        let usr = <IUser>JSON.parse(value);
+        resolve(usr);
+      }, (error) => {
+        //return self.checkAuthentication();
+        if(error.errorMessage)
+          reject(new Error(error.errorMessage));
+        else
+          reject(error);
+      });
+    });
+    return promise;
+  }
+
+  setPreferredProfile(prefs) {
+    let self = this;
+    let promise = new Promise((resolve, reject) => {
+      self.storage.get(self.USER_INFO)
+      .then((u: string) => {
+        let usr = <IUser>JSON.parse(u);
+        usr.preferred = prefs;
+        self.storage.set(self.USER_INFO, JSON.stringify(usr));
+        resolve(usr);
+      }, (err) => {
+        reject(err);
+      });
+    });
+    return promise;
   }
 
   // log in
   logIn(params) {
-    let userInfo: string = JSON.stringify(params);
+    let userInfo: string = JSON.stringify(params[0]);
     this.isAuth = true;
     this.userInfo = JSON.parse(userInfo);
 
     this.storage.set(this.IS_AUTH, true);
     this.storage.set(this.USER_INFO, userInfo);
+    this.StoreAuthToken(params.token);
 
     this.events.publish('auth:loggedIn');
+  }
+
+  StoreAuthToken(token) {
+    this.isAuth = true;
+    let model = {
+      token: token,
+      date: Date.now()
+    }
+
+    let tk: string = JSON.stringify(model);
+    this.storage.set(this.AUTH_TOKEN, tk);
   }
 
   // reset
@@ -325,5 +395,9 @@ export class AuthService {
         });*/
     });
     return promise;
+  }
+
+  private handleError(error: any) {
+    return Promise.reject(error.message || error);
   }
 }

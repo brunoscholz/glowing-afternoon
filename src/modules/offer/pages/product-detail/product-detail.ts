@@ -3,10 +3,6 @@
  *
  * Detail information about one item (product or service)
  * with all it's reviews. The item comes from navParams
- * 
- * It subscribes to dataService.reviews$ and on change
- * it loads the results into the @property review based on the query
- * in the load method
  *
 */
 import { Component } from '@angular/core';
@@ -20,7 +16,8 @@ import { ReviewDetailPage } from '../../../social/pages/review-detail/review-det
 import { GiftConfirmPage } from '../../../offer/pages/gift/gift-confirm';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
+import { OfferService } from '../../services/offer.service';
+import { SocialService } from '../../../social/services/social.service';
 
 import { ViewStatusEnum } from '../../../common/models/enums';
 import { IOffer, IUser } from '../../../common/models/interfaces';
@@ -43,7 +40,8 @@ export class ProductDetailPage extends ModelPage {
     public modCtrl: ModalController,
     public actionSheet: ActionSheetController,
     public theApp: AppService,
-    public dataService: DataService
+    public offerService: OfferService,
+    public socialService: SocialService
   ) {
     super("Produto");
     this.product = navParams.get('offer');
@@ -65,8 +63,7 @@ export class ProductDetailPage extends ModelPage {
 
   load() {
     // redo the offer api call by this.product.offerId
-    this.dataService.findAll({
-      controller: 'offers',
+    this.offerService.getOffers({
       query: { 'offerId': this.product.offerId }
     }).then(() => {
 
@@ -104,7 +101,7 @@ export class ProductDetailPage extends ModelPage {
         offerId: self.product.offerId
       }
     }
-    self.dataService.addSocialAction({
+    self.socialService.addSocialAction({
       controller: 'favorite-facts',
       data: fav
     })
@@ -129,7 +126,7 @@ export class ProductDetailPage extends ModelPage {
       }
     }
     let ff = _.findWhere(self.user.buyer.favorites, { offerId: self.product.offerId });
-    self.dataService.addSocialAction({
+    self.socialService.addSocialAction({
       controller: 'favorite-facts/' + ff.favoriteFactId,
       data: fav
     })
@@ -214,7 +211,7 @@ export class ProductDetailPage extends ModelPage {
     self.theApp.util.presentLoading('Aguarde..');
 
     review.ReviewFact.buyerId = self.user.buyer.buyerId;
-    this.dataService.addSocialAction({
+    this.socialService.addSocialAction({
       controller: 'review-facts',
       data: review
     })

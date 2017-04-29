@@ -10,7 +10,8 @@ import { NavController, NavParams } from 'ionic-angular';
 //import { GiftConfirmPage } from '../gift/gift-confirm';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
+import { OfferService } from '../../services/offer.service';
+
 
 // import { ViewStatusEnum } from '../../../common/models/enums';
 // import { IUser, IProfile, IBalance } from '../../../common/models/interfaces';
@@ -26,7 +27,7 @@ export class GiftRedeemPage { // extends ModelPage
   constructor(
     public navCtrl: NavController,
     navParams: NavParams,
-    public dataService: DataService,
+    public offerService: OfferService,
     public theApp: AppService
   ) {
     //super('Loja');

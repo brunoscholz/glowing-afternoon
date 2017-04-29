@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
+import { SocialService } from '../../services/social.service';
 
 import { ViewStatusEnum } from '../../../common/models/enums';
 import { IOffer, IProfile, IReviewFact } from '../../../common/models/interfaces';
@@ -24,7 +24,7 @@ export class ReviewListPage extends ModelPage {
     public navCtrl: NavController,
     navParams: NavParams,
     public theApp: AppService,
-    public dataService: DataService
+    public socialService: SocialService
 	) {
   	super('Avaliações');
   	this.profile = navParams.get('profile');
@@ -46,8 +46,7 @@ export class ReviewListPage extends ModelPage {
     else if (this.offer == null)
       q = {'buyerId':{ test:"like binary", value:this.profile.id}};
 
-  	self.dataService.findAll({
-      controller: 'review-facts',
+  	self.socialService.getReviews({
       query: q
     }).then((fws: IReviewFact[]) => {
     	self.reviews = fws;

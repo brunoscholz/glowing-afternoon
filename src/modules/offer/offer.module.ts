@@ -85,12 +85,6 @@ export class OfferModule {
 
   // Subscribe events
   subscribeEvents() {
-    // subscribe app goto login
-    this.events.subscribe('app:gotoLogin', (params) => {
-      // this.theApp.utilityComp.presentModal(AuthenticatePage);
-      /*let modal = this.modalCtrl.create(AuthenticatePage)
-      modal.present();*/
-      console.log('present login page');
-    });
+    
   }
 }

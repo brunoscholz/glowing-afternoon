@@ -2,9 +2,6 @@
  * CatalogPage class
  *
  * Lists all offers for a given (selectedItem) company
- * 
- * It subscribes to dataService.offers$ and on change
- * it loads the results into the @property products
  *
  * Same as ProductPage, but for companies' offers
  */
@@ -15,7 +12,7 @@ import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { ProductDetailPage } from '../product-detail/product-detail';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
+import { OfferService } from '../../services/offer.service';
 
 //import _ from 'underscore';
 
@@ -28,11 +25,12 @@ export class CatalogPage {
 	offers: any = [];
   toOrder: string;
 
-  constructor(private navCtrl: NavController,
-              public navParams: NavParams,
-              public viewCtrl: ViewController,
-              public dataService: DataService,
-              public theApp: AppService
+  constructor(
+    private navCtrl: NavController,
+    public navParams: NavParams,
+    public viewCtrl: ViewController,
+    public offerService: OfferService,
+    public theApp: AppService
   ) {
   	this.company = navParams.get('item');
     this.offers = navParams.get('offers');

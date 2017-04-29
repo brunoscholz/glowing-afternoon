@@ -10,7 +10,8 @@ import { MapService } from '../../modules/maps/services/map.service';
 import { GeocoderService } from '../../modules/maps/services/geocoder.service';
 
 import { AppService } from '../../modules/common/services/app.service';
-import { DataService } from '../../modules/common/services/data.service';
+import { UserService } from '../../modules/user/services/user.service';
+import { OfferService } from '../../modules/offer/services/offer.service';
 
 import { ViewStatusEnum } from '../../modules/common/models/enums';
 import { IUser, ISearchItems } from '../../modules/common/models/interfaces'; //ISearchResult
@@ -39,7 +40,8 @@ export class SearchPage extends ModelPage {
     public navCtrl: NavController,
     navParams: NavParams,
     public theApp: AppService,
-    public dataService: DataService,
+    public userService: UserService,
+    public offerService: OfferService,
     public geocoderService: GeocoderService,
     public mapService: MapService
   ) {
@@ -119,7 +121,7 @@ export class SearchPage extends ModelPage {
     if(self.opt.buyers)
       searchFor.push('buyers');
 
-    self.dataService.search({
+    self.offerService.search({
       query: self.searchTerm
     }).then((data: ISearchItems) => {
         self.allItems = data;

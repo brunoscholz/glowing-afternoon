@@ -3,7 +3,6 @@ import { NavController, NavParams } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
 import { UserService } from '../../services/user.service';
 
 import { ViewStatusEnum } from '../../../common/models/enums';
@@ -28,7 +27,7 @@ export class ProfilePage extends ModelPage {
     navParams: NavParams,
     public sanitizer: DomSanitizer,
     public theApp: AppService,
-    public dataService: DataService
+    public userService: UserService
   ) {
   	super('Perfil');
     this.color = 'primary';
@@ -113,7 +112,7 @@ export class ProfilePage extends ModelPage {
     var self = this;
     let promise = new Promise((resolve, reject) => {
       // get balance
-      self.dataService.getBalance({
+      self.userService.getBalance({
         controller: 'transaction',
         query: { 'userId': { test: "like binary", value: usr.userId } },
         asset: 'coin'
@@ -166,7 +165,7 @@ export class ProfilePage extends ModelPage {
   }
 
   setProfile(pref: IProfile) {
-    this.dataService.setPreferredProfile(pref)
+    this.theApp.authService.setPreferredProfile(pref)
     .then((usr: IUser) => {
       if(usr) {
         this.user = usr;

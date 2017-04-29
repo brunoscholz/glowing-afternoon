@@ -3,8 +3,6 @@
  *
  * Lists all offers for a given (selectedItem) category
  * 
- * It subscribes to dataService.offers$ and on change
- * it loads the results into the @property products
  *
 */
 
@@ -13,7 +11,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { ProductDetailPage } from '../product-detail/product-detail';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
+import { OfferService } from '../../services/offer.service';
 
 import { ViewStatusEnum } from '../../../common/models/enums';
 import { ICategory, IOffer } from '../../../common/models/interfaces';
@@ -34,7 +32,7 @@ export class ProductPage extends ModelPage {
     private navCtrl: NavController,
     navParams: NavParams,
     public theApp: AppService,
-    public dataService: DataService
+    public offerService: OfferService
   ) {
   	super('Produtos');
   	this.category = navParams.get('category');
@@ -51,7 +49,7 @@ export class ProductPage extends ModelPage {
     this.doChangeView(ViewStatusEnum.Empty);
     this.theApp.util.presentLoading('Carregando Produtos!');
 
-    this.dataService.findAll({
+    this.offerService.getOffers({
       controller: 'offers',
       query: { 'item.categoryId': { test: "like binary", value: this.category.categoryId } }
     }).then((data: Array<IOffer>) => {

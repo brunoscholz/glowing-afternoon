@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ActionSheetController } from 'ionic-angular';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
 import { UserService } from '../../services/user.service';
 
 //import { ViewStatusEnum } from '../../../common/models/enums';
@@ -24,7 +23,7 @@ export class SettingsPage extends ModelPage {
     private navCtrl: NavController,
     navParams: NavParams,
     public actionSheet: ActionSheetController,
-    public dataService: DataService,
+    public userService: UserService,
     public theApp: AppService
   ) {
   	super('Configurações');
@@ -43,7 +42,7 @@ export class SettingsPage extends ModelPage {
       return self.formUserModel(imageData, 'imageCover');
     })
     .then((body) => {
-      return self.dataService.updateProfile({
+      return self.userService.updateProfile({
         controller: 'auth/settings',
         data: body
       });
@@ -73,7 +72,7 @@ export class SettingsPage extends ModelPage {
       return self.formUserModel(imageData, 'imageThumb');
     })
     .then((body) => {
-      return self.dataService.updateProfile({
+      return self.userService.updateProfile({
         controller: 'auth/settings',
         data: body
       });
@@ -205,7 +204,7 @@ export class SettingsPage extends ModelPage {
   updateUsername(body) {
     let self = this;
     self.theApp.util.presentLoading('Atualizando...');
-    self.dataService.updateProfile({
+    self.userService.updateProfile({
       controller: 'auth/settings',
       data: body
     })
@@ -224,7 +223,7 @@ export class SettingsPage extends ModelPage {
   updatePassword(body) {
     let self = this;
     self.theApp.util.presentLoading('Atualizando...');
-    self.dataService.updateProfile({
+    self.userService.updateProfile({
       controller: 'auth/settings',
       data: body
     }).then((res) => {

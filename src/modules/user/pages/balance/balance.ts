@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
 import { UserService } from '../../services/user.service';
 
 import { ViewStatusEnum } from '../../../common/models/enums';
@@ -22,7 +21,7 @@ export class BalancePage extends ModelPage {
 
   constructor(
     public navCtrl: NavController,
-		public dataService: DataService,
+		public userService: UserService,
 		public theApp: AppService
 	) {
   	super('Saldos');
@@ -72,7 +71,7 @@ export class BalancePage extends ModelPage {
     var self = this;
     let promise = new Promise((resolve, reject) => {
       // get balance
-      self.dataService.getBalance({
+      self.userService.getBalance({
         controller: 'transaction',
         query: { 'userId': { test: "like binary", value: usr.userId } },
         asset: 'coin'

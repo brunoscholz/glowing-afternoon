@@ -2,11 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NavController, AlertController, ModalController } from 'ionic-angular';
 
 import { CatalogPage } from '../../../offer/pages/catalog/catalog';
-import { SellerMapPage } from '../../pages/company-detail/map-page';
+import { SellerMapPage } from '../../../maps/pages/seller-map/map-page';
 import { ReviewCompanyPage } from '../../../social/pages/review/review-company';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
+import { SocialService } from '../../../social/services/social.service';
+import { UserService } from '../../services/user.service';
+
 
 import { IUser, ISeller } from '../../../common/models/interfaces';
 
@@ -27,7 +29,8 @@ export class SellerProfileCmp implements OnInit {
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
     public theApp: AppService,
-    public dataService: DataService
+    public userService: UserService,
+    public socialService: SocialService
   ) {
 
   }
@@ -56,7 +59,7 @@ export class SellerProfileCmp implements OnInit {
         buyerId: ''
       }
     }
-    self.dataService.addSocialAction({
+    self.socialService.addSocialAction({
       controller: 'follow-facts',
       data: fav
     })
@@ -82,7 +85,7 @@ export class SellerProfileCmp implements OnInit {
       }
     }
     let ff = _.findWhere(self.user.buyer.following, { sellerId: self.company.sellerId });
-    self.dataService.addSocialAction({
+    self.socialService.addSocialAction({
       controller: 'follow-facts/' + ff.followFactId,
       data: fav
     })
@@ -113,7 +116,7 @@ export class SellerProfileCmp implements OnInit {
     self.theApp.util.presentLoading('Aguarde..');
 
     review.ReviewFact.buyerId = self.user.buyer.buyerId;
-    this.dataService.addSocialAction({
+    this.socialService.addSocialAction({
       controller: 'review-facts',
       data: review
     })

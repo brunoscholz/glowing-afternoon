@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
-import { UserService } from '../../services/user.service';
+import { SocialService } from '../../services/social.service';
+//import { UserService } from '../../services/user.service';
 
 import { ViewStatusEnum } from '../../../common/models/enums';
 import { IProfile, IFavoriteFact } from '../../../common/models/interfaces';
@@ -22,7 +22,7 @@ export class FavoritesPage extends ModelPage {
   constructor(
     public navCtrl: NavController,
 		navParams: NavParams,
-		public dataService: DataService,
+		public socialService: SocialService,
 		public theApp: AppService
 	) {
   	super('Favoritos');
@@ -36,15 +36,13 @@ export class FavoritesPage extends ModelPage {
 
   load() {
     this.query();
-    //this.doQuery();
   }
 
   query(dontClear = false) {
     this.doChangeView(ViewStatusEnum.Loading);
     this.theApp.util.presentLoading('Buscando...');
     var self = this;
-    self.dataService.findAll({
-      controller: 'favorite-facts',
+    self.socialService.getFavorites({
       query: {'buyerId':{test:"like binary",value:self.profile.id}},
       page: this.pageNum,
       limit: 10
@@ -60,29 +58,6 @@ export class FavoritesPage extends ModelPage {
         self.favorites = fws;
       }
 
-      self.changeViewState(true);
-    }, (err) => {
-      console.log(err);
-    });
-  }
-
-  doQuery(dontClear = false) {
-    var self = this;
-    this.theApp.util.presentLoading('Buscando...');
-    self.dataService.findAll({
-      controller: 'auth-token',
-      page: this.pageNum,
-      limit: 5
-    }).then((tks: Array<any>) => {
-      if(dontClear) {
-        if (_.size(tks) < 5)
-          self.hasMore = false;
-
-        self.authTk.push.apply(self.authTk, tks);
-      } else {
-        self.authTk = tks;
-      }
-      
       self.changeViewState(true);
     }, (err) => {
       console.log(err);

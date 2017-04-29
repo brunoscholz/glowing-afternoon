@@ -3,18 +3,15 @@
  *
  * Detail information about one company
  * with all it's offers and reviews. The item comes from navParams
- * 
- * It subscribes to dataService.reviews$ and on change
- * it loads the results into the @property review based on the query
- * in the load method
+ *
  *
 */
 import { Component } from '@angular/core';
 import { NavController, NavParams, ActionSheetController, ModalController } from 'ionic-angular';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
 import { UserService } from '../../services/user.service';
+import { OfferService } from '../../../offer/services/offer.service';
 
 import { ViewStatusEnum } from '../../../common/models/enums';
 import { ISeller, IOffer, IUser, IProfile } from '../../../common/models/interfaces';
@@ -38,8 +35,9 @@ export class CompanyDetailPage extends ModelPage {
     navParams: NavParams,
     public acCtrl: ActionSheetController,
     public modCtrl: ModalController,
-    public dataService: DataService,
-    public theApp: AppService
+    public theApp: AppService,
+    public userService: UserService,
+    public offerService: OfferService
   ) {
     super("Empreendimento");
     this.company = navParams.get('company');
@@ -82,9 +80,8 @@ export class CompanyDetailPage extends ModelPage {
     this.doChangeView(ViewStatusEnum.Empty);
     this.theApp.util.presentLoading('Buscando...');
 
-    this.dataService.getPretty({
-      controller: 'catalog',
-      url: 'sellers/catalog/' + self.company.sellerId
+    this.offerService.getCatalog({
+      sellerId: self.company.sellerId
     }).then((data: Array<IOffer>) => {
       self.offers = data;
       self.changeViewState(true);

@@ -19,7 +19,6 @@ import { AuthService } from './services/auth.service';
 import { MenuService } from './services/menu.service';
 import { FileUploadService } from './services/fileUpload.service';
 import { ConnectivityService } from './services/connectivity.service';
-import { DataService } from './services/data.service';
 import { SpeechService } from './services/speech.service';
 
 import { UtilityComponent } from './pages/utilityComponent';
@@ -59,7 +58,6 @@ import { ControlMessages } from './components/control-messages/control-messages'
     MenuService,
     FileUploadService,
     ConnectivityService,
-    DataService,
     SpeechService,
     UtilityComponent
   ],
@@ -87,15 +85,10 @@ export class CommonModule {
     // subscribe events
     this.subscribeEvents();
 
-    // get auth
-    this.theApp.authService.getIsAuth();
-
     // utilityComp register events
     this.utilityComp.registerEvents();
   }
 
-
-  //
   // Subscribe events
   subscribeEvents() {
     // subscribe auth logIn
@@ -103,6 +96,9 @@ export class CommonModule {
       this.theApp.authService.logIn(userInfo);
     });
 
+    this.events.subscribe('auth:saveAuth', (token) => {
+      this.theApp.authService.StoreAuthToken(token);
+    });
 
     // subscribe auth logOut
     this.events.subscribe('auth:logOut', () => {

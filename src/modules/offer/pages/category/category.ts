@@ -5,7 +5,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { ProductPage } from '../product/product';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
+import { OfferService } from '../../services/offer.service';
 
 import { ViewStatusEnum } from '../../../common/models/enums';
 import { ICategory } from '../../../common/models/interfaces';
@@ -23,7 +23,7 @@ export class CategoryPage extends ModelPage {
   constructor(
     public navCtrl: NavController,
     navParams: NavParams,
-    public dataService: DataService,
+    public offerService: OfferService,
     public theApp: AppService
   ) {
     super('Categorias');
@@ -37,8 +37,7 @@ export class CategoryPage extends ModelPage {
   load() {
     var self = this;
     self.theApp.util.presentLoading('Buscando...');
-    self.dataService.findAll({
-      controller: 'categories',
+    self.offerService.getCategories({
       query: { parentId: 0 }
     }).then((categories: Array<ICategory>) => {
       self.categories = categories;

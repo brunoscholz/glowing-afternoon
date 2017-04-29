@@ -9,7 +9,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { ProductDetailPage } from '../product-detail/product-detail';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
+import { OfferService } from '../../services/offer.service';
 
 import { ViewStatusEnum } from '../../../common/models/enums';
 import { IOffer } from '../../../common/models/interfaces';
@@ -29,7 +29,7 @@ export class PromotionPage extends ModelPage {
     public navCtrl: NavController,
     navParams: NavParams,
     public theApp: AppService,
-    public dataService: DataService
+    public offerService: OfferService
   ) {
     super('Promoções');
     this.toOrder = 'price';
@@ -63,8 +63,9 @@ export class PromotionPage extends ModelPage {
         console.log(err);
       });*/
 
-    this.dataService.getPretty({
-	  controller: 'offers/sale'
+    this.offerService.getOffers({
+	  controller: 'offers/sale',
+    query: {}
   	}).then((data: Array<IOffer>) => {
         self.products = data;
         self.rows = Array.from(Array(Math.ceil(self.products.length / 2)).keys());

@@ -1,21 +1,15 @@
 import { Component, ViewChild } from '@angular/core'; //, provide
-import { Platform, MenuController, Nav } from 'ionic-angular';
+import { Platform, MenuController, Nav, Events } from 'ionic-angular';
 import { Splashscreen, StatusBar } from 'ionic-native';
 
 import { WelcomePage } from '../pages/welcome/welcome';
-import { SignTabsPage } from '../modules/user/pages/sign-tabs/sign-tabs';
-import { SignUpPage } from '../modules/user/pages/sign-tabs/signup';
-import { SignInPage } from '../modules/user/pages/sign-tabs/signin';
-
 import { ProfilePage } from '../modules/user/pages/profile/profile';
-
 import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
 
 import { TourPage } from '../pages/tour/tour';
 import { AboutPage } from '../pages/about/about';
 
 import { AppService } from '../modules/common/services/app.service';
-import { DataService } from '../modules/common/services/data.service';
 import { SpeechService } from '../modules/common/services/speech.service';
 import { MapService } from '../modules/maps/services/map.service';
 
@@ -23,7 +17,6 @@ import { IUser, IPage } from '../modules/common/models/interfaces';
 
 /*providers: [
   AuthService,
-  DataService,
   UtilProvider,
   SpeechService
 ]*/
@@ -35,7 +28,6 @@ export class MyApp {
 
   rootPage: any = WelcomePage;
   error: any;
-  isSalesPerson: boolean = false;
   loading: any;
   isLoading: boolean = false;
   loggedUser: string = 'none';
@@ -51,23 +43,23 @@ export class MyApp {
 
   loggedInPages: IPage[] = [
     { title: 'Perfil', component: ProfilePage, icon: 'person' },
-    { title: 'Sair', component: SignTabsPage, icon: 'log-out', logsOut: true }
+    { title: 'Sair', component: '', icon: 'log-out', logsOut: true }
   ];
   //{ title: 'Configurações', component: SettingsPage, icon: 'settings', passRoot: true },
 
   loggedOutPages: IPage[] = [
-    { title: 'Início', component: SignTabsPage, icon: 'home' },
-    { title: 'Entrar', component: SignInPage, icon: 'log-in', passRoot: true },
-    { title: 'Cadastrar', component: SignUpPage, icon: 'person-add', passRoot: true }
+    { title: 'Início', component: 'SignTabsPage', icon: 'home' },
+    { title: 'Entrar', component: 'SignInPage', icon: 'log-in', passRoot: true },
+    { title: 'Cadastrar', component: 'SignUpPage', icon: 'person-add', passRoot: true }
   ];
 
   constructor(
     public platform: Platform,
     public menu: MenuController,
-    public dataService: DataService,
     public theApp: AppService,
     public speech: SpeechService,
-    public mapService: MapService
+    public mapService: MapService,
+    public events: Events
   ) {
     this.initializeApp();
   }
@@ -77,7 +69,7 @@ export class MyApp {
       StatusBar.styleDefault();
       this.hideSplashScreen();
 
-      this.loadIndicator();
+      //this.loadIndicator();
       this.theApp.onError(err => {
         //this.error = err;
         let alert = this.theApp.util.doAlert('Erro!', err, 'Ok');
@@ -92,7 +84,21 @@ export class MyApp {
       });
 
     //this.getUser();
-    this.authenticate();
+    //this.authenticate();
+    this.subscribeEvents();
+  }
+
+  subscribeEvents() {
+    // subscribe auth loggedIn
+    this.events.subscribe('auth:loggedIn', () => {
+      this.enableMenu(true);
+      this.nav.setRoot(HomeTabsPage);
+    });
+
+    // subscribe auth loggedOut
+    this.events.subscribe('auth:loggedOut', () => {
+      this.enableMenu(true);
+    });
   }
 
   authenticate() {
@@ -109,7 +115,7 @@ export class MyApp {
       console.log("Not already authorized");
       setTimeout(() => {
         // dismiss loading
-        this.nav.setRoot(SignTabsPage);
+        //this.nav.setRoot(SignTabsPage);
       });
     });
   }
@@ -123,18 +129,13 @@ export class MyApp {
   }*/
 
   prepareUser(usr) {
-    let self = this;
     let logged = false;
 
     if(usr) {
-      self.isSalesPerson = (usr.role === 'salesman' || usr.role === 'administrator');
       logged = true;
     }
-    else {
-      self.isSalesPerson = false;
-    }
     
-    self.enableMenu(logged);
+    this.enableMenu(logged);
   }
 
   /*checkConnection() {
@@ -213,7 +214,7 @@ export class MyApp {
     setTimeout(() => {
       //this.auth.logout();
       this.enableMenu(false);
-      this.nav.setRoot(SignTabsPage);
+      //this.nav.setRoot(SignTabsPage);
     }, 1000);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, AfterViewInit, ViewChild } from '@angular/core';
-import { MapService } from '../services/map.service';
+import { MapService } from '../../services/map.service';
 
 /*
   Generated class for the Maps page.

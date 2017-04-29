@@ -1,0 +1,138 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button color="grey" ion-button icon-only (click)="cancelModal()">Cancel</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="signin-page" align="center">
+  <!-- LogIn -->
+  <div [hidden]="currentModal !== 'LogIn'">
+    <ion-list padding class="sign-header">
+      <ion-item class="sign-logo" no-lines>
+        <img src="assets/img/logo.png">
+      </ion-item>
+
+      <form [formGroup]="signInForm">
+        <ion-item class="sign-bar">
+          <ion-label stacked>Email</ion-label>
+          <ion-input formControlName="username" type="email" placeholder="Digite seu e-mail" [class.invalid]="!signInForm.controls.username.valid && (signInForm.controls.username.dirty)"></ion-input>
+        </ion-item>
+        <control-messages [control]="signInForm.controls.username"></control-messages>
+
+        <ion-item class="sign-bar">
+          <ion-label stacked>Senha</ion-label>
+          <ion-input formControlName="password" type="password" placeholder="Digite sua senha" [class.invalid]="!signInForm.controls.password.valid && (signInForm.controls.password.dirty)"></ion-input>
+        </ion-item>
+        <control-messages [control]="signInForm.controls.password"></control-messages>
+
+        <ion-item class="sign-btn-submit">
+          <button ion-button round outline (click)="logInHandler()">Entrar</button>
+        </ion-item>
+
+        <ion-item class="sign-btn-submit">
+          <button ion-button round outline (click)="loginWithFacebook()">LogIn com Facebook</button>
+        </ion-item>
+
+        <ion-item class="sign-btn-submit">
+          <button ion-button round outline (click)="currentModal = 'SignUp'">Cadastrar</button>
+        </ion-item>
+
+        <ion-item class="sign-btn-submit">
+          <button ion-button round outline (click)="currentModal = 'ForgotPass'">Esqueci a senha</button>
+        </ion-item>
+
+      </form>
+    </ion-list>
+  </div>
+
+  <!-- sign up -->
+  <div [hidden]="currentModal !== 'SignUp'">
+    <ion-list padding class="sign-header">
+      <ion-item class="sign-logo" no-lines>
+        <img src="assets/img/logo.png">
+      </ion-item>
+    
+      <form [formGroup]="signUpForm">
+        <ion-item class="sign-bar">
+          <ion-label stacked>Nome</ion-label>
+          <ion-input formControlName="name" type="text" placeholder="Nome Completo" [class.invalid]="!signUpForm.controls.name.valid && (signUpForm.controls.name.dirty)" autofocus></ion-input>
+        </ion-item>
+        <control-messages [control]="signUpForm.controls.name"></control-messages>
+
+        <ion-item class="sign-bar">
+          <ion-label stacked>Email</ion-label>
+          <ion-input formControlName="username" type="email" placeholder="Seu e-mail" [class.invalid]="!signUpForm.controls.username.valid && (signUpForm.controls.username.dirty)"></ion-input>
+        </ion-item>
+        <control-messages [control]="signUpForm.controls.username"></control-messages>
+
+        <ion-item *ngIf="signUpForm.controls.username.pending">
+          <p>Checking email...</p>
+        </ion-item>
+
+        <ion-item class="sign-bar">
+          <ion-label stacked>Senha</ion-label>
+          <ion-input formControlName="password" type="password" placeholder="Senha (8 dígitos)" [class.invalid]="!signUpForm.controls.password.valid && (signUpForm.controls.password.dirty)"></ion-input>
+        </ion-item>
+        <control-messages [control]="signUpForm.controls.password"></control-messages>
+
+        <ion-item class="sign-bar">
+          <ion-label stacked>Confirme a Senha</ion-label>
+          <ion-input formControlName="confirmPassword" type="password" placeholder="Confirme a senha" [class.invalid]="!signUpForm.controls.confirmPassword.valid && (signUpForm.controls.confirmPassword.dirty)"></ion-input>
+        </ion-item>
+        <control-messages [control]="signUpForm.controls.confirmPassword"></control-messages>
+
+        <ion-item class="sign-bar">
+          <ion-label>Eu concordo com os <a (click)="openTermsPage()">Termos de Serviço</a> da Onde tem? e a <a (click)="openPolicy()">Política de Privacidade</a>.</ion-label>
+          <ion-checkbox formControlName="terms" secondary #terms name="terms" value="" checked="false"></ion-checkbox>
+        </ion-item>
+        <control-messages [control]="signUpForm.controls.terms"></control-messages>
+
+        <ion-item class="sign-btn-submit">
+          <button ion-button round outline [disabled]="!signUpForm.valid" (click)="signUpHandler()">Enviar</button>
+        </ion-item>
+
+        <ion-item class="sign-btn-submit">
+          <button ion-button round outline (click)="loginWithFacebook()">LogIn com Facebook</button>
+        </ion-item>
+
+        <ion-item class="sign-btn-submit">
+          <button ion-button round outline (click)="currentModal = 'LogIn'">LogIn</button>
+        </ion-item>
+
+      </form>
+    </ion-list>
+  </div>
+
+  <!-- forgot -->
+  <div [hidden]="currentModal !== 'ForgotPass'">
+    <ion-list padding class="sign-header">
+      <ion-item class="sign-logo" no-lines>
+        <img src="assets/img/logo.png">
+      </ion-item>
+
+      <form [formGroup]="forgotForm">
+        <ion-item class="sign-bar">
+          <ion-label stacked>Esqueceu a Senha?</ion-label>
+          <ion-input formControlName="username" type="email" placeholder="Digite seu email" [class.invalid]="!forgotForm.controls.username.valid && (forgotForm.controls.username.dirty)"></ion-input>
+        </ion-item>
+        <control-messages [control]="forgotForm.controls.username"></control-messages>
+
+        <ion-item class="sign-btn-submit">
+          <button ion-button round outline [disabled]="!signUpForm.valid" (click)="forgotHandler()">Enviar</button>
+        </ion-item>
+
+        <ion-item class="sign-btn-submit">
+          <button ion-button round outline (click)="currentModal = 'SignUp'">Cadastrar</button>
+        </ion-item>
+
+        <ion-item class="sign-btn-submit">
+          <button ion-button round outline (click)="currentModal = 'SignIn'">Entrar</button>
+        </ion-item>
+
+      </form>
+    </ion-list>
+  </div>
+
+</ion-content>

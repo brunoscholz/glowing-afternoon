@@ -1,11 +1,10 @@
 import { Component, ViewChild, AfterViewInit, ElementRef, NgZone } from '@angular/core';
 import { ViewController } from 'ionic-angular';
 
-import { MapService } from '../../modules/maps/services/map.service';
-import { AppService } from '../../modules/common/services/app.service';
-import { DataService } from '../../modules/common/services/data.service';
+import { MapService } from '../../services/map.service';
+import { AppService } from '../../../common/services/app.service';
 
-import { ISeller } from '../../modules/common/models/interfaces';
+import { ISeller } from '../../../common/models/interfaces';
 
 @Component({
   templateUrl: 'map-search.html',
@@ -21,7 +20,6 @@ export class MapSearch implements AfterViewInit {
     public viewCtrl: ViewController,
     private zone: NgZone,
     private mapService: MapService,
-    private dataService: DataService,
     public theApp: AppService
   ) {
     this.autocompleteItems = [];
@@ -75,7 +73,7 @@ export class MapSearch implements AfterViewInit {
 
   private getSellersNearby(): void {
     this.nearbyPlaces = [];
-    this.dataService.findAll({
+    /*this.dataService.findAll({
       controller: 'sellers',
       query: {}
     })
@@ -107,7 +105,7 @@ export class MapSearch implements AfterViewInit {
       this.zone.run(() => {
         this.nearbyPlaces.push.apply(this.nearbyPlaces, _nearbyPlaces);
       });
-    });
+    });*/
   }
 
   /*private loadNearbyPlaces(): void {

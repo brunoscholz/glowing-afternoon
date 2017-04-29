@@ -30,7 +30,46 @@ export class ApiService {
     return OPTIONAL_PARAMS;
   }
 
-  get(url, opt = <any>{}) {
+  get(url, opt = <any>{}, return_everything = false) {
+    let promise = new Promise((resolve, reject) => {
+      this._get(url, opt)
+        .map(res => res.json())
+        .subscribe((response) => {
+          if(response.status == 200) {
+            if (return_everything)
+              resolve(response);
+            else
+              resolve(response.data);
+          }
+          else {
+            reject(response.error);
+          }
+        }, (error) => {
+          reject(error);
+        });
+    });
+    return promise;
+  }
+
+  post(url, body, opt = <any>{}, headerType = 'application/x-www-form-urlencoded') {
+    let promise = new Promise((resolve, reject) => {
+      this._post(url, body, opt, headerType)
+        .map(res => res.json())
+        .subscribe((response) => {
+          if(response.status == 200) {
+            resolve(response.data);
+          }
+          else {
+            reject(response.error);
+          }
+        }, (error) => {
+          reject(error);
+        });
+    });
+    return promise;
+  }
+
+  private _get(url, opt) {
     let params: URLSearchParams = new URLSearchParams();
     //params.set('apiKey', this.config.apiKey);
     let options = this.treatOptions(opt);
@@ -47,13 +86,14 @@ export class ApiService {
     .timeout(30000);
   }
 
-  post(url, body, opt = <any>{}, headerType = 'application/x-www-form-urlencoded') {
+  private _post(url, body, opt, headerType) {
     let headers = new Headers();
     headers.append('Content-Type', headerType);
 
     //let options = this.treatOptions(opt);
     let params = this.assembleBody(body).join('&');
     //params += '&v=' + APISettings.APPVERSION;
+    //console.log(params);
 
     return this.http.post(url, params, {
       headers: headers

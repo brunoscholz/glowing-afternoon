@@ -4,7 +4,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { SearchPage } from '../search/search';
 
 import { AppService } from '../../modules/common/services/app.service';
-import { DataService } from '../../modules/common/services/data.service';
+import { OfferService } from '../../modules/offer/services/offer.service';
 import { SpeechService } from '../../modules/common/services/speech.service';
 
 //import { ViewStatusEnum } from '../../providers/enums';
@@ -20,14 +20,14 @@ export class HomePage extends ModelPage {
   ready: boolean = false;
   recognizedText: string = "";
   formData: any = {q:''};
-  randomCat: string = "ex.: encanador..";
+  randomCat: string = "";
   alert: any;
 
   constructor(
     public navCtrl: NavController,
     navParams: NavParams,
     public theApp: AppService,
-    public dataService: DataService,
+    public offerService: OfferService,
     public speech : SpeechService
   ) {
     super('Onde tem?');
@@ -44,7 +44,7 @@ export class HomePage extends ModelPage {
   }
 
   ionViewWillEnter() {
-    this.randomCat = this.dataService.randomProduct;
+    this.randomCat = this.offerService.randomProduct;
     this.formData.q = "";
   }
 

@@ -3,17 +3,14 @@
  *
  * Detail information about one item (product or service)
  * with all it's reviews. The item comes from navParams
- * 
- * It subscribes to dataService.reviews$ and on change
- * it loads the results into the @property review based on the query
- * in the load method
  *
 */
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { AppService } from '../../../common/services/app.service';
-import { DataService } from '../../../common/services/data.service';
+import { OfferService } from '../../services/offer.service';
+import { UserService } from '../../../user/services/user.service';
 
 import { IOffer, IUser, IBalance } from '../../../common/models/interfaces';
 
@@ -31,7 +28,7 @@ export class GiftConfirmPage {
     public navCtrl: NavController,
     navParams: NavParams,
     public viewCtrl: ViewController,
-    public dataService: DataService,
+    public userService: UserService,
     public theApp: AppService
   ) {
     this.product = navParams.get('offer');
@@ -88,7 +85,7 @@ export class GiftConfirmPage {
     var self = this;
     let promise = new Promise((resolve, reject) => {
       // get balance
-      self.dataService.getBalance({
+      self.userService.getBalance({
         controller: 'transaction',
         query: { 'userId': { test: "like binary", value: usr.userId } },
         asset: 'coin'
