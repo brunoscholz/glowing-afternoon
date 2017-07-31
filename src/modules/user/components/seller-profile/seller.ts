@@ -59,8 +59,7 @@ export class SellerProfileCmp implements OnInit {
         buyerId: ''
       }
     }
-    self.socialService.addSocialAction({
-      controller: 'follow-facts',
+    self.socialService.setFollow({
       data: fav
     })
     .then(() => {
@@ -85,8 +84,8 @@ export class SellerProfileCmp implements OnInit {
       }
     }
     let ff = _.findWhere(self.user.buyer.following, { sellerId: self.company.sellerId });
-    self.socialService.addSocialAction({
-      controller: 'follow-facts/' + ff.followFactId,
+    self.socialService.setFollow({
+      followId: ff.followFactId,
       data: fav
     })
     .then(() => {
@@ -116,8 +115,7 @@ export class SellerProfileCmp implements OnInit {
     self.theApp.util.presentLoading('Aguarde..');
 
     review.ReviewFact.buyerId = self.user.buyer.buyerId;
-    this.socialService.addSocialAction({
-      controller: 'review-facts',
+    this.socialService.setReview({
       data: review
     })
     .then((data) => {

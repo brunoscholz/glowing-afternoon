@@ -85,6 +85,23 @@ export class MapService {
     return promise;
   }
 
+  public startExternalMap() {
+    /*if (this.location.latitude) {
+      this.platform.ready().then(() => {
+        Geolocation.getCurrentPosition().then((position) => {
+          // ios
+          if (this.platform.is('ios')) {
+            window.open('maps://?q=' + this.location.name + '&saddr=' + position.coords.latitude + ',' + position.coords.longitude + '&daddr=' + this.location.latitude + ',' + this.location.longitude, '_system');
+          };
+          // android
+          if (this.platform.is('android')) {
+            window.open('geo://' + position.coords.latitude + ',' + position.coords.longitude + '?q=' + this.location.latitude + ',' + this.location.longitude + '(' + this.location.name + ')', '_system');
+          };
+        });
+      });
+    };*/
+  }
+
   public createMap(mapEl: Element, opts = {
     lat: MapConst.DEFAULT_LAT,
     lon: MapConst.DEFAULT_LNG,
@@ -405,6 +422,7 @@ export class MapService {
       };
 
       this.map = new google.maps.Map(mapEl, mapOptions);
+      //this.map = new google.maps.Map(document.querySelector('#map'), mapOptions);
       //this.map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
       
       return this.map;
@@ -512,19 +530,9 @@ export class MapService {
     return this.getCurrentPosition();
   }
 
-  public addMarker(latLng: google.maps.LatLng,  icon: string): void {
-    //lat: number, lng: number,
-    //let customMarker = icon;
-    /*let markerOptions: GoogleMapsMarkerOptions = {
-      position: new google.maps.LatLng(lat, lng),
-      title: 'Empresa',
-      icon: customMarker
-    };
-    this.map.addMarker(markerOptions)
-      .then((marker: GoogleMapsMarker) => {
-        //marker.showInfoWindow();
-    });*/
-    let customMarker = {
+  public addMarker(latLng: google.maps.LatLng,  icon: string, custom = null): void {
+    
+    let customMarker = custom || {
       url: icon,
       size: new google.maps.Size(256, 256),
       origin: new google.maps.Point(0, 0),
@@ -568,6 +576,14 @@ export class MapService {
       if (status === google.maps.DirectionsStatus.OK) {
         directionsDisplay.setDirections(response);
         self.map.setZoom(MapConst.MIN_ZOOM);
+
+        /*if (self.platform.is('ios')) {
+          window.open('maps://?q=' + this.location.name + '&saddr=' + position.coords.latitude + ',' + position.coords.longitude + '&daddr=' + this.location.latitude + ',' + this.location.longitude, '_system');
+        };
+        // android
+        if (self.platform.is('android')) {
+          window.open('geo://' + position.coords.latitude + ',' + position.coords.longitude + '?q=' + this.location.latitude + ',' + this.location.longitude + '(' + this.location.name + ')', '_system');
+        };*/
       } else {
         console.log('Could not display directions due to: ' + status);
       }

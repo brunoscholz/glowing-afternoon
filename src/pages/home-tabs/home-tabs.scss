@@ -79,6 +79,30 @@ div.light-theme, div.night-theme {
       content:'\006e';
     }
   }
+  &.ion-md-search {
+    &:before {
+      font-family: 'ondetem' !important;
+      content:'\006f';
+    }
+  }
+  &.ion-md-products {
+    &:before {
+      font-family: 'ondetem_m2' !important;
+      content:'\004d';
+    }
+  }
+  &.ion-md-cut {
+    &:before {
+      font-family: 'ondetem_m2' !important;
+      content:'\004e';
+    }
+  }
+  &.ion-md-cupons {
+    &:before {
+      font-family: 'ondetem_m2' !important;
+      content:'\004f';
+    }
+  }
 }
 
 .bar-button-menutoggle-md {

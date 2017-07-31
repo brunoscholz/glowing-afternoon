@@ -36,10 +36,13 @@ export class SellerMapPage {
   onMapReady(): Promise<any> {
     console.log('onMapReady');
     let self = this;
-    return self.platform.ready().then(() => {
-      return self.locate().then(() => {
+    return self.platform.ready()
+    .then(() => {
+      return self.locate()
+      .then(() => {
         const mapElement: Element = self.mapService.mapElement;
         if (mapElement) {
+          console.log(self.companyPosition);
           mapElement.classList.add('show-map');
           self.mapService.resizeMap();
           self.mapService.addMarker(self.companyPosition, self.company.picture.thumbnail); // 'assets/img/spotlight-poi_hdpi.png'
@@ -86,9 +89,30 @@ export class SellerMapPage {
     return promise;
   }
 
-  goThere() {
-    this.mapService.addMarker(this.mapService.devPosition, 'assets/img/spotlight-poi_hdpi.png');
+  goThereOld() {
+    //this.mapService.addMarker(this.mapService.devPosition, 'assets/img/spotlight-poi_hdpi.png');
+    let marker = {
+      url: 'assets/img/spotlight-poi_hdpi.png',
+      size: new google.maps.Size(256, 256),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(11, 20),
+      scaledSize: new google.maps.Size(22, 40)
+    };
+    this.mapService.addMarker(this.mapService.devPosition, 'assets/img/spotlight-poi_hdpi.png', marker);
     this.mapService.getRoute(this.companyPosition);
+  }
+
+  goThere() {
+    if (this.companyPosition) {
+      // ios
+      if (this.platform.is('ios')) {
+        window.open('maps://?q=' + this.company.name + '&saddr=' + this.companyPosition.lat + ',' + this.companyPosition.lng + '&daddr=' + this.company.billingAddress['latitude'] + ',' + this.company.billingAddress['longitude'], '_system');
+      };
+      // android
+      if (this.platform.is('android')) {
+        window.open('geo://' + this.companyPosition.lat + ',' + this.companyPosition.lng + '?q=' + this.company.billingAddress['latitude'] + ',' + this.company.billingAddress['longitude'] + '(' + this.company.name + ')', '_system');
+      };
+    }
   }
 
   centerMe() {

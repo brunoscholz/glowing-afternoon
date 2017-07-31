@@ -13,14 +13,14 @@ import { CompanyDetailPage } from '../../../user/pages/company-detail/company-de
 import { ReviewListPage } from '../../../social/pages/review-list/review-list';
 import { ReviewPage } from '../../../social/pages/review/review';
 import { ReviewDetailPage } from '../../../social/pages/review-detail/review-detail';
-import { GiftConfirmPage } from '../../../offer/pages/gift/gift-confirm';
+import { GiftBuyPage } from '../../../offer/pages/gift/gift-buy';
 
 import { AppService } from '../../../common/services/app.service';
 import { OfferService } from '../../services/offer.service';
 import { SocialService } from '../../../social/services/social.service';
 
 import { ViewStatusEnum } from '../../../common/models/enums';
-import { IOffer, IUser } from '../../../common/models/interfaces';
+import { IVoucherFact, IOffer, IUser } from '../../../common/models/interfaces';
 import { ModelPage } from '../../../common/pages/model-page';
 
 import _ from 'underscore';
@@ -33,6 +33,7 @@ export class ProductDetailPage extends ModelPage {
   bgImage: string;
   user: IUser;
   canAdd: boolean = true;
+  voucher: IVoucherFact;
 
   constructor(
     public navCtrl: NavController,
@@ -46,6 +47,7 @@ export class ProductDetailPage extends ModelPage {
     super("Produto");
     this.product = navParams.get('offer');
     this.bgImage = this.product.picture.cover;
+    console.log(this.product);
   }
 
   ionViewWillEnter() {
@@ -101,12 +103,12 @@ export class ProductDetailPage extends ModelPage {
         offerId: self.product.offerId
       }
     }
-    self.socialService.addSocialAction({
-      controller: 'favorite-facts',
+    self.socialService.setFavorite({
       data: fav
     })
     .then(() => {
       self.theApp.util.presentToast('Adicionado aos seus favoritos!');
+      self.canAdd = false;
     }, (err) => {
       console.log(err);
       self.theApp.util.dismissLoading();
@@ -126,12 +128,13 @@ export class ProductDetailPage extends ModelPage {
       }
     }
     let ff = _.findWhere(self.user.buyer.favorites, { offerId: self.product.offerId });
-    self.socialService.addSocialAction({
-      controller: 'favorite-facts/' + ff.favoriteFactId,
+    self.socialService.setFavorite({
+      favoriteId: 'remove/' + ff.favoriteFactId,
       data: fav
     })
     .then(() => {
       self.theApp.util.presentToast('Removido de seus favoritos!');
+      self.canAdd = true;
     }, (err) => {
       console.log(err);
       self.theApp.util.dismissLoading();
@@ -171,7 +174,7 @@ export class ProductDetailPage extends ModelPage {
             price.toFixed(2).replace(/./g, function(c, i, a) {
               return i && c !== "," && ((a.length - i) % 3 === 0) ? '.' + c : c;
             });
-            self.theApp.authService.shareWithFacebook({
+            self.socialService.shareWithFacebook({
               id: self.product.offerId,
               name: self.product.item.title,
               caption: 'Oferta da ' + self.product.seller.name,
@@ -211,8 +214,7 @@ export class ProductDetailPage extends ModelPage {
     self.theApp.util.presentLoading('Aguarde..');
 
     review.ReviewFact.buyerId = self.user.buyer.buyerId;
-    this.socialService.addSocialAction({
-      controller: 'review-facts',
+    this.socialService.setReview({
       data: review
     })
     .then((data) => {
@@ -253,14 +255,19 @@ export class ProductDetailPage extends ModelPage {
   }
 
   confirmGiftBuy() {
-    let modal = this.modCtrl.create(GiftConfirmPage, { offer: this.product });
-    modal.onDidDismiss(review => {
-      /*if(review){
-        this.saveReview(review);
-      }*/
-    });
+    // maybe by id?
+    if (this.product.vouchers) {
+      let vs = <IVoucherFact[]>this.product.vouchers;
+      console.log(vs);
+      this.voucher = vs[0];
+      this.voucher.seller = this.product.seller;
+      this.voucher.sellerId = this.product.seller.sellerId;
+      this.voucher.offer = this.product;
 
-    modal.present();
+      let modal = this.modCtrl.create(GiftBuyPage, { voucher: this.voucher });
+      modal.onDidDismiss(ret => {});
+      modal.present();
+    }
   }
 
   reviewTapped(event, item) {

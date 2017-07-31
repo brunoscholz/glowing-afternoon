@@ -86,8 +86,7 @@ export class UserDetailPage extends ModelPage {
         sellerId: ''
       }
     }
-    self.socialService.addSocialAction({
-      controller: 'follow-facts',
+    self.socialService.setFollow({
       data: fav
     })
     .then(() => {
@@ -112,8 +111,8 @@ export class UserDetailPage extends ModelPage {
       }
     }
     let ff = _.findWhere(self.user.buyer.following, { buyerId: self.buyer.buyerId });
-    self.socialService.addSocialAction({
-      controller: 'follow-facts/' + ff.followFactId,
+    self.socialService.setFollow({
+      followId: ff.followFactId,
       data: fav
     })
     .then(() => {

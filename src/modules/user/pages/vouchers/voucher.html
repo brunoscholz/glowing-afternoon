@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="page-vouchers">
+<div *ngIf="status === viewStatus.Empty">
+  <empty-list [msg]="'Nenhuma transação encontrada!'"></empty-list>
+</div>
+<div *ngIf="status === viewStatus.Full">
+  <ion-list>
+    <ion-item>
+      <p>Deslize para a esquerda para ver as opções.</p>
+    </ion-item>
+    <voucher-list *ngFor="let feed of vouchers" [feed]="feed" (consume)="onConsume($event)"></voucher-list>
+  </ion-list>
+</div>
+</ion-content>

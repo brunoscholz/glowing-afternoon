@@ -35,7 +35,7 @@ export class PromotionPage extends ModelPage {
     this.toOrder = 'price';
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     this.doReset('Promoções');
     this.load();
   }
@@ -48,20 +48,6 @@ export class PromotionPage extends ModelPage {
     // order by profitability
     // order by some other metric: most viewers...
     // order in a way that a minor always get a pair
-
-    // for tests
-    /*this.dataService.findAll({
-      controller: 'offers',
-      query: { 'item.categoryId': {"test":"like binary","value":""} }
-    }).then((data: Array<IOffer>) => {
-        self.products = data;
-        self.rows = Array.from(Array(Math.ceil(self.products.length / 2)).keys());
-        self.changeViewState();
-        if(self.refresher)
-          self.refresher.complete();
-      }, (err) => {
-        console.log(err);
-      });*/
 
     this.offerService.getOffers({
 	  controller: 'offers/sale',

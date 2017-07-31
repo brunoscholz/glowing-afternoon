@@ -4,8 +4,9 @@
  */
 export class Data {
   // Data is stale after 5 seconds
-  private STALE_MS: number = 50 * 1000;
+  private STALE_MS: number = 300 * 10000;
   private timestamp: any;
+  private _clear: boolean = false;
   value: any = null;
 
   /*constructor(str) {
@@ -19,11 +20,16 @@ export class Data {
   }
 
   set<T>(val: T) {
+    this._clear = false;
     this.value = val;
     this.timestamp = new Date().getMilliseconds();
   }
 
+  clear() {
+    this._clear = true;
+  }
+
   isUpToDate() : boolean {
-    return new Date().getMilliseconds() - this.timestamp < this.STALE_MS;
+    return new Date().getMilliseconds() - this.timestamp < this.STALE_MS && !this._clear;
   }
 }

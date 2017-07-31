@@ -19,7 +19,7 @@
         </ion-thumbnail>
         <h2>{{feed.offer.item.title}}</h2>
         <h3>{{feed.offer.seller.name}}</h3>
-        <p>{{(feed.offer.pricePerUnit - (feed.offer.pricePerUnit*feed.offer.discountPerUnit)) | moneyFormat:[]}}</p>
+        <p>{{feed.offer.pricePerUnit | moneyFormat:[]}}</p>
 
         <div class="ribbon-wrapper offer-promo" *ngIf="feed.offer.discountPerUnit > 0">
           <div class="ribbon-tag">{{feed.offer.discountPerUnit}}%</div>

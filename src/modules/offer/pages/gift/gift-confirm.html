@@ -17,7 +17,7 @@
       </div>
       <ion-item class="item-title">
         <ion-avatar item-right class="item-rating">
-          <i class='otIcon-wallet'></i>
+          <i class='otIcon-wallet2'></i>
           <span>{{product.coinPrice | moneyFormat:['OTK']}}</span>
         </ion-avatar>
         <h2>{{product.item.title}}</h2>
@@ -31,7 +31,7 @@
 
     <ion-list no-lines class="info-list" *ngIf="balance != null">
       <ion-item>
-        <i class="otIcon-money" item-left></i>
+        <i class="otIcon-cash" item-left></i>
         <p>Seu saldo:</p>
         <h2>{{balance.COIN | moneyFormat:['OTK']}}</h2>
       </ion-item>

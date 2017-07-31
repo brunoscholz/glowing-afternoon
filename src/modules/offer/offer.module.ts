@@ -17,6 +17,7 @@ import { ProductPage } from './pages/product/product';
 import { ProductDetailPage } from './pages/product-detail/product-detail';
 import { GiftConfirmPage } from './pages/gift/gift-confirm';
 import { GiftRedeemPage } from './pages/gift/gift-redeem';
+import { GiftBuyPage } from './pages/gift/gift-buy';
 
 import { OfferPostCmp } from './components/offer/offer';
 import { OfferListCmp } from './components/offer-list/offer';
@@ -37,6 +38,7 @@ import { OfferPromoCmp } from './components/offer-promo/offer';
     ProductDetailPage,
     GiftConfirmPage,
     GiftRedeemPage,
+    GiftBuyPage,
     OfferPostCmp,
     OfferListCmp,
     OfferGiftCmp,
@@ -51,6 +53,7 @@ import { OfferPromoCmp } from './components/offer-promo/offer';
     ProductDetailPage,
     GiftConfirmPage,
     GiftRedeemPage,
+    GiftBuyPage,
   ],
   providers: [
     OfferService,

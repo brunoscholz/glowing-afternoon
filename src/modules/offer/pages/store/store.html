@@ -14,13 +14,13 @@
 
   <div class="empty" *ngIf="status === viewStatus.Empty">
     <ion-icon name="thumbs-down"></ion-icon>
-    <p>Nenhum brinde encontrado</p>
+    <p>Nenhum cupom encontrado</p>
   </div>
 
   <div *ngIf="status === viewStatus.Full">
     <ion-row *ngFor="let i of rows">
       <ion-col *ngFor="let feed of products | orderBy:toOrder | slice:(i*2):(i+1)*2" width-50 style="padding: 0;">
-        <offer-gift (click)="itemTapped($event, feed)" [feed]="feed"></offer-gift>
+        <offer-gift (click)="buyVoucher($event, feed)" [feed]="feed"></offer-gift>
       </ion-col>
     </ion-row>
   </div>

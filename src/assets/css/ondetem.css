@@ -9,6 +9,18 @@
     font-weight: normal;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'ondetem_m2';
+    src: url('../fonts/ondetem/ondetem_m2.eot');
+    src: url('../fonts/ondetem/ondetem_m2.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/ondetem/ondetem_m2.woff') format('woff'),
+         url('../fonts/ondetem/ondetem_m2.ttf') format('truetype'),
+         url('../fonts/ondetem/ondetem_m2.svg#ondetem_m2') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 [class*='otIcon-']:before {
   display: inline-block;
   font-family: 'ondetem' !important;
@@ -17,7 +29,7 @@
   text-transform: none;
   line-height: 1;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .otIcon-money:before{content:'\0041';}
@@ -89,3 +101,36 @@
 .otIcon-luggage:before{content:'\0027';}
 .otIcon-fill-bars:before{content:'\0028';}
 .otIcon-unlock:before{content:'\0029';}
+
+.otIcon-about:before,.otIcon-cash:before,.otIcon-catalog:before,.otIcon-config:before,.otIcon-contact:before,.otIcon-exit:before,.otIcon-favorite:before,.otIcon-favorites:before,.otIcon-follow:before,.otIcon-following:before,.otIcon-gift:before,.otIcon-place:before,.otIcon-products:before,.otIcon-promotion:before,.otIcon-redeem:before,.otIcon-review:before,.otIcon-reviews:before,.otIcon-share:before,.otIcon-store2:before,.otIcon-tutorial:before,.otIcon-wallet2:before {
+  display: inline-block;
+  font-family: 'ondetem_m2' !important;
+  font-style: normal;
+  font-weight: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.otIcon-about:before{content:'\0041';}
+.otIcon-cash:before{content:'\0042';}
+.otIcon-catalog:before{content:'\0043';}
+.otIcon-config:before{content:'\0044';}
+.otIcon-contact:before{content:'\0045';}
+.otIcon-exit:before{content:'\0046';}
+.otIcon-favorite:before{content:'\0047';}
+.otIcon-favorites:before{content:'\0048';}
+.otIcon-follow:before{content:'\0049';}
+.otIcon-following:before{content:'\004a';}
+.otIcon-gift:before{content:'\004b';}
+.otIcon-place:before{content:'\004c';}
+.otIcon-products:before{content:'\004d';}
+.otIcon-promotion:before{content:'\004e';}
+.otIcon-redeem:before{content:'\004f';}
+.otIcon-review:before{content:'\0050';}
+.otIcon-reviews:before{content:'\0051';}
+.otIcon-share:before{content:'\0052';}
+.otIcon-store2:before{content:'\0053';}
+.otIcon-tutorial:before{content:'\0054';}
+.otIcon-wallet2:before{content:'\0055';}

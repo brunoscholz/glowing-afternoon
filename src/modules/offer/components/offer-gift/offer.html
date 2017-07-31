@@ -1,7 +1,10 @@
 <ion-card class="offer-gift-card">
-  <img src="{{post.picture.cover}}"/>
+  <img src="{{post.offer.picture.cover}}"/>
   <div class="card-text">
-    <h2 class="card-title">{{post.item.title}}</h2>
-    <p class="card-subtitle">{{post.coinPrice | moneyFormat:['OTK']}}</p>
+    <h2 class="card-title">{{post.offer.item.title}} <small style="color: white;"></small></h2>
+    <p class="card-subtitle">{{(post.voucher.discount * 1000) | moneyFormat:['OTK']}}</p>
+  </div>
+  <div class="ribbon-wrapper offer-promo">
+    <div class="ribbon-tag">{{post.voucher.discount}}% Off</div>
   </div>
 </ion-card>

@@ -8,7 +8,7 @@ import { Storage } from '@ionic/storage';
 //import { AppService } from '../services/app.service';
 import { Facebook } from 'ionic-native';
 
-import { IShare, IUser } from '../models/interfaces';
+import { IUser } from '../models/interfaces';
 
 @Injectable()
 export class AuthService {
@@ -47,13 +47,13 @@ export class AuthService {
       self.storage.get(self.AUTH_TOKEN)
       .then((value: string) => {
         let tk = JSON.parse(value);
-
+        console.log(tk);
         if(tk['token'] != null && tk['token'] != undefined && tk['token'] != "") {
-          console.log(tk);
           self.AuthToken = tk['token'];
           //this.useCredentials(token);
           return self.getStorageAuth();
         } else {
+          console.log("token not found");
           resolve(false);
         }
       })
@@ -125,11 +125,12 @@ export class AuthService {
   logIn(params) {
     let userInfo: string = JSON.stringify(params[0]);
     this.isAuth = true;
-    this.userInfo = JSON.parse(userInfo);
+    this.userInfo = <IUser>JSON.parse(userInfo);
+    this.AuthToken = params['token'];
 
     this.storage.set(this.IS_AUTH, true);
     this.storage.set(this.USER_INFO, userInfo);
-    this.StoreAuthToken(params.token);
+    this.StoreAuthToken(this.AuthToken);
 
     this.events.publish('auth:loggedIn');
   }
@@ -330,36 +331,6 @@ export class AuthService {
           else
             reject(new Error(data.error));
         });*/
-    });
-    return promise;
-  }
-
-  shareWithFacebook(data: IShare) {
-    //var options = { method:"feed" };
-    let promise = new Promise((resolve, reject) => {
-      Facebook.getLoginStatus()
-      .then((response) => {
-        if (response.status == 'connected') {
-          Facebook.showDialog({
-            method: "share",
-            href: "http://ondetem-gn.com.br/site/story/" + data.id,
-            caption: data.caption,
-            description: data.description,
-            quote: data.quote,
-            picture: data.picture,
-            hashtag: '#ondetem'
-          })
-          .then((result) => {
-            resolve(true);
-          }, (error) => {
-            reject(error);
-          });
-        }
-        reject(new Error('Não conectado ao Facebook'));
-      })
-      .catch((err) => {
-        //this.theApp.notifyError(err);
-      });
     });
     return promise;
   }

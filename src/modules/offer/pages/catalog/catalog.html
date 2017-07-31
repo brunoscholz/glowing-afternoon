@@ -10,21 +10,14 @@
 </ion-header>
 
 <ion-content padding class="card-background-page">
-  <div class="empty" *ngIf="!offers">
+  <div class="empty" *ngIf="status != viewStatus.Full">
     <ion-icon name="thumbs-down"></ion-icon>
     <p>Não encontramos nenhuma oferta.</p>
   </div>
 
-  <div *ngIf="offers">
+  <div *ngIf="status === viewStatus.Full">
     <ion-list>
-      <ion-item *ngFor="let offer of offers | orderBy:toOrder" (click)="itemTapped($event, offer)">
-        <ion-thumbnail item-left>
-          <img src="{{offer.picture.cover}}"/>
-        </ion-thumbnail>
-        <h2>{{offer.item.title}}</h2>
-        <p>{{offer.description}}</p>
-        <!-- <button clear item-right>View</button> -->
-      </ion-item>
+      <offer-list *ngFor="let feed of offers" (click)="itemTapped($event, feed)" [feed]="feed"></offer-list>
     </ion-list>    
   </div>
 

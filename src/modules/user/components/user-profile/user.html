@@ -20,12 +20,15 @@
             <h3 class="cat-title">Trocar Perfil</h3>
           </div>
         </ion-col>
-        <ion-col text-center>
-          
-        </ion-col>
-        <ion-col>
+        <ion-col (click)="gotoVouchers($event)">
           <div class="slot">
-            <i class='otIcon-money'></i>
+            <i class='otIcon-gift'></i>
+            <h3 class="cat-title">Meus Vouchers</h3>
+          </div>
+        </ion-col>
+        <ion-col (click)="gotoBank($event)">
+          <div class="slot">
+            <i class='otIcon-cash'></i>
             <h3 class="cat-title">{{balance.COIN | moneyFormat:['OTK']}}</h3>
           </div>
         </ion-col>
@@ -33,19 +36,25 @@
       <ion-row no-padding>
         <ion-col (click)="gotoFollows($event)">
           <div class="slot">
-            <i class='otIcon-puzzle'></i>
+            <i class='otIcon-following'></i>
             <h3 class="cat-title">Seguidores</h3>
           </div>
         </ion-col>
-        <ion-col (click)="gotoFavorites($event)">
+        <ion-col (click)="gotoFavorites($event)" *ngIf="profile.type == 'buyer'">
           <div class="slot">
-            <i class='otIcon-heart'></i>
+            <i class='otIcon-favorites'></i>
             <h3 class="cat-title">Favoritos</h3>
+          </div>
+        </ion-col>
+        <ion-col (click)="gotoFavorites($event)" *ngIf="profile.type == 'seller'">
+          <div class="slot">
+            <i class='otIcon-favorites'></i>
+            <h3 class="cat-title">Catálogo</h3>
           </div>
         </ion-col>
         <ion-col (click)="gotoReviews($event)">
           <div class="slot">
-            <i class='otIcon-pencil'></i>
+            <i class='otIcon-reviews'></i>
             <h3 class="cat-title">Avaliações</h3>
           </div>
         </ion-col>
@@ -54,6 +63,10 @@
 
     <ion-item class="search-btn" no-lines>
       <button ion-button round outline (click)="gotoSettings($event)">Configurações</button>
+    </ion-item>
+
+    <ion-item class="search-btn" no-lines *ngIf="profile.type == 'seller'">
+      <button ion-button round outline (click)="gotoWeb($event)">Web Admin</button>
     </ion-item>
 
   </div>

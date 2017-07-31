@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Events, ModalController, LoadingController, Loading, AlertController, Alert, ToastController, Toast, ActionSheetController } from 'ionic-angular';
+import { Events, ModalController, LoadingController, Loading, AlertController, Alert, ToastController, ActionSheetController } from 'ionic-angular';
 
 @Component({
   selector: 'utility-component',

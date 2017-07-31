@@ -13,9 +13,10 @@
       <div id="offer-actions">
         <div class="table">
           <ul id="horizontal-list">
-            <li><button ion-button round outline class="offer-action" (click)="share()"><i class="otIcon-cloud"></i></button></li>
-            <li><button ion-button round outline class="offer-action" (click)="favorite()"><i class="otIcon-heart"></i></button></li>
-            <li><button ion-button round outline class="offer-action" (click)="addReview()"><i class="otIcon-star-off"></i></button></li>
+            <li><button ion-button round outline class="offer-action" (click)="share()"><i class="otIcon-share"></i></button></li>
+            <li *ngIf="canAdd"><button ion-button round outline class="offer-action" (click)="favorite()"><i class="otIcon-favorite"></i></button></li>
+            <li *ngIf="!canAdd"><button ion-button round outline class="offer-action" (click)="favorite()"><i class="otIcon-favorites"></i></button></li>
+            <li><button ion-button round outline class="offer-action" (click)="addReview()"><i class="otIcon-review"></i></button></li>
           </ul>
         </div>
       </div>
@@ -36,18 +37,18 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-card round inset class="gift-card" *ngIf="product.isGift == 1">
-      <ion-item>
+    <ion-card round inset class="gift-card" *ngIf="product.vouchers">
+      <ion-item *ngFor="let cupom of product.vouchers">
         <ion-row>
           <ion-col><i class="otIcon-wallet color1" item-right></i>
-            <b>Comprar com COINs</b>
+            <b>Voucher {{cupom.voucher.code}}</b>
           </ion-col>
         </ion-row>
 
         <ion-row>
           <ion-item class="price">
-            {{product.coinPrice | moneyFormat:['OTK']}}
-            <button ion-button outline item-right (click)="confirmGiftBuy()">comprar</button>
+            {{(cupom.voucher.discount * 1000) | moneyFormat:['OTK']}}
+            <button ion-button outline item-right (click)="confirmGiftBuy()">Trocar</button>
           </ion-item>
         </ion-row>
 

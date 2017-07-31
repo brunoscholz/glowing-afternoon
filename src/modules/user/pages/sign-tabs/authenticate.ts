@@ -75,17 +75,18 @@ export class AuthenticatePage {
       // self.theApp.authService.authenticate(auth)
       self.userService.logIn(data)
         .then((ret) => {
+          let usr = ret[0];
           self.theApp.authService.logIn(ret);
           self.viewCtrl.dismiss()
           .then(() => {
             self.theApp.util.dismissLoading();
-            self.theApp.util.presentToast(ret.username + ', ' + 'Welcome back');
+            self.theApp.util.presentToast(usr.username + ', ' + 'Bem vindo de volta!');
           });
         }, (err) => {
           setTimeout(() => {
             self.theApp.util.dismissLoading();
             //self.theApp.notifyError(err);
-            self.theApp.util.presentAlter({title: 'Log In Failed', subTitle: err._body});
+            self.theApp.util.presentAlter({title: 'O Login Falhou...', subTitle: err._body});
           });
         });
     } else {

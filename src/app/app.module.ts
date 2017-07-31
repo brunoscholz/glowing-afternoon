@@ -14,7 +14,7 @@ import { OfferModule } from '../modules/offer/offer.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-//import { InAppBrowser } from  "@ionic-native/in-app-browser";
+import { InAppBrowser } from  "@ionic-native/in-app-browser";
 
 // Main generic Pages
 import { WelcomePage } from '../pages/welcome/welcome';
@@ -74,8 +74,9 @@ import { TourPage } from '../pages/tour/tour';
   providers: [
     StatusBar,
     SplashScreen,
+    InAppBrowser,
     {
-        provide: ErrorHandler, useClass: AppErrorHandler
+      provide: ErrorHandler, useClass: AppErrorHandler
     },
   ]
 })

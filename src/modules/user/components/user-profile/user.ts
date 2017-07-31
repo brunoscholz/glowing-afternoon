@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NavController, AlertController, ModalController } from 'ionic-angular';
+import { InAppBrowser } from  "@ionic-native/in-app-browser";
 
 import { ProfileModalPage } from './modal';
 import { FollowsPage } from '../../../social/pages/follows/follows';
@@ -7,6 +8,7 @@ import { FavoritesPage } from '../../../social/pages/favorites/favorites';
 import { ReviewListPage } from '../../../social/pages/review-list/review-list';
 import { SettingsPage } from '../../pages/settings/settings';
 import { BalancePage } from '../../pages/balance/balance';
+import { VoucherPage } from '../../pages/vouchers/voucher';
 
 import { IProfile, IBalance } from '../../../common/models/interfaces';
 
@@ -22,7 +24,12 @@ export class UserProfileCmp {
 
   // change based on profile type
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public modalCtrl: ModalController) {}
+  constructor(
+    public navCtrl: NavController,
+    public alertCtrl: AlertController,
+    public modalCtrl: ModalController,
+    public iab: InAppBrowser
+  ) {}
 
   gotoFollowers(event) {
     this.navCtrl.push(FollowsPage, {
@@ -61,9 +68,16 @@ export class UserProfileCmp {
     this.navCtrl.push(BalancePage);
   }
 
-  /*changeProfile() {
-    this.notify.emit('Click from nested component');
-  }*/
+  gotoVouchers(event) {
+    this.navCtrl.push(VoucherPage, {
+      profile: this.profile
+    });
+  }
+
+  gotoWeb() {
+    //cordova.InAppBrowser.open(url, "_system", "location=true");
+    const browser = this.iab.create('http://admin.ondetem-gn.com.br', '_self', { location: 'yes' });
+  }
 
   showRadio() {
     // modal...

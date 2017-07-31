@@ -30,6 +30,7 @@ import { ProfilePage } from './pages/profile/profile';
 import { SettingsPage } from './pages/settings/settings';
 import { BalancePage } from './pages/balance/balance';
 import { UserDetailPage } from './pages/user-detail/user-detail';
+import { VoucherPage } from './pages/vouchers/voucher';
 
 import { UserProfileCmp } from './components/user-profile/user';
 import { ProfileModalPage } from './components/user-profile/modal';
@@ -54,6 +55,7 @@ import { SellerProfileCmp } from './components/seller-profile/seller';
     ProfilePage,
     SettingsPage,
     BalancePage,
+    VoucherPage,
     UserDetailPage,
     CompanyDetailPage,
     UserProfileCmp,
@@ -67,6 +69,7 @@ import { SellerProfileCmp } from './components/seller-profile/seller';
     ProfilePage,
     SettingsPage,
     BalancePage,
+    VoucherPage,
     UserDetailPage,
     CompanyDetailPage,
     ProfileModalPage,
@@ -107,9 +110,9 @@ export class UserModule {
         else
           self.getUser();
           
-        console.log(authed);
+        /*console.log(authed);
         console.log(self.theApp.authService.AuthToken);
-        console.log(self.theApp.authService.userInfo);
+        console.log(self.theApp.authService.userInfo);*/
         // compare dates... at least one api call a day.
       });
     });

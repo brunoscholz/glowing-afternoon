@@ -65,17 +65,38 @@ export interface IOffer {
   picture: IPicture;
   pricePerUnit: number;
   discountPerUnit: number;
+  vouchersHash: string;
   description: string;
   imageHashes: string;
   keywords: string;
   itemCondition: string;
-  isGift: number;
   coinPrice: number;
   createdAt: string;
   updatedAt: string;
   status: string;
+  vouchers: string;
   reviews: IReviewFact[];
   avgRating: IAvgRating;
+}
+
+export interface IVoucherFact {
+  voucherFactId: string;
+  voucherId: string;
+  offerId: string;
+  sellerId: string;
+  date: string;
+  status: string;
+  voucher: IVoucher;
+  offer: IOffer;
+  seller: ISeller;
+}
+
+export interface IVoucher {
+  voucherId: string;
+  code: string;
+  discount: number;
+  expire: string;
+  count: number;
 }
 
 export interface IAvgRating {

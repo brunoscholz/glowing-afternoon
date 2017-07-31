@@ -37,9 +37,9 @@ export class MyApp {
   appPages: IPage[] = [
     { title: 'Busca', component: HomeTabsPage, icon: 'home' },
     { title: 'Produtos', component: HomeTabsPage, index: 1, icon: 'grid' },
-    { title: 'Promoções', component: HomeTabsPage, index: 2, icon: 'cut' },
-    { title: 'Loja', component: HomeTabsPage, index: 3, icon: 'cart' },
+    { title: 'Vouchers', component: HomeTabsPage, index: 2, icon: 'pricetags' },
   ];
+  /*{ title: 'Promoções', component: HomeTabsPage, index: 2, icon: 'cut' },*/
 
   loggedInPages: IPage[] = [
     { title: 'Perfil', component: ProfilePage, icon: 'person' },

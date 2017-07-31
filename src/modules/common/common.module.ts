@@ -27,6 +27,7 @@ import { TransactionCmp } from './components/transaction/transaction';
 import { EmptyListCmp } from './components/empty/empty';
 import { RatingCmp } from './components/star-rating/rating';
 import { ControlMessages } from './components/control-messages/control-messages';
+import { VoucherListCmp } from './components/voucher-list/voucher-list';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { ControlMessages } from './components/control-messages/control-messages'
     EmptyListCmp,
     RatingCmp,
     ControlMessages,
+    VoucherListCmp,
   ],
   entryComponents: [
   ],
@@ -73,6 +75,7 @@ import { ControlMessages } from './components/control-messages/control-messages'
     EmptyListCmp,
     RatingCmp,
     ControlMessages,
+    VoucherListCmp,
   ]
 })
 
@@ -104,5 +107,9 @@ export class CommonModule {
     this.events.subscribe('auth:logOut', () => {
       this.theApp.authService.logOut();
     });
+
+    // this.events.subscribe('auth:loggedIn', () => {
+    //   //this.theApp.menuService.loggedIn();
+    // });
   }
 }
