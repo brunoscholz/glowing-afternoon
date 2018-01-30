@@ -7,7 +7,7 @@ import { MenuService } from './menu.service';
 import { FileUploadService } from './fileUpload.service';
 import { UtilityComponent } from '../pages/utilityComponent';
 
-import { Subject, Observable, Observer, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, Observer, BehaviorSubject } from 'rxjs/Rx';
 /*import moment from 'moment';
 import 'moment/src/locale/zh-cn';
 import 'moment/src/locale/en-gb';*/

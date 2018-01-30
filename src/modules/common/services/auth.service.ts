@@ -46,8 +46,10 @@ export class AuthService {
     let promise = new Promise((resolve, reject) => {
       self.storage.get(self.AUTH_TOKEN)
       .then((value: string) => {
+        if (value == null)
+          resolve(false);
+
         let tk = JSON.parse(value);
-        console.log(tk);
         if(tk['token'] != null && tk['token'] != undefined && tk['token'] != "") {
           self.AuthToken = tk['token'];
           //this.useCredentials(token);

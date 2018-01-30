@@ -33,7 +33,6 @@ export class ProductDetailPage extends ModelPage {
   bgImage: string;
   user: IUser;
   canAdd: boolean = true;
-  voucher: IVoucherFact;
 
   constructor(
     public navCtrl: NavController,
@@ -47,7 +46,6 @@ export class ProductDetailPage extends ModelPage {
     super("Produto");
     this.product = navParams.get('offer');
     this.bgImage = this.product.picture.cover;
-    console.log(this.product);
   }
 
   ionViewWillEnter() {
@@ -254,20 +252,15 @@ export class ProductDetailPage extends ModelPage {
     //this.reviewService.deleteReview(review._id);
   }
 
-  confirmGiftBuy() {
+  confirmGiftBuy(event, cupom) {
     // maybe by id?
-    if (this.product.vouchers) {
-      let vs = <IVoucherFact[]>this.product.vouchers;
-      console.log(vs);
-      this.voucher = vs[0];
-      this.voucher.seller = this.product.seller;
-      this.voucher.sellerId = this.product.seller.sellerId;
-      this.voucher.offer = this.product;
+    cupom.seller = this.product.seller;
+    cupom.sellerId = this.product.seller.sellerId;
+    cupom.offer = this.product;
 
-      let modal = this.modCtrl.create(GiftBuyPage, { voucher: this.voucher });
-      modal.onDidDismiss(ret => {});
-      modal.present();
-    }
+    let modal = this.modCtrl.create(GiftBuyPage, { voucher: cupom });
+    modal.onDidDismiss(ret => {});
+    modal.present();
   }
 
   reviewTapped(event, item) {

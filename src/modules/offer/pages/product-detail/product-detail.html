@@ -48,7 +48,7 @@
         <ion-row>
           <ion-item class="price">
             {{(cupom.voucher.discount * 1000) | moneyFormat:['OTK']}}
-            <button ion-button outline item-right (click)="confirmGiftBuy()">Trocar</button>
+            <button ion-button outline item-right (click)="confirmGiftBuy($event, cupom)">Trocar</button>
           </ion-item>
         </ion-row>
 
